@@ -3,12 +3,14 @@ package kaimere.real.objects
 import org.scalatest.FunSuite
 
 import RealVector._
+import RealVector.Exceptions._
 
 class RealVectorSuite extends FunSuite {
 
   private val v1 = RealVector("x" -> 1.0, "y" -> 2.0)
-  private val v2 = RealVector("x" -> 1.0, "z" -> 2.0)
+  private val v2 = Map("x" -> 1.0, "z" -> 2.0)
   private val v3 = RealVector("x" -> 2.0, "y" -> 2.0, "z" -> 2.0)
+  private val v4 = Map("x" -> -1.0, "y" -> -2.0)
 
   test("Keys") {
     val targetKeys = Set("x", "y", "z")
@@ -33,5 +35,66 @@ class RealVectorSuite extends FunSuite {
     assert(v1.getOrElse("x", 0.0) == 1.0)
     assert(v1.getOrElse("z", 0.0) == 0.0)
   }
+
+  test("NonStrict Equality") {
+    assert(v1 ~== v2)
+    assert(!(v1 ~== v3))
+  }
+
+  test("Strict Addition") {
+    assert(v1 + v4 == RealVector("x" -> 0.0, "y" -> 0.0))
+    val success =
+      try { val _ = v1 + v2; true}
+      catch {
+        case _: DifferentKeysException => true
+        case _ => false
+      }
+    assert(success)
+  }
+
+  test("NonStrict Addition") {
+    assert(v1 ~+ v4 == RealVector("x" -> 0.0, "y" -> 0.0))
+    assert(v1 ~+ v2 == v3)
+  }
+
+  test("Multiplication by Coefficient") {
+    assert(v1 * 2 == RealVector("x" -> 2.0, "y" -> 4.0))
+    assert(v2 * 2 == RealVector("x" -> 2.0, "z" -> 4.0))
+    assert(v3 * 2 == RealVector("x" -> 2.0, "y" -> 2.0, "z" -> 2.0))
+  }
+
+  test("Negation") {
+    assert(-v1 == RealVector("x" -> -1.0, "y" -> -2.0))
+    assert(-v3 == RealVector("x" -> -2.0, "y" -> -2.0, "z" -> -2.0))
+  }
+
+  test("Strict Difference") {
+    assert(v1 - v4 == RealVector("x" -> 2.0, "y" -> 4.0))
+    val success =
+      try { val _ = v1 - v2; true}
+      catch {
+        case _: DifferentKeysException => true
+        case _ => false
+      }
+    assert(success)
+  }
+
+  test("NonStrict Difference") {
+    assert(v1 ~- v4 == RealVector("x" -> 2.0, "y" -> 4.0))
+    assert(v1 ~- v2 == RealVector("x" -> 0.0, "y" -> 2.0, "z" -> -2.0))
+  }
+
+  test("Constraining #1") {
+    val area = Map("x" -> (-1.0, 0.5), "z" -> (3.0, 4.0))
+    val constrained = v3.constrain(area)
+    assert(constrained == RealVector("x" -> 0.5, "y" -> 2.0, "z" -> 3.0))
+  }
+
+  test("Constraining #2") {
+    val area = Map("x" -> (-3.0, 0.5), "y" -> (0.0, 10.0), "z" -> (3.0, 4.0))
+    val constrained = v3.constrain(area)
+    assert(constrained == RealVector("x" -> 0.5, "y" -> 2.0, "z" -> 3.0))
+  }
+
 
 }
