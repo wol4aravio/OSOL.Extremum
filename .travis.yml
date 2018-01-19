@@ -1,8 +1,14 @@
 language: scala
 scala:
-   - 2.11.2
+  - 2.11.2
+
+env:
+  global:
+    - SONATYPE_USERNAME=wol4aravio
+    - secure: "SwdsGFQcHQ9aaggya+S0yOuKkpNTsIGU+VVdFl6Kk39vtLL61JuQ7zMzvNlqLy/h55lAxQOZF7bTD5wxcybk1FCOcZdfRByKQsDnR67PnDS/T7c33E+UrqjEqG8oSuA1VuFIFxgdyYufy87ps/q1rBE1ElqI1L+8bFWYXFMZeCxvwxahD+h/XL8XWa90qBt4xjP70+2VNvprLe97YArDUiUUZPJGj7LfHWuI9itBdnjEUusnQiD19bjBOXFNt1dWCQtgexHK5qV0J1ImbFZffkxTDNMp43bMZ4OiqWVtV6zOEFfYnWxrjHwpn8dr6ZBdVTdce/kqYbzwhmW5UDAbudl5GJOrlrX/e2UiuRz3WX2ZylJJypSGj/31kIx3Zo4KQaSihY5jrE+9mfHSU1s18X59R8s6/nCAtSjtJfezv0Gr5FBxGBA5Y8JUQbuHa1EDLvAFNMsnGbw4V0dvLGmXaLDVREPA0ZNlubHiAvhu81RHSPIL0MEV/3pGTqPFyagENG3AQWrGw8CuSrrXg3vhTiA2ELPM287ea30IgWI/Z8m6xt2wZAjvqV0/3j5i5Vuqkt82iALSgbkAKfJS0Mik6Tg4JYbIu/yebR9xw/TT9DN9SqiCHPo0Gc4Q9pSm2rctJWf1mArTRlDdl06iAyPK9L06D5CTe8uZIwyOfeKW+pM="
 
 script:
- - sbt clean coverage test coverageReport && sbt coverageAggregate
+  - sbt clean coverage test coverageReport && sbt coverageAggregate
 after_success:
- - sbt coveralls
+  - sbt coveralls
+  - mvn clean deploy --settings settings.xml
