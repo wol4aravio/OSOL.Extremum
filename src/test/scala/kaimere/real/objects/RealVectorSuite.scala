@@ -80,7 +80,7 @@ class RealVectorSuite extends FunSuite {
   }
 
   test("Move by") {
-    val delta_1 = Map("x" -> 1.0)
+    val delta_1 = Map("x" -> -1.0)
     val delta_2 = Map("y" -> -2.0, "z" -> -2.0)
     assert(v1.moveBy(delta_1) == RealVector("x" -> 0.0, "y" -> 2.0))
     assert(v3.moveBy(delta_2) == RealVector("x" -> 2.0, "y" -> 0.0, "z" -> 0.0))
