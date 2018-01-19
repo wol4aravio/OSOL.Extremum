@@ -27,6 +27,8 @@ case class RealVector(vals: Map[String, Double]) {
     allKeys.map(key => (key, this(key, 0.0) + that(key, 0.0))).toMap[String, Double]
   }
 
+  def moveBy(delta: Map[String, Double]): RealVector = this ~+ delta
+
   def *(coeff: Double): RealVector = vals.mapValues(coeff * _)
 
   def unary_-(): RealVector = this * (-1)
@@ -34,6 +36,21 @@ case class RealVector(vals: Map[String, Double]) {
   def -(that: RealVector): RealVector = this + (-that)
 
   def ~-(that: RealVector): RealVector = this ~+ (-that)
+
+  def constrain(area: Map[String, (Double, Double)]): RealVector = {
+    this.keySet
+      .map { key =>
+        val currentValue = this (key)
+        val (min, max) = area.getOrElse(key, (Double.NegativeInfinity, Double.PositiveInfinity))
+        val constrainedValue =
+          if (currentValue > max) max
+          else {
+            if (currentValue < min) min
+            else currentValue
+          }
+        (key, constrainedValue)
+      }.toMap[String, Double]
+  }
 
 }
 
