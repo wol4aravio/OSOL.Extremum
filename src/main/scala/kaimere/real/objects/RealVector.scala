@@ -64,12 +64,7 @@ object RealVector {
 
   object Exceptions {
 
-    class DifferentKeysException(keys: Set[String]*) extends Exception {
-      override def getMessage: String = {
-        val allKeys = keys.reduce(_ ++ _)
-        s"All keys should be equal to $allKeys"
-      }
-    }
+    class DifferentKeysException(keys: Set[String]*) extends Exception
 
   }
 
