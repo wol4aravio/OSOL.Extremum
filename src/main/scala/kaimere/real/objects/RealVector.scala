@@ -22,11 +22,6 @@ case class RealVector(private val vals: Map[String, Double]) {
     else allKeys.forall(key => this(key) == that(key))
   }
 
-  def ~==(that: RealVector): Boolean = {
-    val (allKeys, _) = checkKeys(this, that)
-    allKeys.forall(key => this(key) == that(key))
-  }
-
   def +(that: RealVector): RealVector = {
     val (allKeys, same) = checkKeys(this, that)
     if (!same) throw new DifferentKeysException(Seq(this, that).map(_.keySet):_*)

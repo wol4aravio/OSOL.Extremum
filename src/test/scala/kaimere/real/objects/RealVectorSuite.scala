@@ -7,10 +7,10 @@ import RealVector.Exceptions._
 
 class RealVectorSuite extends FunSuite {
 
-  private val v1 = RealVector("x" -> 1.0, "y" -> 2.0)
-  private val v2 = Map("x" -> 1.0, "z" -> 2.0)
-  private val v3 = RealVector("x" -> 2.0, "y" -> 2.0, "z" -> 2.0)
-  private val v4 = Map("x" -> -1.0, "y" -> -2.0)
+  private val v1: RealVector = Map("x" -> 1.0, "y" -> 2.0)
+  private val v2: RealVector = Map("x" -> 1.0, "z" -> 2.0)
+  private val v3: RealVector = Map("x" -> 2.0, "y" -> 2.0, "z" -> 2.0)
+  private val v4: RealVector = Map("x" -> -1.0, "y" -> -2.0)
 
   test("Keys") {
     val targetKeys = Set("x", "y", "z")
@@ -36,11 +36,6 @@ class RealVectorSuite extends FunSuite {
     assert(v1.getOrElse("z", 0.0) == 0.0)
   }
 
-  test("NonStrict Equality") {
-    assert(v1 ~== v2)
-    assert(!(v1 ~== v3))
-  }
-
   test("Strict Addition") {
     assert(v1 + v4 == RealVector("x" -> 0.0, "y" -> 0.0))
     val success =
@@ -60,7 +55,7 @@ class RealVectorSuite extends FunSuite {
   test("Multiplication by Coefficient") {
     assert(v1 * 2 == RealVector("x" -> 2.0, "y" -> 4.0))
     assert(v2 * 2 == RealVector("x" -> 2.0, "z" -> 4.0))
-    assert(v3 * 2 == RealVector("x" -> 2.0, "y" -> 2.0, "z" -> 2.0))
+    assert(v3 * 2 == RealVector("x" -> 4.0, "y" -> 4.0, "z" -> 4.0))
   }
 
   test("Negation") {
