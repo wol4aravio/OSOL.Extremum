@@ -4,6 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.wol4aravio</groupId>
     <artifactId>kaimere_2.11</artifactId>
+    <package>kaimere</package>
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
     <name>Kaimere</name>
