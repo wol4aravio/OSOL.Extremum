@@ -1,9 +1,24 @@
 <!-- settings.xml -->
-<servers>
-    <server>
-        <!-- Maven Central Deployment -->
-        <id>ossrh</id>
-        <username>${env.SONATYPE_USERNAME}</username>
-        <password>${env.SONATYPE_PASSWORD}</password>
-    </server>
-</servers>
+<settings>
+    <servers>
+        <server>
+            <!-- Maven Central Deployment -->
+            <id>ossrh</id>
+            <username>${env.SONATYPE_USERNAME}</username>
+            <password>${env.SONATYPE_PASSWORD}</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>gpg</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.executable>gpg</gpg.executable>
+                <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
+                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+            </properties>
+        </profile>
+    </profiles>
+</settings>
