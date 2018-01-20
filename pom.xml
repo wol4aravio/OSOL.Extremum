@@ -4,7 +4,6 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.wol4aravio</groupId>
     <artifactId>kaimere_2.11</artifactId>
-    <package>kaimere</package>
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
     <name>Kaimere</name>
@@ -13,9 +12,22 @@
     <properties>
         <scalaBinaryVersion>2.11</scalaBinaryVersion>
         <scala.version>2.11.12</scala.version>
-        <scalatest.version>3.0.4</scalatest.version>
         <java.version>1.8</java.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.11.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.11</artifactId>
+            <version>3.0.4</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <distributionManagement>
         <snapshotRepository>
