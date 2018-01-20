@@ -1,9 +1,9 @@
-package kaimere.real.objects
+package com.github.wol4aravio.kaimere.real.objects
 
 import RealVector._
 import RealVector.Exceptions._
 
-public case class RealVector(private val vals: Map[String, Double]) {
+case class RealVector(private val vals: Map[String, Double]) {
 
   def keys: Iterable[String] = vals.keys
   def keySet: Set[String] = vals.keySet
