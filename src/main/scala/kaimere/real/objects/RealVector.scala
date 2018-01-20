@@ -1,4 +1,4 @@
-package com.github.wol4aravio.kaimere.real.objects
+package kaimere.real.objects
 
 import RealVector._
 import RealVector.Exceptions._
