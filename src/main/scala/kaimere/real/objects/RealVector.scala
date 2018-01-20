@@ -3,7 +3,7 @@ package kaimere.real.objects
 import RealVector._
 import RealVector.Exceptions._
 
-case class RealVector(private val vals: Map[String, Double]) {
+class RealVector private (val vals: Map[String, Double]) {
 
   def keys: Iterable[String] = vals.keys
   def keySet: Set[String] = vals.keySet
@@ -67,6 +67,8 @@ object RealVector {
     class DifferentKeysException(keys: Set[String]*) extends Exception
 
   }
+
+  def apply(vals: Map[String, Double]): RealVector = new RealVector(vals)
 
   def apply(pairs: (String, Double)*): RealVector = RealVector(pairs.toMap[String, Double])
 
