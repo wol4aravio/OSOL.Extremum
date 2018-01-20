@@ -10,6 +10,7 @@
     <url>https://github.com/wol4aravio/Kaimere</url>
 
     <properties>
+        <scalaBinaryVersion>2.11</scalaBinaryVersion>
         <scala.version>2.11.12</scala.version>
         <java.version>1.8</java.version>
     </properties>
