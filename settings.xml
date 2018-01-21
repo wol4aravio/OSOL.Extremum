@@ -4,23 +4,14 @@
         <server>
             <!-- Maven Central Deployment (SNAPSHOT) -->
             <id>sonatype-snapshots</id>
-            <username>${env.SONATYPE_USERNAME}</username>
-            <password>${env.SONATYPE_PASSWORD}</password>
+            <username>wol4aravio</username>
+            <password>Kaimere_Pass_7</password>
         </server>
         <server>
             <!-- Maven Central Deployment (RELEASE)-->
             <id>sonatype-release-staging</id>
-            <username>${env.SONATYPE_USERNAME}</username>
-            <password>${env.SONATYPE_PASSWORD}</password>
+            <username>wol4aravio</username>
+            <password>Kaimere_Pass_7</password>
         </server>
     </servers>
-    <profiles>
-        <profile>
-            <id>gpg</id>
-            <properties>
-                <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
-                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
-            </properties>
-        </profile>
-    </profiles>
 </settings>
