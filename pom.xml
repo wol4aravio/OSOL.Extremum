@@ -4,7 +4,7 @@
 
     <groupId>com.github.wol4aravio</groupId>
     <artifactId>kaimere_2.11</artifactId>
-    <packaging>jar</packaging>
+    <packaging>java-source</packaging>
     <name>kaimere</name>
     <version>0.1-SNAPSHOT</version>
     <url>https://github.com/wol4aravio/Kaimere</url>
@@ -23,37 +23,6 @@
             <url>panovskiy.v@yandex.ru</url>
         </developer>
     </developers>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
     <dependencies>
         <dependency>
