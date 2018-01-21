@@ -4,14 +4,14 @@
         <server>
             <!-- Maven Central Deployment (SNAPSHOT) -->
             <id>sonatype-snapshots</id>
-            <username>wol4aravio</username>
-            <password>Kaimere_Pass_7</password>
+            <username>${env.SONATYPE_USERNAME}</username>
+            <password>${env.SONATYPE_PASSWORD}</password>
         </server>
         <server>
             <!-- Maven Central Deployment (RELEASE)-->
             <id>sonatype-release-staging</id>
-            <username>wol4aravio</username>
-            <password>Kaimere_Pass_7</password>
+            <username>${env.SONATYPE_USERNAME}</username>
+            <password>${env.SONATYPE_PASSWORD}</password>
         </server>
     </servers>
 </settings>
