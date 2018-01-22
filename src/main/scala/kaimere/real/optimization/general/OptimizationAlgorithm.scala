@@ -1,8 +1,10 @@
 package kaimere.real.optimization.general
 
-import kaimere.real.objects.{RealVector, Function}
+import kaimere.real.objects.{Function, RealVector}
 import OptimizationAlgorithm.Area
 import OptimizationAlgorithm.MergeStrategy.MergeStrategy
+import kaimere.real.optimization.classic.zero_order.RandomSearch
+import spray.json._
 
 abstract class OptimizationAlgorithm {
 
@@ -36,6 +38,17 @@ object OptimizationAlgorithm {
   object MergeStrategy extends Enumeration {
     type MergeStrategy = Value
     val force = Value
+  }
+
+  def apply(json: JsValue): OptimizationAlgorithm = {
+    json.asJsObject.getFields("name") match {
+      case Seq(JsString(name)) =>
+        name match {
+          case "RandomSearch" => json.convertTo[RandomSearch]
+          case _ => throw DeserializationException("Unsupported Algorithm")
+        }
+      case _ => throw DeserializationException("OptimizationAlgorithm expected")
+    }
   }
 
 }
