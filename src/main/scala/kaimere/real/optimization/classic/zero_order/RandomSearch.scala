@@ -7,6 +7,8 @@ import kaimere.real.objects.{RealVector, Function}
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
 
+import spray.json._
+
 case class RandomSearch(numberOfAttempts: Int, deltaRatio: Double) extends OptimizationAlgorithm {
 
   private var possibleDelta: Map[String, (Double, Double)] = Map.empty
@@ -37,6 +39,26 @@ case class RandomSearch(numberOfAttempts: Int, deltaRatio: Double) extends Optim
         (currentPoint + delta).constrain(area)
       }.toVector |> State.apply
     currentState = Vector(newPoints.getBestBy(f)) |> State.apply
+  }
+
+}
+
+object RandomSearch {
+
+  implicit object RandomSearchJsonFormat extends RootJsonFormat[RandomSearch] {
+    def write(rs: RandomSearch) =
+      JsObject(
+        "name" -> JsString("RandomSearch"),
+        "numberOfAttempts" -> JsNumber(rs.numberOfAttempts),
+        "deltaRatio" -> JsNumber(rs.deltaRatio))
+
+    def read(json: JsValue): RandomSearch =
+      json.asJsObject.getFields("name", "numberOfAttempts", "deltaRatio") match {
+        case Seq(JsString(name), JsNumber(numberOfAttempts), JsNumber(deltaRatio)) =>
+          if (name != "RandomSearch") throw DeserializationException("RandomSearch expected")
+          else RandomSearch(numberOfAttempts.toInt, deltaRatio.toDouble)
+        case _ => throw DeserializationException("RandomSearch expected")
+      }
   }
 
 }
