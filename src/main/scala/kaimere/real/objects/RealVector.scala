@@ -3,6 +3,8 @@ package kaimere.real.objects
 import RealVector._
 import RealVector.Exceptions._
 
+import spray.json._
+
 class RealVector private (val vals: Map[String, Double]) {
 
   def keys: Iterable[String] = vals.keys
@@ -66,6 +68,30 @@ object RealVector {
 
     class DifferentKeysException(keys: Set[String]*) extends Exception
 
+  }
+
+  implicit object RealVectorJsonFormat extends RootJsonFormat[RealVector] {
+    def write(v: RealVector) =
+      JsObject(
+        "keys" -> JsArray(v.keys.map(x => JsString(x)).toVector),
+        "values" -> JsArray(v.values.map(x => JsNumber(x)).toVector))
+
+    def read(json: JsValue): RealVector =
+      json.asJsObject.getFields("keys", "values") match {
+        case Seq(JsArray(jsonKeys), JsArray(jsonValues)) =>
+          val keys = jsonKeys
+            .map {
+              case JsString(key) => key
+              case _ => throw DeserializationException("String expected")
+            }
+          val values = jsonValues
+            .map {
+              case JsNumber(value) => value.toDouble
+              case _ => throw DeserializationException("Double expected")
+            }
+          keys.zip(values).toMap[String, Double]
+        case _ => throw DeserializationException("RealVector expected")
+      }
   }
 
   def apply(vals: Map[String, Double]): RealVector = new RealVector(vals)
