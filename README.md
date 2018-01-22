@@ -13,5 +13,5 @@ resolvers ++= Seq(
 "sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
 "sonatype releases" at "https://oss.sonatype.org/content/repositories/releases")
 
-libraryDependencies += "com.github.wol4aravio" %% "kaimere" % "0.1-SNAPSHOT"
+libraryDependencies += "com.github.wol4aravio" %% "kaimere" % "0.2.0-SNAPSHOT"
 ```
