@@ -1,4 +1,4 @@
-package kaimere.real.optimization.basic
+package kaimere.real.optimization.general
 
 import kaimere.real.objects.{RealVector, Function}
 import OptimizationAlgorithm.Area

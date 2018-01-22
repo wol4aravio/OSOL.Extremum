@@ -1,4 +1,4 @@
-package kaimere.real.optimization.basic
+package kaimere.real.optimization.general
 
 trait Instruction {
 
