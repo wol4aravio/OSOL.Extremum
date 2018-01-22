@@ -4,7 +4,7 @@
 
     <groupId>com.github.wol4aravio</groupId>
     <artifactId>kaimere_2.11</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2.9-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>kaimere</name>
     <description>Optimization Library</description>
@@ -46,6 +46,11 @@
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_2.11</artifactId>
             <version>3.0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>io.spray</groupId>
+            <artifactId>spray-json_2.11</artifactId>
+            <version>1.3.4</version>
         </dependency>
     </dependencies>
 
