@@ -1,8 +1,8 @@
 package kaimere.real.optimization.classic.zero_order
 
-import kaimere.real.optimization.basic._
-import kaimere.real.optimization.basic.OptimizationAlgorithm.MergeStrategy
-import kaimere.real.optimization.basic.OptimizationAlgorithm.MergeStrategy.MergeStrategy
+import kaimere.real.optimization.general._
+import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy
+import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy.MergeStrategy
 import kaimere.real.objects.{RealVector, Function}
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
