@@ -5,14 +5,16 @@ import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy
 import kaimere.real.optimization._
 import org.scalatest.FunSuite
 
+import spray.json._
+
 class RandomSearchSuite extends FunSuite {
 
   private val epsNorm = 1e-2
   private val maxTries = 5
+  private val RS: OptimizationAlgorithm = OptimizationAlgorithm("{ \"name\": \"RandomSearch\", \"numberOfAttempts\": 10, \"deltaRatio\": 0.001 }".parseJson)
 
   test("Dummy #1 (by max time)") {
 
-    val RS = RandomSearch(numberOfAttempts = 10, deltaRatio = 0.001)
     val passed = Tester(
       tool = RS,
       f = DummyFunctions.func_1,
@@ -29,7 +31,6 @@ class RandomSearchSuite extends FunSuite {
 
   test("Dummy #1 (by max iterations)") {
 
-    val RS = RandomSearch(numberOfAttempts = 10, deltaRatio = 0.001)
     val passed = Tester(
       tool = RS,
       f = DummyFunctions.func_1,
@@ -46,7 +47,6 @@ class RandomSearchSuite extends FunSuite {
 
   test("Dummy #2 (by max time)") {
 
-    val RS = RandomSearch(numberOfAttempts = 10, deltaRatio = 0.001)
     val passed = Tester(
       tool = RS,
       f = DummyFunctions.func_2,
@@ -63,7 +63,6 @@ class RandomSearchSuite extends FunSuite {
 
   test("Dummy #2 (by max iterations)") {
 
-    val RS = RandomSearch(numberOfAttempts = 10, deltaRatio = 0.001)
     val passed = Tester(
       tool = RS,
       f = DummyFunctions.func_2,
@@ -80,7 +79,6 @@ class RandomSearchSuite extends FunSuite {
 
   test("Dummy #3 (by max time)") {
 
-    val RS = RandomSearch(numberOfAttempts = 10, deltaRatio = 0.001)
     val passed = Tester(
       tool = RS,
       f = DummyFunctions.func_3,
@@ -97,7 +95,6 @@ class RandomSearchSuite extends FunSuite {
 
   test("Dummy #3 (by max iterations)") {
 
-    val RS = RandomSearch(numberOfAttempts = 10, deltaRatio = 0.001)
     val passed = Tester(
       tool = RS,
       f = DummyFunctions.func_3,
