@@ -2,9 +2,8 @@ package kaimere.real.optimization.classic.zero_order
 
 import kaimere.real.optimization.general._
 import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy
-import kaimere.real.optimization._
+import kaimere.real.optimization.{Tester, _}
 import org.scalatest.FunSuite
-
 import spray.json._
 
 class RandomSearchSuite extends FunSuite {
