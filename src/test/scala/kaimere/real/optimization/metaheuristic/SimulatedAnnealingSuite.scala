@@ -10,7 +10,7 @@ class SimulatedAnnealingSuite extends FunSuite {
 
   private val epsNorm = 1e-2
   private val maxTries = 10
-  private val maxTime = 2.5
+  private val maxTime = 0.5
   private val maxIterations = 2500
 
   private val config = "{ \"name\": \"SimulatedAnnealing\", \"alpha\": 0.995, \"beta\": 1.0, \"gamma\": 1.0, \"initialTemp\": 500.0 }".parseJson

@@ -10,7 +10,7 @@ class RandomSearchSuite extends FunSuite {
 
   private val epsNorm = 1e-2
   private val maxTries = 5
-  private val maxTime = 2.5
+  private val maxTime = 0.5
   private val maxIterations = 1000
 
   private val config = "{ \"name\": \"RandomSearch\", \"numberOfAttempts\": 10, \"deltaRatio\": 0.001 }".parseJson
