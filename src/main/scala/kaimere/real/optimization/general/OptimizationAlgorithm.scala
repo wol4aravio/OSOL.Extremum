@@ -38,6 +38,7 @@ object OptimizationAlgorithm {
   object MergeStrategy extends Enumeration {
     type MergeStrategy = Value
     val force = Value
+    val selfInit = Value
   }
 
   def fromJson(json: JsValue): OptimizationAlgorithm = {
