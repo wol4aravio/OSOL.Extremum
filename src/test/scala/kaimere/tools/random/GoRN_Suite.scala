@@ -62,14 +62,23 @@ class GoRN_Suite extends FunSuite {
     val (mu_x, sigma_x) = (17.0, 7.0)
     val (mu_y, sigma_y) = (7.0, 17.0)
 
-    val samples = (1 to 3 * N).map(_ => GoRN.getNormal(Map("x" -> (mu_x, sigma_x), "y" -> (mu_y, sigma_y))))
-    val (muEst_x, sigmaEst_x) = (Statistics.getAverage(samples.map(_("x"))), Statistics.getUnbiasedSigma(samples.map(_("x"))))
-    val (muEst_y, sigmaEst_y) = (Statistics.getAverage(samples.map(_("y"))), Statistics.getUnbiasedSigma(samples.map(_("y"))))
+    val maxAttempts = 10
 
-    assert(math.abs(mu_x - muEst_x) < eps)
-    assert(math.abs(sigma_x - sigmaEst_x) < eps)
+    val result = (1 to maxAttempts).foldLeft(false) { case (success, _) =>
+      if (success) success
+      else {
+        val samples = (1 to 3 * N).map(_ => GoRN.getNormal(Map("x" -> (mu_x, sigma_x), "y" -> (mu_y, sigma_y))))
+        val (muEst_x, sigmaEst_x) = (Statistics.getAverage(samples.map(_ ("x"))), Statistics.getUnbiasedSigma(samples.map(_ ("x"))))
+        val (muEst_y, sigmaEst_y) = (Statistics.getAverage(samples.map(_ ("y"))), Statistics.getUnbiasedSigma(samples.map(_ ("y"))))
 
-    assert(math.abs(mu_y - muEst_y) < eps)
-    assert(math.abs(sigma_y - sigmaEst_y) < eps)
+        val success_MuX = math.abs(mu_x - muEst_x) < eps
+        val successSigmaX = math.abs(sigma_x - sigmaEst_x) < eps
+        val success_MuY = math.abs(mu_y - muEst_y) < eps
+        val successSigmaY = math.abs(sigma_y - sigmaEst_y) < eps
+
+        success_MuX && successSigmaX && success_MuY && successSigmaY
+      }
+    }
+    assert(result)
   }
 }

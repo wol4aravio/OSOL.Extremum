@@ -49,7 +49,7 @@ class RealVectorSuite extends FunSuite {
       try { val _ = v1 + v2; true}
       catch {
         case _: DifferentKeysException => true
-        case _ => false
+        case _: Throwable => false
       }
     assert(success)
   }
@@ -76,7 +76,7 @@ class RealVectorSuite extends FunSuite {
       try { val _ = v1 - v2; true}
       catch {
         case _: DifferentKeysException => true
-        case _ => false
+        case _ : Throwable => false
       }
     assert(success)
   }

@@ -10,7 +10,9 @@ class RandomSearchSuite extends FunSuite {
 
   private val epsNorm = 1e-2
   private val maxTries = 5
-  private val RS: OptimizationAlgorithm = OptimizationAlgorithm("{ \"name\": \"RandomSearch\", \"numberOfAttempts\": 10, \"deltaRatio\": 0.001 }".parseJson)
+
+  private val config = "{ \"name\": \"RandomSearch\", \"numberOfAttempts\": 10, \"deltaRatio\": 0.001 }".parseJson
+  private val RS: OptimizationAlgorithm = OptimizationAlgorithm.fromJson(config)
 
   test("Dummy #1 (by max time)") {
 
