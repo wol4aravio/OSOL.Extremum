@@ -40,7 +40,7 @@ object OptimizationAlgorithm {
     val force = Value
   }
 
-  def apply(json: JsValue): OptimizationAlgorithm = {
+  def fromJson(json: JsValue): OptimizationAlgorithm = {
     json.asJsObject.getFields("name") match {
       case Seq(JsString(name)) =>
         name match {
