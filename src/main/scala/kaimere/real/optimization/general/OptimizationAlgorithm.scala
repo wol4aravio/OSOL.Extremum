@@ -4,7 +4,7 @@ import kaimere.real.objects.{Function, RealVector}
 import OptimizationAlgorithm.Area
 import OptimizationAlgorithm.MergeStrategy.MergeStrategy
 import kaimere.real.optimization.classic.zero_order.RandomSearch
-import kaimere.real.optimization.metaheuristic.SimulatedAnnealing
+import kaimere.real.optimization.metaheuristic._
 import spray.json._
 
 abstract class OptimizationAlgorithm {
@@ -48,6 +48,7 @@ object OptimizationAlgorithm {
         name match {
           case "RandomSearch" => json.convertTo[RandomSearch]
           case "SimulatedAnnealing" => json.convertTo[SimulatedAnnealing]
+          case "CatSwarmOptimization" => json.convertTo[CatSwarmOptimization]
           case _ => throw DeserializationException("Unsupported Algorithm")
         }
       case _ => throw DeserializationException("OptimizationAlgorithm expected")

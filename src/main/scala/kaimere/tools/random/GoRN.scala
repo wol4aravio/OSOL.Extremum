@@ -32,4 +32,10 @@ object GoRN
 
   }
 
+  def getFromSeries[T](data: Seq[T], n: Int, withReturn: Boolean): Seq[T] =
+    withReturn match {
+      case true => Seq.fill(n)(getDiscreteUniform(0, data.size - 1)).map(x => data(x))
+      case false => data.map(x => (x, getContinuousUniform(0.0, 1.0))).sortBy(_._2).map(_._1).take(n)
+    }
+
 }

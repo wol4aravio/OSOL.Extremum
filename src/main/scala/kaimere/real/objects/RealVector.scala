@@ -35,6 +35,17 @@ class RealVector private (val vals: Map[String, Double]) {
     allKeys.map(key => (key, this(key, 0.0) + that(key, 0.0))).toMap[String, Double]
   }
 
+  def *(that: RealVector): RealVector = {
+    val (allKeys, same) = checkKeys(this, that)
+    if (!same) throw new DifferentKeysException(Seq(this, that).map(_.keySet):_*)
+    else allKeys.map(key => (key, this(key) * that(key))).toMap[String, Double]
+  }
+
+  def ~*(that: RealVector): RealVector = {
+    val (allKeys, _) = checkKeys(this, that)
+    allKeys.map(key => (key, this(key, 1.0) + that(key, 1.0))).toMap[String, Double]
+  }
+
   def moveBy(delta: Map[String, Double]): RealVector = this ~+ delta
 
   def *(coeff: Double): RealVector = vals.mapValues(coeff * _)
