@@ -18,6 +18,10 @@ case class RandomSearch(numberOfAttempts: Int, deltaRatio: Double) extends Optim
       case MergeStrategy.force =>
         val realVectors = state.map(x => x.map { case (key, value) => (key, value)}).map(RealVector.fromMap)
         realVectors.map(v => (v, f(v))).minBy(_._2) |> RS_State.tupled
+      case MergeStrategy.selfInit =>
+        val v = GoRN.getContinuousUniform(area)
+        val value = f(v)
+        RS_State(v, value)
       case _ => throw new Exception(s"Unsupported merge strategy $mergeStrategy")
     }
   }

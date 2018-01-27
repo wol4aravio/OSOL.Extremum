@@ -20,8 +20,8 @@ class RandomSearchSuite extends FunSuite {
       tool = RS,
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
-      state = Vector(Map("x" -> 10.0)),
-      mergeStrategy = MergeStrategy.force,
+      state = null,
+      mergeStrategy = MergeStrategy.selfInit,
       instruction = Instruction.MaxTime(1 * 2.5),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -52,8 +52,8 @@ class RandomSearchSuite extends FunSuite {
       tool = RS,
       f = DummyFunctions.func_2,
       area = DummyFunctions.area_2,
-      state = Vector(Map("x" -> 10.0, "y" -> -10.0)),
-      mergeStrategy = MergeStrategy.force,
+      state = null,
+      mergeStrategy = MergeStrategy.selfInit,
       instruction = Instruction.MaxTime(2 * 2.5),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -84,8 +84,8 @@ class RandomSearchSuite extends FunSuite {
       tool = RS,
       f = DummyFunctions.func_3,
       area = DummyFunctions.area_3,
-      state = Vector(Map("x" -> 10.0, "y" -> -10.0, "z" -> 10.0)),
-      mergeStrategy = MergeStrategy.force,
+      state = null,
+      mergeStrategy = MergeStrategy.selfInit,
       instruction = Instruction.MaxTime(3 * 2.5),
       epsNorm = epsNorm,
       maxTries = maxTries)
