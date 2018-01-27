@@ -3,10 +3,10 @@ package kaimere.real.optimization.classic.zero_order
 import kaimere.real.optimization.general._
 import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy
 import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy.MergeStrategy
-import kaimere.real.objects.{RealVector, Function}
+import kaimere.real.objects.{Function, RealVector}
+import kaimere.real.optimization.classic.zero_order.RandomSearch.RS_State
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
-
 import spray.json._
 
 case class RandomSearch(numberOfAttempts: Int, deltaRatio: Double) extends OptimizationAlgorithm {
@@ -17,7 +17,7 @@ case class RandomSearch(numberOfAttempts: Int, deltaRatio: Double) extends Optim
     mergeStrategy match {
       case MergeStrategy.force =>
         val realVectors = state.map(x => x.map { case (key, value) => (key, value)}).map(RealVector.fromMap)
-        Vector(State(realVectors).getBestBy(f)) |> State.apply
+        realVectors.map(v => (v, f(v))).minBy(_._2) |> RS_State.tupled
       case _ => throw new Exception(s"Unsupported merge strategy $mergeStrategy")
     }
   }
@@ -32,18 +32,31 @@ case class RandomSearch(numberOfAttempts: Int, deltaRatio: Double) extends Optim
   }
 
   override def iterate(): Unit = {
-    val currentPoint: RealVector = currentState(0)
-    val newPoints: State = (1 to numberOfAttempts)
-      .map { _ =>
-        val delta: RealVector = GoRN.getContinuousUniform(possibleDelta) |> RealVector.apply
-        (currentPoint + delta).constrain(area)
-      }.toVector |> State.apply
-    currentState = Vector(newPoints.getBestBy(f)) |> State.apply
+    val RS_State(currentPoint, currentValue) = currentState
+
+    currentState = (1 to numberOfAttempts)
+      .foldLeft((currentPoint, currentValue)) { case ((v, value), _) =>
+        val delta = GoRN.getContinuousUniform(possibleDelta) |> RealVector.apply
+        val _v = (currentPoint + delta).constrain(area)
+        val _value = f(_v)
+        if (value < _value) (v, value)
+        else (_v, _value)
+      } |> RS_State.tupled
   }
 
 }
 
 object RandomSearch {
+
+  case class RS_State(v: RealVector, value: Double) extends State {
+
+    def apply(v: RealVector, value: Double): RS_State = RS_State(v, value)
+
+    override def toVectors(): Vector[RealVector] = Vector(v)
+
+    override def getBestBy(f: Function): RealVector = v
+
+  }
 
   implicit object RandomSearchJsonFormat extends RootJsonFormat[RandomSearch] {
     def write(rs: RandomSearch) =
