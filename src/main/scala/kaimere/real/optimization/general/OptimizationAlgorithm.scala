@@ -12,7 +12,7 @@ abstract class OptimizationAlgorithm {
   protected var area: Area = null
   protected var currentState: State = null
 
-  def initialize(f: Function, area: Area, state: Option[Vector[Map[String, Double]]]): Unit = {
+  def initialize(f: Function, area: Area, state: Option[Vector[Map[String, Double]]] = None): Unit = {
     this.f = f
     this.area = area
     this.currentState =
