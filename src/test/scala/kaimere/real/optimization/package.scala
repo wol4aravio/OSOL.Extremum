@@ -1,7 +1,6 @@
 package kaimere.real
 
 import kaimere.real.optimization.general._
-import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy.MergeStrategy
 import kaimere.real.objects.{RealVector, Function}
 
 package object optimization {
@@ -14,9 +13,9 @@ package object optimization {
     @scala.annotation.tailrec
     def apply(tool: OptimizationAlgorithm,
               f: Function, area: OptimizationAlgorithm.Area,
-              state: Vector[Map[String, Double]], mergeStrategy: MergeStrategy,
+              state: Option[Vector[Map[String, Double]]],
               instruction: Instruction, epsNorm: Double, maxTries: Int): Boolean = {
-      tool.initialize(f, area, state, mergeStrategy)
+      tool.initialize(f, area, state)
       val result = tool.work(instruction)
       if (normVector(result) < epsNorm)
         true
@@ -24,7 +23,7 @@ package object optimization {
         if (maxTries == 0)
           false
         else
-          Tester(tool, f, area, state, mergeStrategy, instruction, epsNorm, maxTries - 1)
+          Tester(tool, f, area, state, instruction, epsNorm, maxTries - 1)
       }
     }
 

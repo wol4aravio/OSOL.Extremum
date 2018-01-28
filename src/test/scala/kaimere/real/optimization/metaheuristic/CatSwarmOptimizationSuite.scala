@@ -1,7 +1,6 @@
 package kaimere.real.optimization.metaheuristic
 
 import kaimere.real.optimization.general._
-import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy
 import kaimere.real.optimization._
 import org.scalatest.FunSuite
 import spray.json._
@@ -22,8 +21,7 @@ class CatSwarmOptimizationSuite extends FunSuite {
       tool = CSO,
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
-      state = null,
-      mergeStrategy = MergeStrategy.selfInit,
+      state = None,
       instruction = Instruction.MaxTime(1 * maxTime),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -38,8 +36,7 @@ class CatSwarmOptimizationSuite extends FunSuite {
       tool = CSO,
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
-      state = Vector(Map("x" -> 10.0)),
-      mergeStrategy = MergeStrategy.force,
+      state = Some(Vector(Map("x" -> 10.0))),
       instruction = Instruction.MaxIterations(1 * maxIterations),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -54,8 +51,7 @@ class CatSwarmOptimizationSuite extends FunSuite {
       tool = CSO,
       f = DummyFunctions.func_2,
       area = DummyFunctions.area_2,
-      state = null,
-      mergeStrategy = MergeStrategy.selfInit,
+      state = None,
       instruction = Instruction.MaxTime(2 * maxTime),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -70,8 +66,7 @@ class CatSwarmOptimizationSuite extends FunSuite {
       tool = CSO,
       f = DummyFunctions.func_2,
       area = DummyFunctions.area_2,
-      state = Vector(Map("x" -> 10.0, "y" -> -10.0)),
-      mergeStrategy = MergeStrategy.force,
+      state = Some(Vector(Map("x" -> 10.0, "y" -> -10.0))),
       instruction = Instruction.MaxIterations(2 * maxIterations),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -86,8 +81,7 @@ class CatSwarmOptimizationSuite extends FunSuite {
       tool = CSO,
       f = DummyFunctions.func_3,
       area = DummyFunctions.area_3,
-      state = null,
-      mergeStrategy = MergeStrategy.selfInit,
+      state = None,
       instruction = Instruction.MaxTime(3 * maxTime),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -102,8 +96,7 @@ class CatSwarmOptimizationSuite extends FunSuite {
       tool = CSO,
       f = DummyFunctions.func_3,
       area = DummyFunctions.area_3,
-      state = Vector(Map("x" -> 10.0, "y" -> -10.0, "z" -> 10.0)),
-      mergeStrategy = MergeStrategy.force,
+      state = Some(Vector(Map("x" -> 10.0, "y" -> -10.0, "z" -> 10.0))),
       instruction = Instruction.MaxIterations(3 * maxIterations),
       epsNorm = epsNorm,
       maxTries = maxTries)
