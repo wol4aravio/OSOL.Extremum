@@ -46,6 +46,7 @@ object OptimizationAlgorithm {
           case "RandomSearch" => json.convertTo[RandomSearch]
           case "SimulatedAnnealing" => json.convertTo[SimulatedAnnealing]
           case "CatSwarmOptimization" => json.convertTo[CatSwarmOptimization]
+          case "ExplosionSearch" => json.convertTo[ExplosionSearch]
           case _ => throw DeserializationException("Unsupported Algorithm")
         }
       case _ => throw DeserializationException("OptimizationAlgorithm expected")
