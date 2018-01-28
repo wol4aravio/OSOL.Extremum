@@ -2,7 +2,6 @@ package kaimere.real.optimization.general
 
 import kaimere.real.objects.{Function, RealVector}
 import OptimizationAlgorithm.Area
-import OptimizationAlgorithm.MergeStrategy.MergeStrategy
 import kaimere.real.optimization.classic.zero_order.RandomSearch
 import kaimere.real.optimization.metaheuristic._
 import spray.json._
@@ -13,13 +12,17 @@ abstract class OptimizationAlgorithm {
   protected var area: Area = null
   protected var currentState: State = null
 
-  def initialize(f: Function, area: Area, state: Vector[Map[String, Double]], mergeStrategy: MergeStrategy): Unit = {
+  def initialize(f: Function, area: Area, state: Option[Vector[Map[String, Double]]]): Unit = {
     this.f = f
     this.area = area
-    this.currentState = merge(state, mergeStrategy)
+    this.currentState =
+      if (state.isEmpty) initializeRandomState()
+      else initializeFromGivenState(state.get)
   }
 
-  def merge(state: Vector[Map[String, Double]], mergeStrategy: MergeStrategy): State
+  def initializeRandomState(): State
+
+  def initializeFromGivenState(state: Vector[Map[String, Double]]): State
 
   def iterate(): Unit
 
@@ -35,12 +38,6 @@ abstract class OptimizationAlgorithm {
 object OptimizationAlgorithm {
 
   type Area = Map[String, (Double, Double)]
-
-  object MergeStrategy extends Enumeration {
-    type MergeStrategy = Value
-    val force = Value
-    val selfInit = Value
-  }
 
   def fromJson(json: JsValue): OptimizationAlgorithm = {
     json.asJsObject.getFields("name") match {
