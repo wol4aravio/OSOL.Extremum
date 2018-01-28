@@ -24,7 +24,7 @@ case class CatSwarmOptimization
   }
 
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
-    val idsChosen = GoRN.getFromSeries(state.indices, numberOfCats - 1, withReturn = true)
+    val idsChosen = GoRN.getFromSeries(state.indices, numberOfCats, withReturn = true)
     idsChosen.map(id => Cat.createRandomCat(state(id), f, area, maxVelocity)) |> CSO_State
   }
 
@@ -51,7 +51,7 @@ case class CatSwarmOptimization
 
 object CatSwarmOptimization {
 
-  protected case class Cat(val location: RealVector, velocity: RealVector, val fitness: Double) {
+  protected case class Cat(location: RealVector, velocity: RealVector, fitness: Double) {
 
     def seek(f: Function, area: OptimizationAlgorithm.Area, SPC: Boolean, SMP: Int, CDC: Int, SRD: Double): Cat = {
 
