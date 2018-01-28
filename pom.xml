@@ -4,7 +4,7 @@
 
     <groupId>com.github.wol4aravio</groupId>
     <artifactId>kaimere_2.11</artifactId>
-    <version>0.3.3-SNAPSHOT</version>
+    <version>0.3.4-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>kaimere</name>
     <description>Optimization Library</description>
