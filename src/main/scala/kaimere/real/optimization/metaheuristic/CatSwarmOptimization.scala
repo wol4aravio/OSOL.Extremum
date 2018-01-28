@@ -1,8 +1,6 @@
 package kaimere.real.optimization.metaheuristic
 
 import kaimere.real.optimization.general._
-import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy
-import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy.MergeStrategy
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.objects.RealVector._
 import kaimere.real.optimization.metaheuristic.CatSwarmOptimization.{Cat, CSO_State}
@@ -17,7 +15,7 @@ case class CatSwarmOptimization
 
   private var maxVelocity: Map[String, (Double, Double)] = Map.empty
 
-  private def initializeRandomly(): CSO_State = {
+  override def initializeRandomState(): State = {
     (1 to numberOfCats).map { _ =>
       val location = GoRN.getContinuousUniform(area)
       val velocity = GoRN.getContinuousUniform(maxVelocity)
@@ -25,23 +23,15 @@ case class CatSwarmOptimization
     } |> CSO_State
   }
 
-  def initializeForce(state: Vector[Map[String, Double]]): CSO_State = {
+  override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
     val idsChosen = GoRN.getFromSeries(state.indices, numberOfCats - 1, withReturn = true)
     idsChosen.map(id => Cat.createRandomCat(state(id), f, area, maxVelocity)) |> CSO_State
   }
 
-  override def merge(state: Vector[Map[String, Double]], mergeStrategy: MergeStrategy): State = {
-    mergeStrategy match {
-      case MergeStrategy.force => initializeForce(state)
-      case MergeStrategy.selfInit => initializeRandomly()
-      case _ => throw new Exception(s"Unsupported merge strategy $mergeStrategy")
-    }
-  }
-
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
-                          state: Vector[Map[String, Double]], mergeStrategy: MergeStrategy): Unit = {
+                          state: Option[Vector[Map[String, Double]]]): Unit = {
     maxVelocity = area.map{ case (key, (min, max)) => (key, (-velocityRatio * (max - min), velocityRatio * (max - min))) }
-    super.initialize(f, area, state, mergeStrategy)
+    super.initialize(f, area, state)
   }
 
   override def iterate(): Unit = {

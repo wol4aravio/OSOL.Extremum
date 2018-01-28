@@ -1,8 +1,6 @@
 package kaimere.real.optimization.metaheuristic
 
 import kaimere.real.optimization.general._
-import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy
-import kaimere.real.optimization.general.OptimizationAlgorithm.MergeStrategy.MergeStrategy
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.optimization.metaheuristic.SimulatedAnnealing.SA_State
 import kaimere.tools.random.GoRN
@@ -11,17 +9,15 @@ import spray.json._
 
 case class SimulatedAnnealing(alpha: Double, beta: Double = 1.0, gamma: Double = 1.0, initialTemp: Double) extends OptimizationAlgorithm {
 
-  override def merge(state: Vector[Map[String, Double]], mergeStrategy: MergeStrategy): State = {
-    mergeStrategy match {
-      case MergeStrategy.force =>
-        val realVectors = state.map(x => x.map { case (key, value) => (key, value) }).map(RealVector.fromMap)
-        realVectors.map(v => (v, f(v), 0)).minBy(_._2) |> SA_State.tupled
-      case MergeStrategy.selfInit =>
-        val v = GoRN.getContinuousUniform(area)
-        val value = f(v)
-        SA_State(v, value, 0)
-      case _ => throw new Exception(s"Unsupported merge strategy $mergeStrategy")
-    }
+  override def initializeRandomState(): State = {
+    val v = GoRN.getContinuousUniform(area)
+    val value = f(v)
+    SA_State(v, value, 0)
+  }
+
+  override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
+    val realVectors = state.map(x => x.map { case (key, value) => (key, value) }).map(RealVector.fromMap)
+    realVectors.map(v => (v, f(v), 0)).minBy(_._2) |> SA_State.tupled
   }
 
   override def iterate(): Unit = {
