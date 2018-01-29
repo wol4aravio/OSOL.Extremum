@@ -81,6 +81,14 @@ object ExplosionSearch {
 
   }
 
+  def apply(csv: String): ExplosionSearch = {
+    val Array(name, numberOfBombs, powerRatio, dimensions) = csv.split(",")
+    name match {
+      case "ES" | "es" | "ExplosionSearch" => ExplosionSearch(numberOfBombs.toInt, powerRatio.toDouble, dimensions.toInt)
+      case _ => throw DeserializationException("ExplosionSearch expected")
+    }
+  }
+
   implicit object ExplosionSearchJsonFormat extends RootJsonFormat[ExplosionSearch] {
     def write(es: ExplosionSearch) =
       JsObject(
@@ -93,7 +101,7 @@ object ExplosionSearch {
       json.asJsObject.getFields("name", "numberOfBombs", "powerRatio", "dimensions") match {
         case Seq(JsString(name), JsNumber(numberOfBombs), JsNumber(powerRatio), JsNumber(dimensions)) =>
           if (name != "ExplosionSearch") throw DeserializationException("ExplosionSearch expected")
-          else ExplosionSearch(numberOfBombs.toInt, powerRatio.toDouble, dimensions.toInt)
+          else ExplosionSearch(Seq(name, numberOfBombs, powerRatio, dimensions).mkString(","))
         case _ => throw DeserializationException("ExplosionSearch expected")
       }
   }

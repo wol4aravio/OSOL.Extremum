@@ -58,6 +58,14 @@ object RandomSearch {
 
   }
 
+  def apply(csv: String): RandomSearch = {
+    val Array(name, numberOfAttempts, deltaRatio) = csv.split(",")
+    name match {
+      case "RS" | "rs" | "RandomSearch" => RandomSearch(numberOfAttempts.toInt, deltaRatio.toDouble)
+      case _ => throw DeserializationException("RandomSearch expected")
+    }
+  }
+
   implicit object RandomSearchJsonFormat extends RootJsonFormat[RandomSearch] {
     def write(rs: RandomSearch) =
       JsObject(
@@ -69,7 +77,7 @@ object RandomSearch {
       json.asJsObject.getFields("name", "numberOfAttempts", "deltaRatio") match {
         case Seq(JsString(name), JsNumber(numberOfAttempts), JsNumber(deltaRatio)) =>
           if (name != "RandomSearch") throw DeserializationException("RandomSearch expected")
-          else RandomSearch(numberOfAttempts.toInt, deltaRatio.toDouble)
+          else RandomSearch(Seq(name, numberOfAttempts, deltaRatio).mkString(","))
         case _ => throw DeserializationException("RandomSearch expected")
       }
   }

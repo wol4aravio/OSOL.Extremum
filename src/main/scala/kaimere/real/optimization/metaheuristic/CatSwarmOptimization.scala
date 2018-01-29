@@ -117,6 +117,14 @@ object CatSwarmOptimization {
 
   }
 
+  def apply(csv: String): CatSwarmOptimization = {
+    val Array(name, numberOfCats, mr, smp, srd, cdc, spc, velocityConstant, velocityRatio) = csv.split(",")
+    name match {
+      case "CSO" | "cso" | "CatSwarmOptimization" => CatSwarmOptimization(numberOfCats.toInt, mr.toDouble, smp.toInt, srd.toDouble, cdc.toInt, spc.toBoolean, velocityConstant.toDouble, velocityRatio.toDouble)
+      case _ => throw DeserializationException("CatSwarmOptimization expected")
+    }
+  }
+
   implicit object CatSwarmOptimizationJsonFormat extends RootJsonFormat[CatSwarmOptimization] {
     def write(cso: CatSwarmOptimization) =
       JsObject(
@@ -134,7 +142,7 @@ object CatSwarmOptimization {
       json.asJsObject.getFields("name", "numberOfCats", "MR", "SMP", "SRD", "CDC", "SPC", "velocityConstant", "velocityRatio") match {
         case Seq(JsString(name), JsNumber(numberOfCats), JsNumber(mr), JsNumber(smp), JsNumber(srd), JsNumber(cdc), JsBoolean(spc), JsNumber(velocityConstant), JsNumber(velocityRatio)) =>
           if (name != "CatSwarmOptimization") throw DeserializationException("CatSwarmOptimization expected")
-          else CatSwarmOptimization(numberOfCats.toInt, mr.toDouble, smp.toInt, srd.toDouble, cdc.toInt, spc, velocityConstant.toDouble, velocityRatio.toDouble)
+          else CatSwarmOptimization(Seq(name, numberOfCats, mr, smp, srd, cdc, spc, velocityConstant, velocityRatio).mkString(","))
         case _ => throw DeserializationException("CatSwarmOptimization expected")
       }
   }

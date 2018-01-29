@@ -54,6 +54,14 @@ object SimulatedAnnealing {
 
   }
 
+  def apply(csv: String): SimulatedAnnealing = {
+    val Array(name, alpha, beta, gamma, initialTemp) = csv.split(",")
+    name match {
+      case "SA" | "sa" | "SimulatedAnnealing" => SimulatedAnnealing(alpha.toDouble, beta.toDouble, gamma.toDouble, initialTemp.toDouble)
+      case _ => throw DeserializationException("SimulatedAnnealing expected")
+    }
+  }
+
   implicit object SimulatedAnnealingJsonFormat extends RootJsonFormat[SimulatedAnnealing] {
     def write(sa: SimulatedAnnealing) =
       JsObject(
@@ -67,7 +75,7 @@ object SimulatedAnnealing {
       json.asJsObject.getFields("name", "alpha", "beta", "gamma", "initialTemp") match {
         case Seq(JsString(name), JsNumber(alpha), JsNumber(beta), JsNumber(gamma), JsNumber(initialTemp)) =>
           if (name != "SimulatedAnnealing") throw DeserializationException("SimulatedAnnealing expected")
-          else SimulatedAnnealing(alpha.toDouble, beta.toDouble, gamma.toDouble, initialTemp.toDouble)
+          else SimulatedAnnealing(Seq(name, alpha, beta, gamma, initialTemp).mkString(","))
         case _ => throw DeserializationException("SimulatedAnnealing expected")
       }
   }
