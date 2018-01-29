@@ -26,7 +26,7 @@ abstract class OptimizationAlgorithm {
 
   def iterate(): Unit
 
-  final def work(instruction: Instruction): RealVector = {
+  def work(instruction: Instruction): RealVector = {
     instruction.reset()
     while(instruction.continue())
       iterate()
