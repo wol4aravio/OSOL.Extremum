@@ -39,6 +39,17 @@ object OptimizationAlgorithm {
 
   type Area = Map[String, (Double, Double)]
 
+  def fromCsv(csv: String): OptimizationAlgorithm = {
+    val name = csv.split(",").head
+    name match {
+      case "RS" | "rs" | "RandomSearch" => RandomSearch(csv)
+      case "SA" | "sa" | "SimulatedAnnealing" => SimulatedAnnealing(csv)
+      case "CSO" | "cso" | "CatSwarmOptimization" => CatSwarmOptimization(csv)
+      case "ES" | "es" | "ExplosionSearch" => ExplosionSearch(csv)
+      case _ => throw DeserializationException("Unsupported Algorithm")
+    }
+  }
+
   def fromJson(json: JsValue): OptimizationAlgorithm = {
     json.asJsObject.getFields("name") match {
       case Seq(JsString(name)) =>
