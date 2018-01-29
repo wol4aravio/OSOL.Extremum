@@ -44,6 +44,9 @@ package object optimization {
     val area_3: OptimizationAlgorithm.Area = Map("x" -> (-10.0, 10.0), "y" -> (-10.0, 10.0), "z" -> (-10.0, 10.0))
     val func_3 = new DummyFunction((v: Map[String, Double]) => v("x") * v("x") + v("y") * v("y") + v("z") * v("z"))
 
+    val area_4: OptimizationAlgorithm.Area = Map("x" -> (-10.0, 10.0), "y" -> (-10.0, 10.0), "z" -> (-10.0, 10.0), "a" -> (-10.0, 10.0), "b" -> (-10.0, 10.0), "c" -> (-10.0, 10.0))
+    val func_4 = new DummyFunction((v: Map[String, Double]) => v("x") * v("x") + v("y") * v("y") + v("z") * v("z") + v("a") * v("a") + v("b") * v("b") + v("c") * v("c"))
+
   }
 
 }
