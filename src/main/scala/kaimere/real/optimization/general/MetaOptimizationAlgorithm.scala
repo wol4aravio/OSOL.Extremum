@@ -37,6 +37,7 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
   override def work(instruction: Instruction): RealVector = {
     val MOA_State(initialSeed) = currentState
     algorithms.indices.foldLeft(initialSeed) { case (seed, id) =>
+      println(s"Processing ${id + 1}/${algorithms.size}")
         val tempArea = seed.vals.map { case (key, v) => (key, (v, v)) } ++ algorithmArea(id)
         algorithms(id).initialize(f, tempArea, state = Some(Vector(seed.vals)))
         val tempResult = algorithms(id).work(instructions(id))
