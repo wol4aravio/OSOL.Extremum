@@ -15,9 +15,8 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
   private val rs: OptimizationAlgorithm = RandomSearch(10, 0.01)
   private val SA: OptimizationAlgorithm = MetaOptimizationAlgorithm(
     algorithms = Seq(rs, rs, rs),
-    instructions = Seq(MaxTime(maxTime), MaxTime(maxTime), MaxTime(maxTime)),
-    targetVars = Seq(Some(Set("x", "a")), Some(Set("y", "b")), Some(Set("z", "c")))
-  )
+    targetVars = Seq(Some(Set("x", "a")), Some(Set("y", "b")), Some(Set("z", "c"))),
+    instructions = Seq(MaxTime(maxTime), MaxTime(maxTime), MaxTime(maxTime)))
 
   test("Dummy #4 (by max time)") {
 

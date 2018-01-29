@@ -8,8 +8,8 @@ import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
 
 case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
-                                     instructions: Seq[Instruction],
-                                     targetVars: Seq[Option[Set[String]]]) extends OptimizationAlgorithm {
+                                     targetVars: Seq[Option[Set[String]]],
+                                     instructions: Seq[Instruction]) extends OptimizationAlgorithm {
 
   protected var algorithmArea: Seq[OptimizationAlgorithm.Area] = Seq.empty
 
