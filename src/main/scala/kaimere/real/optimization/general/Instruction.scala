@@ -2,7 +2,7 @@ package kaimere.real.optimization.general
 
 import java.text.DecimalFormat
 
-trait Instruction {
+abstract class Instruction(algorithm: OptimizationAlgorithm) {
 
   def continue(): Boolean
   def reset(): Unit
@@ -13,7 +13,7 @@ object Instruction {
 
   def truncate(d: Double): String = new DecimalFormat("#.##").format(d)
 
-  case class MaxIterations(maxNumberOfIterations: Int, verbose: Boolean = false) extends Instruction {
+  case class MaxIterations(maxNumberOfIterations: Int, verbose: Boolean = false) extends Instruction(null) {
 
     private var alreadyDone: Int = 0
 
@@ -31,7 +31,8 @@ object Instruction {
     }
 
   }
-  case class MaxTime(maxSeconds: Double, verbose: Boolean = false) extends Instruction {
+
+  case class MaxTime(maxSeconds: Double, verbose: Boolean = false) extends Instruction(null) {
 
     private var startTime: Long = System.nanoTime()
 
@@ -47,6 +48,17 @@ object Instruction {
     override def reset(): Unit = {
       startTime = System.nanoTime()
     }
+
+  }
+
+  case class Verbose(algorithm: OptimizationAlgorithm, mainInstruction: Instruction) extends Instruction(algorithm) {
+
+    override def continue(): Boolean = {
+      println(algorithm.currentState.getBestBy(algorithm.f)._2)
+      mainInstruction.continue()
+    }
+
+    override def reset(): Unit = mainInstruction.reset()
 
   }
 

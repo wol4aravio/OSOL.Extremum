@@ -9,7 +9,7 @@ trait State {
 
   def toVectors(): Vector[RealVector]
 
-  def getBestBy(f: Function): RealVector
+  def getBestBy(f: Function): (RealVector, Double)
 
 }
 

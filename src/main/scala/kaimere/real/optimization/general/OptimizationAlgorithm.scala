@@ -8,9 +8,9 @@ import spray.json._
 
 abstract class OptimizationAlgorithm {
 
-  protected var f: Function = null
-  protected var area: Area = null
-  protected var currentState: State = null
+  var f: Function = null
+  var area: Area = null
+  var currentState: State = null
 
   def initialize(f: Function, area: Area, state: Option[Vector[Map[String, Double]]] = None): Unit = {
     this.f = f
@@ -30,7 +30,7 @@ abstract class OptimizationAlgorithm {
     instruction.reset()
     while(instruction.continue())
       iterate()
-    currentState.getBestBy(f)
+    currentState.getBestBy(f)._1
   }
 
 }
