@@ -8,7 +8,7 @@ import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
 import spray.json._
 
-case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double, dimensions: Int)
+case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double)
   extends OptimizationAlgorithm {
 
   private var powerDistribution: Map[Int, Map[String, Double]] = Map.empty
@@ -42,7 +42,7 @@ case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double, dimensions: I
 
   override def iterate(): Unit = {
     val ES_State(bombs) = currentState
-    val newBombs = Range(0, numberOfBombs).map(id => bombs(id).explode(powerDistribution(id), f, area, dimensions))
+    val newBombs = Range(0, numberOfBombs).map(id => bombs(id).explode(powerDistribution(id), f, area))
     currentState = newBombs.foldLeft(Seq.empty[Bomb]){ case (seq, (b_1, b_2)) =>
       b_2 +: (b_1 +: seq) }.sortBy(_.fitness).take(numberOfBombs) |> ES_State
   }
@@ -53,14 +53,14 @@ object ExplosionSearch {
 
   private case class Bomb(location: RealVector, fitness: Double) {
 
-    def explode(power: Map[String, Double], f: Function, area: OptimizationAlgorithm.Area, numberOfDimensions: Int): (Bomb, Bomb) = {
+    def explode(power: Map[String, Double], f: Function, area: OptimizationAlgorithm.Area): (Bomb, Bomb) = {
 
-      val explodingKeys = GoRN.getFromSeries(power.keys.toSeq, numberOfDimensions, withReturn = false).toSet
-      val remainingKeys = power.keySet -- explodingKeys
+      val Seq(explodingKey) = GoRN.getFromSeries(power.keys.toSeq, 1, withReturn = false)
+      val remainingKeys = power.keySet - explodingKey
 
       val delta = remainingKeys.map(key => (key, (-power(key), power(key)))).toMap[String, (Double, Double)]
-      val deltaLeft = explodingKeys.map(key => (key, (-power(key), 0.0))).toMap[String, (Double, Double)] ++ delta
-      val deltaRight = explodingKeys.map(key => (key, (0.0, power(key)))).toMap[String, (Double, Double)] ++ delta
+      val deltaLeft = delta + (explodingKey -> (-power(explodingKey), 0.0))
+      val deltaRight = delta + (explodingKey -> (0.0, power(explodingKey)))
 
       val bomb_1 = location.moveBy(GoRN.getContinuousUniform(deltaLeft)).constrain(area)
       val bomb_2 = location.moveBy(GoRN.getContinuousUniform(deltaLeft)).constrain(area)
@@ -82,9 +82,9 @@ object ExplosionSearch {
   }
 
   def apply(csv: String): ExplosionSearch = {
-    val Array(name, numberOfBombs, powerRatio, dimensions) = csv.split(",")
+    val Array(name, numberOfBombs, powerRatio) = csv.split(",")
     name match {
-      case "ES" | "es" | "ExplosionSearch" => ExplosionSearch(numberOfBombs.toInt, powerRatio.toDouble, dimensions.toInt)
+      case "ES" | "es" | "ExplosionSearch" => ExplosionSearch(numberOfBombs.toInt, powerRatio.toDouble)
       case _ => throw DeserializationException("ExplosionSearch expected")
     }
   }
@@ -94,14 +94,13 @@ object ExplosionSearch {
       JsObject(
         "name" -> JsString("ExplosionSearch"),
         "numberOfBombs" -> JsNumber(es.numberOfBombs),
-        "powerRatio" -> JsNumber(es.powerRatio),
-        "dimensions" -> JsNumber(es.dimensions))
+        "powerRatio" -> JsNumber(es.powerRatio))
 
     def read(json: JsValue): ExplosionSearch =
-      json.asJsObject.getFields("name", "numberOfBombs", "powerRatio", "dimensions") match {
-        case Seq(JsString(name), JsNumber(numberOfBombs), JsNumber(powerRatio), JsNumber(dimensions)) =>
+      json.asJsObject.getFields("name", "numberOfBombs", "powerRatio") match {
+        case Seq(JsString(name), JsNumber(numberOfBombs), JsNumber(powerRatio)) =>
           if (name != "ExplosionSearch") throw DeserializationException("ExplosionSearch expected")
-          else ExplosionSearch(Seq(name, numberOfBombs, powerRatio, dimensions).mkString(","))
+          else ExplosionSearch(Seq(name, numberOfBombs, powerRatio).mkString(","))
         case _ => throw DeserializationException("ExplosionSearch expected")
       }
   }
