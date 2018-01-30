@@ -12,7 +12,7 @@ class ExplosionSearchSuite extends FunSuite {
   private val maxTime = 0.5
   private val maxIterations = 2500
 
-  private val config = "{ \"name\": \"ExplosionSearch\", \"numberOfBombs\": 10, \"powerRatio\": 0.1, \"dimensions\": 1 }".parseJson
+  private val config = "{ \"name\": \"ExplosionSearch\", \"numberOfBombs\": 10, \"powerRatio\": 0.1 }".parseJson
   private val ES: OptimizationAlgorithm = OptimizationAlgorithm.fromJson(config)
 
   test("Dummy #1 (by max time)") {
