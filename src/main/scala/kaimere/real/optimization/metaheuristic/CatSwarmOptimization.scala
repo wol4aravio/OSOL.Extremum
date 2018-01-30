@@ -111,7 +111,10 @@ object CatSwarmOptimization {
 
     override def toVectors(): Vector[RealVector] = cats.map(_.location).toVector
 
-    def getBestBy(f: Function): RealVector = cats.minBy(_.fitness).location
+    override def getBestBy(f: Function): (RealVector, Double) = {
+      val bestCat = cats.minBy(_.fitness)
+      (bestCat.location, bestCat.fitness)
+    }
 
     def apply(id: Int): Cat = cats(id)
 

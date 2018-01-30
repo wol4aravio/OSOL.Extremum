@@ -50,7 +50,7 @@ object SimulatedAnnealing {
 
     override def toVectors(): Vector[RealVector] = Vector(v)
 
-    override def getBestBy(f: Function): RealVector = v
+    override def getBestBy(f: Function): (RealVector, Double) = (v, value)
 
   }
 

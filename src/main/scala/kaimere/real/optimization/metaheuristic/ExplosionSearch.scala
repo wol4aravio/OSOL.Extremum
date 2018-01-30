@@ -75,7 +75,7 @@ object ExplosionSearch {
 
     override def toVectors(): Vector[RealVector] = bombs.map(_.location).toVector
 
-    def getBestBy(f: Function): RealVector = bombs.minBy(_.fitness).location
+    override def getBestBy(f: Function): (RealVector, Double) = (bombs.head.location, bombs.head.fitness)
 
     def apply(id: Int): Bomb = bombs(id)
 
