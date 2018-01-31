@@ -57,7 +57,7 @@ object Instruction {
       val currentBestValue = algorithm.currentState.getBestBy(algorithm.f)._2
       val delta = (currentBestValue - targetValue) / targetValue
       if (verbose) println(s"Current delta: ${truncate(100.0 * delta)}%")
-      delta < maxError
+      delta >= maxError
     }
 
     override def reset(): Unit = { }
