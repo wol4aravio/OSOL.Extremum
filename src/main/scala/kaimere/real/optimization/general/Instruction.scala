@@ -54,8 +54,9 @@ object Instruction {
   case class Verbose(algorithm: OptimizationAlgorithm, mainInstruction: Instruction) extends Instruction(algorithm) {
 
     override def continue(): Boolean = {
-      mainInstruction.continue()
+      val continueOrNot = mainInstruction.continue()
       println(algorithm.currentState.getBestBy(algorithm.f)._2)
+      continueOrNot
     }
 
     override def reset(): Unit = mainInstruction.reset()
