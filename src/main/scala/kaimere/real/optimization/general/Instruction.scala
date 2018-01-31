@@ -23,7 +23,7 @@ object Instruction {
         val progress = 100.0 * (alreadyDone - 1) / maxNumberOfIterations
         println(s"Current progress: ${truncate(progress)}%")
       }
-      return alreadyDone <= maxNumberOfIterations
+      alreadyDone <= maxNumberOfIterations
     }
 
     override def reset(): Unit = {
@@ -42,7 +42,7 @@ object Instruction {
         val progress = 100.0 * alreadyPassed / maxSeconds
         println(s"Current progress: ${truncate(progress)}%")
       }
-      return alreadyPassed <= maxSeconds
+      alreadyPassed <= maxSeconds
     }
 
     override def reset(): Unit = {
@@ -51,7 +51,20 @@ object Instruction {
 
   }
 
-  case class Verbose(algorithm: OptimizationAlgorithm, mainInstruction: Instruction) extends Instruction(algorithm) {
+  case class TargetValue(algorithm: OptimizationAlgorithm, targetValue: Double, maxError: Double = 0.01, verbose: Boolean = false) extends Instruction(algorithm) {
+
+    override def continue(): Boolean = {
+      val currentBestValue = algorithm.currentState.getBestBy(algorithm.f)._2
+      val delta = (currentBestValue - targetValue) / targetValue
+      if (verbose) println(s"Current delta: ${truncate(100.0 * delta)}%")
+      delta < maxError
+    }
+
+    override def reset(): Unit = { }
+
+  }
+
+  case class VerboseBest(algorithm: OptimizationAlgorithm, mainInstruction: Instruction) extends Instruction(algorithm) {
 
     override def continue(): Boolean = {
       val continueOrNot = mainInstruction.continue()
