@@ -2,7 +2,7 @@ import org.scoverage.coveralls.Imports.CoverallsKeys._
 
 name := "Kaimere"
 
-version := "0.4.1.1"
+version := "0.4.1.2"
 
 scalaVersion := "2.11.12"
 
