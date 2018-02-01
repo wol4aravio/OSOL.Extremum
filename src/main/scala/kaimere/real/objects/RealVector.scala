@@ -18,6 +18,8 @@ class RealVector private (val vals: Map[String, Double]) {
 
   def apply(key: String, default: Double): Double = this.getOrElse(key, default)
 
+  override def toString: String = vals.map { case (key, value) => s"$key -> $value" }.mkString("\n")
+
   def ==(that: RealVector): Boolean = {
     val (allKeys, same) = checkKeys(this, that)
     if (!same) throw new DifferentKeysException(Seq(this, that).map(_.keySet):_*)
@@ -43,7 +45,7 @@ class RealVector private (val vals: Map[String, Double]) {
 
   def ~*(that: RealVector): RealVector = {
     val (allKeys, _) = checkKeys(this, that)
-    allKeys.map(key => (key, this(key, 1.0) + that(key, 1.0))).toMap[String, Double]
+    allKeys.map(key => (key, this(key, 1.0) * that(key, 1.0))).toMap[String, Double]
   }
 
   def moveBy(delta: Map[String, Double]): RealVector = this ~+ delta

@@ -43,6 +43,17 @@ class RealVectorSuite extends FunSuite {
     assert(v1.getOrElse("z", 0.0) == 0.0)
   }
 
+  test("Equality") {
+    assert(v1 == RealVector("x" -> 1.0, "y" -> 2.0))
+    val success =
+      try { val _ = v1 == RealVector("x" -> 1.0, "z" -> 2.0); true}
+      catch {
+        case _: DifferentKeysException => true
+        case _: Throwable => false
+      }
+    assert(success)
+  }
+
   test("Strict Addition") {
     assert(v1 + v4 == RealVector("x" -> 0.0, "y" -> 0.0))
     val success =
@@ -57,6 +68,22 @@ class RealVectorSuite extends FunSuite {
   test("NonStrict Addition") {
     assert(v1 ~+ v4 == RealVector("x" -> 0.0, "y" -> 0.0))
     assert(v1 ~+ v2 == v3)
+  }
+
+  test("Strict Multiplication") {
+    assert(v1 * v4 == RealVector("x" -> -1.0, "y" -> -4.0))
+    val success =
+      try { val _ = v1 + v2; true}
+      catch {
+        case _: DifferentKeysException => true
+        case _: Throwable => false
+      }
+    assert(success)
+  }
+
+  test("NonStrict Multiplication") {
+    assert(v1 ~* v4 == RealVector("x" -> -1.0, "y" -> -4.0))
+    assert(v1 ~* v2 == RealVector("x" -> 1.0, "y" -> 2.0, "z" -> 2.0))
   }
 
   test("Multiplication by Coefficient") {
@@ -105,5 +132,8 @@ class RealVectorSuite extends FunSuite {
     assert(constrained == RealVector("x" -> 0.5, "y" -> 2.0, "z" -> 3.0))
   }
 
+  test("Serialization") {
+    assert(v1.toJson.convertTo[RealVector] == v1)
+  }
 
 }
