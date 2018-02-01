@@ -3,6 +3,7 @@ package kaimere.real.optimization.general
 import kaimere.real.objects.{Function, RealVector}
 import OptimizationAlgorithm.Area
 import kaimere.real.optimization.classic.zero_order.RandomSearch
+import kaimere.real.optimization.general.instructions.GeneralInstruction
 import kaimere.real.optimization.metaheuristic._
 import spray.json._
 
@@ -26,9 +27,9 @@ abstract class OptimizationAlgorithm {
 
   def iterate(): Unit
 
-  def work(instruction: Instruction): RealVector = {
+  def work(instruction: GeneralInstruction): RealVector = {
     instruction.reset()
-    while(instruction.continue())
+    while(instruction.continue(this))
       iterate()
     currentState.getBestBy(f)._1
   }
@@ -50,6 +51,16 @@ object OptimizationAlgorithm {
     }
   }
 
+  def toJson(algorithm: OptimizationAlgorithm): JsValue = {
+    algorithm match {
+      case rs: RandomSearch => rs.toJson
+      case sa: SimulatedAnnealing => sa.toJson
+      case cso: CatSwarmOptimization => cso.toJson
+      case es: ExplosionSearch => es.toJson
+      case _ => throw new Exception("Unsupported Algorithm")
+    }
+  }
+
   def fromJson(json: JsValue): OptimizationAlgorithm = {
     json.asJsObject.getFields("name") match {
       case Seq(JsString(name)) =>
@@ -58,6 +69,7 @@ object OptimizationAlgorithm {
           case "SimulatedAnnealing" => json.convertTo[SimulatedAnnealing]
           case "CatSwarmOptimization" => json.convertTo[CatSwarmOptimization]
           case "ExplosionSearch" => json.convertTo[ExplosionSearch]
+          case "MetaOptimizationAlgorithm" => json.convertTo[MetaOptimizationAlgorithm]
           case _ => throw DeserializationException("Unsupported Algorithm")
         }
       case _ => throw DeserializationException("OptimizationAlgorithm expected")
