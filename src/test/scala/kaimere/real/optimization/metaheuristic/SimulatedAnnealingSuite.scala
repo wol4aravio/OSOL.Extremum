@@ -28,7 +28,7 @@ class SimulatedAnnealingSuite extends FunSuite {
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
       state = None,
-      instruction = MaxTime(1 * maxTime),
+      instruction = VerboseBest(MaxTime(1 * maxTime)),
       epsNorm = epsNorm,
       maxTries = maxTries)
 
@@ -43,7 +43,7 @@ class SimulatedAnnealingSuite extends FunSuite {
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
       state = Some(Vector(Map("x" -> 10.0))),
-      instruction = MaxIterations(1 * maxIterations),
+      instruction = TargetValue(targetValue = 0.0, maxError = 0.001),
       epsNorm = epsNorm,
       maxTries = maxTries)
 
