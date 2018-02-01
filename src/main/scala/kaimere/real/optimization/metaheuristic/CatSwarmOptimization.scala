@@ -116,8 +116,6 @@ object CatSwarmOptimization {
       (bestCat.location, bestCat.fitness)
     }
 
-    def apply(id: Int): Cat = cats(id)
-
   }
 
   def apply(csv: String): CatSwarmOptimization = {

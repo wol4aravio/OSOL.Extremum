@@ -50,8 +50,6 @@ object RandomSearch {
 
   case class RS_State(v: RealVector, value: Double) extends State {
 
-    def apply(v: RealVector, value: Double): RS_State = RS_State(v, value)
-
     override def toVectors(): Vector[RealVector] = Vector(v)
 
     override def getBestBy(f: Function): (RealVector, Double) = (v, value)
