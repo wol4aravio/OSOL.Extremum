@@ -10,13 +10,14 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
 
   private val epsNorm = 1e-2
   private val maxTries = 10
-  private val maxTime = 0.5
+  private val maxTime = 2.5
+  private val maxIterations = 1000
 
-  private val rs: OptimizationAlgorithm = RandomSearch(10, 0.01)
+  private val rs: OptimizationAlgorithm = RandomSearch(10, 0.001)
   private val MOA: OptimizationAlgorithm = MetaOptimizationAlgorithm(
     algorithms = Seq(rs, rs, rs),
     targetVars = Seq(Some(Set("x", "a")), Some(Set("y", "b")), Some(Set("z", "c"))),
-    instructions = Seq(VerboseBest(MaxTime(maxTime)), VerboseBest(MaxTime(maxTime)), VerboseBest(MaxTime(maxTime))))
+    instructions = Seq(VerboseBest(MaxIterations(maxIterations)), VerboseBest(MaxTime(maxTime)), VerboseBest(TargetValue(targetValue = 0.00001))))
 
   test("Serialization") {
     assert(MOA.asInstanceOf[MetaOptimizationAlgorithm].toJson.convertTo[MetaOptimizationAlgorithm] == MOA.asInstanceOf[MetaOptimizationAlgorithm])
