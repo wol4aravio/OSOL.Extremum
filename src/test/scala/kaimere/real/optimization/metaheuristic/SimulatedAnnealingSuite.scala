@@ -16,6 +16,11 @@ class SimulatedAnnealingSuite extends FunSuite {
   private val config = "{ \"name\": \"SimulatedAnnealing\", \"alpha\": 0.995, \"beta\": 1.0, \"gamma\": 1.0, \"initialTemp\": 500.0 }".parseJson
   private val SA: OptimizationAlgorithm = OptimizationAlgorithm.fromJson(config)
 
+  test("Serialization") {
+    assert(SA.asInstanceOf[SimulatedAnnealing].toJson.convertTo[SimulatedAnnealing] == SA.asInstanceOf[SimulatedAnnealing])
+  }
+
+
   test("Dummy #1 (by max time)") {
 
     val passed = Tester(
