@@ -4,12 +4,14 @@ import kaimere.real.objects
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.optimization.general.MetaOptimizationAlgorithm.MOA_State
 import kaimere.real.optimization.general.OptimizationAlgorithm.Area
+import kaimere.real.optimization.general.instructions.GeneralInstruction
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
+import spray.json._
 
 case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
                                      targetVars: Seq[Option[Set[String]]],
-                                     instructions: Seq[Instruction]) extends OptimizationAlgorithm {
+                                     instructions: Seq[GeneralInstruction]) extends OptimizationAlgorithm {
 
   protected var algorithmArea: Seq[OptimizationAlgorithm.Area] = Seq.empty
 
@@ -34,7 +36,7 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
 
   }
 
-  override def work(instruction: Instruction): RealVector = {
+  override def work(instruction: GeneralInstruction): RealVector = {
     val MOA_State(initialSeed) = currentState
     algorithms.indices.foldLeft(initialSeed) { case (seed, id) =>
       println(s"Processing ${id + 1}/${algorithms.size}")
@@ -45,7 +47,6 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
         tempResult
     }
   }
-
 
 }
 
@@ -59,6 +60,32 @@ object MetaOptimizationAlgorithm {
 
     override def getBestBy(f: Function): (RealVector, Double) = (v, f(v))
 
+  }
+
+  implicit object MetaOptimizationAlgorithmJsonFormat extends RootJsonFormat[MetaOptimizationAlgorithm] {
+    def write(moa: MetaOptimizationAlgorithm) =
+      JsObject(
+        "name" -> JsString("MetaOptimizationAlgorithm"),
+        "algorithms" -> JsArray(moa.algorithms.map(OptimizationAlgorithm.toJson).toVector),
+        "targetVars" -> JsArray(moa.targetVars.map {
+          case None => JsString("all")
+          case Some(vars) => JsString(vars.mkString(","))
+        }.toVector),
+        "instructions" -> JsArray(moa.instructions.map(GeneralInstruction.toJson).toVector))
+
+    def read(json: JsValue): MetaOptimizationAlgorithm =
+      json.asJsObject.getFields("name", "algorithms", "targetVars", "instructions") match {
+        case Seq(JsString(name), JsArray(algorithms), JsArray(targetVars), JsArray(instructions)) =>
+          if (name != "MetaOptimizationAlgorithm") throw DeserializationException("MetaOptimizationAlgorithm expected")
+          else MetaOptimizationAlgorithm(
+            algorithms = algorithms.map(OptimizationAlgorithm.fromJson),
+            targetVars = targetVars.map {
+              case JsString("all") => Option.empty[Set[String]]
+              case JsString(vars) => Some(vars.split(",").toSet)
+            },
+            instructions = instructions.map(GeneralInstruction.fromJson))
+        case _ => throw DeserializationException("MetaOptimizationAlgorithm expected")
+      }
   }
 
 }
