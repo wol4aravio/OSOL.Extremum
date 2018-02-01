@@ -4,7 +4,6 @@ import kaimere.real.optimization._
 import kaimere.real.optimization.general._
 import kaimere.real.optimization.general.instructions._
 import org.scalatest.FunSuite
-import spray.json._
 
 class RandomSearchSuite extends FunSuite {
 
