@@ -1,7 +1,8 @@
 package kaimere.real.optimization.metaheuristic
 
-import kaimere.real.optimization.general._
 import kaimere.real.optimization._
+import kaimere.real.optimization.general._
+import kaimere.real.optimization.general.instructions._
 import org.scalatest.FunSuite
 import spray.json._
 
@@ -22,7 +23,7 @@ class ExplosionSearchSuite extends FunSuite {
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
       state = None,
-      instruction = Instruction.MaxTime(1 * maxTime),
+      instruction = MaxTime(1 * maxTime),
       epsNorm = epsNorm,
       maxTries = maxTries)
 
@@ -37,7 +38,7 @@ class ExplosionSearchSuite extends FunSuite {
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
       state = Some(Vector(Map("x" -> 10.0))),
-      instruction = Instruction.MaxIterations(1 * maxIterations),
+      instruction = MaxIterations(1 * maxIterations),
       epsNorm = epsNorm,
       maxTries = maxTries)
 
@@ -52,7 +53,7 @@ class ExplosionSearchSuite extends FunSuite {
       f = DummyFunctions.func_2,
       area = DummyFunctions.area_2,
       state = None,
-      instruction = Instruction.MaxTime(2 * maxTime),
+      instruction = MaxTime(2 * maxTime),
       epsNorm = epsNorm,
       maxTries = maxTries)
 
@@ -67,7 +68,7 @@ class ExplosionSearchSuite extends FunSuite {
       f = DummyFunctions.func_2,
       area = DummyFunctions.area_2,
       state = Some(Vector(Map("x" -> 10.0, "y" -> -10.0))),
-      instruction = Instruction.MaxIterations(2 * maxIterations),
+      instruction = MaxIterations(2 * maxIterations),
       epsNorm = epsNorm,
       maxTries = maxTries)
 
@@ -82,7 +83,7 @@ class ExplosionSearchSuite extends FunSuite {
       f = DummyFunctions.func_3,
       area = DummyFunctions.area_3,
       state = None,
-      instruction = Instruction.MaxTime(3 * maxTime),
+      instruction = MaxTime(3 * maxTime),
       epsNorm = epsNorm,
       maxTries = maxTries)
 
@@ -97,7 +98,7 @@ class ExplosionSearchSuite extends FunSuite {
       f = DummyFunctions.func_3,
       area = DummyFunctions.area_3,
       state = Some(Vector(Map("x" -> 10.0, "y" -> -10.0, "z" -> 10.0))),
-      instruction = Instruction.MaxIterations(3 * maxIterations),
+      instruction = MaxIterations(3 * maxIterations),
       epsNorm = epsNorm,
       maxTries = maxTries)
 

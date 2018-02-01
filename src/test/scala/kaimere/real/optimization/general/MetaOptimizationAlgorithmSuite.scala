@@ -1,10 +1,9 @@
 package kaimere.real.optimization.general
 
 import kaimere.real.optimization._
+import kaimere.real.optimization.general.instructions._
 import kaimere.real.optimization.classic.zero_order.RandomSearch
-import kaimere.real.optimization.general.Instruction.MaxTime
 import org.scalatest.FunSuite
-import spray.json._
 
 class MetaOptimizationAlgorithmSuite extends FunSuite {
 
