@@ -36,14 +36,14 @@ class CatSwarmOptimizationSuite extends FunSuite {
 
   }
 
-  test("Dummy #1 (by target value)") {
+  test("Dummy #1 (by max iterations)") {
 
     val passed = Tester(
       tool = CSO,
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
       state = Some(Vector(Map("x" -> 10.0))),
-      instruction = TargetValue(targetValue = 0.0),
+      instruction = MaxIterations(1 * maxIterations),
       epsNorm = epsNorm,
       maxTries = maxTries)
 
