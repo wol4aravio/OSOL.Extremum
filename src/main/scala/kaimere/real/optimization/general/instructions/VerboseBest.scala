@@ -20,7 +20,7 @@ object VerboseBest {
   implicit object VerboseBestJsonFormat extends RootJsonFormat[VerboseBest] {
     def write(i: VerboseBest) =
       JsObject(
-        "name" -> JsString("MaxTime"),
+        "name" -> JsString("VerboseBest"),
         "mainInstruction" -> GeneralInstruction.toJson(i.mainInstruction))
 
     def read(json: JsValue): VerboseBest =
