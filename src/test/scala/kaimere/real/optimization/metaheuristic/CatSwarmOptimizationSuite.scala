@@ -13,7 +13,7 @@ class CatSwarmOptimizationSuite extends FunSuite {
   private val maxTime = 0.5
   private val maxIterations = 2500
 
-  private val config = "CatSwarmOptimization,10,0.5,5,2,0.01,true,0.7,0.1"
+  private val config = "CatSwarmOptimization,10,0.5,5,0.01,2,true,0.7,0.1"
   private val CSO: OptimizationAlgorithm = OptimizationAlgorithm.fromCsv(config)
 
   test("Serialization") {

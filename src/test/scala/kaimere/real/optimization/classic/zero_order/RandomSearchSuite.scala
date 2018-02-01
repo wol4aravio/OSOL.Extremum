@@ -13,7 +13,7 @@ class RandomSearchSuite extends FunSuite {
   private val maxTime = 0.5
   private val maxIterations = 1000
 
-  private val config = "RandomSearch:10:0.001"
+  private val config = "RandomSearch,10,0.001"
   private val RS: OptimizationAlgorithm = OptimizationAlgorithm.fromCsv(config)
 
   test("Serialization") {
