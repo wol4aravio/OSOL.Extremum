@@ -16,6 +16,11 @@ class CatSwarmOptimizationSuite extends FunSuite {
   private val config = "{ \"name\": \"CatSwarmOptimization\", \"numberOfCats\": 10, \"MR\": 0.5, \"SMP\": 5, \"CDC\": 2, \"SRD\": 0.01, \"SPC\": true, \"velocityConstant\": 0.7, \"velocityRatio\": 0.1 }".parseJson
   private val CSO: OptimizationAlgorithm = OptimizationAlgorithm.fromJson(config)
 
+  test("Serialization") {
+    assert(CSO.asInstanceOf[CatSwarmOptimization].toJson.convertTo[CatSwarmOptimization] == CSO.asInstanceOf[CatSwarmOptimization])
+  }
+
+
   test("Dummy #1 (by max time)") {
 
     val passed = Tester(
