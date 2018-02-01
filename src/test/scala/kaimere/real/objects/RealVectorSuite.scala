@@ -19,6 +19,10 @@ class RealVectorSuite extends FunSuite {
     assert(RealVector("x" -> 1.0, "y" -> 2.0, "z" -> 3.0) == json.convertTo[RealVector])
   }
 
+  test("To String") {
+    assert(v1.toString == "x -> 1.0\ny -> 2.0")
+  }
+
   test("Keys") {
     val targetKeys = Set("x", "y", "z")
     val keys_v3 = v3.keys.toSet
@@ -73,7 +77,7 @@ class RealVectorSuite extends FunSuite {
   test("Strict Multiplication") {
     assert(v1 * v4 == RealVector("x" -> -1.0, "y" -> -4.0))
     val success =
-      try { val _ = v1 + v2; true}
+      try { val _ = v1 * v2; true}
       catch {
         case _: DifferentKeysException => true
         case _: Throwable => false
