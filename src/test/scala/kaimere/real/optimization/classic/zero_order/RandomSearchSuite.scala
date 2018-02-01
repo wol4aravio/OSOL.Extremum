@@ -13,11 +13,11 @@ class RandomSearchSuite extends FunSuite {
   private val maxTime = 0.5
   private val maxIterations = 1000
 
-  private val config = "{ \"name\": \"RandomSearch\", \"numberOfAttempts\": 10, \"deltaRatio\": 0.001 }".parseJson
-  private val RS: OptimizationAlgorithm = OptimizationAlgorithm.fromJson(config)
+  private val config = "RandomSearch:10:0.001"
+  private val RS: OptimizationAlgorithm = OptimizationAlgorithm.fromCsv(config)
 
   test("Serialization") {
-    assert(RS.asInstanceOf[RandomSearch].toJson.convertTo[RandomSearch] == RS.asInstanceOf[RandomSearch])
+    assert(OptimizationAlgorithm.fromJson(OptimizationAlgorithm.toJson(RS)).asInstanceOf[RandomSearch] == RS.asInstanceOf[RandomSearch])
   }
 
 

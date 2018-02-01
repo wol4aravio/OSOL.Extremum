@@ -13,11 +13,11 @@ class CatSwarmOptimizationSuite extends FunSuite {
   private val maxTime = 0.5
   private val maxIterations = 2500
 
-  private val config = "{ \"name\": \"CatSwarmOptimization\", \"numberOfCats\": 10, \"MR\": 0.5, \"SMP\": 5, \"CDC\": 2, \"SRD\": 0.01, \"SPC\": true, \"velocityConstant\": 0.7, \"velocityRatio\": 0.1 }".parseJson
-  private val CSO: OptimizationAlgorithm = OptimizationAlgorithm.fromJson(config)
+  private val config = "CatSwarmOptimization,10,0.5,5,2,0.01,true,0.7,0.1"
+  private val CSO: OptimizationAlgorithm = OptimizationAlgorithm.fromCsv(config)
 
   test("Serialization") {
-    assert(CSO.asInstanceOf[CatSwarmOptimization].toJson.convertTo[CatSwarmOptimization] == CSO.asInstanceOf[CatSwarmOptimization])
+    assert(OptimizationAlgorithm.fromJson(OptimizationAlgorithm.toJson(CSO)).asInstanceOf[CatSwarmOptimization] == CSO.asInstanceOf[CatSwarmOptimization])
   }
 
 

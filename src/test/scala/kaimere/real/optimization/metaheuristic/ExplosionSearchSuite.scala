@@ -13,11 +13,11 @@ class ExplosionSearchSuite extends FunSuite {
   private val maxTime = 0.5
   private val maxIterations = 2500
 
-  private val config = "{ \"name\": \"ExplosionSearch\", \"numberOfBombs\": 10, \"powerRatio\": 0.01 }".parseJson
-  private val ES: OptimizationAlgorithm = OptimizationAlgorithm.fromJson(config)
+  private val config = "{ExplosionSearch,10,0.01"
+  private val ES: OptimizationAlgorithm = OptimizationAlgorithm.fromCsv(config)
 
   test("Serialization") {
-    assert(ES.asInstanceOf[ExplosionSearch].toJson.convertTo[ExplosionSearch] == ES.asInstanceOf[ExplosionSearch])
+    assert(OptimizationAlgorithm.fromJson(OptimizationAlgorithm.toJson(ES)).asInstanceOf[ExplosionSearch] == ES.asInstanceOf[ExplosionSearch])
   }
 
   test("Dummy #1 (by max time)") {
