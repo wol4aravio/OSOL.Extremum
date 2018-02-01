@@ -7,7 +7,7 @@ case class TargetValue(targetValue: Double, maxError: Double = 0.01, verbose: Bo
 
   override def continue(algorithm: OptimizationAlgorithm): Boolean = {
     val currentBestValue = algorithm.currentState.getBestBy(algorithm.f)._2
-    val delta = (currentBestValue - targetValue) / math.min(math.abs(targetValue), 1e-7)
+    val delta = (currentBestValue - targetValue) / math.max(math.abs(targetValue), 1e-5)
     if (verbose) println(s"Current delta: ${truncate(100.0 * delta)}%")
     delta >= maxError
   }

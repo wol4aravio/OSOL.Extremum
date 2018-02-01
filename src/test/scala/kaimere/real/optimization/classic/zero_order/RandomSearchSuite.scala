@@ -36,14 +36,14 @@ class RandomSearchSuite extends FunSuite {
 
   }
 
-  test("Dummy #1 (by max iterations)") {
+  test("Dummy #1 (by target value)") {
 
     val passed = Tester(
       tool = RS,
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
       state = Some(Vector(Map("x" -> 10.0))),
-      instruction = MaxIterations(1 * maxIterations),
+      instruction = TargetValue(targetValue = 0.0),
       epsNorm = epsNorm,
       maxTries = maxTries)
 
