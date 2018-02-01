@@ -57,6 +57,7 @@ object OptimizationAlgorithm {
       case sa: SimulatedAnnealing => sa.toJson
       case cso: CatSwarmOptimization => cso.toJson
       case es: ExplosionSearch => es.toJson
+      case moa: MetaOptimizationAlgorithm => moa.toJson
       case _ => throw new Exception("Unsupported Algorithm")
     }
   }
