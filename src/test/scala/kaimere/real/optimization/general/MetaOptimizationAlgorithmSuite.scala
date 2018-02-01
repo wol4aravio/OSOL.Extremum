@@ -16,7 +16,7 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
   private val MOA: OptimizationAlgorithm = MetaOptimizationAlgorithm(
     algorithms = Seq(rs, rs, rs),
     targetVars = Seq(Some(Set("x", "a")), Some(Set("y", "b")), Some(Set("z", "c"))),
-    instructions = Seq(MaxTime(maxTime), MaxTime(maxTime), MaxTime(maxTime)))
+    instructions = Seq(VerboseBest(MaxTime(maxTime)), VerboseBest(MaxTime(maxTime)), VerboseBest(MaxTime(maxTime))))
 
   test("Serialization") {
     assert(MOA.asInstanceOf[MetaOptimizationAlgorithm].toJson.convertTo[MetaOptimizationAlgorithm] == MOA.asInstanceOf[MetaOptimizationAlgorithm])

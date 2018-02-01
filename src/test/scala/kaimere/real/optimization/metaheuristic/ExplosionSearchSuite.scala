@@ -27,7 +27,7 @@ class ExplosionSearchSuite extends FunSuite {
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
       state = None,
-      instruction = VerboseBest(MaxTime(1 * maxTime)),
+      instruction = MaxTime(1 * maxTime),
       epsNorm = epsNorm,
       maxTries = maxTries)
 
