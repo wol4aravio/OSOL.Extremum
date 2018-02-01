@@ -16,6 +16,10 @@ class ExplosionSearchSuite extends FunSuite {
   private val config = "{ \"name\": \"ExplosionSearch\", \"numberOfBombs\": 10, \"powerRatio\": 0.1 }".parseJson
   private val ES: OptimizationAlgorithm = OptimizationAlgorithm.fromJson(config)
 
+  test("Serialization") {
+    assert(ES.asInstanceOf[ExplosionSearch].toJson.convertTo[ExplosionSearch] == ES.asInstanceOf[ExplosionSearch])
+  }
+
   test("Dummy #1 (by max time)") {
 
     val passed = Tester(

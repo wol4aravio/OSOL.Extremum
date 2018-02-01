@@ -77,8 +77,6 @@ object ExplosionSearch {
 
     override def getBestBy(f: Function): (RealVector, Double) = (bombs.head.location, bombs.head.fitness)
 
-    def apply(id: Int): Bomb = bombs(id)
-
   }
 
   def apply(csv: String): ExplosionSearch = {
