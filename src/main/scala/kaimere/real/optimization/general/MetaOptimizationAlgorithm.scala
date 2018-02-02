@@ -2,11 +2,11 @@ package kaimere.real.optimization.general
 
 import kaimere.real.objects
 import kaimere.real.objects.{Function, RealVector}
+import kaimere.real.optimization._
 import kaimere.real.optimization.general.MetaOptimizationAlgorithm.MOA_State
 import kaimere.real.optimization.general.OptimizationAlgorithm.Area
 import kaimere.real.optimization.general.instructions.GeneralInstruction
 import kaimere.tools.random.GoRN
-import kaimere.tools.etc._
 import spray.json._
 
 case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
@@ -21,8 +21,9 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
   }
 
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
-    val realVectors = state.map(x => x.map { case (key, value) => (key, value) }).map(RealVector.fromMap)
-    realVectors.minBy(f(_)) |> MOA_State
+    val realVectors = Helper.prepareInitialState(state)
+    val bestVector = Helper.chooseOneBest(realVectors, f)
+    MOA_State(bestVector)
   }
 
   override def iterate(): Unit = ???

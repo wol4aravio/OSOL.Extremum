@@ -2,6 +2,7 @@ package kaimere.real.optimization.metaheuristic
 
 import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
+import kaimere.real.optimization._
 import kaimere.real.optimization.metaheuristic.SimulatedAnnealing.SA_State
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
@@ -16,8 +17,9 @@ case class SimulatedAnnealing(alpha: Double, beta: Double = 1.0, gamma: Double =
   }
 
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
-    val realVectors = state.map(x => x.map { case (key, value) => (key, value) }).map(RealVector.fromMap)
-    realVectors.map(v => (v, f(v), 0)).minBy(_._2) |> SA_State.tupled
+    val realVectors = Helper.prepareInitialState(state)
+    val bestVector = Helper.chooseOneBest(realVectors, f)
+    (bestVector, f(bestVector), 0) |> SA_State.tupled
   }
 
   override def iterate(): Unit = {

@@ -1,5 +1,6 @@
 package kaimere.real.optimization.metaheuristic
 
+import kaimere.real.optimization._
 import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.objects.RealVector._
@@ -24,8 +25,9 @@ case class CatSwarmOptimization
   }
 
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
-    val idsChosen = GoRN.getFromSeries(state.indices, numberOfCats, withReturn = true)
-    idsChosen.map(id => Cat.createRandomCat(state(id), f, area, maxVelocity)) |> CSO_State
+    val realVectors = Helper.prepareInitialState(state)
+    val bestVectors = Helper.chooseSeveralBest(realVectors, f, numberOfCats)
+    bestVectors.map(v => Cat.createRandomCat(v, f, area, maxVelocity)) |> CSO_State
   }
 
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
@@ -100,14 +102,14 @@ object CatSwarmOptimization {
     }
   }
 
-  protected object Cat {
+  object Cat {
 
     def createRandomCat(location: RealVector,f: Function, area: OptimizationAlgorithm.Area, maxVelocity: Map[String, (Double, Double)]): Cat = {
       new Cat(location, RealVector(GoRN.getContinuousUniform(maxVelocity)), f(location))
     }
   }
 
-  protected case class CSO_State(cats: Seq[Cat]) extends State  {
+  case class CSO_State(cats: Seq[Cat]) extends State  {
 
     override def toVectors(): Vector[RealVector] = cats.map(_.location).toVector
 

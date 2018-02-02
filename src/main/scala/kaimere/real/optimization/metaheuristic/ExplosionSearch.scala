@@ -1,5 +1,6 @@
 package kaimere.real.optimization.metaheuristic
 
+import kaimere.real.optimization._
 import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.objects.RealVector._
@@ -30,8 +31,9 @@ case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double)
   }
 
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
-    val idsChosen = GoRN.getFromSeries(state.indices, numberOfBombs, withReturn = true)
-    idsChosen.map(id => Bomb(state(id), f(state(id)))).sortBy(_.fitness) |> ES_State
+    val realVectors = Helper.prepareInitialState(state)
+    val bestVectors = Helper.chooseSeveralBest(realVectors, f, numberOfBombs)
+    bestVectors.map(v => Bomb(v, f(v))).sortBy(_.fitness) |> ES_State
   }
 
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
@@ -51,7 +53,7 @@ case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double)
 
 object ExplosionSearch {
 
-  private case class Bomb(location: RealVector, fitness: Double) {
+  case class Bomb(location: RealVector, fitness: Double) {
 
     def explode(power: Map[String, Double], f: Function, area: OptimizationAlgorithm.Area): (Bomb, Bomb) = {
 
@@ -71,7 +73,7 @@ object ExplosionSearch {
 
   }
 
-  private case class ES_State(bombs: Seq[Bomb]) extends State  {
+  case class ES_State(bombs: Seq[Bomb]) extends State  {
 
     override def toVectors(): Vector[RealVector] = bombs.map(_.location).toVector
 

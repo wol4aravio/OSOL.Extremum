@@ -1,5 +1,6 @@
 package kaimere.real.optimization.classic.zero_order
 
+import kaimere.real.optimization._
 import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.optimization.classic.zero_order.RandomSearch.RS_State
@@ -18,8 +19,9 @@ case class RandomSearch(numberOfAttempts: Int, deltaRatio: Double) extends Optim
   }
 
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
-    val realVectors = state.map(x => x.map { case (key, value) => (key, value)}).map(RealVector.fromMap)
-    realVectors.map(v => (v, f(v))).minBy(_._2) |> RS_State.tupled
+    val realVectors = Helper.prepareInitialState(state)
+    val bestVector = Helper.chooseOneBest(realVectors, f)
+    (bestVector, f(bestVector)) |> RS_State.tupled
   }
 
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
