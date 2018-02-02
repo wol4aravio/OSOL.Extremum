@@ -23,7 +23,22 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
   }
 
 
-  test("Dummy #4 (by max time)") {
+  test("Dummy #4 (by max time, with initial State)") {
+
+    val passed = Tester(
+      tool = MOA,
+      f = DummyFunctions.func_4,
+      area = DummyFunctions.area_4,
+      state = Some(Vector(Map("x" -> 10.0, "y" -> 10.0, "z" -> 10.0, "a" -> -10.0, "b" -> -10.0, "c" -> -10.0))),
+      instruction = null,
+      epsNorm = epsNorm,
+      maxTries = maxTries)
+
+    assert(passed)
+
+  }
+
+  test("Dummy #4 (by max time, without initial State)") {
 
     val passed = Tester(
       tool = MOA,
