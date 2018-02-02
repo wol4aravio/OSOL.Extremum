@@ -21,13 +21,13 @@ case class CatSwarmOptimization
       val location = GoRN.getContinuousUniform(area)
       val velocity = GoRN.getContinuousUniform(maxVelocity)
       Cat(location, velocity, f(location))
-    } |> CSO_State
+    } |> CSO_State.apply
   }
 
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
     val realVectors = Helper.prepareInitialState(state)
     val bestVectors = Helper.chooseSeveralBest(realVectors, f, numberOfCats)
-    bestVectors.map(v => Cat.createRandomCat(v, f, area, maxVelocity)) |> CSO_State
+    bestVectors.map(v => Cat.createRandomCat(v, f, area, maxVelocity)) |> CSO_State.apply
   }
 
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
@@ -60,7 +60,7 @@ object CatSwarmOptimization {
       val newLocations = (if (SPC) Seq(location) else Seq()) ++
         Seq.fill(SMP - (if (SPC) 1 else 0))(location)
           .map { loc =>
-            val ratio =GoRN.getFromSeries(area.keys.toSeq, CDC, false)
+            val ratio = GoRN.getFromSeries(area.keys.toSeq, CDC, false)
               .map { key => (key, GoRN.getContinuousUniform(1.0 - SRD, 1.0 + SRD)) }.toMap
             (loc ~* ratio).constrain(area)
           }
@@ -77,7 +77,7 @@ object CatSwarmOptimization {
               .foldLeft(Seq(probabilities.head)) { case (prob, curr) => (curr + prob.head) +: prob }
               .reverse
           val chosen = GoRN.getContinuousUniform(0.0, roulette.last)
-          val idChosen = roulette.sliding(2).indexWhere{ case Seq(a, b) => a <= chosen && chosen <= b}
+          val idChosen = roulette.sliding(2).indexWhere { case Seq(a, b) => a <= chosen && chosen <= b }
           newLocations(idChosen)
         }
       new Cat(newLocation, newLocation - this.location, f(newLocation))
@@ -104,18 +104,9 @@ object CatSwarmOptimization {
 
   object Cat {
 
-    def createRandomCat(location: RealVector,f: Function, area: OptimizationAlgorithm.Area, maxVelocity: Map[String, (Double, Double)]): Cat = {
+    def createRandomCat(location: RealVector, f: Function, area: OptimizationAlgorithm.Area, maxVelocity: Map[String, (Double, Double)]): Cat = {
       new Cat(location, RealVector(GoRN.getContinuousUniform(maxVelocity)), f(location))
     }
-  }
-
-  case class CSO_State(cats: Seq[Cat]) extends State(vectors = cats.map(_.location).toVector)  {
-
-    override def getBestBy(f: Function): (RealVector, Double) = {
-      val bestCat = cats.minBy(_.fitness)
-      (bestCat.location, bestCat.fitness)
-    }
-
   }
 
   def apply(csv: String): CatSwarmOptimization = {
@@ -124,6 +115,15 @@ object CatSwarmOptimization {
       case "CSO" | "cso" | "CatSwarmOptimization" => CatSwarmOptimization(numberOfCats.toInt, mr.toDouble, smp.toInt, srd.toDouble, cdc.toInt, spc.toBoolean, velocityConstant.toDouble, velocityRatio.toDouble)
       case _ => throw DeserializationException("CatSwarmOptimization expected")
     }
+  }
+
+  case class CSO_State(cats: Seq[Cat]) extends State(vectors = cats.map(_.location).toVector) {
+
+    override def getBestBy(f: Function): (RealVector, Double) = {
+      val bestCat = cats.minBy(_.fitness)
+      (bestCat.location, bestCat.fitness)
+    }
+
   }
 
   implicit object CatSwarmOptimizationJsonFormat extends RootJsonFormat[CatSwarmOptimization] {

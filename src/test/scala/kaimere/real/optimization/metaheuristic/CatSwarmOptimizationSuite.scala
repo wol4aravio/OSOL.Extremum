@@ -4,6 +4,7 @@ import kaimere.real.optimization._
 import kaimere.real.optimization.general._
 import kaimere.real.optimization.general.instructions._
 import org.scalatest.FunSuite
+import spray.json._
 
 class CatSwarmOptimizationSuite extends FunSuite {
 
@@ -15,8 +16,17 @@ class CatSwarmOptimizationSuite extends FunSuite {
   private val config = "CatSwarmOptimization,10,0.5,5,0.01,2,true,0.7,0.1"
   private val CSO: OptimizationAlgorithm = OptimizationAlgorithm.fromCsv(config)
 
-  test("Serialization") {
+  test("Algorithm Serialization") {
     assert(OptimizationAlgorithm.fromJson(OptimizationAlgorithm.toJson(CSO)).asInstanceOf[CatSwarmOptimization] == CSO.asInstanceOf[CatSwarmOptimization])
+  }
+
+  test("State Serialization") {
+
+    CSO.initialize(DummyFunctions.func_1, DummyFunctions.area_1)
+    val result = CSO.work(MaxTime(1 * maxTime))
+
+    assert(CSO.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)
+
   }
 
 

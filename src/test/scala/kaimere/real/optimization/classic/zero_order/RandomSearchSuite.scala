@@ -1,9 +1,12 @@
 package kaimere.real.optimization.classic.zero_order
 
 import kaimere.real.optimization._
+import kaimere.real.optimization.classic.zero_order.RandomSearch.RS_State
 import kaimere.real.optimization.general._
+import kaimere.real.optimization.general.State._
 import kaimere.real.optimization.general.instructions._
 import org.scalatest.FunSuite
+import spray.json._
 
 class RandomSearchSuite extends FunSuite {
 
@@ -15,10 +18,19 @@ class RandomSearchSuite extends FunSuite {
   private val config = "RandomSearch,10,0.001"
   private val RS: OptimizationAlgorithm = OptimizationAlgorithm.fromCsv(config)
 
-  test("Serialization") {
+  test("Algorithm Serialization") {
     assert(OptimizationAlgorithm.fromJson(OptimizationAlgorithm.toJson(RS)).asInstanceOf[RandomSearch] == RS.asInstanceOf[RandomSearch])
   }
 
+
+  test("State Serialization") {
+
+    RS.initialize(DummyFunctions.func_1, DummyFunctions.area_1)
+    val result = RS.work(MaxTime(1 * maxTime))
+
+    assert(RS.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)
+
+  }
 
   test("Dummy #1 (by max time)") {
 

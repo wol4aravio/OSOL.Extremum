@@ -27,13 +27,13 @@ case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double)
     (1 to numberOfBombs).map { _ =>
       val location = GoRN.getContinuousUniform(area)
       Bomb(location, f(location))
-    }.sortBy(_.fitness) |> ES_State
+    }.sortBy(_.fitness) |> ES_State.apply
   }
 
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
     val realVectors = Helper.prepareInitialState(state)
     val bestVectors = Helper.chooseSeveralBest(realVectors, f, numberOfBombs)
-    bestVectors.map(v => Bomb(v, f(v))).sortBy(_.fitness) |> ES_State
+    bestVectors.map(v => Bomb(v, f(v))).sortBy(_.fitness) |> ES_State.apply
   }
 
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
@@ -46,7 +46,7 @@ case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double)
     val ES_State(bombs) = currentState
     val newBombs = Range(0, numberOfBombs).map(id => bombs(id).explode(powerDistribution(id), f, area))
     currentState = newBombs.foldLeft(Seq.empty[Bomb]){ case (seq, (b_1, b_2)) =>
-      b_2 +: (b_1 +: seq) }.sortBy(_.fitness).take(numberOfBombs) |> ES_State
+      b_2 +: (b_1 +: seq) }.sortBy(_.fitness).take(numberOfBombs) |> ES_State.apply
   }
 
 }
@@ -73,18 +73,18 @@ object ExplosionSearch {
 
   }
 
-  case class ES_State(bombs: Seq[Bomb]) extends State(vectors = bombs.map(_.location).toVector)  {
-
-    override def getBestBy(f: Function): (RealVector, Double) = (bombs.head.location, bombs.head.fitness)
-
-  }
-
   def apply(csv: String): ExplosionSearch = {
     val Array(name, numberOfBombs, powerRatio) = csv.split(",")
     name match {
       case "ES" | "es" | "ExplosionSearch" => ExplosionSearch(numberOfBombs.toInt, powerRatio.toDouble)
       case _ => throw DeserializationException("ExplosionSearch expected")
     }
+  }
+
+  case class ES_State(bombs: Seq[Bomb]) extends State(vectors = bombs.map(_.location).toVector) {
+
+    override def getBestBy(f: Function): (RealVector, Double) = (bombs.head.location, bombs.head.fitness)
+
   }
 
   implicit object ExplosionSearchJsonFormat extends RootJsonFormat[ExplosionSearch] {

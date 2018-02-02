@@ -4,6 +4,7 @@ import kaimere.real.optimization._
 import kaimere.real.optimization.general._
 import kaimere.real.optimization.general.instructions._
 import org.scalatest.FunSuite
+import spray.json._
 
 class ExplosionSearchSuite extends FunSuite {
 
@@ -15,8 +16,17 @@ class ExplosionSearchSuite extends FunSuite {
   private val config = "ExplosionSearch,10,0.01"
   private val ES: OptimizationAlgorithm = OptimizationAlgorithm.fromCsv(config)
 
-  test("Serialization") {
+  test("Algorithm Serialization") {
     assert(OptimizationAlgorithm.fromJson(OptimizationAlgorithm.toJson(ES)).asInstanceOf[ExplosionSearch] == ES.asInstanceOf[ExplosionSearch])
+  }
+
+  test("State Serialization") {
+
+    ES.initialize(DummyFunctions.func_1, DummyFunctions.area_1)
+    val result = ES.work(MaxTime(1 * maxTime))
+
+    assert(ES.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)
+
   }
 
   test("Dummy #1 (by max time)") {

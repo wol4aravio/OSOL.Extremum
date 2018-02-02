@@ -46,12 +46,6 @@ case class SimulatedAnnealing(alpha: Double, beta: Double = 1.0, gamma: Double =
 
 object SimulatedAnnealing {
 
-  case class SA_State(v: RealVector, value: Double, id: Int) extends State(vectors = Vector(v)) {
-
-    override def getBestBy(f: Function): (RealVector, Double) = (v, value)
-
-  }
-
   def apply(csv: String): SimulatedAnnealing = {
     val Array(name, alpha, beta, gamma, initialTemp) = csv.split(",")
     name match {
@@ -59,6 +53,14 @@ object SimulatedAnnealing {
       case _ => throw DeserializationException("SimulatedAnnealing expected")
     }
   }
+
+  case class SA_State(v: RealVector, value: Double, id: Int) extends State(vectors = Vector(v)) {
+
+    override def getBestBy(f: Function): (RealVector, Double) = (v, value)
+
+  }
+
+  def apply(v_value_id: (RealVector, Double, Int)): SA_State = new SA_State(v_value_id._1, v_value_id._2, v_value_id._3)
 
   implicit object SimulatedAnnealingJsonFormat extends RootJsonFormat[SimulatedAnnealing] {
     def write(sa: SimulatedAnnealing) =

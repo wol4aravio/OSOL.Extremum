@@ -5,6 +5,11 @@ import OptimizationAlgorithm.Area
 import kaimere.real.optimization.classic.zero_order.RandomSearch
 import kaimere.real.optimization.general.instructions.GeneralInstruction
 import kaimere.real.optimization.metaheuristic._
+import kaimere.real.optimization.classic.zero_order.RandomSearch.RS_State._
+import kaimere.real.optimization.general.MetaOptimizationAlgorithm.MOA_State._
+import kaimere.real.optimization.metaheuristic.SimulatedAnnealing.SA_State._
+import kaimere.real.optimization.metaheuristic.ExplosionSearch.ES_State._
+import kaimere.real.optimization.metaheuristic.CatSwarmOptimization.CSO_State._
 import spray.json._
 
 abstract class OptimizationAlgorithm {

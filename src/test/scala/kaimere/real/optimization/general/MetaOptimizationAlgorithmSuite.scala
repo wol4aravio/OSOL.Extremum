@@ -4,6 +4,7 @@ import kaimere.real.optimization._
 import kaimere.real.optimization.general.instructions._
 import kaimere.real.optimization.classic.zero_order.RandomSearch
 import org.scalatest.FunSuite
+import spray.json._
 
 class MetaOptimizationAlgorithmSuite extends FunSuite {
 
@@ -18,8 +19,17 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
     targetVars = Seq(Some(Set("x")), Some(Set("a")), Some(Set("y")), Some(Set("b")), Some(Set("z", "c"))),
     instructions = Seq(VerboseBest(MaxIterations(maxIterations)), MaxIterations(maxIterations, verbose = true), VerboseBest(MaxTime(maxTime)), MaxTime(maxTime, verbose = true), TargetValue(targetValue = 0.00001, verbose = true)))
 
-  test("Serialization") {
+  test("Algorithm Serialization") {
     assert(OptimizationAlgorithm.fromJson(OptimizationAlgorithm.toJson(MOA)).asInstanceOf[MetaOptimizationAlgorithm] == MOA.asInstanceOf[MetaOptimizationAlgorithm])
+  }
+
+  test("State Serialization") {
+
+    MOA.initialize(DummyFunctions.func_1, DummyFunctions.area_1)
+    val result = MOA.work(MaxTime(1 * maxTime))
+
+    assert(MOA.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)
+
   }
 
 
