@@ -109,9 +109,7 @@ object CatSwarmOptimization {
     }
   }
 
-  case class CSO_State(cats: Seq[Cat]) extends State  {
-
-    override def toVectors(): Vector[RealVector] = cats.map(_.location).toVector
+  case class CSO_State(cats: Seq[Cat]) extends State(vectors = cats.map(_.location).toVector)  {
 
     override def getBestBy(f: Function): (RealVector, Double) = {
       val bestCat = cats.minBy(_.fitness)

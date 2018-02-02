@@ -50,9 +50,7 @@ case class RandomSearch(numberOfAttempts: Int, deltaRatio: Double) extends Optim
 
 object RandomSearch {
 
-  case class RS_State(v: RealVector, value: Double) extends State {
-
-    override def toVectors(): Vector[RealVector] = Vector(v)
+  case class RS_State(v: RealVector, value: Double) extends State(vectors = Vector(v)) {
 
     override def getBestBy(f: Function): (RealVector, Double) = (v, value)
 

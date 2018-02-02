@@ -73,9 +73,7 @@ object ExplosionSearch {
 
   }
 
-  case class ES_State(bombs: Seq[Bomb]) extends State  {
-
-    override def toVectors(): Vector[RealVector] = bombs.map(_.location).toVector
+  case class ES_State(bombs: Seq[Bomb]) extends State(vectors = bombs.map(_.location).toVector)  {
 
     override def getBestBy(f: Function): (RealVector, Double) = (bombs.head.location, bombs.head.fitness)
 

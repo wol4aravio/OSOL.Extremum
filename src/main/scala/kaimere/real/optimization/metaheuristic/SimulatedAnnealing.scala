@@ -46,9 +46,7 @@ case class SimulatedAnnealing(alpha: Double, beta: Double = 1.0, gamma: Double =
 
 object SimulatedAnnealing {
 
-  case class SA_State(v: RealVector, value: Double, id: Int) extends State {
-
-    override def toVectors(): Vector[RealVector] = Vector(v)
+  case class SA_State(v: RealVector, value: Double, id: Int) extends State(vectors = Vector(v)) {
 
     override def getBestBy(f: Function): (RealVector, Double) = (v, value)
 

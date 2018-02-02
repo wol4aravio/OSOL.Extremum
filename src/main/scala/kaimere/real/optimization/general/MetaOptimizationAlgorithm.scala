@@ -53,9 +53,7 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
 
 object MetaOptimizationAlgorithm {
 
-  case class MOA_State(v: RealVector) extends State {
-
-    override def toVectors(): Vector[RealVector] = Vector(v)
+  case class MOA_State(v: RealVector) extends State(vectors = Vector(v)) {
 
     override def getBestBy(f: Function): (RealVector, Double) = (v, f(v))
 
