@@ -6,7 +6,7 @@ import spray.json._
 trait GeneralInstruction {
 
   def continue(algorithm: OptimizationAlgorithm): Boolean
-  def reset(): Unit
+  def reset(): Unit = { }
 
 }
 
@@ -18,6 +18,7 @@ object GeneralInstruction {
       case mt: MaxTime => mt.toJson
       case tv: TargetValue => tv.toJson
       case vb: VerboseBest => vb.toJson
+      case sl: StateLogger => sl.toJson
       case _ => throw new Exception("Unsupported Instruction")
     }
   }
@@ -30,6 +31,7 @@ object GeneralInstruction {
           case "MaxTime" => json.convertTo[MaxTime]
           case "TargetValue" => json.convertTo[TargetValue]
           case "VerboseBest" => json.convertTo[VerboseBest]
+          case "StateLogger" => json.convertTo[StateLogger]
           case _ => throw DeserializationException("Unsupported Instruction")
         }
       case _ => throw DeserializationException("Instruction expected")
