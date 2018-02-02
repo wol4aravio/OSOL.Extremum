@@ -14,17 +14,17 @@ case class AllInstruction(instructions: Seq[GeneralInstruction]) extends General
 
 object AllInstruction {
 
-  implicit object AllJsonFormat extends RootJsonFormat[AnyInstruction] {
-    def write(i: AnyInstruction) =
+  implicit object AllInstructionJsonFormat extends RootJsonFormat[AllInstruction] {
+    def write(i: AllInstruction) =
       JsObject(
         "name" -> JsString("All"),
-        "instructions" -> JsArray(i.instructions.map(_.toJson).toVector))
+        "instructions" -> JsArray(i.instructions.map(GeneralInstruction.toJson).toVector))
 
-    def read(json: JsValue): AnyInstruction =
+    def read(json: JsValue): AllInstruction =
       json.asJsObject.getFields("name", "instructions") match {
         case Seq(JsString(name), JsArray(instructions)) =>
           if (name != "AllInstruction") throw DeserializationException("AllInstruction expected")
-          else AnyInstruction(instructions.map(GeneralInstruction.fromJson))
+          else AllInstruction(instructions.map(GeneralInstruction.fromJson))
         case _ => throw DeserializationException("AllInstruction expected")
       }
   }

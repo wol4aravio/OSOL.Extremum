@@ -19,8 +19,8 @@ object GeneralInstruction {
       case tv: TargetValue => tv.toJson
       case vb: VerboseBest => vb.toJson
       case sl: StateLogger => sl.toJson
-      case ai: AllInstruction => ai.toJson
-      case ai: AnyInstruction => ai.toJson
+      case all_i: AllInstruction => all_i.toJson
+      case any_i: AnyInstruction => any_i.toJson
       case _ => throw new Exception("Unsupported Instruction")
     }
   }

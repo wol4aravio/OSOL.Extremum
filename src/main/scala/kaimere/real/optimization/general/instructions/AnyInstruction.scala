@@ -14,11 +14,11 @@ case class AnyInstruction(instructions: Seq[GeneralInstruction]) extends General
 
 object AnyInstruction {
 
-  implicit object AllJsonFormat extends RootJsonFormat[AnyInstruction] {
+  implicit object AnyInstructionJsonFormat extends RootJsonFormat[AnyInstruction] {
     def write(i: AnyInstruction) =
       JsObject(
         "name" -> JsString("All"),
-        "instructions" -> JsArray(i.instructions.map(_.toJson).toVector))
+        "instructions" -> JsArray(i.instructions.map(GeneralInstruction.toJson).toVector))
 
     def read(json: JsValue): AnyInstruction =
       json.asJsObject.getFields("name", "instructions") match {
