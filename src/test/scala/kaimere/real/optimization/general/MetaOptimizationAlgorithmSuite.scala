@@ -25,10 +25,10 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
 
   test("State Serialization") {
 
-    MOA.initialize(DummyFunctions.func_1, DummyFunctions.area_1)
+    MOA.initialize(DummyFunctions.func_4, DummyFunctions.area_4)
     val result = MOA.work(MaxTime(1 * maxTime))
 
-    assert(MOA.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)
+    assert(MOA.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_4)._1 == result)
 
   }
 
