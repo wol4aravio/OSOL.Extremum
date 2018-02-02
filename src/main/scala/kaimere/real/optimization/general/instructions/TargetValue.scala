@@ -12,6 +12,8 @@ case class TargetValue(targetValue: Double, maxError: Double = 0.01, verbose: Bo
     delta >= maxError
   }
 
+  override def reset(): Unit = { }
+
 }
 
 object TargetValue {
