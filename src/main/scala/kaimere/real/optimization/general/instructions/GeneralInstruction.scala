@@ -20,6 +20,7 @@ object GeneralInstruction {
       case vb: VerboseBest => vb.toJson
       case sl: StateLogger => sl.toJson
       case ai: AllInstruction => ai.toJson
+      case ai: AnyInstruction => ai.toJson
       case _ => throw new Exception("Unsupported Instruction")
     }
   }
@@ -34,6 +35,7 @@ object GeneralInstruction {
           case "VerboseBest" => json.convertTo[VerboseBest]
           case "StateLogger" => json.convertTo[StateLogger]
           case "AllInstruction" => json.convertTo[AllInstruction]
+          case "AnyInstruction" => json.convertTo[AnyInstruction]
           case _ => throw DeserializationException("Unsupported Instruction")
         }
       case _ => throw DeserializationException("Instruction expected")
