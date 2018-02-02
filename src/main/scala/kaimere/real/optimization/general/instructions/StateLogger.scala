@@ -19,7 +19,7 @@ case class StateLogger(folderName: String, mainInstruction: GeneralInstruction) 
     iterationId = 1
     val folder = new File(folderName)
     if (folder.exists()) StateLogger.deleteFolder(folder)
-    else folder.mkdir()
+    else folder.mkdirs()
   }
 
 }
