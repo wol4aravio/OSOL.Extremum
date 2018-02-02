@@ -5,7 +5,7 @@ import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.optimization._
 import kaimere.real.optimization.general.MetaOptimizationAlgorithm.MOA_State
 import kaimere.real.optimization.general.OptimizationAlgorithm.Area
-import kaimere.real.optimization.general.instructions.GeneralInstruction
+import kaimere.real.optimization.general.instructions.{GeneralInstruction, StateLogger}
 import kaimere.tools.random.GoRN
 import spray.json._
 
@@ -38,12 +38,18 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
   }
 
   override def work(instruction: GeneralInstruction): RealVector = {
+    val modifiedInstructions =
+      instruction match {
+        case l: StateLogger => instructions.zipWithIndex
+          .map { case (i, id) => StateLogger(folderName = s"${l.folderName}_${id + 1}", mainInstruction = i) }
+        case _ => instructions
+      }
     val MOA_State(initialSeed) = currentState
     val _ = algorithms.indices.foldLeft(initialSeed) { case (seed, id) =>
       println(s"Processing ${id + 1}/${algorithms.size}")
       val tempArea = seed.vals.map { case (key, v) => (key, (v, v)) } ++ algorithmArea(id)
       algorithms(id).initialize(f, tempArea, state = Some(Vector(seed.vals)))
-      val tempResult = algorithms(id).work(instructions(id))
+      val tempResult = algorithms(id).work(modifiedInstructions(id))
       currentState = MOA_State(tempResult)
       tempResult
     }
