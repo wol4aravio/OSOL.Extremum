@@ -13,7 +13,7 @@ resolvers ++= Seq(
 "sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
 "sonatype releases" at "https://oss.sonatype.org/content/repositories/releases")
 
-libraryDependencies += "com.github.wol4aravio" %% "kaimere" % "0.3.3-SNAPSHOT"
+libraryDependencies += "com.github.wol4aravio" %% "kaimere" % "0.4.2.1-SNAPSHOT"
 ```
 # Current Status
 Given version includes the following optimization algorithms:
@@ -40,9 +40,9 @@ Next you create optimization algorithm providing all neccessary parameters:
 val RS = RandomSearch(numberOfAttempts = 10, deltaRatio = 0.01)
 ```
 
-After all previous steps you can initialize your algorithm with chosen starting sets of points and merge strategy:
+After all previous steps you can initialize your algorithm:
 ```scala
-tool.initialize(f, area, state = null, mergeStrategy = MergeStrategy.selfInit)
+tool.initialize(f, area)
 ```
 
 Finally, result can be obtained calling the `work` procedure provided with appropriate `instruction`
@@ -55,6 +55,3 @@ Current version supports to type of instructions:
 * `MaxIterations` - this instruction terminates algorithm according to maximum allowed number of iterations,
 * `MaxTime` - this instruction terminates algorithm according to maximum allowed working time. 
 
-# Merge Strategies
-* `force` - forces algorithm to use provided set of points as a base for algorithm,
-* `selfInit` - algorithm randomly initializes its initial state.
