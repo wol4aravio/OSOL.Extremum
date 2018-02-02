@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/wol4aravio/Kaimere.svg?branch=master&pony=1)](https://travis-ci.org/wol4aravio/Kaimere.svg?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/wol4aravio/Kaimere/badge.svg?branch=master&pony=1)](https://coveralls.io/github/wol4aravio/Kaimere?branch=master&service=github)
+[![Build Status](https://travis-ci.org/wol4aravio/Kaimere.svg?branch=master&pony=17)](https://travis-ci.org/wol4aravio/Kaimere.svg?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/wol4aravio/Kaimere/badge.svg?branch=master&pony=17)](https://coveralls.io/github/wol4aravio/Kaimere?branch=master&service=github)
 
 # Basic Description
 Kaimere is project consisting of different optimization algorithms.
