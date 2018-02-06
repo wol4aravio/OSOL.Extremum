@@ -14,6 +14,15 @@ case class AnyInstruction(instructions: Seq[GeneralInstruction]) extends General
 
 object AnyInstruction {
 
+  def apply(csv: String): AnyInstruction = {
+    val name = csv.split(",").head
+    val instructions = csv.split(",").tail.mkString(",").split("|")
+    name match {
+      case "AnyInstruction" => AnyInstruction(instructions.map(GeneralInstruction.fromCsv))
+      case _ => throw DeserializationException("AnyInstruction expected")
+    }
+  }
+
   implicit object AnyInstructionJsonFormat extends RootJsonFormat[AnyInstruction] {
     def write(i: AnyInstruction) =
       JsObject(

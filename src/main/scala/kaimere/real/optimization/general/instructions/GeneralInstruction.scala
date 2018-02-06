@@ -12,6 +12,20 @@ trait GeneralInstruction {
 
 object GeneralInstruction {
 
+  def fromCsv(csv: String): GeneralInstruction = {
+    val name = csv.split(",").head
+    name match {
+      case "AllInstruction" => AllInstruction(csv)
+      case "AnyInstruction" => AnyInstruction(csv)
+      case "MaxIterations" => MaxIterations(csv)
+      case "MaxTime" => MaxTime(csv)
+      case "StateLogger" => StateLogger(csv)
+      case "TargetValue" => TargetValue(csv)
+      case "VerboseBest" => VerboseBest(csv)
+      case _ => throw DeserializationException("Unsupported Instruction")
+    }
+  }
+
   def toJson(instruction: GeneralInstruction): JsValue = {
     instruction match {
       case mi: MaxIterations => mi.toJson

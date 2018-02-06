@@ -24,6 +24,15 @@ case class MaxTime(maxSeconds: Double, verbose: Boolean = false) extends General
 
 object MaxTime {
 
+  def apply(csv: String): MaxTime = {
+    val Array(name, maxSeconds, verbose) = csv.split(",")
+    name match {
+      case "MaxTime" => MaxTime(maxSeconds.toDouble, verbose.toBoolean)
+      case _ => throw DeserializationException("MaxTime expected")
+    }
+  }
+
+
   implicit object MaxTimeJsonFormat extends RootJsonFormat[MaxTime] {
     def write(i: MaxTime) =
       JsObject(

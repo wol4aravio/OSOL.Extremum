@@ -26,6 +26,16 @@ case class StateLogger(folderName: String, mainInstruction: GeneralInstruction) 
 
 object StateLogger {
 
+  def apply(csv: String): StateLogger = {
+    val name = csv.split(",").head
+    val folderName = csv.split(",").tail.head
+    val instruction = csv.split(",").tail.tail
+    name match {
+      case "StateLogger" => StateLogger(folderName, GeneralInstruction.fromCsv(instruction.mkString(",")))
+      case _ => throw DeserializationException("StateLogger expected")
+    }
+  }
+
   def deleteFolder(folder: File): Unit = {
     if (folder.isDirectory) folder.listFiles().foreach(deleteFolder)
     folder.delete

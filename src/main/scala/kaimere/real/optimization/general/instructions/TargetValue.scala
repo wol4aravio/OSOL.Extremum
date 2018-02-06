@@ -18,6 +18,14 @@ case class TargetValue(targetValue: Double, maxError: Double = 0.01, verbose: Bo
 
 object TargetValue {
 
+  def apply(csv: String): TargetValue = {
+    val Array(name, targetValue, maxError, verbose) = csv.split(",")
+    name match {
+      case "TargetValue" => TargetValue(targetValue.toDouble, maxError.toDouble, verbose.toBoolean)
+      case _ => throw DeserializationException("TargetValue expected")
+    }
+  }
+
   implicit object TargetValueJsonFormat extends RootJsonFormat[TargetValue] {
     def write(i: TargetValue) =
       JsObject(

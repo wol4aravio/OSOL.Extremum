@@ -24,6 +24,14 @@ case class MaxIterations(maxNumberOfIterations: Int, verbose: Boolean = false) e
 
 object MaxIterations {
 
+  def apply(csv: String): MaxIterations = {
+    val Array(name, maxNumberOfIterations, verbose) = csv.split(",")
+    name match {
+      case "MaxIterations" => MaxIterations(maxNumberOfIterations.toInt, verbose.toBoolean)
+      case _ => throw DeserializationException("MaxIterations expected")
+    }
+  }
+
   implicit object MaxIterationsJsonFormat extends RootJsonFormat[MaxIterations] {
     def write(i: MaxIterations) =
       JsObject(

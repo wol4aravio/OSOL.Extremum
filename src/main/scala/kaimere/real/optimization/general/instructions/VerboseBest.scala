@@ -17,6 +17,15 @@ case class VerboseBest(mainInstruction: GeneralInstruction) extends GeneralInstr
 
 object VerboseBest {
 
+  def apply(csv: String): VerboseBest = {
+    val name = csv.split(",").head
+    val instruction = csv.split(",").tail
+    name match {
+      case "VerboseBest" => VerboseBest(GeneralInstruction.fromCsv(instruction.mkString(",")))
+      case _ => throw DeserializationException("VerboseBest expected")
+    }
+  }
+
   implicit object VerboseBestJsonFormat extends RootJsonFormat[VerboseBest] {
     def write(i: VerboseBest) =
       JsObject(
