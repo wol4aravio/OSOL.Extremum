@@ -7,6 +7,7 @@ trait GeneralInstruction {
 
   def continue(algorithm: OptimizationAlgorithm): Boolean
   def reset(): Unit
+  def onQuit(algorithm: OptimizationAlgorithm): Unit = {}
 
 }
 

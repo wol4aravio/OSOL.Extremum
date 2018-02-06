@@ -22,6 +22,10 @@ case class StateLogger(folderName: String, mainInstruction: GeneralInstruction) 
     else folder.mkdirs()
   }
 
+  override def onQuit(algorithm: OptimizationAlgorithm): Unit = {
+    StateLogger.saveJson(algorithm.currentState.toJson, folderName, iterationId)
+  }
+
 }
 
 object StateLogger {

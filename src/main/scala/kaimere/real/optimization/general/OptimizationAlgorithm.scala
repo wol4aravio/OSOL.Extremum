@@ -36,6 +36,7 @@ abstract class OptimizationAlgorithm {
     instruction.reset()
     while(instruction.continue(this))
       iterate()
+    instruction.onQuit(this)
     currentState.getBestBy(f)._1
   }
 
