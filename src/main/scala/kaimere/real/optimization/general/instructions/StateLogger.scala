@@ -20,6 +20,7 @@ case class StateLogger(folderName: String, mainInstruction: GeneralInstruction) 
     val folder = new File(folderName)
     if (folder.exists()) StateLogger.deleteFolder(folder)
     else folder.mkdirs()
+    mainInstruction.reset()
   }
 
   override def onQuit(algorithm: OptimizationAlgorithm): Unit = {
