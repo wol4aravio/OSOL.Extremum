@@ -46,8 +46,7 @@ object StateLogger {
   }
 
   def saveJson(json: JsValue, folderName: String, id: Int): Unit = {
-    val fileName = String.format("%07d", id)
-    val out = new BufferedWriter(new FileWriter(s"$folderName/$fileName.json"))
+    val out = new BufferedWriter(new FileWriter(s"$folderName/${"%07d".format(id)}.json"))
     out.write(json.prettyPrint)
     out.close()
   }
