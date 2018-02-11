@@ -41,7 +41,7 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
     val modifiedInstructions =
       instruction match {
         case l: StateLogger => instructions.zipWithIndex
-          .map { case (i, id) => StateLogger(folderName = s"${l.folderName}/${"%03d".format(id + 1)}", mainInstruction = i) }
+          .map { case (i, id) => StateLogger(folderName = s"${l.folderName}/${"%03d".format(id + 1)}", mainInstruction = i, bestOnly = l.bestOnly) }
         case _ => instructions
       }
     val MOA_State(initialSeed) = currentState
