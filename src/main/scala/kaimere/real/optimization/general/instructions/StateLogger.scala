@@ -1,16 +1,20 @@
 package kaimere.real.optimization.general.instructions
 
 import kaimere.real.optimization.general.OptimizationAlgorithm
+import kaimere.real.optimization.general.State
 import java.io._
 
 import spray.json._
 
-case class StateLogger(folderName: String, mainInstruction: GeneralInstruction) extends GeneralInstruction {
+case class StateLogger(folderName: String, mainInstruction: GeneralInstruction, bestOnly: Boolean = false) extends GeneralInstruction {
 
   private var iterationId = 1
 
   override def continue(algorithm: OptimizationAlgorithm): Boolean = {
-    StateLogger.saveJson(algorithm.currentState.toJson, folderName, iterationId)
+    StateLogger.saveJson(
+      (if (bestOnly) new State(Vector(algorithm.currentState.getBestBy(algorithm.f)._1))
+      else algorithm.currentState).toJson,
+      folderName, iterationId)
     iterationId += 1
     mainInstruction.continue(algorithm)
   }
