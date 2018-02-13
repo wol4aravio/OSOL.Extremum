@@ -9,7 +9,7 @@ class ParserSuite extends FunSuite {
   val f2: String = "x**x"
   val f3: String = "sin(x-y-z)"
 
-  test("Expression String Parser") {
+  ignore("Expression String Parser") {
 
     val parsed_1 = Parser.parseExpression(f1)
     val parsed_2 = Parser.parseExpression(f2)
