@@ -5,6 +5,7 @@ import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.optimization._
 import kaimere.real.optimization.general.MetaOptimizationAlgorithm.MOA_State
 import kaimere.real.optimization.general.OptimizationAlgorithm.Area
+import kaimere.real.optimization.general.initializers.Initializer
 import kaimere.real.optimization.general.instructions.{GeneralInstruction, StateLogger}
 import kaimere.tools.random.GoRN
 import spray.json._
@@ -15,11 +16,6 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
 
   protected var algorithmArea: Seq[OptimizationAlgorithm.Area] = Seq.empty
 
-  override def initializeRandomState(): State = {
-    val v = GoRN.getContinuousUniform(area)
-    MOA_State(v)
-  }
-
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
     val realVectors = Helper.prepareInitialState(state)
     val bestVector = Helper.chooseOneBest(realVectors, f)
@@ -28,8 +24,8 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
 
   override def iterate(): Unit = ???
 
-  override def initialize(f: objects.Function, area: Area, state: Option[Vector[Map[String, Double]]]): Unit = {
-    super.initialize(f, area, state)
+  override def initialize(f: objects.Function, area: Area, state: Option[Vector[Map[String, Double]]], initializer: Initializer): Unit = {
+    super.initialize(f, area, state, initializer)
     algorithmArea = targetVars.map {
       case Some(vars) => vars.map(key => (key, area(key))).toMap[String, (Double, Double)]
       case None => area

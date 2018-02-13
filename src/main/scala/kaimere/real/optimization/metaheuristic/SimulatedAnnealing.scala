@@ -10,12 +10,6 @@ import spray.json._
 
 case class SimulatedAnnealing(alpha: Double, beta: Double = 1.0, gamma: Double = 1.0, initialTemp: Double) extends OptimizationAlgorithm {
 
-  override def initializeRandomState(): State = {
-    val v = GoRN.getContinuousUniform(area)
-    val value = f(v)
-    SA_State(v, value, 0)
-  }
-
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
     val realVectors = Helper.prepareInitialState(state)
     val bestVector = Helper.chooseOneBest(realVectors, f)

@@ -4,7 +4,8 @@ import kaimere.real.optimization._
 import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.objects.RealVector._
-import kaimere.real.optimization.metaheuristic.CatSwarmOptimization.{Cat, CSO_State}
+import kaimere.real.optimization.general.initializers.Initializer
+import kaimere.real.optimization.metaheuristic.CatSwarmOptimization.{CSO_State, Cat}
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
 import spray.json._
@@ -16,14 +17,6 @@ case class CatSwarmOptimization
 
   private var maxVelocity: Map[String, (Double, Double)] = Map.empty
 
-  override def initializeRandomState(): State = {
-    (1 to numberOfCats).map { _ =>
-      val location = GoRN.getContinuousUniform(area)
-      val velocity = GoRN.getContinuousUniform(maxVelocity)
-      Cat(location, velocity, f(location))
-    } |> CSO_State.apply
-  }
-
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
     val realVectors = Helper.prepareInitialState(state)
     val bestVectors = Helper.chooseSeveralBest(realVectors, f, numberOfCats)
@@ -31,9 +24,9 @@ case class CatSwarmOptimization
   }
 
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
-                          state: Option[Vector[Map[String, Double]]]): Unit = {
+                          state: Option[Vector[Map[String, Double]]], initializer: Initializer): Unit = {
     maxVelocity = area.map{ case (key, (min, max)) => (key, (-velocityRatio * (max - min), velocityRatio * (max - min))) }
-    super.initialize(f, area, state)
+    super.initialize(f, area, state, initializer)
   }
 
   override def iterate(): Unit = {

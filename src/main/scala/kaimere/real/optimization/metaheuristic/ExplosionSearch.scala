@@ -4,6 +4,7 @@ import kaimere.real.optimization._
 import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.objects.RealVector._
+import kaimere.real.optimization.general.initializers.Initializer
 import kaimere.real.optimization.metaheuristic.ExplosionSearch.{Bomb, ES_State}
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
@@ -23,13 +24,6 @@ case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double)
       }.toMap
   }
 
-  override def initializeRandomState(): State = {
-    (1 to numberOfBombs).map { _ =>
-      val location = GoRN.getContinuousUniform(area)
-      Bomb(location, f(location))
-    }.sortBy(_.fitness) |> ES_State.apply
-  }
-
   override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
     val realVectors = Helper.prepareInitialState(state)
     val bestVectors = Helper.chooseSeveralBest(realVectors, f, numberOfBombs)
@@ -37,9 +31,9 @@ case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double)
   }
 
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
-                          state: Option[Vector[Map[String, Double]]]): Unit = {
+                          state: Option[Vector[Map[String, Double]]], initializer: Initializer): Unit = {
     powerDistribution = calculatePowerDistribution(area)
-    super.initialize(f, area, state)
+    super.initialize(f, area, state, initializer)
   }
 
   override def iterate(): Unit = {

@@ -7,9 +7,11 @@ import kaimere.real.optimization.general.instructions.GeneralInstruction
 import kaimere.real.optimization.metaheuristic._
 import kaimere.real.optimization.classic.zero_order.RandomSearch.RS_State._
 import kaimere.real.optimization.general.MetaOptimizationAlgorithm.MOA_State._
+import kaimere.real.optimization.general.initializers.Initializer
 import kaimere.real.optimization.metaheuristic.SimulatedAnnealing.SA_State._
 import kaimere.real.optimization.metaheuristic.ExplosionSearch.ES_State._
 import kaimere.real.optimization.metaheuristic.CatSwarmOptimization.CSO_State._
+import kaimere.tools.etc._
 import spray.json._
 
 abstract class OptimizationAlgorithm {
@@ -18,15 +20,13 @@ abstract class OptimizationAlgorithm {
   var area: Area = null
   var currentState: State = null
 
-  def initialize(f: Function, area: Area, state: Option[Vector[Map[String, Double]]] = None): Unit = {
+  def initialize(f: Function, area: Area, state: Option[Vector[Map[String, Double]]] = None, initializer: Initializer = null): Unit = {
     this.f = f
     this.area = area
     this.currentState =
-      if (state.isEmpty) initializeRandomState()
-      else initializeFromGivenState(state.get)
+      (if (state.isEmpty) initializer.generateState(this)
+      else state.get) |> initializeFromGivenState
   }
-
-  def initializeRandomState(): State
 
   def initializeFromGivenState(state: Vector[Map[String, Double]]): State
 
