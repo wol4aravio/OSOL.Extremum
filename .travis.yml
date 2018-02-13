@@ -3,9 +3,6 @@ language: scala
 scala:
   - 2.11.2
 
-install:
-  - pip install ast2json
-  
 env:
   global:
   - secure: "ATv2oESzIUXT+/FO15U0fK+9I22u7S1ntyqhS4Jq2YR8BA61C8FgMWRnCsn/Rmrqz22jNWRvDuUVk+L8xb6KEXPdA0gxnj7ZHEb9LV8Z5zLPdqx7znQLyQtPDnTP5xFQPdIUmn46Q8HX4t84uNFk19bugy5Z6SwsLs78z5V/7TjvA7W2NMvo/3fF3hP5Gv3aO1S92jp/cXR/L5uojv7hjTwAtabpUUXwYApkbws/MK4t8aIz52Nvh6qB9Dm16ZXGw6/AuRGXF6Te4389mBhfr+S0qJoKd1MVpiA1mDbqPRkVLUNOq8UccVGrHtFu6xHNv4VfmXN6lNmkMVDPt15CiWioyl1CnEVKqFyek96yyhw0UyTEDug+R+SF79bB6Pco26yxpvtZVvAYQgpiWleomw5BvplSOucyLrMddbA4DXTHsIYDZRccu7S2LlLmeRFvghSvnO6hMxD4MFJVCuenGOceeb9oyqVbnfPXBj5YBgHTZn56QDRD/J48w0PF+H4BVqJsSIgybtkNyeLrsYQZA6c7aF5ZZ7KrLePL3dVsF62CXuqImt3Ccd4qYARljwICRRFRIsRDjoayPvECW1evbtU63lJyiKDeT2VRb6gI36YolkqjeNZbe1iALoBKgL9IwJK6ktTHIojI5vju/9I926T0sSUs/DrMGfLmiEIUuTg="
@@ -14,7 +11,7 @@ env:
   - secure: "IZzvAQAk5d0D7SsZ0nmTJahfjRhOFsJnd8EFQk1wdFhyaeBPLSZusboCb1atqH/EiHKXR+Mh9hYJlrMemfacDvfYwIfgNAP2J5izb7c4EH2Gun5ngEgN35kDLA1RzS6BpT0nFQDVXL45uVt/RSb0jYadjjKZM6BR4KTaxkuw1vJeMe34knpPB/moj73VB901w4uMG9ZQWvyUcVC/UBdaWvLMV8FJztcG7ZsyE6sSuL3nzuCE9zPIZwxekfqWtLpxw3XRvRtafxpoFAGtpWJG67Ra0c59QHygZ4atLL3lq05x2tFLP4varMzhoF0bY/jtafxd1dis5hBaRcSqikE8fLDRQj7U+qQn3qlpps/NZGdkwXg8mysZaVG0qi3R8dCuIBYxNdVZEev1eViF/TSMVoOQERFZYP6S9W6UTzDPZJLRR+V075hb/3tdTZRkAGfJObKE+OltD8s1iN+U21fQ1jViBzaJl1IjQnqyCIl71Whd67ct9MTc2N3F9Nh31ABRsvIDRUTuPeObWlsA5s8A9j4OEo6KlWsP75wRzkvlu7uuUNaT+f9RQFCNg3NY6gaLFRfnCXbtHhY7FNUb6vllz8QyfM/BqmNCc2tyaFHY0tS2lGxn9mdJg3YzcAZySE0MizjQR5POchLy/2OQSXnOT/zTGtQwcO/338Lf+N3mG4g="
 
 script:
-  - sbt clean coverage test coverageReport && sbt coverageAggregate
+  - sbt clean coverage testOnly -- -l Exclude coverageReport && sbt coverageAggregate
 after_success:
   - sbt coveralls
   - mvn clean deploy --settings settings.xml

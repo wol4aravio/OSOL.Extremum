@@ -2,6 +2,7 @@ package kaimere.tools.parser
 
 import spray.json._
 import org.scalatest.FunSuite
+import org.scalatest.Tag
 
 class ParserSuite extends FunSuite {
 
@@ -9,7 +10,7 @@ class ParserSuite extends FunSuite {
   val f2: String = "x**x"
   val f3: String = "sin(x-y-z)"
 
-  test("Expression String Parser") {
+  test("Expression String Parser", Tag("Exclude")) {
 
     val parsed_1 = Parser.parseExpression(f1)
     val parsed_2 = Parser.parseExpression(f2)
