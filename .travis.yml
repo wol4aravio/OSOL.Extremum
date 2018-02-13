@@ -11,7 +11,7 @@ env:
   - secure: "IZzvAQAk5d0D7SsZ0nmTJahfjRhOFsJnd8EFQk1wdFhyaeBPLSZusboCb1atqH/EiHKXR+Mh9hYJlrMemfacDvfYwIfgNAP2J5izb7c4EH2Gun5ngEgN35kDLA1RzS6BpT0nFQDVXL45uVt/RSb0jYadjjKZM6BR4KTaxkuw1vJeMe34knpPB/moj73VB901w4uMG9ZQWvyUcVC/UBdaWvLMV8FJztcG7ZsyE6sSuL3nzuCE9zPIZwxekfqWtLpxw3XRvRtafxpoFAGtpWJG67Ra0c59QHygZ4atLL3lq05x2tFLP4varMzhoF0bY/jtafxd1dis5hBaRcSqikE8fLDRQj7U+qQn3qlpps/NZGdkwXg8mysZaVG0qi3R8dCuIBYxNdVZEev1eViF/TSMVoOQERFZYP6S9W6UTzDPZJLRR+V075hb/3tdTZRkAGfJObKE+OltD8s1iN+U21fQ1jViBzaJl1IjQnqyCIl71Whd67ct9MTc2N3F9Nh31ABRsvIDRUTuPeObWlsA5s8A9j4OEo6KlWsP75wRzkvlu7uuUNaT+f9RQFCNg3NY6gaLFRfnCXbtHhY7FNUb6vllz8QyfM/BqmNCc2tyaFHY0tS2lGxn9mdJg3YzcAZySE0MizjQR5POchLy/2OQSXnOT/zTGtQwcO/338Lf+N3mG4g="
 
 script:
-  - sbt clean coverage testOnly -- -l Exclude coverageReport && sbt coverageAggregate
+  - sbt clean coverage test coverageReport && sbt coverageAggregate
 after_success:
   - sbt coveralls
   - mvn clean deploy --settings settings.xml
