@@ -2,6 +2,7 @@ package kaimere.real
 
 import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
+import kaimere.real.optimization.general.initializers.PureRandomInitializer
 import kaimere.real.optimization.general.instructions.GeneralInstruction
 
 package object optimization {
@@ -16,7 +17,7 @@ package object optimization {
               f: Function, area: OptimizationAlgorithm.Area,
               state: Option[Vector[Map[String, Double]]],
               instruction: GeneralInstruction, epsNorm: Double, maxTries: Int): Boolean = {
-      tool.initialize(f, area, state)
+      tool.initialize(f, area, state, initializer = PureRandomInitializer(25))
       val result = tool.work(instruction)
       if (normVector(result) < epsNorm)
         true

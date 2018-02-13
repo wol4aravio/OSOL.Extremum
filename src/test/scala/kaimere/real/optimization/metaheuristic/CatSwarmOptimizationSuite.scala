@@ -2,6 +2,7 @@ package kaimere.real.optimization.metaheuristic
 
 import kaimere.real.optimization._
 import kaimere.real.optimization.general._
+import kaimere.real.optimization.general.initializers.PureRandomInitializer
 import kaimere.real.optimization.general.instructions._
 import org.scalatest.FunSuite
 import spray.json._
@@ -22,7 +23,7 @@ class CatSwarmOptimizationSuite extends FunSuite {
 
   test("State Serialization") {
 
-    CSO.initialize(DummyFunctions.func_1, DummyFunctions.area_1)
+    CSO.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer(25))
     val result = CSO.work(MaxTime(1 * maxTime))
 
     assert(CSO.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)

@@ -3,6 +3,7 @@ package kaimere.real.optimization.general
 import kaimere.real.optimization._
 import kaimere.real.optimization.general.instructions._
 import kaimere.real.optimization.classic.zero_order.RandomSearch
+import kaimere.real.optimization.general.initializers.PureRandomInitializer
 import org.scalatest.FunSuite
 import spray.json._
 
@@ -25,7 +26,7 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
 
   test("State Serialization") {
 
-    MOA.initialize(DummyFunctions.func_4, DummyFunctions.area_4)
+    MOA.initialize(DummyFunctions.func_4, DummyFunctions.area_4, initializer = PureRandomInitializer(25))
     val result = MOA.work(MaxTime(1 * maxTime))
 
     assert(MOA.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_4)._1 == result)

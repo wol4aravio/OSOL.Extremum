@@ -4,6 +4,7 @@ import kaimere.real.optimization._
 import kaimere.real.optimization.classic.zero_order.RandomSearch.RS_State
 import kaimere.real.optimization.general._
 import kaimere.real.optimization.general.State._
+import kaimere.real.optimization.general.initializers.PureRandomInitializer
 import kaimere.real.optimization.general.instructions._
 import org.scalatest.FunSuite
 import spray.json._
@@ -25,7 +26,7 @@ class RandomSearchSuite extends FunSuite {
 
   test("State Serialization") {
 
-    RS.initialize(DummyFunctions.func_1, DummyFunctions.area_1)
+    RS.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer(25))
     val result = RS.work(MaxTime(1 * maxTime))
 
     assert(RS.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)
