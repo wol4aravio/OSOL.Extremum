@@ -15,7 +15,7 @@ class RealVectorSuite extends FunSuite {
   private val v4: RealVector = Map("x" -> -1.0, "y" -> -2.0)
 
   test("JSON") {
-    val json = "{ \"keys\": [\"x\", \"y\", \"z\"], \"values\": [1.0, 2.0, 3.0]}".parseJson
+    val json = "[ { \"key\": \"x\", \"value\": 1.0 }, { \"key\": \"y\", \"value\": 2.0 }, { \"key\": \"z\", \"value\": 3.0 } ]".parseJson
     assert(RealVector("x" -> 1.0, "y" -> 2.0, "z" -> 3.0) == json.convertTo[RealVector])
   }
 
