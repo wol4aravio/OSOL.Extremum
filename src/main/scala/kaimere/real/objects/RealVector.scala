@@ -84,27 +84,24 @@ object RealVector {
   }
 
   implicit object RealVectorJsonFormat extends RootJsonFormat[RealVector] {
-    def write(v: RealVector) =
-      JsObject(
-        "keys" -> JsArray(v.keys.map(x => JsString(x)).toVector),
-        "values" -> JsArray(v.values.map(x => JsNumber(x)).toVector))
+    def write(v: RealVector) = JsArray(
+      v.vals.map { case (key, value) => JsObject(
+        "key" -> JsString(key),
+        "value" -> JsNumber(value)
+      )}.toVector
+    )
 
-    def read(json: JsValue): RealVector =
-      json.asJsObject.getFields("keys", "values") match {
-        case Seq(JsArray(jsonKeys), JsArray(jsonValues)) =>
-          val keys = jsonKeys
-            .map {
-              case JsString(key) => key
-              case _ => throw DeserializationException("String expected")
+    def read(json: JsValue): RealVector = {
+      json match {
+        case JsArray(elements) => elements.map { j =>
+            j.asJsObject.getFields("key", "value") match {
+              case Seq(JsString(key), JsNumber(value)) => (key, value.toDouble)
+              case _ => throw DeserializationException("Key-Value pair expected")
             }
-          val values = jsonValues
-            .map {
-              case JsNumber(value) => value.toDouble
-              case _ => throw DeserializationException("Double expected")
-            }
-          keys.zip(values).toMap[String, Double]
+        }.toMap[String, Double]
         case _ => throw DeserializationException("RealVector expected")
       }
+    }
   }
 
   def apply(vals: Map[String, Double]): RealVector = new RealVector(vals)
