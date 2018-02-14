@@ -44,6 +44,7 @@ object TreeFunction {
           case JsString("cos") => new Tree.CosTree(argsTrees(0))
           case JsString("exp") => new Tree.ExpTree(argsTrees(0))
           case JsString("abs") => new Tree.AbsTree(argsTrees(0))
+          case JsString("sign") => new Tree.SignTree(argsTrees(0))
           case JsString("ln") => new Tree.LnTree(argsTrees(0))
           case JsString("sqrt") => new Tree.SqrtTree(argsTrees(0))
           case _ => throw new Exception(s"Unsupported func: $func")

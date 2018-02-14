@@ -84,6 +84,12 @@ object Tree {
 
   }
 
+  class SignTree(subTree: Tree) extends Tree {
+
+    override def eval(vector: RealVector): Double = signum(subTree.eval(vector))
+
+  }
+
   class ConstantTree(value: Double) extends Tree {
 
     override def eval(vector: RealVector): Double = value
