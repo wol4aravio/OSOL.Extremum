@@ -5,17 +5,16 @@ import org.scalatest.FunSuite
 
 class ParserSuite extends FunSuite {
 
-  val f1: String = "x**2-3*(-y)"
-  val f2: String = "x**x"
-  val f3: String = "sin(x-y-z)"
+  val f1: String = "x ** 2 - 3 * (-y)"
+  val f2: String = "x ** x"
+  val f3: String = "sin(x - y - z)"
+  val f4: String = "cond(leq(x, 2), x, x ** 2)"
 
-  ignore("Expression String Parser") {
+  ignore("Expression String Parser #1") {
 
-    val parsed_1 = Parser.parseExpression(f1)
-    val parsed_2 = Parser.parseExpression(f2)
-    val parsed_3 = Parser.parseExpression(f3)
+    val parsed = Parser.parseExpression(f1)
 
-    val json_1 = JsObject(
+    val json = JsObject(
       "type" -> JsString("binary"),
       "op" -> JsString("sub"),
       "left" -> JsObject(
@@ -47,7 +46,15 @@ class ParserSuite extends FunSuite {
         )
       )
     )
-    val json_2 = JsObject(
+
+    assert(parsed == json)
+  }
+
+  ignore("Expression String Parser #2") {
+
+    val parsed = Parser.parseExpression(f2)
+
+    val json = JsObject(
       "type" -> JsString("binary"),
       "op" -> JsString("pow"),
       "left" -> JsObject(
@@ -59,7 +66,15 @@ class ParserSuite extends FunSuite {
         "name" -> JsString("x")
       )
     )
-    val json_3 = JsObject(
+
+    assert(parsed == json)
+  }
+
+  ignore("Expression String Parser #3") {
+
+    val parsed = Parser.parseExpression(f3)
+
+    val json = JsObject(
       "type" -> JsString("func"),
       "func" -> JsString("sin"),
       "args" -> JsArray(
@@ -86,9 +101,51 @@ class ParserSuite extends FunSuite {
       )
     )
 
-    assert(parsed_1 == json_1)
-    assert(parsed_2 == json_2)
-    assert(parsed_3 == json_3)
+    assert(parsed == json)
+  }
+
+  ignore("Expression String Parser #4") {
+
+    val parsed = Parser.parseExpression(f4)
+
+    val json = JsObject(
+      "type" -> JsString("func"),
+      "func" -> JsString("cond"),
+      "args" -> JsArray(
+        JsObject(
+          "type" -> JsString("func"),
+          "func" -> JsString("leq"),
+          "args" -> JsArray(
+            JsObject(
+              "type" -> JsString("var"),
+              "name" -> JsString("x")
+            ),
+            JsObject(
+              "type" -> JsString("const"),
+              "value" -> JsNumber(2)
+            )
+          )
+        ),
+        JsObject(
+          "type" -> JsString("var"),
+          "name" -> JsString("x")
+        ),
+        JsObject(
+          "type" -> JsString("binary"),
+          "op" -> JsString("pow"),
+          "left" -> JsObject(
+            "type" -> JsString("var"),
+            "name" -> JsString("x")
+          ),
+          "right" -> JsObject(
+            "type" -> JsString("const"),
+            "value" -> JsNumber(2)
+          )
+        )
+      )
+    )
+
+    assert(parsed == json)
   }
 
 }
