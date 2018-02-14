@@ -63,7 +63,7 @@ def parseToTree(function):
 def main(args):
     mode = args.mode
     if mode == 'parse':
-        result = parseToTree(args.function)
+        result = parseToTree("".join(args.function))
     print(result)
 
 parser = ArgumentParser(description="Calculus Api",
@@ -75,6 +75,7 @@ parser.add_argument("--mode",
 
 parser.add_argument("--function",
                     type=str,
+                    nargs="+",
                     help='Function to be parsed')
 
 args = parser.parse_args()
