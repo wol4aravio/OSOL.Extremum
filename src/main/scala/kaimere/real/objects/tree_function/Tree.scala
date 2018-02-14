@@ -42,6 +42,32 @@ object Tree {
 
   }
 
+  class EqTree(left: Tree, right: Tree) extends Tree {
+
+    override def eval(vector: RealVector): Double = {
+      if (left.eval(vector) == right.eval(vector)) 1.0
+      else 0.0
+    }
+
+  }
+  class LeqTree(left: Tree, right: Tree) extends Tree {
+
+    override def eval(vector: RealVector): Double = {
+      if (left.eval(vector) <= right.eval(vector)) 1.0
+      else 0.0
+    }
+
+  }
+
+  class CondTree(cond: Tree, trueBranch: Tree, falseBranch: Tree) extends Tree {
+
+    override def eval(vector: RealVector): Double = {
+      if (cond.eval(vector) == 1.0) trueBranch.eval(vector)
+      else falseBranch.eval(vector)
+    }
+
+  }
+
   class NegTree(subTree: Tree) extends Tree {
 
     override def eval(vector: RealVector): Double = -subTree.eval(vector)
