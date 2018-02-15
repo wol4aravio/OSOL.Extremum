@@ -5,7 +5,9 @@ import spray.json._
 
 object MathExpressionParser {
 
-  def parseExpression(function: String, libLoc: String = "libs/parser.py"): JsValue = {
+  def parseExpression(function: String): JsValue = {
+
+    val libLoc = getClass.getResource("/parser.py").getFile
     val json = s"python $libLoc --mode parse --function $function" !!
 
     JsonParser(json.replace('\'', '\"'))
