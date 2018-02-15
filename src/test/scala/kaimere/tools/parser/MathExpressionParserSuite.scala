@@ -3,7 +3,7 @@ package kaimere.tools.parser
 import spray.json._
 import org.scalatest.FunSuite
 
-class ParserSuite extends FunSuite {
+class MathExpressionParserSuite extends FunSuite {
 
   val f1: String = "x ** 2 - 3 * (-y)"
   val f2: String = "x ** x"
@@ -12,7 +12,7 @@ class ParserSuite extends FunSuite {
 
   ignore("Expression String Parser #1") {
 
-    val parsed = Parser.parseExpression(f1)
+    val parsed = MathExpressionParser.parseExpression(f1)
 
     val json = JsObject(
       "type" -> JsString("binary"),
@@ -52,7 +52,7 @@ class ParserSuite extends FunSuite {
 
   ignore("Expression String Parser #2") {
 
-    val parsed = Parser.parseExpression(f2)
+    val parsed = MathExpressionParser.parseExpression(f2)
 
     val json = JsObject(
       "type" -> JsString("binary"),
@@ -72,7 +72,7 @@ class ParserSuite extends FunSuite {
 
   ignore("Expression String Parser #3") {
 
-    val parsed = Parser.parseExpression(f3)
+    val parsed = MathExpressionParser.parseExpression(f3)
 
     val json = JsObject(
       "type" -> JsString("func"),
@@ -106,7 +106,7 @@ class ParserSuite extends FunSuite {
 
   ignore("Expression String Parser #4") {
 
-    val parsed = Parser.parseExpression(f4)
+    val parsed = MathExpressionParser.parseExpression(f4)
 
     val json = JsObject(
       "type" -> JsString("func"),
