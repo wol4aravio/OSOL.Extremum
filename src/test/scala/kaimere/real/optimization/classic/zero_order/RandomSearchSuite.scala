@@ -39,7 +39,7 @@ class RandomSearchSuite extends FunSuite {
       tool = RS,
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
-      state = None,
+      defaultValues = None,
       instruction = MaxTime(1 * maxTime),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -54,7 +54,7 @@ class RandomSearchSuite extends FunSuite {
       tool = RS,
       f = DummyFunctions.func_1,
       area = DummyFunctions.area_1,
-      state = Some(Vector(Map("x" -> 10.0))),
+      defaultValues = Some((10.0, Seq.empty[(String, Double)])),
       instruction = MaxIterations(1 * maxIterations),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -69,7 +69,7 @@ class RandomSearchSuite extends FunSuite {
       tool = RS,
       f = DummyFunctions.func_2,
       area = DummyFunctions.area_2,
-      state = None,
+      defaultValues = None,
       instruction = MaxTime(2 * maxTime),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -84,7 +84,7 @@ class RandomSearchSuite extends FunSuite {
       tool = RS,
       f = DummyFunctions.func_2,
       area = DummyFunctions.area_2,
-      state = Option(Vector(Map("x" -> 10.0, "y" -> -10.0))),
+      defaultValues = Some((10.0, Seq.empty[(String, Double)])),
       instruction = MaxIterations(2 * maxIterations),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -99,7 +99,7 @@ class RandomSearchSuite extends FunSuite {
       tool = RS,
       f = DummyFunctions.func_3,
       area = DummyFunctions.area_3,
-      state = None,
+      defaultValues = None,
       instruction = MaxTime(3 * maxTime),
       epsNorm = epsNorm,
       maxTries = maxTries)
@@ -114,7 +114,7 @@ class RandomSearchSuite extends FunSuite {
       tool = RS,
       f = DummyFunctions.func_3,
       area = DummyFunctions.area_3,
-      state = Option(Vector(Map("x" -> 10.0, "y" -> -10.0, "z" -> 10.0))),
+      defaultValues = Some((10.0, Seq.empty[(String, Double)])),
       instruction = MaxIterations(3 * maxIterations),
       epsNorm = epsNorm,
       maxTries = maxTries)

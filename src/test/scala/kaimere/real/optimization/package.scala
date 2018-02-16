@@ -2,7 +2,7 @@ package kaimere.real
 
 import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
-import kaimere.real.optimization.general.initializers.PureRandomInitializer
+import kaimere.real.optimization.general.initializers.{ExactInitializer, PureRandomInitializer}
 import kaimere.real.optimization.general.instructions.GeneralInstruction
 
 package object optimization {
@@ -15,9 +15,13 @@ package object optimization {
     @scala.annotation.tailrec
     def apply(tool: OptimizationAlgorithm,
               f: Function, area: OptimizationAlgorithm.Area,
-              state: Option[Vector[Map[String, Double]]],
+              defaultValues: Option[(Double, Seq[(String, Double)])],
               instruction: GeneralInstruction, epsNorm: Double, maxTries: Int): Boolean = {
-      tool.initialize(f, area, state, initializer = PureRandomInitializer(25))
+      if (defaultValues.isEmpty) tool.initialize(f, area, None, initializer = PureRandomInitializer(25))
+      else {
+        val exactInitializer = ExactInitializer(defaultValues.get._1, defaultValues.get._2:_*)
+        tool.initialize(f, area, None, initializer = exactInitializer)
+      }
       val result = tool.work(instruction)
       if (normVector(result) < epsNorm)
         true
@@ -25,7 +29,7 @@ package object optimization {
         if (maxTries == 0)
           false
         else
-          Tester(tool, f, area, state, instruction, epsNorm, maxTries - 1)
+          Tester(tool, f, area, defaultValues, instruction, epsNorm, maxTries - 1)
       }
     }
 

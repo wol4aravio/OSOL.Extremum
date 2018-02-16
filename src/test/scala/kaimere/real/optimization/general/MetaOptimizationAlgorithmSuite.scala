@@ -1,5 +1,7 @@
 package kaimere.real.optimization.general
 
+import java.io.File
+
 import kaimere.real.optimization._
 import kaimere.real.optimization.general.instructions._
 import kaimere.real.optimization.classic.zero_order.RandomSearch
@@ -18,7 +20,12 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
   private val MOA: OptimizationAlgorithm = MetaOptimizationAlgorithm(
     algorithms = Seq(rs, rs, rs, rs, rs),
     targetVars = Seq(Some(Set("x")), Some(Set("a")), Some(Set("y")), Some(Set("b")), Some(Set("z", "c"))),
-    instructions = Seq(VerboseBest(MaxIterations(maxIterations)), MaxIterations(maxIterations, verbose = true), VerboseBest(MaxTime(maxTime)), MaxTime(maxTime, verbose = true), TargetValue(targetValue = 0.00001, verbose = true)))
+    instructions = Seq(
+      VerboseBest(MaxIterations(maxIterations)),
+      AnyInstruction(MaxIterations(maxIterations, verbose = true), MaxTime(0.1 * maxTime)),
+      VerboseBest(MaxTime(maxTime)),
+      AllInstruction(MaxTime(maxTime * 2, verbose = true), MaxTime(maxTime, verbose = true)),
+      TargetValue(targetValue = 0.00001, verbose = true)))
 
   test("Algorithm Serialization") {
     assert(OptimizationAlgorithm.fromJson(OptimizationAlgorithm.toJson(MOA)).asInstanceOf[MetaOptimizationAlgorithm] == MOA.asInstanceOf[MetaOptimizationAlgorithm])
@@ -28,8 +35,9 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
 
     MOA.initialize(DummyFunctions.func_4, DummyFunctions.area_4, initializer = PureRandomInitializer(25))
     val result = MOA.work(MaxTime(1 * maxTime))
+    val vectors: Vector[Map[String, Double]] = MOA.currentState.toJson.convertTo[State]
 
-    assert(MOA.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_4)._1 == result)
+    assert(vectors.minBy(DummyFunctions.func_4(_)) == result.vals)
 
   }
 
@@ -40,10 +48,12 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
       tool = MOA,
       f = DummyFunctions.func_4,
       area = DummyFunctions.area_4,
-      state = Some(Vector(Map("x" -> 10.0, "y" -> 10.0, "z" -> 10.0, "a" -> -10.0, "b" -> -10.0, "c" -> -10.0))),
-      instruction = null,
+      defaultValues = Some((10.0, Seq.empty[(String, Double)])),
+      instruction = StateLogger(folderName = "./tmp", mainInstruction = null, bestOnly = true),
       epsNorm = epsNorm,
       maxTries = maxTries)
+
+    StateLogger.deleteFolder(new File("./tmp"))
 
     assert(passed)
 
@@ -55,10 +65,12 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
       tool = MOA,
       f = DummyFunctions.func_4,
       area = DummyFunctions.area_4,
-      state = None,
-      instruction = null,
+      defaultValues = None,
+      instruction = StateLogger(folderName = "./tmp", mainInstruction = null, bestOnly = false),
       epsNorm = epsNorm,
       maxTries = maxTries)
+
+    StateLogger.deleteFolder(new File("./tmp"))
 
     assert(passed)
 
