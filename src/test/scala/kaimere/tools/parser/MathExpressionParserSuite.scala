@@ -10,7 +10,7 @@ class MathExpressionParserSuite extends FunSuite {
   val f3: String = "sin(x - y - z)"
   val f4: String = "cond(leq(x, 2), x, x ** 2)"
 
-  ignore("Expression String Parser #1") {
+  test("Expression String Parser #1") {
 
     val parsed = MathExpressionParser.parseExpression(f1)
 
@@ -50,7 +50,7 @@ class MathExpressionParserSuite extends FunSuite {
     assert(parsed == json)
   }
 
-  ignore("Expression String Parser #2") {
+  test("Expression String Parser #2") {
 
     val parsed = MathExpressionParser.parseExpression(f2)
 
@@ -70,7 +70,7 @@ class MathExpressionParserSuite extends FunSuite {
     assert(parsed == json)
   }
 
-  ignore("Expression String Parser #3") {
+  test("Expression String Parser #3") {
 
     val parsed = MathExpressionParser.parseExpression(f3)
 
@@ -104,7 +104,7 @@ class MathExpressionParserSuite extends FunSuite {
     assert(parsed == json)
   }
 
-  ignore("Expression String Parser #4") {
+  test("Expression String Parser #4") {
 
     val parsed = MathExpressionParser.parseExpression(f4)
 
