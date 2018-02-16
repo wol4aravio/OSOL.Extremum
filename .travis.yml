@@ -12,9 +12,7 @@ env:
 
 script:
   - sbt clean coverage
-  - sbt "testOnly * -- -l kaimere.exclude_tags.PythonTest -l kaimere.exclude_tags.MatlabTest"
-  - sbt coverageReport
-  - sbt coverageAggregate
+  - sbt "testOnly * -- -l kaimere.exclude_tags.PythonTest -l kaimere.exclude_tags.MatlabTest" coverageReport && sbt coverageAggregate
 after_success:
   - sbt coveralls
   - mvn clean deploy --settings settings.xml
