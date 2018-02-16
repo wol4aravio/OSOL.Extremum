@@ -3,7 +3,7 @@ package kaimere.real.optimization.general.instructions
 import kaimere.real.optimization.general.OptimizationAlgorithm
 import spray.json._
 
-case class AllInstruction(instructions: Seq[GeneralInstruction]) extends GeneralInstruction {
+case class AllInstruction(instructions: GeneralInstruction*) extends GeneralInstruction {
 
   override def continue(algorithm: OptimizationAlgorithm): Boolean =
     instructions.map(_.continue(algorithm)).reduce(_ && _)
@@ -18,7 +18,7 @@ object AllInstruction {
     val name = csv.split(",").head
     val instructions = csv.split(",").tail.mkString(",").split("&")
     name match {
-      case "AllInstruction" => AllInstruction(instructions.map(GeneralInstruction.fromCsv))
+      case "AllInstruction" => AllInstruction(instructions.map(GeneralInstruction.fromCsv):_*)
       case _ => throw DeserializationException("AllInstruction expected")
     }
   }
@@ -26,14 +26,14 @@ object AllInstruction {
   implicit object AllInstructionJsonFormat extends RootJsonFormat[AllInstruction] {
     def write(i: AllInstruction) =
       JsObject(
-        "name" -> JsString("All"),
+        "name" -> JsString("AllInstruction"),
         "instructions" -> JsArray(i.instructions.map(GeneralInstruction.toJson).toVector))
 
     def read(json: JsValue): AllInstruction =
       json.asJsObject.getFields("name", "instructions") match {
         case Seq(JsString(name), JsArray(instructions)) =>
           if (name != "AllInstruction") throw DeserializationException("AllInstruction expected")
-          else AllInstruction(instructions.map(GeneralInstruction.fromJson))
+          else AllInstruction(instructions.map(GeneralInstruction.fromJson):_*)
         case _ => throw DeserializationException("AllInstruction expected")
       }
   }

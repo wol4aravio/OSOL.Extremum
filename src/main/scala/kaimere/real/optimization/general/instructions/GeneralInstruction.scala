@@ -23,7 +23,7 @@ object GeneralInstruction {
       case "StateLogger" => StateLogger(csv)
       case "TargetValue" => TargetValue(csv)
       case "VerboseBest" => VerboseBest(csv)
-      case _ => throw DeserializationException("Unsupported Instruction")
+      case _ => throw DeserializationException(s"Unsupported Instruction: $name")
     }
   }
 
@@ -36,7 +36,7 @@ object GeneralInstruction {
       case sl: StateLogger => sl.toJson
       case all_i: AllInstruction => all_i.toJson
       case any_i: AnyInstruction => any_i.toJson
-      case _ => throw new Exception("Unsupported Instruction")
+      case _ => throw new Exception(s"Unsupported Instruction: ${instruction.toString}")
     }
   }
 
@@ -51,7 +51,7 @@ object GeneralInstruction {
           case "StateLogger" => json.convertTo[StateLogger]
           case "AllInstruction" => json.convertTo[AllInstruction]
           case "AnyInstruction" => json.convertTo[AnyInstruction]
-          case _ => throw DeserializationException("Unsupported Instruction")
+          case _ => throw DeserializationException(s"Unsupported Instruction: ${name}")
         }
       case _ => throw DeserializationException("Instruction expected")
     }
