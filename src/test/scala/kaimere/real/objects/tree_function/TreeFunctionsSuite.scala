@@ -14,6 +14,9 @@ class TreeFunctionsSuite extends FunSuite {
   val funcReal_4: RealVector => Double = (v: RealVector) =>
     if (v("x") <= 2) v("x")
     else pow(v("x"), 2.0)
+  val funcReal_5: RealVector => Double = (v: RealVector) =>
+    if (v("x") == 2) v("x")
+    else signum(v("x"))
 
   val realVector_1: RealVector = Map("x" -> 1.0, "y" -> 2.0, "z" -> 3.0)
   val realVector_2: RealVector = Map("x" -> 3.0, "y" -> -5.0, "z" -> 1.0)
@@ -152,6 +155,41 @@ class TreeFunctionsSuite extends FunSuite {
         "right" -> JsObject(
           "type" -> JsString("const"),
           "value" -> JsNumber(2)
+        )
+      )
+    )
+  )
+
+  val json_5 = JsObject(
+    "type" -> JsString("func"),
+    "func" -> JsString("cond"),
+    "args" -> JsArray(
+      JsObject(
+        "type" -> JsString("func"),
+        "func" -> JsString("eq"),
+        "args" -> JsArray(
+          JsObject(
+            "type" -> JsString("var"),
+            "name" -> JsString("x")
+          ),
+          JsObject(
+            "type" -> JsString("const"),
+            "value" -> JsNumber(2)
+          )
+        )
+      ),
+      JsObject(
+        "type" -> JsString("var"),
+        "name" -> JsString("x")
+      ),
+      JsObject(
+        "type" -> JsString("func"),
+        "func" -> JsString("sign"),
+        "args" -> JsArray(
+          JsObject(
+            "type" -> JsString("var"),
+            "name" -> JsString("x")
+          )
         )
       )
     )
@@ -314,6 +352,16 @@ class TreeFunctionsSuite extends FunSuite {
     assert(realFunction(realVector_1) == funcReal_4(realVector_1))
     assert(realFunction(realVector_2) == funcReal_4(realVector_2))
     assert(realFunction(realVector_3) == funcReal_4(realVector_3))
+
+  }
+
+  test("Function Calc #5") {
+
+    val realFunction = TreeFunction(json_5)
+
+    assert(realFunction(realVector_1) == funcReal_5(realVector_1))
+    assert(realFunction(realVector_2) == funcReal_5(realVector_2))
+    assert(realFunction(realVector_3) == funcReal_5(realVector_3))
 
   }
 
