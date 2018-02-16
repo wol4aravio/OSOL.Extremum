@@ -1,21 +1,20 @@
 package kaimere.kernels
 
 import kaimere.real.objects.RealVector
+import org.scalatest.FunSuite
 
-import org.scalatest.{BeforeAndAfterAll, FunSuite}
-
-class MatlabSimulinkSuite extends FunSuite with BeforeAndAfterAll {
+@kaimere.exclude_tags.MatlabTest
+class MatlabSimulinkSuite extends FunSuite {
 
   implicit class RichDouble(val value: Double) {
     def ~(that: RichDouble, eps: Double = 1e-3): Boolean = math.abs(this.value - that.value) < eps
   }
 
-  override def beforeAll(): Unit = {
+  test("Orientation Test") {
+
     val MatlabLocation = sys.env("MatlabEngineLocation")
     Matlab.initialize(MatlabLocation)
-  }
 
-  test("Orientation Test") {
     val modelLocation = getClass.getResource("/MatlabSimulinkKernelTest/SpacecraftOrientation.slx").getFile
     val jsonLocation = getClass.getResource("/MatlabSimulinkKernelTest/SpacecraftOrientation.json").getFile
     val model = Matlab.loadSimulinkModel(
@@ -25,11 +24,10 @@ class MatlabSimulinkSuite extends FunSuite with BeforeAndAfterAll {
 
     Matlab.unloadSimulinkModel(modelLocation)
 
-    assert(result ~ (12 * math.Pi * math.Pi))
-  }
-
-  override def afterAll(): Unit = {
     Matlab.terminate()
+
+    assert(result ~ (12 * math.Pi * math.Pi))
+
   }
 
 }

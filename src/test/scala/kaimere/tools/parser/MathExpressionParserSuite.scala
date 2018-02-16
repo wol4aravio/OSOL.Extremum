@@ -3,6 +3,7 @@ package kaimere.tools.parser
 import spray.json._
 import org.scalatest.FunSuite
 
+@kaimere.exclude_tags.PythonTest
 class MathExpressionParserSuite extends FunSuite {
 
   val f1: String = "x ** 2 - 3 * (-y)"
