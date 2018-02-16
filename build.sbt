@@ -15,3 +15,5 @@ libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.4"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
 
 coverallsTokenFile := Some("../coveralls_token.txt")
+
+coverageExcludedPackages := "kaimere.tools.parser.MathExpressionParser;kaimere.kernels.*"
