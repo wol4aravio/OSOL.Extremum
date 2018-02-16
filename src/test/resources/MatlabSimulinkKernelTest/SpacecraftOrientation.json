@@ -1,0 +1,33 @@
+{
+	"name": "SpacecraftOrientation",
+	"state": ["x1", "x2"],
+	"control": ["u"],
+	"criterionIntegral": "criterionIntegral",
+	"criterionTerminal": "null",
+	"terminalCondition": [
+		{
+			"name": "x1",
+			"value": 3.141592653589793,
+			"penalty": 1e3,
+			"tolerance": 1e-2
+		},
+		{
+			"name": "x2",
+			"value": 0.0,
+			"penalty": 1e3,
+			"tolerance": 1e-2
+		}
+	],
+	"tunable": [
+		{
+			"type": "Constant",
+			"name": "a",
+			"var": "a"
+		},
+		{
+			"type": "Constant",
+			"name": "b",
+			"var": "b"
+		}
+	]
+}
