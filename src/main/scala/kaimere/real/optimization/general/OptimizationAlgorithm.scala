@@ -53,6 +53,7 @@ object OptimizationAlgorithm {
       case "SA" | "sa" | "SimulatedAnnealing" => SimulatedAnnealing(csv)
       case "CSO" | "cso" | "CatSwarmOptimization" => CatSwarmOptimization(csv)
       case "ES" | "es" | "ExplosionSearch" => ExplosionSearch(csv)
+      case "HS" | "hs" | "HarmonySearch" => HarmonySearch(csv)
       case _ => throw DeserializationException("Unsupported Algorithm")
     }
   }
@@ -63,6 +64,7 @@ object OptimizationAlgorithm {
       case sa: SimulatedAnnealing => sa.toJson
       case cso: CatSwarmOptimization => cso.toJson
       case es: ExplosionSearch => es.toJson
+      case hs: HarmonySearch => hs.toJson
       case moa: MetaOptimizationAlgorithm => moa.toJson
       case _ => throw new Exception("Unsupported Algorithm")
     }
@@ -76,6 +78,7 @@ object OptimizationAlgorithm {
           case "SimulatedAnnealing" => json.convertTo[SimulatedAnnealing]
           case "CatSwarmOptimization" => json.convertTo[CatSwarmOptimization]
           case "ExplosionSearch" => json.convertTo[ExplosionSearch]
+          case "HarmonySearch" => json.convertTo[HarmonySearch]
           case "MetaOptimizationAlgorithm" => json.convertTo[MetaOptimizationAlgorithm]
           case _ => throw DeserializationException("Unsupported Algorithm")
         }
