@@ -17,7 +17,7 @@ object OptimizationTestHelper {
               f: Function, area: OptimizationAlgorithm.Area,
               defaultValues: Option[(Double, Seq[(String, Double)])],
               instruction: Instruction, epsNorm: Double, maxTries: Int): Boolean = {
-      if (defaultValues.isEmpty) tool.initialize(f, area, None, initializer = PureRandomInitializer(25))
+      if (defaultValues.isEmpty) tool.initialize(f, area, None, initializer = PureRandomInitializer())
       else {
         val exactInitializer = ExactInitializer(defaultValues.get._1, defaultValues.get._2:_*)
         tool.initialize(f, area, None, initializer = exactInitializer)

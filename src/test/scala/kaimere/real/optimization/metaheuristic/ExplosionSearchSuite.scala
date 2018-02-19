@@ -23,7 +23,7 @@ class ExplosionSearchSuite extends FunSuite {
 
   test("State Serialization") {
 
-    ES.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer(25))
+    ES.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer())
     val result = ES.work(MaxTime(1 * maxTime))
 
     assert(ES.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)

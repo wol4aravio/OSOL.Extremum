@@ -23,7 +23,7 @@ class HarmonySearchSuite extends FunSuite {
 
   test("State Serialization") {
 
-    HS.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer(25))
+    HS.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer())
     val result = HS.work(MaxTime(1 * maxTime))
 
     assert(HS.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)

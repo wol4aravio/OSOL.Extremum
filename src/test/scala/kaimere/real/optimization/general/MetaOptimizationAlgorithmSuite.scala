@@ -33,7 +33,7 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
 
   test("State Serialization") {
 
-    MOA.initialize(DummyFunctions.func_4, DummyFunctions.area_4, initializer = PureRandomInitializer(25))
+    MOA.initialize(DummyFunctions.func_4, DummyFunctions.area_4, initializer = PureRandomInitializer())
     val result = MOA.work(MaxTime(1 * maxTime))
     val vectors: Vector[Map[String, Double]] = MOA.currentState.toJson.convertTo[State]
 

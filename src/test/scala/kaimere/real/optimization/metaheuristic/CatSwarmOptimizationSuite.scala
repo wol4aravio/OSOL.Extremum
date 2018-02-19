@@ -23,7 +23,7 @@ class CatSwarmOptimizationSuite extends FunSuite {
 
   test("State Serialization") {
 
-    CSO.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer(25))
+    CSO.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer())
     val result = CSO.work(MaxTime(1 * maxTime))
 
     assert(CSO.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)

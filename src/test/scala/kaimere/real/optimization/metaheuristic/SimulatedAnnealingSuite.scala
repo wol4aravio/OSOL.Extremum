@@ -23,7 +23,7 @@ class SimulatedAnnealingSuite extends FunSuite {
 
   test("State Serialization") {
 
-    SA.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer(25))
+    SA.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer())
     val result = SA.work(MaxTime(1 * maxTime))
 
     assert(SA.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)

@@ -26,7 +26,7 @@ class RandomSearchSuite extends FunSuite {
 
   test("State Serialization") {
 
-    RS.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer(25))
+    RS.initialize(DummyFunctions.func_1, DummyFunctions.area_1, initializer = PureRandomInitializer())
     val result = RS.work(MaxTime(1 * maxTime))
 
     assert(RS.currentState.toJson.convertTo[State].getBestBy(DummyFunctions.func_1)._1 == result)
