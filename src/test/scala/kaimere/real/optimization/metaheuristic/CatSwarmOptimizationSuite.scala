@@ -1,6 +1,6 @@
 package kaimere.real.optimization.metaheuristic
 
-import kaimere.real.optimization._
+import kaimere.real.optimization.OptimizationTestHelper._
 import kaimere.real.optimization.general._
 import kaimere.real.optimization.general.initializers.PureRandomInitializer
 import kaimere.real.optimization.general.instructions._

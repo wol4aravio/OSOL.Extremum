@@ -1,11 +1,11 @@
-package kaimere.real
+package kaimere.real.optimization
 
-import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
+import kaimere.real.optimization.general.OptimizationAlgorithm
 import kaimere.real.optimization.general.initializers.{ExactInitializer, PureRandomInitializer}
 import kaimere.real.optimization.general.instructions.GeneralInstruction
 
-package object optimization {
+object OptimizationTestHelper {
 
   object Tester {
 
@@ -54,5 +54,4 @@ package object optimization {
     val func_4 = new DummyFunction((v: Map[String, Double]) => v("x") * v("x") + v("y") * v("y") + v("z") * v("z") + v("a") * v("a") + v("b") * v("b") + v("c") * v("c"))
 
   }
-
 }

@@ -2,7 +2,7 @@ package kaimere.real.optimization.general
 
 import java.io.File
 
-import kaimere.real.optimization._
+import kaimere.real.optimization.OptimizationTestHelper._
 import kaimere.real.optimization.general.instructions._
 import kaimere.real.optimization.classic.zero_order.RandomSearch
 import kaimere.real.optimization.general.initializers.PureRandomInitializer
