@@ -14,6 +14,8 @@ class State(vectors: Vector[RealVector]) {
 
 object State {
 
+  def apply(vectors: Vector[RealVector]): State = new State(vectors)
+
   implicit def toVectorMap(s: State): Vector[Map[String, Double]] = s.toVectors().map(_.vals)
 
   implicit object StateJsonFormat extends RootJsonFormat[State] {

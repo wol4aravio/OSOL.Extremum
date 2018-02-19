@@ -20,7 +20,7 @@ abstract class OptimizationAlgorithm {
   var area: Area = null
   var currentState: State = null
 
-  def initialize(f: Function, area: Area, state: Option[Vector[Map[String, Double]]] = None, initializer: Initializer = null): Unit = {
+  def initialize(f: Function, area: Area, state: Option[State] = None, initializer: Initializer = null): Unit = {
     this.f = f
     this.area = area
     this.currentState =
@@ -28,7 +28,7 @@ abstract class OptimizationAlgorithm {
       else state.get) |> initializeFromGivenState
   }
 
-  def initializeFromGivenState(state: Vector[Map[String, Double]]): State
+  def initializeFromGivenState(state: State): State
 
   def iterate(): Unit
 

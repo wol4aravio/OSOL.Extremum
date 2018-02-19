@@ -24,14 +24,14 @@ case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double)
       }.toMap
   }
 
-  override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
+  override def initializeFromGivenState(state: State): State = {
     val realVectors = Helper.prepareInitialState(state)
     val bestVectors = Helper.chooseSeveralBest(realVectors, f, numberOfBombs)
     bestVectors.map(v => Bomb(v, f(v))).sortBy(_.fitness) |> ES_State.apply
   }
 
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
-                          state: Option[Vector[Map[String, Double]]], initializer: Initializer): Unit = {
+                          state: Option[State], initializer: Initializer): Unit = {
     powerDistribution = calculatePowerDistribution(area)
     super.initialize(f, area, state, initializer)
   }

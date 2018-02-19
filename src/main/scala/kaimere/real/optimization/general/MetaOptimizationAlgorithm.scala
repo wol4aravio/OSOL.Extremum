@@ -16,7 +16,7 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
 
   protected var algorithmArea: Seq[OptimizationAlgorithm.Area] = Seq.empty
 
-  override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
+  override def initializeFromGivenState(state: State): State = {
     val realVectors = Helper.prepareInitialState(state)
     val bestVector = Helper.chooseOneBest(realVectors, f)
     MOA_State(bestVector)
@@ -24,7 +24,7 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
 
   override def iterate(): Unit = ???
 
-  override def initialize(f: objects.Function, area: Area, state: Option[Vector[Map[String, Double]]], initializer: Initializer): Unit = {
+  override def initialize(f: objects.Function, area: Area, state: Option[State], initializer: Initializer): Unit = {
     super.initialize(f, area, state, initializer)
     algorithmArea = targetVars.map {
       case Some(vars) => vars.map(key => (key, area(key))).toMap[String, (Double, Double)]
@@ -44,7 +44,7 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
     val _ = algorithms.indices.foldLeft(initialSeed) { case (seed, id) =>
       println(s"Processing ${id + 1}/${algorithms.size}")
       val tempArea = seed.vals.map { case (key, v) => (key, (v, v)) } ++ algorithmArea(id)
-      algorithms(id).initialize(f, tempArea, state = Some(Vector(seed.vals)))
+      algorithms(id).initialize(f, tempArea, state = Some(MOA_State(seed)))
       val tempResult = algorithms(id).work(modifiedInstructions(id))
       currentState = MOA_State(tempResult)
       tempResult

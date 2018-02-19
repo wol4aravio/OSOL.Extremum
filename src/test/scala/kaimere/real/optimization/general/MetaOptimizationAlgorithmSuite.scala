@@ -42,7 +42,7 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
   }
 
 
-  test("Dummy #4 (by max time, with initial State)") {
+  test("Dummy #4 (with initial State)") {
 
     val passed = Tester(
       tool = MOA,
@@ -59,7 +59,7 @@ class MetaOptimizationAlgorithmSuite extends FunSuite {
 
   }
 
-  test("Dummy #4 (by max time, without initial State)") {
+  test("Dummy #4 (without initial State)") {
 
     val passed = Tester(
       tool = MOA,

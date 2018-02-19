@@ -13,14 +13,14 @@ case class HarmonySearch(numberOfHarmonics: Int, memoryAcceptRate: Double, pitch
 
   private var possibleDelta: Map[String, (Double, Double)] = Map.empty
 
-  override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
+  override def initializeFromGivenState(state: State): State = {
     val realVectors = Helper.prepareInitialState(state)
     val bestVectors = Helper.chooseSeveralBest(realVectors, f, numberOfHarmonics)
     bestVectors.map(v => Harmonic(v, f(v))).toVector |> HS_State.apply
   }
 
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
-                          state: Option[Vector[Map[String, Double]]], initializer: Initializer): Unit = {
+                          state: Option[State], initializer: Initializer): Unit = {
     possibleDelta = area.map { case (key, value) =>
       val width: Double = value._2 - value._1
       (key, (-bandwidthRatio * width, bandwidthRatio * width))

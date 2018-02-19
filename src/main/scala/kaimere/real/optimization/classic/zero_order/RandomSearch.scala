@@ -13,14 +13,14 @@ case class RandomSearch(numberOfAttempts: Int, deltaRatio: Double) extends Optim
 
   private var possibleDelta: Map[String, (Double, Double)] = Map.empty
 
-  override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
+  override def initializeFromGivenState(state: State): State = {
     val realVectors = Helper.prepareInitialState(state)
     val bestVector = Helper.chooseOneBest(realVectors, f)
     (bestVector, f(bestVector)) |> RS_State.tupled
   }
 
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
-                          state: Option[Vector[Map[String, Double]]], initializer: Initializer): Unit = {
+                          state: Option[State], initializer: Initializer): Unit = {
     possibleDelta = area.map { case (key, value) =>
       val width: Double = value._2 - value._1
       (key, (-deltaRatio * width, deltaRatio * width))

@@ -17,14 +17,14 @@ case class CatSwarmOptimization
 
   private var maxVelocity: Map[String, (Double, Double)] = Map.empty
 
-  override def initializeFromGivenState(state: Vector[Map[String, Double]]): State = {
+  override def initializeFromGivenState(state: State): State = {
     val realVectors = Helper.prepareInitialState(state)
     val bestVectors = Helper.chooseSeveralBest(realVectors, f, numberOfCats)
     bestVectors.map(v => Cat.createRandomCat(v, f, area, maxVelocity)) |> CSO_State.apply
   }
 
   override def initialize(f: Function, area: OptimizationAlgorithm.Area,
-                          state: Option[Vector[Map[String, Double]]], initializer: Initializer): Unit = {
+                          state: Option[State], initializer: Initializer): Unit = {
     maxVelocity = area.map{ case (key, (min, max)) => (key, (-velocityRatio * (max - min), velocityRatio * (max - min))) }
     super.initialize(f, area, state, initializer)
   }
