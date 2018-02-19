@@ -29,5 +29,12 @@
 			"name": "b",
 			"var": "b"
 		}
+	],
+	"parameters": [
+		{
+			"vars": ["a", "b"],
+			"min": -50.0,
+			"max": 50.0
+		}
 	]
 }

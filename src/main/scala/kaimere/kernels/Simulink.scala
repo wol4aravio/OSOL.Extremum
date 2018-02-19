@@ -9,7 +9,8 @@ object Simulink {
   case class Model(name: String, state: Vector[String], control: Vector[String],
                    criterionIntegral: String, criterionTerminal: String,
                    terminalCondition: Vector[(String, Double, Double, Double)],
-                   tunableBlocks: Vector[Blocks.Tunable], normCoeff: Double = 1.0) extends Function {
+                   tunableBlocks: Vector[Blocks.Tunable], parameterArea: Map[String, (Double, Double)],
+                   normCoeff: Double = 1.0) extends Function {
     override def apply(v: RealVector): Double = {
       tunableBlocks.foreach(_.tune(v))
       Matlab.eval(s"sim('$name');")

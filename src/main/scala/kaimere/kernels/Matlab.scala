@@ -56,8 +56,9 @@ object Matlab {
     JsString(criterionIntegral),
     JsString(criterionTerminal),
     JsArray(terminalConditionJson),
-    JsArray(tunableJson)) =
-      json.getFields("name", "state", "control", "criterionIntegral", "criterionTerminal", "terminalCondition", "tunable")
+    JsArray(tunableJson),
+    JsArray(parameters)) =
+      json.getFields("name", "state", "control", "criterionIntegral", "criterionTerminal", "terminalCondition", "tunable", "parameters")
 
     val state = stateJson.map(_.asInstanceOf[JsString].value)
     val control = controlJson.map(_.asInstanceOf[JsString].value)
@@ -84,9 +85,15 @@ object Matlab {
         }
       }
 
+    val area = parameters.map {
+      case part =>
+        val Seq(JsArray(vars), JsNumber(min), JsNumber(max)) = part.asJsObject.getFields("vars", "min", "max")
+        vars.map{ case JsString(varName) => (varName, (min.toDouble, max.toDouble))}
+    }.map { _.toMap[String, (Double, Double)]}.reduce(_ ++ _)
+
     val path = Paths.get(model).toAbsolutePath().toString()
     eval(s"load_system('$path')")
-    Simulink.Model(name, state, control, criterionIntegral, criterionTerminal, terminalCondition, blocks)
+    Simulink.Model(name, state, control, criterionIntegral, criterionTerminal, terminalCondition, blocks, area)
   }
 
   def unloadSimulinkModel(model: String): Unit = {
