@@ -37,10 +37,11 @@ object StateLogger {
 
   def apply(csv: String): StateLogger = {
     val name = csv.split(",").head
-    val folderName = csv.split(",").tail.head
-    val instruction = csv.split(",").tail.tail
+    val folderName = csv.split(",")(1)
+    val bestOnly = csv.split(",")(2).toBoolean
+    val instruction = csv.split(",").drop(3)
     name match {
-      case "StateLogger" => StateLogger(folderName, Instruction.fromCsv(instruction.mkString(",")))
+      case "StateLogger" => StateLogger(folderName, Instruction.fromCsv(instruction.mkString(",")), bestOnly)
       case _ => throw DeserializationException("StateLogger expected")
     }
   }
@@ -61,13 +62,14 @@ object StateLogger {
       JsObject(
         "name" -> JsString("StateLogger"),
         "folder" -> JsString(i.folderName),
+        "bestOnly" -> JsBoolean(i.bestOnly),
         "mainInstruction" -> Instruction.toJson(i.mainInstruction))
 
     def read(json: JsValue): StateLogger =
-      json.asJsObject.getFields("name", "folder", "mainInstruction") match {
-        case Seq(JsString(name), JsString(folder), mainInstruction) =>
+      json.asJsObject.getFields("name", "folder", "bestOnly", "mainInstruction") match {
+        case Seq(JsString(name), JsString(folder), JsBoolean(bestOnly), mainInstruction) =>
           if (name != "StateLogger") throw DeserializationException("StateLogger expected")
-          else StateLogger(folder, Instruction.fromJson(mainInstruction))
+          else StateLogger(folder, Instruction.fromJson(mainInstruction), bestOnly)
         case _ => throw DeserializationException("StateLogger expected")
       }
   }

@@ -18,7 +18,7 @@ class InstructionSerializationSuite extends FunSuite {
   private val targetValue = "TargetValue,0.0,0.01,true"
   private val allInstruction = "AllInstruction,MaxTime,10.0,true&MaxIterations,1000,true"
   private val anyInstruction = "AnyInstruction,MaxTime,10.0,true|MaxIterations,1000,true"
-  private val stateLogger = "StateLogger,temp,MaxTime,10.0,true"
+  private val stateLogger = "StateLogger,temp,true,MaxTime,10.0,true"
   private val verboseBest = "VerboseBest,MaxTime,10.0,true"
 
   def testInstructionSerialization[T <: Instruction](csv: String): Boolean = {
