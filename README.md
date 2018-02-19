@@ -54,4 +54,3 @@ val result = tool.work(instruction)
 Current version supports to type of instructions:
 * `MaxIterations` - this instruction terminates algorithm according to maximum allowed number of iterations,
 * `MaxTime` - this instruction terminates algorithm according to maximum allowed working time. 
-
