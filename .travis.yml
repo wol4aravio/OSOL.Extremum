@@ -13,5 +13,3 @@ script:
 after_success:
   - sbt coveralls
   - mvn clean deploy --settings settings.xml
-  on:
-    branch: master
