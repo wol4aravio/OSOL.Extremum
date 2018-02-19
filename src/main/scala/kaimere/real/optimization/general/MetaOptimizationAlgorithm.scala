@@ -6,13 +6,13 @@ import kaimere.real.optimization._
 import kaimere.real.optimization.general.MetaOptimizationAlgorithm.MOA_State
 import kaimere.real.optimization.general.OptimizationAlgorithm.Area
 import kaimere.real.optimization.general.initializers.Initializer
-import kaimere.real.optimization.general.instructions.{GeneralInstruction, StateLogger}
+import kaimere.real.optimization.general.instructions.{Instruction, StateLogger}
 import kaimere.tools.random.GoRN
 import spray.json._
 
 case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
                                      targetVars: Seq[Option[Set[String]]],
-                                     instructions: Seq[GeneralInstruction]) extends OptimizationAlgorithm {
+                                     instructions: Seq[Instruction]) extends OptimizationAlgorithm {
 
   protected var algorithmArea: Seq[OptimizationAlgorithm.Area] = Seq.empty
 
@@ -33,7 +33,7 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
 
   }
 
-  override def work(instruction: GeneralInstruction): RealVector = {
+  override def work(instruction: Instruction): RealVector = {
     val modifiedInstructions =
       instruction match {
         case l: StateLogger => instructions.zipWithIndex
@@ -71,7 +71,7 @@ object MetaOptimizationAlgorithm {
           case None => JsString("all")
           case Some(vars) => JsString(vars.mkString(","))
         }.toVector),
-        "instructions" -> JsArray(moa.instructions.map(GeneralInstruction.toJson).toVector))
+        "instructions" -> JsArray(moa.instructions.map(Instruction.toJson).toVector))
 
     def read(json: JsValue): MetaOptimizationAlgorithm =
       json.asJsObject.getFields("name", "algorithms", "targetVars", "instructions") match {
@@ -83,7 +83,7 @@ object MetaOptimizationAlgorithm {
               case JsString("all") => Option.empty[Set[String]]
               case JsString(vars) => Some(vars.split(",").toSet)
             },
-            instructions = instructions.map(GeneralInstruction.fromJson))
+            instructions = instructions.map(Instruction.fromJson))
         case _ => throw DeserializationException("MetaOptimizationAlgorithm expected")
       }
   }

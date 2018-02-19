@@ -3,7 +3,7 @@ package kaimere.real.optimization.general.instructions
 import kaimere.real.optimization.general.OptimizationAlgorithm
 import spray.json._
 
-trait GeneralInstruction {
+trait Instruction {
 
   def continue(algorithm: OptimizationAlgorithm): Boolean
   def reset(): Unit
@@ -11,9 +11,9 @@ trait GeneralInstruction {
 
 }
 
-object GeneralInstruction {
+object Instruction {
 
-  def fromCsv(csv: String): GeneralInstruction = {
+  def fromCsv(csv: String): Instruction = {
     val name = csv.split(",").head
     name match {
       case "AllInstruction" => AllInstruction(csv)
@@ -27,7 +27,7 @@ object GeneralInstruction {
     }
   }
 
-  def toJson(instruction: GeneralInstruction): JsValue = {
+  def toJson(instruction: Instruction): JsValue = {
     instruction match {
       case mi: MaxIterations => mi.toJson
       case mt: MaxTime => mt.toJson
@@ -40,7 +40,7 @@ object GeneralInstruction {
     }
   }
 
-  def fromJson(json: JsValue): GeneralInstruction = {
+  def fromJson(json: JsValue): Instruction = {
     json.asJsObject.getFields("name") match {
       case Seq(JsString(name)) =>
         name match {

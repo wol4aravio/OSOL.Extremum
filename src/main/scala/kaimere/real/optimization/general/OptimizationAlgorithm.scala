@@ -3,7 +3,7 @@ package kaimere.real.optimization.general
 import kaimere.real.objects.{Function, RealVector}
 import OptimizationAlgorithm.Area
 import kaimere.real.optimization.classic.zero_order.RandomSearch
-import kaimere.real.optimization.general.instructions.GeneralInstruction
+import kaimere.real.optimization.general.instructions.Instruction
 import kaimere.real.optimization.metaheuristic._
 import kaimere.real.optimization.classic.zero_order.RandomSearch.RS_State._
 import kaimere.real.optimization.general.MetaOptimizationAlgorithm.MOA_State._
@@ -32,7 +32,7 @@ abstract class OptimizationAlgorithm {
 
   def iterate(): Unit
 
-  def work(instruction: GeneralInstruction): RealVector = {
+  def work(instruction: Instruction): RealVector = {
     instruction.reset()
     while(instruction.continue(this))
       iterate()

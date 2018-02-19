@@ -3,7 +3,7 @@ package kaimere.real.optimization.general.instructions
 import kaimere.real.optimization.general.OptimizationAlgorithm
 import spray.json._
 
-case class MaxIterations(maxNumberOfIterations: Int, verbose: Boolean = false) extends GeneralInstruction {
+case class MaxIterations(maxNumberOfIterations: Int, verbose: Boolean = false) extends Instruction {
 
   private var alreadyDone: Int = 0
 

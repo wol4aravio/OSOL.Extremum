@@ -3,7 +3,7 @@ package kaimere.real.optimization.general.instructions
 import kaimere.real.optimization.general.OptimizationAlgorithm
 import spray.json._
 
-case class MaxTime(maxSeconds: Double, verbose: Boolean = false) extends GeneralInstruction {
+case class MaxTime(maxSeconds: Double, verbose: Boolean = false) extends Instruction {
 
   private var startTime: Long = System.nanoTime()
 

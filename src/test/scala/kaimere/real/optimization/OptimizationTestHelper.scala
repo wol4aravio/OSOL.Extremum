@@ -3,7 +3,7 @@ package kaimere.real.optimization
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.optimization.general.OptimizationAlgorithm
 import kaimere.real.optimization.general.initializers.{ExactInitializer, PureRandomInitializer}
-import kaimere.real.optimization.general.instructions.GeneralInstruction
+import kaimere.real.optimization.general.instructions.Instruction
 
 object OptimizationTestHelper {
 
@@ -16,7 +16,7 @@ object OptimizationTestHelper {
     def apply(tool: OptimizationAlgorithm,
               f: Function, area: OptimizationAlgorithm.Area,
               defaultValues: Option[(Double, Seq[(String, Double)])],
-              instruction: GeneralInstruction, epsNorm: Double, maxTries: Int): Boolean = {
+              instruction: Instruction, epsNorm: Double, maxTries: Int): Boolean = {
       if (defaultValues.isEmpty) tool.initialize(f, area, None, initializer = PureRandomInitializer(25))
       else {
         val exactInitializer = ExactInitializer(defaultValues.get._1, defaultValues.get._2:_*)

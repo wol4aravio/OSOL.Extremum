@@ -21,11 +21,11 @@ class InstructionSerializationSuite extends FunSuite {
   private val stateLogger = "StateLogger,temp,MaxTime,10.0,true"
   private val verboseBest = "VerboseBest,MaxTime,10.0,true"
 
-  def testInstructionSerialization[T <: GeneralInstruction](csv: String): Boolean = {
+  def testInstructionSerialization[T <: Instruction](csv: String): Boolean = {
 
-    val instruction: T = GeneralInstruction.fromCsv(csv).asInstanceOf[T]
-    val json = GeneralInstruction.toJson(instruction)
-    val fromJson: T = GeneralInstruction.fromJson(json).asInstanceOf[T]
+    val instruction: T = Instruction.fromCsv(csv).asInstanceOf[T]
+    val json = Instruction.toJson(instruction)
+    val fromJson: T = Instruction.fromJson(json).asInstanceOf[T]
 
     instruction == fromJson
 

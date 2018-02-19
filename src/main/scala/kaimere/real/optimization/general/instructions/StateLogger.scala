@@ -6,7 +6,7 @@ import java.io._
 
 import spray.json._
 
-case class StateLogger(folderName: String, mainInstruction: GeneralInstruction, bestOnly: Boolean = false) extends GeneralInstruction {
+case class StateLogger(folderName: String, mainInstruction: Instruction, bestOnly: Boolean = false) extends Instruction {
 
   private var iterationId = 1
 
@@ -40,7 +40,7 @@ object StateLogger {
     val folderName = csv.split(",").tail.head
     val instruction = csv.split(",").tail.tail
     name match {
-      case "StateLogger" => StateLogger(folderName, GeneralInstruction.fromCsv(instruction.mkString(",")))
+      case "StateLogger" => StateLogger(folderName, Instruction.fromCsv(instruction.mkString(",")))
       case _ => throw DeserializationException("StateLogger expected")
     }
   }
@@ -61,13 +61,13 @@ object StateLogger {
       JsObject(
         "name" -> JsString("StateLogger"),
         "folder" -> JsString(i.folderName),
-        "mainInstruction" -> GeneralInstruction.toJson(i.mainInstruction))
+        "mainInstruction" -> Instruction.toJson(i.mainInstruction))
 
     def read(json: JsValue): StateLogger =
       json.asJsObject.getFields("name", "folder", "mainInstruction") match {
         case Seq(JsString(name), JsString(folder), mainInstruction) =>
           if (name != "StateLogger") throw DeserializationException("StateLogger expected")
-          else StateLogger(folder, GeneralInstruction.fromJson(mainInstruction))
+          else StateLogger(folder, Instruction.fromJson(mainInstruction))
         case _ => throw DeserializationException("StateLogger expected")
       }
   }

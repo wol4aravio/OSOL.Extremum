@@ -3,7 +3,7 @@ package kaimere.real.optimization.general.instructions
 import kaimere.real.optimization.general.OptimizationAlgorithm
 import spray.json._
 
-case class TargetValue(targetValue: Double, maxError: Double = 0.01, verbose: Boolean = false) extends GeneralInstruction {
+case class TargetValue(targetValue: Double, maxError: Double = 0.01, verbose: Boolean = false) extends Instruction {
 
   override def continue(algorithm: OptimizationAlgorithm): Boolean = {
     val currentBestValue = algorithm.currentState.getBestBy(algorithm.f)._2

@@ -3,7 +3,7 @@ package kaimere.real.optimization.general.instructions
 import kaimere.real.optimization.general.OptimizationAlgorithm
 import spray.json._
 
-case class VerboseBest(mainInstruction: GeneralInstruction) extends GeneralInstruction {
+case class VerboseBest(mainInstruction: Instruction) extends Instruction {
 
   override def continue(algorithm: OptimizationAlgorithm): Boolean = {
     val continueOrNot = mainInstruction.continue(algorithm)
@@ -21,7 +21,7 @@ object VerboseBest {
     val name = csv.split(",").head
     val instruction = csv.split(",").tail
     name match {
-      case "VerboseBest" => VerboseBest(GeneralInstruction.fromCsv(instruction.mkString(",")))
+      case "VerboseBest" => VerboseBest(Instruction.fromCsv(instruction.mkString(",")))
       case _ => throw DeserializationException("VerboseBest expected")
     }
   }
@@ -30,13 +30,13 @@ object VerboseBest {
     def write(i: VerboseBest) =
       JsObject(
         "name" -> JsString("VerboseBest"),
-        "mainInstruction" -> GeneralInstruction.toJson(i.mainInstruction))
+        "mainInstruction" -> Instruction.toJson(i.mainInstruction))
 
     def read(json: JsValue): VerboseBest =
       json.asJsObject.getFields("name", "mainInstruction") match {
         case Seq(JsString(name), mainInstruction) =>
           if (name != "VerboseBest") throw DeserializationException("VerboseBest expected")
-          else VerboseBest(GeneralInstruction.fromJson(mainInstruction))
+          else VerboseBest(Instruction.fromJson(mainInstruction))
         case _ => throw DeserializationException("VerboseBest expected")
       }
   }
