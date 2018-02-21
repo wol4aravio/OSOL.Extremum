@@ -48,7 +48,7 @@ object Matlab {
   }
 
   def getTimeSeries(name: String): (Seq[Double], Seq[Double]) = {
-    this.eval(s"t_ = $name.Data;")
+    this.eval(s"t_ = $name.Time;")
     this.eval(s"v_ = $name.Data;")
     val time: Seq[Double] = getVariable.invoke(engine, "t_").asInstanceOf[Array[Double]]
     val values: Seq[Double] = getVariable.invoke(engine, "v_").asInstanceOf[Array[Double]]
