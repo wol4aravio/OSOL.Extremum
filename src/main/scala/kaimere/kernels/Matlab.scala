@@ -43,13 +43,16 @@ object Matlab {
   def eval(command: String): Unit =
     eval.invoke(engine, command)
 
-  def getVariable_1D(name: String): Double = {
+  def getVariable(name: String): Double = {
     getVariable.invoke(engine, name).asInstanceOf[Double]
   }
 
-  def getVariable_2D(name: String): Seq[Double] = {
-    this.eval(s"$name.Data;")
-    getVariable.invoke(engine, "ans").asInstanceOf[Array[Double]]
+  def getTimeSeries(name: String): (Seq[Double], Seq[Double]) = {
+    this.eval(s"t_ = $name.Data;")
+    this.eval(s"v_ = $name.Data;")
+    val time: Seq[Double] = getVariable.invoke(engine, "t_").asInstanceOf[Array[Double]]
+    val values: Seq[Double] = getVariable.invoke(engine, "v_").asInstanceOf[Array[Double]]
+    (time, values)
   }
 
   def loadSimulinkModel(model: String, jsonConfig: String): Simulink.Model  = {
