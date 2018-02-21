@@ -51,8 +51,10 @@ object StateLogger {
     folder.delete
   }
 
+  def numToStr(id: Int): String = s"${"%07d".format(id)}"
+
   def saveJson(json: JsValue, folderName: String, id: Int): Unit = {
-    val out = new BufferedWriter(new FileWriter(s"$folderName/${"%07d".format(id)}.json"))
+    val out = new BufferedWriter(new FileWriter(s"$folderName/${numToStr(id)}.json"))
     out.write(json.prettyPrint)
     out.close()
   }
