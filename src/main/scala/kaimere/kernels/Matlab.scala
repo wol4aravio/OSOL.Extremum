@@ -43,8 +43,13 @@ object Matlab {
   def eval(command: String): Unit =
     eval.invoke(engine, command)
 
-  def getVariable(name: String): Double = {
+  def getVariable_1D(name: String): Double = {
     getVariable.invoke(engine, name).asInstanceOf[Double]
+  }
+
+  def getVariable_2D(name: String): Seq[Double] = {
+    this.eval(s"$name.Data;")
+    getVariable.invoke(engine, "ans").asInstanceOf[Array[Double]]
   }
 
   def loadSimulinkModel(model: String, jsonConfig: String): Simulink.Model  = {

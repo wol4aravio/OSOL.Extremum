@@ -21,7 +21,7 @@ object Simulink {
         if (criterionIntegral != "null") {
           Matlab.eval(s"criterionIntegral = $criterionIntegral.Data(end);")
           Matlab.eval("criterion = criterion + criterionIntegral;")
-          Matlab.getVariable("criterionIntegral")
+          Matlab.getVariable_1D("criterionIntegral")
         }
         else 0.0
 
@@ -29,14 +29,14 @@ object Simulink {
         if (criterionTerminal != "null") {
           Matlab.eval(s"criterionTerminal = $criterionTerminal.Data(end);")
           Matlab.eval("criterion = criterion + criterionTerminal;")
-          Matlab.getVariable("criterionTerminal")
+          Matlab.getVariable_1D("criterionTerminal")
         }
         else 0.0
 
       val penalties = terminalCondition
         .map { case (stateName, idealValue, penalty, tolerance) =>
           Matlab.eval(s"${stateName}_end = $stateName.Data(end);")
-          val exactValue = Matlab.getVariable(s"${stateName}_end")
+          val exactValue = Matlab.getVariable_1D(s"${stateName}_end")
           getPenalty(exactValue, idealValue, penalty, tolerance)
         }
 
