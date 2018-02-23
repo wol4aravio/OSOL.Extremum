@@ -45,8 +45,12 @@ case class HarmonySearch(numberOfHarmonics: Int, memoryAcceptRate: Double, pitch
     }
     val newHarmonicFitness = this.f(newHarmonicLocation)
     val worstFitness = harmonics.map(_.fitness).max
-    val idWorst = harmonics.indexWhere(_.fitness == worstFitness)
-    currentState = (harmonics.zipWithIndex.filter { case (_, id) => id != idWorst }.map(_._1) :+ Harmonic(newHarmonicLocation, newHarmonicFitness)) |> HS_State
+    if (newHarmonicFitness < worstFitness) {
+      val idWorst = harmonics.indexWhere(_.fitness == worstFitness)
+      currentState =
+        (harmonics.zipWithIndex.filter { case (_, id) => id != idWorst }
+          .map(_._1) :+ Harmonic(newHarmonicLocation, newHarmonicFitness)) |> HS_State
+    }
   }
 
 }
