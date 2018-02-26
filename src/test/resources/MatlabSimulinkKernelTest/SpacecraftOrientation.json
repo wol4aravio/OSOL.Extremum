@@ -2,20 +2,38 @@
 	"name": "SpacecraftOrientation",
 	"state": ["x1", "x2"],
 	"control": ["u"],
-	"criterionIntegral": "criterionIntegral",
-	"criterionTerminal": "null",
-	"terminalCondition": [
+	"criteria": ["criterionIntegral"],
+	"terminalConditions": ["errorTerminal_x1", "errorTerminal_x2"],
+	"initialization": [
 		{
-			"name": "x1",
-			"value": 3.141592653589793,
-			"penalty": 1e3,
-			"tolerance": 1e-2
+			"type": "Constant",
+			"name": "errorTerminal_x1/target",
+			"value": 3.141592653589793
 		},
 		{
-			"name": "x2",
-			"value": 0.0,
-			"penalty": 1e3,
-			"tolerance": 1e-2
+			"type": "DeadZone",
+			"name": "errorTerminal_x1/tolerance",
+			"value": 1e-2
+		},
+		{
+			"type": "Gain",
+			"name": "errorTerminal_x1/penalty",
+			"value": 1e3
+		},
+		{
+			"type": "Constant",
+			"name": "errorTerminal_x2/target",
+			"value": 0.0
+		},
+		{
+			"type": "DeadZone",
+			"name": "errorTerminal_x2/tolerance",
+			"value": 1e-2
+		},
+		{
+			"type": "Gain",
+			"name": "errorTerminal_x2/penalty",
+			"value": 1e3
 		}
 	],
 	"tunable": [
