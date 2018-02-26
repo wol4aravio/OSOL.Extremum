@@ -13,7 +13,7 @@
 		{
 			"type": "DeadZone",
 			"name": "errorTerminal_x1/tolerance",
-			"value": 1e-2
+			"value": 1e-1
 		},
 		{
 			"type": "Gain",
@@ -28,7 +28,7 @@
 		{
 			"type": "DeadZone",
 			"name": "errorTerminal_x2/tolerance",
-			"value": 1e-2
+			"value": 1e-1
 		},
 		{
 			"type": "Gain",

@@ -7,7 +7,7 @@ import org.scalatest.FunSuite
 class MatlabSimulinkSuite extends FunSuite {
 
   implicit class RichDouble(val value: Double) {
-    def ~(that: RichDouble, eps: Double = 1e-3): Boolean = math.abs(this.value - that.value) < eps
+    def ~(that: RichDouble, eps: Double = 1e-2): Boolean = math.abs(this.value - that.value) < eps
   }
 
   test("Orientation Test") {
