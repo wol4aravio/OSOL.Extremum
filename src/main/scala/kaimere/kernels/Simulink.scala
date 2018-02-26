@@ -2,54 +2,36 @@ package kaimere.kernels
 
 import kaimere.real.objects.RealVector
 import kaimere.real.objects.Function
-import spray.json.{JsObject, JsString}
+import spray.json._
 
 object Simulink {
 
   case class Model(name: String, state: Vector[String], control: Vector[String],
-                   criterionIntegral: String, criterionTerminal: String,
-                   terminalCondition: Vector[(String, Double, Double, Double)],
+                   criteria: Seq[String], terminalConditions: Seq[String],
                    tunableBlocks: Vector[Blocks.Tunable], parameterArea: Map[String, (Double, Double)],
                    normCoeff: Double = 1.0) extends Function {
+
     override def apply(v: RealVector): Double = {
       tunableBlocks.foreach(_.tune(v))
       Matlab.eval(s"sim('$name');")
 
       Matlab.eval("criterion = 0.0;")
+      val criteriaValues = criteria.map { criterion =>
+        Matlab.eval(s"c_ = $criterion.Data(end);")
+        Matlab.eval("criterion = criterion + c_;")
+        Matlab.getVariable("c_")
+      }
 
-      val valueOfIntegralCriterion =
-        if (criterionIntegral != "null") {
-          Matlab.eval(s"criterionIntegral = $criterionIntegral.Data(end);")
-          Matlab.eval("criterion = criterion + criterionIntegral;")
-          Matlab.getVariable("criterionIntegral")
-        }
-        else 0.0
+      Matlab.eval("penalty = 0.0;")
+      val penalties = terminalConditions.map { terminal =>
+        Matlab.eval(s"p_ = $terminal.Data(end);")
+        Matlab.eval("penalty = penalty + p_;")
+        Matlab.getVariable("p_")
+      }
 
-      val valueOfTerminalCriterion =
-        if (criterionTerminal != "null") {
-          Matlab.eval(s"criterionTerminal = $criterionTerminal.Data(end);")
-          Matlab.eval("criterion = criterion + criterionTerminal;")
-          Matlab.getVariable("criterionTerminal")
-        }
-        else 0.0
-
-      val penalties = terminalCondition
-        .map { case (stateName, idealValue, penalty, tolerance) =>
-          Matlab.eval(s"${stateName}_end = $stateName.Data(end);")
-          val exactValue = Matlab.getVariable(s"${stateName}_end")
-          getPenalty(exactValue, idealValue, penalty, tolerance)
-        }
-
-      Matlab.eval(s"penalty = ${penalties.sum};")
-
-      valueOfIntegralCriterion + valueOfTerminalCriterion + penalties.sum
+      criteriaValues.sum + penalties.sum
     }
 
-    def getPenalty(exactValue: Double, idealValue: Double,
-                   penalty: Double, tolerance: Double): Double = {
-      val delta = math.abs(idealValue - exactValue)
-      math.pow(penalty * delta, normCoeff) * (if (delta < tolerance) 0 else 1)
-    }
   }
 
   object Exceptions {
@@ -63,10 +45,26 @@ object Simulink {
     abstract class Tunable(name: String) {
       def extract(v: RealVector): String
       def tune(v: RealVector): Unit
+      def initializeWith(d: Double): Unit
       def prettyPrint(v: RealVector): String = s"$name: ${extract(v)}"
       def toJson(v: RealVector): JsObject = JsObject(
         "name" -> JsString(name),
         "parameters" -> JsString(extract(v)))
+    }
+
+    def parseJson(json: JsValue, modelName: String): Tunable = {
+      val Seq(JsString(t)) = json.asJsObject.getFields("type")
+      t match {
+        case "Constant" => {
+          val Seq(JsString(n), JsString(v)) = json.asJsObject.getFields("name", "var")
+          Simulink.Blocks.Constant(s"$modelName/$n", v)
+        }
+        case "RepeatingSequenceInterpolated" => {
+          val Seq(JsString(n), JsNumber(v)) = json.asJsObject.getFields("name", "numberOfVars")
+          Simulink.Blocks.RepeatingSequenceInterpolated(s"$modelName/$n", n, v.toInt)
+        }
+        case _ => throw new Simulink.Exceptions.UnsupportedBlock(t)
+      }
     }
 
     case class Constant(name: String, parameterName: String) extends Tunable(name) {
@@ -74,6 +72,8 @@ object Simulink {
       override def extract(v: RealVector): String = {v(parameterName)}.toString
 
       override def tune(v: RealVector): Unit = Matlab.eval(s"set_param('$name', 'Value', num2str(${extract(v)}))")
+
+      override def initializeWith(d: Double): Unit = Matlab.eval(s"set_param('$name', 'Value', num2str($d))")
 
     }
 
@@ -85,6 +85,31 @@ object Simulink {
       }
 
       override def tune(v: RealVector): Unit = Matlab.eval(s"set_param('$name', 'OutValues', '${extract(v)}')")
+
+      override def initializeWith(d: Double): Unit = ???
+
+    }
+
+    case class Gain(name: String) extends Tunable(name) {
+
+      override def extract(v: RealVector): String = ???
+
+      override def tune(v: RealVector): Unit = ???
+
+      override def initializeWith(d: Double): Unit = Matlab.eval(s"set_param('$name', 'Gain', num2str($d))")
+
+    }
+
+    case class DeadZone(name: String) extends Tunable(name) {
+
+      override def extract(v: RealVector): String = ???
+
+      override def tune(v: RealVector): Unit = ???
+
+      override def initializeWith(d: Double): Unit = {
+        Matlab.eval(s"set_param('$name', 'LowerValue', num2str(${-d}))")
+        Matlab.eval(s"set_param('$name', 'UpperValue', num2str(${+d}))")
+      }
 
     }
 

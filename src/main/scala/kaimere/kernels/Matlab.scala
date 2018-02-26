@@ -5,6 +5,7 @@ import java.lang.reflect.Method
 import java.net.{URL, URLClassLoader}
 import java.nio.file.{Path, Paths}
 
+import kaimere.kernels.Simulink.Blocks.Tunable
 import spray.json._
 import kaimere.real.objects.RealVector
 
@@ -55,43 +56,35 @@ object Matlab {
     (time, values)
   }
 
+  def initializeBlocks(json: JsValue, modelName: String): (Tunable, Double) = {
+
+    val Seq(JsString(t), JsString(n), JsNumber(initValue)) = json.asJsObject.getFields("type", "name", "value")
+    t match {
+      case "Constant" => (Simulink.Blocks.Constant(s"$modelName/$n", ""), initValue.toDouble)
+      case "Gain" => (Simulink.Blocks.Gain(s"$modelName/$n"), initValue.toDouble)
+      case "DeadZone" => (Simulink.Blocks.DeadZone(s"$modelName/$n"), initValue.toDouble)
+      case _ => throw new Simulink.Exceptions.UnsupportedBlock(t)
+    }
+
+  }
+
   def loadSimulinkModel(model: String, jsonConfig: String): Simulink.Model  = {
     val json = scala.io.Source.fromFile(jsonConfig).mkString.parseJson.asJsObject
     val Seq(
     JsString(name),
     JsArray(stateJson),
     JsArray(controlJson),
-    JsString(criterionIntegral),
-    JsString(criterionTerminal),
-    JsArray(terminalConditionJson),
+    JsArray(criteria),
+    JsArray(terminalConditions),
+    JsArray(initializationJsons),
     JsArray(tunableJson),
     JsArray(parameters)) =
-      json.getFields("name", "state", "control", "criterionIntegral", "criterionTerminal", "terminalCondition", "tunable", "parameters")
+      json.getFields("name", "state", "control", "criteria", "terminalConditions", "initialization", "tunable", "parameters")
 
     val state = stateJson.map(_.asInstanceOf[JsString].value)
     val control = controlJson.map(_.asInstanceOf[JsString].value)
 
-    val terminalCondition = terminalConditionJson.map { j =>
-      val Seq(JsString(terminalName), JsNumber(terminalValue), JsNumber(terminalPenalty), JsNumber(terminalTolerance)) =
-        j.asJsObject.getFields("name", "value", "penalty", "tolerance")
-      (terminalName, terminalValue.toDouble, terminalPenalty.toDouble, terminalTolerance.toDouble)
-    }
-
-    val blocks = tunableJson
-      .map { j =>
-        val Seq(JsString(t)) = j.asJsObject.getFields("type")
-        t match {
-          case "Constant" => {
-            val Seq(JsString(n), JsString(v)) = j.asJsObject.getFields("name", "var")
-            Simulink.Blocks.Constant(s"$name/$n", v)
-          }
-          case "RepeatingSequenceInterpolated" => {
-            val Seq(JsString(n), JsNumber(v)) = j.asJsObject.getFields("name", "numberOfVars")
-            Simulink.Blocks.RepeatingSequenceInterpolated(s"$name/$n", n, v.toInt)
-          }
-          case _ => throw new Simulink.Exceptions.UnsupportedBlock(t)
-        }
-      }
+    val blocks = tunableJson.map(Simulink.Blocks.parseJson(_, name))
 
     val area = parameters.map {
       case part =>
@@ -99,9 +92,16 @@ object Matlab {
         vars.map{ case JsString(varName) => (varName, (min.toDouble, max.toDouble))}
     }.map { _.toMap[String, (Double, Double)]}.reduce(_ ++ _)
 
-    val path = Paths.get(model).toAbsolutePath().toString()
+    val path = Paths.get(model).toAbsolutePath.toString
     eval(s"load_system('$path')")
-    Simulink.Model(name, state, control, criterionIntegral, criterionTerminal, terminalCondition, blocks, area)
+
+    initializationJsons.map(initializeBlocks(_, name)).foreach { case (b, initValue) => b.initializeWith(initValue) }
+
+    Simulink.Model(
+      name, state, control,
+      criteria.map(_.asInstanceOf[JsString].value),
+      terminalConditions.map(_.asInstanceOf[JsString].value), blocks, area)
+
   }
 
   def unloadSimulinkModel(model: String): Unit = {
