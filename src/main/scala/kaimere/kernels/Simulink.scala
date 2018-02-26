@@ -19,14 +19,14 @@ object Simulink {
       val criteriaValues = criteria.map { criterion =>
         Matlab.eval(s"$criterion = $criterion.Data(end);")
         Matlab.eval(s"criterion = criterion + $criterion;")
-        Matlab.getVariable("c_")
+        Matlab.getVariable(s"$criterion")
       }
 
       Matlab.eval("penalty = 0.0;")
       val penalties = terminalConditions.map { terminal =>
         Matlab.eval(s"$terminal = $terminal.Data(end);")
         Matlab.eval(s"penalty = penalty + $terminal;")
-        Matlab.getVariable("p_")
+        Matlab.getVariable(s"$terminal")
       }
 
       criteriaValues.sum + penalties.sum
