@@ -17,15 +17,15 @@ object Simulink {
 
       Matlab.eval("criterion = 0.0;")
       val criteriaValues = criteria.map { criterion =>
-        Matlab.eval(s"c_ = $criterion.Data(end);")
-        Matlab.eval("criterion = criterion + c_;")
+        Matlab.eval(s"$criterion = $criterion.Data(end);")
+        Matlab.eval(s"criterion = criterion + $criterion;")
         Matlab.getVariable("c_")
       }
 
       Matlab.eval("penalty = 0.0;")
       val penalties = terminalConditions.map { terminal =>
-        Matlab.eval(s"p_ = $terminal.Data(end);")
-        Matlab.eval("penalty = penalty + p_;")
+        Matlab.eval(s"$terminal = $terminal.Data(end);")
+        Matlab.eval(s"penalty = penalty + $terminal;")
         Matlab.getVariable("p_")
       }
 
