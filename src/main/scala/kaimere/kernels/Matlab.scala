@@ -56,13 +56,25 @@ object Matlab {
     (time, values)
   }
 
-  def initializeBlocks(json: JsValue, modelName: String): (Tunable, Double) = {
+  def initializeBlocks(json: JsValue, modelName: String): Unit = {
 
-    val Seq(JsString(t), JsString(n), JsNumber(initValue)) = json.asJsObject.getFields("type", "name", "value")
+    val Seq(JsString(t), JsString(n)) = json.asJsObject.getFields("type", "name")
     t match {
-      case "Constant" => (Simulink.Blocks.Constant(s"$modelName/$n", ""), initValue.toDouble)
-      case "Gain" => (Simulink.Blocks.Gain(s"$modelName/$n"), initValue.toDouble)
-      case "DeadZone" => (Simulink.Blocks.DeadZone(s"$modelName/$n"), initValue.toDouble)
+      case "Constant" =>
+        val Seq(JsNumber(initValue)) = json.asJsObject.getFields("value")
+        Simulink.Blocks.Constant(s"$modelName/$n", "").initializeWith(initValue.toDouble)
+      case "Gain" =>
+        val Seq(JsNumber(initValue)) = json.asJsObject.getFields("value")
+        Simulink.Blocks.Gain(s"$modelName/$n").initializeWith(initValue.toDouble)
+      case "DeadZone" =>
+        if (json.asJsObject.fields.contains("value")) {
+          val Seq(JsNumber(initValue)) = json.asJsObject.getFields("value")
+          Simulink.Blocks.DeadZone(s"$modelName/$n").initializeWith(initValue.toDouble)
+        }
+        else {
+          val Seq(JsNumber(minValue), JsNumber(maxValue)) = json.asJsObject.getFields("minValue", "maxValue")
+          Simulink.Blocks.DeadZone(s"$modelName/$n").initializeWith(minValue.toDouble, maxValue.toDouble)
+        }
       case _ => throw new Simulink.Exceptions.UnsupportedBlock(t)
     }
 
@@ -95,7 +107,7 @@ object Matlab {
     val path = Paths.get(model).toAbsolutePath.toString
     eval(s"load_system('$path')")
 
-    initializationJsons.map(initializeBlocks(_, name)).foreach { case (b, initValue) => b.initializeWith(initValue) }
+    initializationJsons.foreach(initializeBlocks(_, name))
 
     Simulink.Model(
       name, state, control,

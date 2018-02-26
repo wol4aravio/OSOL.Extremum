@@ -45,7 +45,6 @@ object Simulink {
     abstract class Tunable(name: String) {
       def extract(v: RealVector): String
       def tune(v: RealVector): Unit
-      def initializeWith(d: Double): Unit
       def prettyPrint(v: RealVector): String = s"$name: ${extract(v)}"
       def toJson(v: RealVector): JsObject = JsObject(
         "name" -> JsString(name),
@@ -73,7 +72,7 @@ object Simulink {
 
       override def tune(v: RealVector): Unit = Matlab.eval(s"set_param('$name', 'Value', num2str(${extract(v)}))")
 
-      override def initializeWith(d: Double): Unit = Matlab.eval(s"set_param('$name', 'Value', num2str($d))")
+      def initializeWith(d: Double): Unit = Matlab.eval(s"set_param('$name', 'Value', num2str($d))")
 
     }
 
@@ -86,29 +85,23 @@ object Simulink {
 
       override def tune(v: RealVector): Unit = Matlab.eval(s"set_param('$name', 'OutValues', '${extract(v)}')")
 
-      override def initializeWith(d: Double): Unit = ???
+    }
+
+    case class Gain(name: String) {
+
+      def initializeWith(d: Double): Unit = Matlab.eval(s"set_param('$name', 'Gain', num2str($d))")
 
     }
 
-    case class Gain(name: String) extends Tunable(name) {
+    case class DeadZone(name: String) {
 
-      override def extract(v: RealVector): String = ???
-
-      override def tune(v: RealVector): Unit = ???
-
-      override def initializeWith(d: Double): Unit = Matlab.eval(s"set_param('$name', 'Gain', num2str($d))")
-
-    }
-
-    case class DeadZone(name: String) extends Tunable(name) {
-
-      override def extract(v: RealVector): String = ???
-
-      override def tune(v: RealVector): Unit = ???
-
-      override def initializeWith(d: Double): Unit = {
+      def initializeWith(d: Double): Unit = {
         Matlab.eval(s"set_param('$name', 'LowerValue', num2str(${-d}))")
         Matlab.eval(s"set_param('$name', 'UpperValue', num2str(${+d}))")
+      }
+      def initializeWith(minValue: Double, maxValue: Double): Unit = {
+        Matlab.eval(s"set_param('$name', 'LowerValue', num2str($minValue))")
+        Matlab.eval(s"set_param('$name', 'UpperValue', num2str($maxValue))")
       }
 
     }
