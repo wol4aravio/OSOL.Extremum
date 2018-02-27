@@ -25,7 +25,7 @@ class MatlabSimulinkSuite extends FunSuite {
     Matlab.unloadSimulinkModel(modelLocation)
 
     Matlab.terminate()
-
+    
     assert(result ~ (12 * math.Pi * math.Pi))
 
   }
