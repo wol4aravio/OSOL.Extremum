@@ -6,34 +6,54 @@
 	"terminalConditions": ["errorTerminal_x1", "errorTerminal_x2"],
 	"initialization": [
 		{
-			"type": "Constant",
+			"name": "x1",
+			"parameter": "InitialCondition",
+			"value": "0.0"
+		},
+		{
+			"name": "x2",
+			"parameter": "InitialCondition",
+			"value": "0.0"
+		},
+		{
 			"name": "errorTerminal_x1/target",
-			"value": 3.141592653589793
+			"parameter": "Value",
+			"value": "180"
 		},
 		{
-			"type": "DeadZone",
 			"name": "errorTerminal_x1/tolerance",
-			"value": 1e-1
+			"parameter": "LowerValue",
+			"value": "-1e-1"
 		},
 		{
-			"type": "Gain",
+			"name": "errorTerminal_x1/tolerance",
+			"parameter": "UpperValue",
+			"value": "1e-1"
+		},
+		{
 			"name": "errorTerminal_x1/penalty",
-			"value": 1e3
+			"parameter": "Gain",
+			"value": "1e3"
 		},
 		{
-			"type": "Constant",
 			"name": "errorTerminal_x2/target",
-			"value": 0.0
+			"parameter": "Value",
+			"value": "0.0"
 		},
 		{
-			"type": "DeadZone",
 			"name": "errorTerminal_x2/tolerance",
-			"value": 1e-1
+			"parameter": "LowerValue",
+			"value": "-1e-1"
 		},
 		{
-			"type": "Gain",
+			"name": "errorTerminal_x2/tolerance",
+			"parameter": "UpperValue",
+			"value": "1e-1"
+		},
+		{
 			"name": "errorTerminal_x2/penalty",
-			"value": 1e3
+			"parameter": "Gain",
+			"value": "1e3"
 		}
 	],
 	"tunable": [
