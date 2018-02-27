@@ -57,27 +57,8 @@ object Matlab {
   }
 
   def initializeBlocks(json: JsValue, modelName: String): Unit = {
-
-    val Seq(JsString(t), JsString(n)) = json.asJsObject.getFields("type", "name")
-    t match {
-      case "Constant" =>
-        val Seq(JsNumber(initValue)) = json.asJsObject.getFields("value")
-        Simulink.Blocks.Constant(s"$modelName/$n", "").initializeWith(initValue.toDouble)
-      case "Gain" =>
-        val Seq(JsNumber(initValue)) = json.asJsObject.getFields("value")
-        Simulink.Blocks.Gain(s"$modelName/$n").initializeWith(initValue.toDouble)
-      case "DeadZone" =>
-        if (json.asJsObject.fields.contains("value")) {
-          val Seq(JsNumber(initValue)) = json.asJsObject.getFields("value")
-          Simulink.Blocks.DeadZone(s"$modelName/$n").initializeWith(initValue.toDouble)
-        }
-        else {
-          val Seq(JsNumber(minValue), JsNumber(maxValue)) = json.asJsObject.getFields("minValue", "maxValue")
-          Simulink.Blocks.DeadZone(s"$modelName/$n").initializeWith(minValue.toDouble, maxValue.toDouble)
-        }
-      case _ => throw new Simulink.Exceptions.UnsupportedBlock(t)
-    }
-
+    val Seq(JsString(name), JsString(parameter), JsString(value)) = json.asJsObject.getFields("name", "parameter", "value")
+    Matlab.eval(s"set_param('$modelName/$name', '$parameter', '$value')")
   }
 
   def loadSimulinkModel(model: String, jsonConfig: String): Simulink.Model  = {

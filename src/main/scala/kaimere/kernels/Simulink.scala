@@ -72,8 +72,6 @@ object Simulink {
 
       override def tune(v: RealVector): Unit = Matlab.eval(s"set_param('$name', 'Value', num2str(${extract(v)}))")
 
-      def initializeWith(d: Double): Unit = Matlab.eval(s"set_param('$name', 'Value', num2str($d))")
-
     }
 
     case class RepeatingSequenceInterpolated(name: String, prefix: String, numberOfParameters: Int) extends Tunable(name) {
@@ -84,25 +82,6 @@ object Simulink {
       }
 
       override def tune(v: RealVector): Unit = Matlab.eval(s"set_param('$name', 'OutValues', '${extract(v)}')")
-
-    }
-
-    case class Gain(name: String) {
-
-      def initializeWith(d: Double): Unit = Matlab.eval(s"set_param('$name', 'Gain', num2str($d))")
-
-    }
-
-    case class DeadZone(name: String) {
-
-      def initializeWith(d: Double): Unit = {
-        Matlab.eval(s"set_param('$name', 'LowerValue', num2str(${-d}))")
-        Matlab.eval(s"set_param('$name', 'UpperValue', num2str(${+d}))")
-      }
-      def initializeWith(minValue: Double, maxValue: Double): Unit = {
-        Matlab.eval(s"set_param('$name', 'LowerValue', num2str($minValue))")
-        Matlab.eval(s"set_param('$name', 'UpperValue', num2str($maxValue))")
-      }
 
     }
 
