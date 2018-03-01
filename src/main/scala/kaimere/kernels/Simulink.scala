@@ -58,6 +58,10 @@ object Simulink {
           val Seq(JsString(n), JsString(v)) = json.asJsObject.getFields("name", "var")
           Simulink.Blocks.Constant(s"$modelName/$n", v)
         }
+        case "Constant_Seq" => {
+          val Seq(JsString(n), JsNumber(v)) = json.asJsObject.getFields("name", "numberOfVars")
+          Simulink.Blocks.Constant_Seq(s"$modelName/$n", n, v.toInt)
+        }
         case "RepeatingSequenceInterpolated" => {
           val Seq(JsString(n), JsNumber(v)) = json.asJsObject.getFields("name", "numberOfVars")
           Simulink.Blocks.RepeatingSequenceInterpolated(s"$modelName/$n", n, v.toInt)
@@ -71,6 +75,17 @@ object Simulink {
       override def extract(v: RealVector): String = {v(parameterName)}.toString
 
       override def tune(v: RealVector): Unit = Matlab.eval(s"set_param('$name', 'Value', num2str(${extract(v)}))")
+
+    }
+
+    case class Constant_Seq(name: String, prefix: String, numberOfParameters: Int) extends Tunable(name) {
+
+      override def extract(v: RealVector): String = {
+        val selectedVars = Range(0, numberOfParameters).map(key => v(s"${prefix}_${key.toString}"))
+        s"[${selectedVars.mkString(", ")}]"
+      }
+
+      override def tune(v: RealVector): Unit = Matlab.eval(s"set_param('$name', 'Value', '${extract(v)}')")
 
     }
 
