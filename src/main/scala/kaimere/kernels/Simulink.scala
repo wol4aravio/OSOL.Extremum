@@ -28,7 +28,7 @@ object Simulink {
         Matlab.eval(s"penalty = penalty + $terminal;")
         Matlab.getVariable(s"$terminal")
       }
-
+      
       criteriaValues.sum + penalties.sum
     }
 

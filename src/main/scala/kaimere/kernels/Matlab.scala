@@ -56,8 +56,7 @@ object Matlab {
     (time, values)
   }
 
-  def initializeBlocks(json: JsValue, modelName: String): Unit = {
-    val Seq(JsString(name), JsString(parameter), JsString(value)) = json.asJsObject.getFields("name", "parameter", "value")
+  def initializeBlocks(modelName: String, name: String, parameter: String, value: String): Unit = {
     Matlab.eval(s"set_param('$modelName/$name', '$parameter', '$value')")
   }
 
@@ -69,10 +68,9 @@ object Matlab {
     JsArray(controlJson),
     JsArray(criteria),
     JsArray(terminalConditions),
-    JsArray(initializationJsons),
     JsArray(tunableJson),
     JsArray(parameters)) =
-      json.getFields("name", "state", "control", "criteria", "terminalConditions", "initialization", "tunable", "parameters")
+      json.getFields("name", "state", "control", "criteria", "terminalConditions", "tunable", "parameters")
 
     val state = stateJson.map(_.asInstanceOf[JsString].value)
     val control = controlJson.map(_.asInstanceOf[JsString].value)
@@ -87,8 +85,6 @@ object Matlab {
 
     val path = Paths.get(model).toAbsolutePath.toString
     eval(s"load_system('$path')")
-
-    initializationJsons.foreach(initializeBlocks(_, name))
 
     Simulink.Model(
       name, state, control,
