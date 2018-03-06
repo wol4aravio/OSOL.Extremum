@@ -69,8 +69,9 @@ object Matlab {
     JsArray(criteria),
     JsArray(terminalConditions),
     JsArray(tunableJson),
-    JsArray(parameters)) =
-      json.getFields("name", "state", "control", "criteria", "terminalConditions", "tunable", "parameters")
+    JsArray(parameters),
+    JsArray(libraries)) =
+      json.getFields("name", "state", "control", "criteria", "terminalConditions", "tunable", "parameters", "libraries")
 
     val state = stateJson.map(_.asInstanceOf[JsString].value)
     val control = controlJson.map(_.asInstanceOf[JsString].value)
@@ -89,7 +90,8 @@ object Matlab {
     Simulink.Model(
       name, state, control,
       criteria.map(_.asInstanceOf[JsString].value),
-      terminalConditions.map(_.asInstanceOf[JsString].value), blocks, area)
+      terminalConditions.map(_.asInstanceOf[JsString].value), blocks, area,
+      libraries.map(_.asInstanceOf[JsString].value))
 
   }
 

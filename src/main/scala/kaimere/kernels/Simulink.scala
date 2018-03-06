@@ -9,6 +9,7 @@ object Simulink {
   case class Model(name: String, state: Vector[String], control: Vector[String],
                    criteria: Seq[String], terminalConditions: Seq[String],
                    tunableBlocks: Vector[Blocks.Tunable], parameterArea: Map[String, (Double, Double)],
+                   libraries: Seq[String],
                    normCoeff: Double = 1.0) extends Function {
 
     override def apply(v: RealVector): Double = {
@@ -28,7 +29,7 @@ object Simulink {
         Matlab.eval(s"penalty = penalty + $terminal;")
         Matlab.getVariable(s"$terminal")
       }
-      
+
       criteriaValues.sum + penalties.sum
     }
 
