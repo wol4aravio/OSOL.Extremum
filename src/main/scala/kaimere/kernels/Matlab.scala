@@ -70,8 +70,10 @@ object Matlab {
     JsArray(terminalConditions),
     JsArray(tunableJson),
     JsArray(parameters),
-    JsArray(libraries)) =
+    JsArray(librariesJson)) =
       json.getFields("name", "state", "control", "criteria", "terminalConditions", "tunable", "parameters", "libraries")
+
+    val libraries = librariesJson.map(_.asInstanceOf[JsString].value)
 
     val state = stateJson.map(_.asInstanceOf[JsString].value)
     val control = controlJson.map(_.asInstanceOf[JsString].value)
@@ -85,19 +87,21 @@ object Matlab {
     }.map { _.toMap[String, (Double, Double)]}.reduce(_ ++ _)
 
     val path = Paths.get(model).toAbsolutePath.toString
+    libraries.foreach(l => s"load_system('${Paths.get(l).toAbsolutePath.toString}')")
     eval(s"load_system('$path')")
 
     Simulink.Model(
       name, state, control,
       criteria.map(_.asInstanceOf[JsString].value),
       terminalConditions.map(_.asInstanceOf[JsString].value), blocks, area,
-      libraries.map(_.asInstanceOf[JsString].value))
+      libraries)
 
   }
 
-  def unloadSimulinkModel(model: String): Unit = {
-    eval(s"save_system('$model')")
-    eval(s"close_system('$model')")
+  def unloadSimulinkModel(model: Simulink.Model): Unit = {
+    eval(s"save_system('${model.name}')")
+    eval(s"close_system('${model.name}')")
+    model.libraries.foreach(l => s"close_system('$l')")
   }
 
 }

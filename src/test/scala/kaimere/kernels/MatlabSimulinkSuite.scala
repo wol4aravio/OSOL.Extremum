@@ -22,7 +22,7 @@ class MatlabSimulinkSuite extends FunSuite {
       jsonConfig = jsonLocation)
     val result = model.apply(RealVector("a" -> 6 * math.Pi, "b" -> -12 * math.Pi))
 
-    Matlab.unloadSimulinkModel(modelLocation)
+    Matlab.unloadSimulinkModel(model)
 
     Matlab.terminate()
 
