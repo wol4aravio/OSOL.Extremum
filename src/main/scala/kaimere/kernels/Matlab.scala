@@ -87,7 +87,7 @@ object Matlab {
     }.map { _.toMap[String, (Double, Double)]}.reduce(_ ++ _)
 
     val path = Paths.get(model).toAbsolutePath.toString
-    libraries.foreach(l => s"load_system('${Paths.get(l).toAbsolutePath.toString}')")
+    libraries.foreach(l => s"load_system('${Paths.get(model).getParent.toAbsolutePath.toString + File.pathSeparator + l}')")
     eval(s"load_system('$path')")
 
     Simulink.Model(
