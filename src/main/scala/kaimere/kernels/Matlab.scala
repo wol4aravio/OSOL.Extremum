@@ -88,7 +88,7 @@ object Matlab {
 
     val path = Paths.get(model).toAbsolutePath.toString
     libraries.foreach{ l =>
-      val libName = l.split(File.separator).last
+      val libName = l.split('\\').last.split('/').last
       val source = Paths.get(Paths.get(model).getParent.toAbsolutePath + File.separator + l)
       val dist = Paths.get(libName)
       java.nio.file.Files.copy(source, dist)}
