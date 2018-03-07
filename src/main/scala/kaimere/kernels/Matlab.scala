@@ -98,7 +98,7 @@ object Matlab {
       name, state, control,
       criteria.map(_.asInstanceOf[JsString].value),
       terminalConditions.map(_.asInstanceOf[JsString].value), blocks, area,
-      libraries.map(_.split(File.separator).last))
+      libraries.map(_.split('\\').last.split('/').last))
 
   }
 
