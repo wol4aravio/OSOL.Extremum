@@ -87,21 +87,25 @@ object Matlab {
     }.map { _.toMap[String, (Double, Double)]}.reduce(_ ++ _)
 
     val path = Paths.get(model).toAbsolutePath.toString
-    libraries.foreach(l => s"load_system('${Paths.get(model).getParent.toAbsolutePath.toString + File.pathSeparator + l}')")
+    libraries.foreach{ l =>
+      val libName = l.split(File.pathSeparator).last
+      val source = Paths.get(Paths.get(model).getParent.toAbsolutePath + File.pathSeparator + l)
+      val dist = Paths.get(libName)
+      java.nio.file.Files.copy(source, dist)}
     eval(s"load_system('$path')")
 
     Simulink.Model(
       name, state, control,
       criteria.map(_.asInstanceOf[JsString].value),
       terminalConditions.map(_.asInstanceOf[JsString].value), blocks, area,
-      libraries)
+      libraries.map(_.split(File.pathSeparator).last))
 
   }
 
   def unloadSimulinkModel(model: Simulink.Model): Unit = {
     eval(s"save_system('${model.name}')")
     eval(s"close_system('${model.name}')")
-    model.libraries.foreach(l => s"close_system('$l')")
+    model.libraries.foreach(l => java.nio.file.Files.delete(Paths.get(l)))
   }
 
 }
