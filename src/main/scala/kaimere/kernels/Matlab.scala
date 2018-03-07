@@ -88,8 +88,8 @@ object Matlab {
 
     val path = Paths.get(model).toAbsolutePath.toString
     libraries.foreach{ l =>
-      val libName = l.split(File.pathSeparator).last
-      val source = Paths.get(Paths.get(model).getParent.toAbsolutePath + File.pathSeparator + l)
+      val libName = l.split(File.separator).last
+      val source = Paths.get(Paths.get(model).getParent.toAbsolutePath + File.separator + l)
       val dist = Paths.get(libName)
       java.nio.file.Files.copy(source, dist)}
     eval(s"load_system('$path')")
@@ -98,7 +98,7 @@ object Matlab {
       name, state, control,
       criteria.map(_.asInstanceOf[JsString].value),
       terminalConditions.map(_.asInstanceOf[JsString].value), blocks, area,
-      libraries.map(_.split(File.pathSeparator).last))
+      libraries.map(_.split(File.separator).last))
 
   }
 
