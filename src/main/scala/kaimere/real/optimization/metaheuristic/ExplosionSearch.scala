@@ -18,9 +18,7 @@ case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double)
   private def calculatePowerDistribution(area: OptimizationAlgorithm.Area): Map[Int, Map[String, Double]] = {
     Range(0, numberOfBombs)
       .map { id =>
-        (id, area.map { case (key, (min, max)) =>
-          (key, id * powerRatio * (max - min) / (numberOfBombs - 1))
-        })
+        (id, area.map { case (key, (min, max)) => (key, id * powerRatio * (max - min) / (numberOfBombs - 1)) })
       }.toMap
   }
 
