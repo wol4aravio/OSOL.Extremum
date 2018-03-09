@@ -59,7 +59,7 @@ object ExplosionSearch {
       val deltaRight = delta + (explodingKey -> (0.0, power(explodingKey)))
 
       val bomb_1 = location.moveBy(GoRN.getContinuousUniform(deltaLeft)).constrain(area)
-      val bomb_2 = location.moveBy(GoRN.getContinuousUniform(deltaLeft)).constrain(area)
+      val bomb_2 = location.moveBy(GoRN.getContinuousUniform(deltaRight)).constrain(area)
 
       (Bomb(bomb_1, f(bomb_1)), Bomb(bomb_2, f(bomb_2)))
 
