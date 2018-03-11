@@ -3,15 +3,42 @@ package kaimere.real.optimization.metaheuristic
 import kaimere.real.optimization._
 import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
-import kaimere.real.objects.RealVector._
 import kaimere.real.optimization.general.initializers.Initializer
-import kaimere.real.optimization.metaheuristic.ExplosionSearch.{Bomb, ES_State}
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
 import spray.json._
 
-case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double)
+case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double, multi: Boolean)
   extends OptimizationAlgorithm {
+
+  case class Bomb(location: RealVector, fitness: Double) {
+
+    def explode(power: Map[String, Double], f: Function, area: OptimizationAlgorithm.Area): (Bomb, Bomb) = {
+
+      val Seq(explodingKey) = GoRN.getFromSeries(power.keys.toSeq, 1, withReturn = false)
+      val remainingKeys = power.keySet - explodingKey
+
+      val delta =
+        if (multi) remainingKeys.map(key => (key, (-power(key), power(key)))).toMap[String, (Double, Double)]
+        else remainingKeys.map(key => (key, (0.0, 0.0))).toMap[String, (Double, Double)]
+
+      val deltaLeft = delta + (explodingKey -> (-power(explodingKey), 0.0))
+      val deltaRight = delta + (explodingKey -> (0.0, power(explodingKey)))
+
+      val bomb_1 = location.moveBy(GoRN.getContinuousUniform(deltaLeft)).constrain(area)
+      val bomb_2 = location.moveBy(GoRN.getContinuousUniform(deltaRight)).constrain(area)
+
+      (Bomb(bomb_1, f(bomb_1)), Bomb(bomb_2, f(bomb_2)))
+
+    }
+
+  }
+
+  case class ES_State(bombs: Seq[Bomb]) extends State(vectors = bombs.map(_.location).toVector) {
+
+    override def getBestBy(f: Function): (RealVector, Double) = (bombs.head.location, bombs.head.fitness)
+
+  }
 
   private var powerDistribution: Map[Int, Map[String, Double]] = Map.empty
 
@@ -45,38 +72,12 @@ case class ExplosionSearch(numberOfBombs: Int, powerRatio: Double)
 
 object ExplosionSearch {
 
-  case class Bomb(location: RealVector, fitness: Double) {
-
-    def explode(power: Map[String, Double], f: Function, area: OptimizationAlgorithm.Area): (Bomb, Bomb) = {
-
-      val Seq(explodingKey) = GoRN.getFromSeries(power.keys.toSeq, 1, withReturn = false)
-      val remainingKeys = power.keySet - explodingKey
-
-      val delta = remainingKeys.map(key => (key, (-power(key), power(key)))).toMap[String, (Double, Double)]
-      val deltaLeft = delta + (explodingKey -> (-power(explodingKey), 0.0))
-      val deltaRight = delta + (explodingKey -> (0.0, power(explodingKey)))
-
-      val bomb_1 = location.moveBy(GoRN.getContinuousUniform(deltaLeft)).constrain(area)
-      val bomb_2 = location.moveBy(GoRN.getContinuousUniform(deltaRight)).constrain(area)
-
-      (Bomb(bomb_1, f(bomb_1)), Bomb(bomb_2, f(bomb_2)))
-
-    }
-
-  }
-
   def apply(csv: String): ExplosionSearch = {
-    val Array(name, numberOfBombs, powerRatio) = csv.split(",")
+    val Array(name, numberOfBombs, powerRatio, multi) = csv.split(",")
     name match {
-      case "ES" | "es" | "ExplosionSearch" => ExplosionSearch(numberOfBombs.toInt, powerRatio.toDouble)
+      case "ES" | "es" | "ExplosionSearch" => ExplosionSearch(numberOfBombs.toInt, powerRatio.toDouble, multi.toBoolean)
       case _ => throw DeserializationException("ExplosionSearch expected")
     }
-  }
-
-  case class ES_State(bombs: Seq[Bomb]) extends State(vectors = bombs.map(_.location).toVector) {
-
-    override def getBestBy(f: Function): (RealVector, Double) = (bombs.head.location, bombs.head.fitness)
-
   }
 
   implicit object ExplosionSearchJsonFormat extends RootJsonFormat[ExplosionSearch] {
@@ -84,13 +85,15 @@ object ExplosionSearch {
       JsObject(
         "name" -> JsString("ExplosionSearch"),
         "numberOfBombs" -> JsNumber(es.numberOfBombs),
-        "powerRatio" -> JsNumber(es.powerRatio))
+        "powerRatio" -> JsNumber(es.powerRatio),
+        "multi" -> JsBoolean(es.multi)
+      )
 
     def read(json: JsValue): ExplosionSearch =
-      json.asJsObject.getFields("name", "numberOfBombs", "powerRatio") match {
-        case Seq(JsString(name), JsNumber(numberOfBombs), JsNumber(powerRatio)) =>
+      json.asJsObject.getFields("name", "numberOfBombs", "powerRatio", "multi") match {
+        case Seq(JsString(name), JsNumber(numberOfBombs), JsNumber(powerRatio), JsBoolean(multi)) =>
           if (name != "ExplosionSearch") throw DeserializationException("ExplosionSearch expected")
-          else ExplosionSearch(Seq(name, numberOfBombs, powerRatio).mkString(","))
+          else ExplosionSearch(Seq(name, numberOfBombs, powerRatio, multi).mkString(","))
         case _ => throw DeserializationException("ExplosionSearch expected")
       }
   }

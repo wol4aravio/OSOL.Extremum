@@ -14,7 +14,7 @@ class ExplosionSearchSuite extends FunSuite {
   private val maxTime = 0.5
   private val maxIterations = 2500
 
-  private val config = "ExplosionSearch,10,0.01"
+  private val config = "ExplosionSearch,10,0.01,true"
   private val ES: OptimizationAlgorithm = OptimizationAlgorithm.fromCsv(config)
 
   test("Algorithm Serialization") {
