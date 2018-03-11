@@ -5,12 +5,7 @@ import OptimizationAlgorithm.Area
 import kaimere.real.optimization.classic.zero_order.RandomSearch
 import kaimere.real.optimization.general.instructions.Instruction
 import kaimere.real.optimization.metaheuristic._
-import kaimere.real.optimization.classic.zero_order.RandomSearch.RS_State._
-import kaimere.real.optimization.general.MetaOptimizationAlgorithm.MOA_State._
 import kaimere.real.optimization.general.initializers.Initializer
-import kaimere.real.optimization.metaheuristic.SimulatedAnnealing.SA_State._
-import kaimere.real.optimization.metaheuristic.ExplosionSearch.ES_State._
-import kaimere.real.optimization.metaheuristic.CatSwarmOptimization.CSO_State._
 import kaimere.tools.etc._
 import spray.json._
 
