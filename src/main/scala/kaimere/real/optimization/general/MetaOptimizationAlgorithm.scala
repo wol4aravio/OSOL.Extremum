@@ -3,7 +3,6 @@ package kaimere.real.optimization.general
 import kaimere.real.objects
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.optimization._
-import kaimere.real.optimization.general.MetaOptimizationAlgorithm.MOA_State
 import kaimere.real.optimization.general.OptimizationAlgorithm.Area
 import kaimere.real.optimization.general.initializers.Initializer
 import kaimere.real.optimization.general.instructions.{Instruction, StateLogger}
@@ -13,6 +12,12 @@ import spray.json._
 case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
                                      targetVars: Seq[Option[Set[String]]],
                                      instructions: Seq[Instruction]) extends OptimizationAlgorithm {
+
+  case class MOA_State(v: RealVector) extends State(vectors = Vector(v)) {
+
+    override def getBestBy(f: Function): (RealVector, Double) = (v, f(v))
+
+  }
 
   protected var algorithmArea: Seq[OptimizationAlgorithm.Area] = Seq.empty
 
@@ -55,12 +60,6 @@ case class MetaOptimizationAlgorithm(algorithms: Seq[OptimizationAlgorithm],
 }
 
 object MetaOptimizationAlgorithm {
-
-  case class MOA_State(v: RealVector) extends State(vectors = Vector(v)) {
-
-    override def getBestBy(f: Function): (RealVector, Double) = (v, f(v))
-
-  }
 
   implicit object MetaOptimizationAlgorithmJsonFormat extends RootJsonFormat[MetaOptimizationAlgorithm] {
     def write(moa: MetaOptimizationAlgorithm) =
