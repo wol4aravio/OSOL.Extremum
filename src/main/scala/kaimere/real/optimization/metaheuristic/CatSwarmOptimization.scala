@@ -5,7 +5,6 @@ import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.objects.RealVector._
 import kaimere.real.optimization.general.initializers.Initializer
-import kaimere.real.optimization.metaheuristic.CatSwarmOptimization.{CSO_State, Cat}
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
 import spray.json._
@@ -14,37 +13,6 @@ case class CatSwarmOptimization
 (numberOfCats: Int, MR: Double,
  SMP: Int, SRD: Double, CDC: Int, SPC: Boolean,
  velocityConstant: Double, velocityRatio: Double) extends OptimizationAlgorithm {
-
-  private var maxVelocity: Map[String, (Double, Double)] = Map.empty
-
-  override def initializeFromGivenState(state: State): State = {
-    val realVectors = Helper.prepareInitialState(state)
-    val bestVectors = Helper.chooseSeveralBest(realVectors, f, numberOfCats)
-    bestVectors.map(v => Cat.createRandomCat(v, f, area, maxVelocity)) |> CSO_State.apply
-  }
-
-  override def initialize(f: Function, area: OptimizationAlgorithm.Area,
-                          state: Option[State], initializer: Initializer): Unit = {
-    maxVelocity = area.map{ case (key, (min, max)) => (key, (-velocityRatio * (max - min), velocityRatio * (max - min))) }
-    super.initialize(f, area, state, initializer)
-  }
-
-  override def iterate(): Unit = {
-    val CSO_State(catPack) = currentState
-    val bestCat = catPack.minBy(_.fitness)
-    currentState =
-      catPack.indices.map { id =>
-        catPack(id).move(
-          if (GoRN.getContinuousUniform(0.0, 1.0) <= MR) 0 else 1,
-          f, area, bestCat,
-          SPC, SMP, CDC, SRD,
-          velocityConstant, maxVelocity)
-      } |> CSO_State.apply
-  }
-
-}
-
-object CatSwarmOptimization {
 
   protected case class Cat(location: RealVector, velocity: RealVector, fitness: Double) {
 
@@ -102,14 +70,6 @@ object CatSwarmOptimization {
     }
   }
 
-  def apply(csv: String): CatSwarmOptimization = {
-    val Array(name, numberOfCats, mr, smp, srd, cdc, spc, velocityConstant, velocityRatio) = csv.split(",")
-    name match {
-      case "CSO" | "cso" | "CatSwarmOptimization" => CatSwarmOptimization(numberOfCats.toInt, mr.toDouble, smp.toInt, srd.toDouble, cdc.toInt, spc.toBoolean, velocityConstant.toDouble, velocityRatio.toDouble)
-      case _ => throw DeserializationException("CatSwarmOptimization expected")
-    }
-  }
-
   case class CSO_State(cats: Seq[Cat]) extends State(vectors = cats.map(_.location).toVector) {
 
     override def getBestBy(f: Function): (RealVector, Double) = {
@@ -117,6 +77,45 @@ object CatSwarmOptimization {
       (bestCat.location, bestCat.fitness)
     }
 
+  }
+
+  private var maxVelocity: Map[String, (Double, Double)] = Map.empty
+
+  override def initializeFromGivenState(state: State): State = {
+    val realVectors = Helper.prepareInitialState(state)
+    val bestVectors = Helper.chooseSeveralBest(realVectors, f, numberOfCats)
+    bestVectors.map(v => Cat.createRandomCat(v, f, area, maxVelocity)) |> CSO_State.apply
+  }
+
+  override def initialize(f: Function, area: OptimizationAlgorithm.Area,
+                          state: Option[State], initializer: Initializer): Unit = {
+    maxVelocity = area.map{ case (key, (min, max)) => (key, (-velocityRatio * (max - min), velocityRatio * (max - min))) }
+    super.initialize(f, area, state, initializer)
+  }
+
+  override def iterate(): Unit = {
+    val CSO_State(catPack) = currentState
+    val bestCat = catPack.minBy(_.fitness)
+    currentState =
+      catPack.indices.map { id =>
+        catPack(id).move(
+          if (GoRN.getContinuousUniform(0.0, 1.0) <= MR) 0 else 1,
+          f, area, bestCat,
+          SPC, SMP, CDC, SRD,
+          velocityConstant, maxVelocity)
+      } |> CSO_State.apply
+  }
+
+}
+
+object CatSwarmOptimization {
+
+  def apply(csv: String): CatSwarmOptimization = {
+    val Array(name, numberOfCats, mr, smp, srd, cdc, spc, velocityConstant, velocityRatio) = csv.split(",")
+    name match {
+      case "CSO" | "cso" | "CatSwarmOptimization" => CatSwarmOptimization(numberOfCats.toInt, mr.toDouble, smp.toInt, srd.toDouble, cdc.toInt, spc.toBoolean, velocityConstant.toDouble, velocityRatio.toDouble)
+      case _ => throw DeserializationException("CatSwarmOptimization expected")
+    }
   }
 
   implicit object CatSwarmOptimizationJsonFormat extends RootJsonFormat[CatSwarmOptimization] {
