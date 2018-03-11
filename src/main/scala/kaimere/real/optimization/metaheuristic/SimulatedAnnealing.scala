@@ -3,12 +3,17 @@ package kaimere.real.optimization.metaheuristic
 import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.optimization._
-import kaimere.real.optimization.metaheuristic.SimulatedAnnealing.SA_State
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
 import spray.json._
 
 case class SimulatedAnnealing(alpha: Double, beta: Double = 1.0, gamma: Double = 1.0, initialTemp: Double) extends OptimizationAlgorithm {
+
+  case class SA_State(v: RealVector, value: Double, id: Int) extends State(vectors = Vector(v)) {
+
+    override def getBestBy(f: Function): (RealVector, Double) = (v, value)
+
+  }
 
   override def initializeFromGivenState(state: State): State = {
     val realVectors = Helper.prepareInitialState(state)
@@ -47,14 +52,6 @@ object SimulatedAnnealing {
       case _ => throw DeserializationException("SimulatedAnnealing expected")
     }
   }
-
-  case class SA_State(v: RealVector, value: Double, id: Int) extends State(vectors = Vector(v)) {
-
-    override def getBestBy(f: Function): (RealVector, Double) = (v, value)
-
-  }
-
-  def apply(v_value_id: (RealVector, Double, Int)): SA_State = new SA_State(v_value_id._1, v_value_id._2, v_value_id._3)
 
   implicit object SimulatedAnnealingJsonFormat extends RootJsonFormat[SimulatedAnnealing] {
     def write(sa: SimulatedAnnealing) =
