@@ -3,13 +3,18 @@ package kaimere.real.optimization.classic.zero_order
 import kaimere.real.optimization._
 import kaimere.real.optimization.general._
 import kaimere.real.objects.{Function, RealVector}
-import kaimere.real.optimization.classic.zero_order.RandomSearch.RS_State
 import kaimere.real.optimization.general.initializers.Initializer
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
 import spray.json._
 
 case class RandomSearch(numberOfAttempts: Int, deltaRatio: Double) extends OptimizationAlgorithm {
+
+  case class RS_State(v: RealVector, value: Double) extends State(vectors = Vector(v)) {
+
+    override def getBestBy(f: Function): (RealVector, Double) = (v, value)
+
+  }
 
   private var possibleDelta: Map[String, (Double, Double)] = Map.empty
 
@@ -44,12 +49,6 @@ case class RandomSearch(numberOfAttempts: Int, deltaRatio: Double) extends Optim
 }
 
 object RandomSearch {
-
-  case class RS_State(v: RealVector, value: Double) extends State(vectors = Vector(v)) {
-
-    override def getBestBy(f: Function): (RealVector, Double) = (v, value)
-
-  }
 
   def apply(csv: String): RandomSearch = {
     val Array(name, numberOfAttempts, deltaRatio) = csv.split(",")

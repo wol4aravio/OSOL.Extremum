@@ -1,7 +1,6 @@
 package kaimere.real.optimization.classic.zero_order
 
 import kaimere.real.optimization.OptimizationTestHelper._
-import kaimere.real.optimization.classic.zero_order.RandomSearch.RS_State
 import kaimere.real.optimization.general._
 import kaimere.real.optimization.general.State._
 import kaimere.real.optimization.general.initializers.PureRandomInitializer
