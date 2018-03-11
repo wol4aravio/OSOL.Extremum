@@ -4,12 +4,15 @@ import kaimere.real.objects.{Function, RealVector}
 import kaimere.real.optimization.Helper
 import kaimere.real.optimization.general.initializers.Initializer
 import kaimere.real.optimization.general.{OptimizationAlgorithm, State}
-import kaimere.real.optimization.metaheuristic.HarmonySearch._
 import kaimere.tools.random.GoRN
 import kaimere.tools.etc._
 import spray.json._
 
 case class HarmonySearch(numberOfHarmonics: Int, memoryAcceptRate: Double, pitchAdjustingRate: Double, bandwidthRatio: Double) extends OptimizationAlgorithm {
+
+  case class Harmonic(location: RealVector, fitness: Double)
+
+  case class HS_State(harmonics: Vector[Harmonic]) extends State(vectors = harmonics.map(_.location))
 
   private var possibleDelta: Map[String, (Double, Double)] = Map.empty
 
@@ -64,10 +67,6 @@ object HarmonySearch {
       case _ => throw DeserializationException("HarmonySearch expected")
     }
   }
-
-  case class Harmonic(location: RealVector, fitness: Double)
-
-  case class HS_State(harmonics: Vector[Harmonic]) extends State(vectors = harmonics.map(_.location))
 
   implicit object HarmonySearchJsonFormat extends RootJsonFormat[HarmonySearch] {
     def write(hs: HarmonySearch) =
