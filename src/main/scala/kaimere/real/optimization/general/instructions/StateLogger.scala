@@ -41,7 +41,9 @@ object StateLogger {
     val bestOnly = csv.split(",")(2).toBoolean
     val instruction = csv.split(",").drop(3)
     name match {
-      case "StateLogger" => StateLogger(folderName, Instruction.fromCsv(instruction.mkString(",")), bestOnly)
+      case "StateLogger" =>
+        if (instruction.sameElements(Array("null"))) StateLogger(folderName, null, bestOnly)
+        else StateLogger(folderName, Instruction.fromCsv(instruction.mkString(",")), bestOnly)
       case _ => throw DeserializationException("StateLogger expected")
     }
   }
