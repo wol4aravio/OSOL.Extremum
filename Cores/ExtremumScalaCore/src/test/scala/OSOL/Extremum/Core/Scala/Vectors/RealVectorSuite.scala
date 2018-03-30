@@ -3,6 +3,7 @@ package OSOL.Extremum.Core.Scala.Vectors
 import org.scalatest.FunSuite
 
 import OSOL.Extremum.Core.Scala.Vectors.RealVector.Converters._
+import OSOL.Extremum.Core.Scala.Vectors.Exceptions._
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
 
 class RealVectorSuite extends FunSuite {
@@ -26,6 +27,7 @@ class RealVectorSuite extends FunSuite {
     assert(v1("y") == 2.0)
     assert(v1("z", 0.0) == 3.0)
     assert(v1("a", 0.0) == 0.0)
+    intercept[MissingKeyException] { v1("a") }
 
   }
 
@@ -35,15 +37,27 @@ class RealVectorSuite extends FunSuite {
 
   test("Addition") {
     assert(v1 + v2 == z)
+    intercept[DifferentKeysException] { v1 + v3 }
   }
 
   test("Addition with Imputation") {
     assert(v1 ~+ v3 == (Map("x" -> 0.0, "y" -> 2.0, "z" -> 0.0) |> RealVector.apply))
   }
 
+  test("Subtraction") {
+    assert(z - v1 == v2)
+    intercept[DifferentKeysException] { v1 - v3 }
+  }
+
+  test("Subtraction with Imputation") {
+    assert(v1 ~- v3 == (Map("x" -> 2.0, "y" -> 2.0, "z" -> 6.0) |> RealVector.apply))
+  }
+
   test("Multiplication") {
     assert(v1 * v1 == v2 * v2)
     assert(v1 * v2 == -v1 * v1)
+    intercept[DifferentKeysException] { v1 * v3 }
+
   }
 
   test("Multiplication with Imputation") {
@@ -55,13 +69,13 @@ class RealVectorSuite extends FunSuite {
   }
 
   test("Move by") {
-    assert(v1.moveBy("x" -> -1.0, "z" -> -3.0, "y" -> -2.0) == z)
+    assert(v1.moveBy("x" -> -1.0).moveBy(Seq("z" -> -3.0, "y" -> -2.0)) == z)
   }
 
   test("Constraining") {
     assert(v1
       .constrain("x" -> (-1.0, 0.0))
-      .constrain("y" -> (3.0, 10.0))
+      .constrain(Seq("y" -> (3.0, 10.0)))
       .constrain("z" -> (-5.0, 5.0)) == (Map("x" -> 0.0, "y" -> 3.0, "z" -> 3.0) |> RealVector.apply))
   }
 
