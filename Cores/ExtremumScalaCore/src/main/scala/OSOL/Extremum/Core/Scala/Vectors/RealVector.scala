@@ -1,4 +1,4 @@
-package OSOL.Extremum.Core.Scala.VectorObjects
+package OSOL.Extremum.Core.Scala.Vectors
 
 import RealVector.Converters._
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
@@ -46,16 +46,16 @@ class RealVector private (override val vals: Map[String, Double]) extends Vector
   }
 }
 
-/** Companion object for [[OSOL.Extremum.Core.Scala.VectorObjects.RealVector RealVector]] class */
+/** Companion object for [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]] class */
 object RealVector {
 
-  /** Implicit converters for [[OSOL.Extremum.Core.Scala.VectorObjects.RealVector RealVector]] */
+  /** Implicit converters for [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]] */
   object Converters {
 
-    /** Converts `Iterable[(String, Double)]` to [[OSOL.Extremum.Core.Scala.VectorObjects.RealVector RealVector]]
+    /** Converts `Iterable[(String, Double)]` to [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]]
       *
       * @param v `(key, value)` pairs
-      * @return [[OSOL.Extremum.Core.Scala.VectorObjects.RealVector RealVector]]
+      * @return [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]]
       */
     implicit def Iterable_to_RealVector(v: Iterable[(String, Double)]): RealVector = RealVector(v)
 

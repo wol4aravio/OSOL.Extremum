@@ -1,4 +1,4 @@
-package OSOL.Extremum.Core.Scala.VectorObjects
+package OSOL.Extremum.Core.Scala.Vectors
 
 import Exceptions._
 
@@ -40,7 +40,7 @@ abstract class VectorObject[Base] private (val vals: Map[String, Base]) {
     * @return value that corresponds to 'key' (if it exists), 'default' - otherwise
     */
   final def getOrElse(key: String, default: Base): Base = vals.getOrElse(key, default)
-  /** Same as [[OSOL.Extremum.Core.Scala.VectorObjects.VectorObject#getOrElse getOrElse]] */
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#getOrElse getOrElse]] */
   final def apply(key: String, default: Base): Base = this.getOrElse(key, default)
 
   /** Converts VectorObject to String
@@ -80,7 +80,7 @@ abstract class VectorObject[Base] private (val vals: Map[String, Base]) {
     * @return sum of VectorObjects
     */
   def add(that: VectorObject[Base]): VectorObject[Base]
-  /** Same as [[OSOL.Extremum.Core.Scala.VectorObjects.VectorObject#add add]] */
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#add add]] */
   final def +(that: VectorObject[Base]): VectorObject[Base] = this.add(that)
 
   /** Adds another VectorObject to the current one with imputation of missing key-value pairs
@@ -89,7 +89,7 @@ abstract class VectorObject[Base] private (val vals: Map[String, Base]) {
     * @return sum of VectorObjects
     */
   def addImputeMissingKeys(that: VectorObject[Base]): VectorObject[Base]
-  /** Same as [[OSOL.Extremum.Core.Scala.VectorObjects.VectorObject#addImputeMissingKeys addImputeMissingKeys]] */
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#addImputeMissingKeys addImputeMissingKeys]] */
   final def ~+(that: VectorObject[Base]): VectorObject[Base] = this.addImputeMissingKeys(that)
 
   /** Multiplies VectorObject by coefficient
@@ -98,7 +98,7 @@ abstract class VectorObject[Base] private (val vals: Map[String, Base]) {
     * @return VectorObject scaled by 'coefficient'
     */
   def multiply(coefficient: Double): VectorObject[Base]
-  /** Same as [[OSOL.Extremum.Core.Scala.VectorObjects.VectorObject#multiply multiply]] */
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#multiply multiply]] */
   final def *(coefficient: Double): VectorObject[Base] = this.multiply(coefficient)
 
   /** Negates current VectorObject
@@ -106,7 +106,7 @@ abstract class VectorObject[Base] private (val vals: Map[String, Base]) {
     * @return VectorObject multiplied by (-1)
     */
   final def neg(): VectorObject[Base] = this.multiply(-1)
-  /** Same as [[OSOL.Extremum.Core.Scala.VectorObjects.VectorObject#neg neg]] */
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#neg neg]] */
   final def unary_-(): VectorObject[Base] = this.neg()
 
   /** Subtracts another VectorObject from the current one
@@ -115,7 +115,7 @@ abstract class VectorObject[Base] private (val vals: Map[String, Base]) {
     * @return difference of VectorObjects
     */
   final def subtract(that: VectorObject[Base]): VectorObject[Base] = this.add(that.multiply(-1))
-  /** Same as [[OSOL.Extremum.Core.Scala.VectorObjects.VectorObject#subtract subtract]] */
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#subtract subtract]] */
   final def -(that: VectorObject[Base]): VectorObject[Base] = this.subtract(that)
 
   /** Subtracts another VectorObject from the current one with imputation of missing key-value pairs
@@ -124,7 +124,7 @@ abstract class VectorObject[Base] private (val vals: Map[String, Base]) {
     * @return difference of VectorObjects
     */
   final def subtractImputeMissingKeys(that: VectorObject[Base]): VectorObject[Base] = this.addImputeMissingKeys(that.multiply(-1))
-  /** Same as [[OSOL.Extremum.Core.Scala.VectorObjects.VectorObject#subtractImputeMissingKeys subtractImputeMissingKeys]] */
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#subtractImputeMissingKeys subtractImputeMissingKeys]] */
   final def ~-(that: VectorObject[Base]): VectorObject[Base] = this.subtractImputeMissingKeys(that)
 
   /** Multiplies current VectorObject by another one
@@ -133,7 +133,7 @@ abstract class VectorObject[Base] private (val vals: Map[String, Base]) {
     * @return product of VectorObjects
     */
   def multiply(that: VectorObject[Base]): VectorObject[Base]
-  /** Same as [[OSOL.Extremum.Core.Scala.VectorObjects.VectorObject#multiply multiply]] */
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#multiply multiply]] */
   final def *(that: VectorObject[Base]): VectorObject[Base] = this.multiply(that)
 
   /** Multiplies current VectorObject by another one with imputation of missing key-value pairs
@@ -142,7 +142,7 @@ abstract class VectorObject[Base] private (val vals: Map[String, Base]) {
     * @return product of VectorObjects
     */
   def multiplyImputeMissingKeys(that: VectorObject[Base]): VectorObject[Base]
-  /** Same as [[OSOL.Extremum.Core.Scala.VectorObjects.VectorObject#multiplyImputeMissingKeys multiplyImputeMissingKeys]] */
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#multiplyImputeMissingKeys multiplyImputeMissingKeys]] */
   final def ~*(that: VectorObject[Base]): VectorObject[Base] = this.multiplyImputeMissingKeys(that)
 
   /** Moves current VectorObject
