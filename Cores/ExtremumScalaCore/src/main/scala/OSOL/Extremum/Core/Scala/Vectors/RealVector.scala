@@ -24,16 +24,17 @@ class RealVector private (override val vals: Map[String, Double]) extends Vector
   final override def multiply(coefficient: Double): RealVector =
     this.keys.map(k => (k, coefficient * this (k))) |> RealVector.apply
 
-  final override def moveBy(delta: Map[String, Double]): RealVector = {
-    val deltaWithImputedValues = delta ++ this.keys.diff(delta.keySet).map(k => (k, 0.0))
+  final override def moveBy(delta: (String, Double)*): RealVector = {
+    val deltaWithImputedValues = delta ++ this.keys.diff(delta.map(_._1).toSet).map(k => (k, 0.0))
     this.add(deltaWithImputedValues |> RealVector.apply)
   }
 
-  final override def constrain(area: Map[String, (Double, Double)]): RealVector = {
+  final override def constrain(area: (String, (Double, Double))*): RealVector = {
+    val restrictingArea = area.toMap
     val constrainedVector = this.vals.map { case (k, value) => (k,
       k match {
-        case _ if area.isDefinedAt(k) =>
-          val (min, max) = area(k)
+        case _ if restrictingArea.isDefinedAt(k) =>
+          val (min, max) = restrictingArea(k)
           if (value > max) max
           else {
             if (value < min) min

@@ -164,13 +164,17 @@ abstract class VectorObject[Base] (val vals: Map[String, Base]) {
     * @param delta shift per key
     * @return moved VectorObject
     */
-  def moveBy(delta: Map[String, Double]): VectorObject[Base]
+  def moveBy(delta: (String, Double)*): VectorObject[Base]
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#moveBy moveBy]] */
+  final def moveBy(delta: Iterable[(String, Double)]): VectorObject[Base] = this.moveBy(delta.toSeq:_*)
 
   /** Forces VectorObject to be located in given area
     *
     * @param area area where VectorObject must be located
     * @return VectorObject in target area
     */
-  def constrain(area: Map[String, (Double, Double)]): VectorObject[Base]
+  def constrain(area: (String, (Double, Double))*): VectorObject[Base]
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#constrain constrain]] */
+  final def constrain(area: Iterable[(String, (Double, Double))]): VectorObject[Base] = this.constrain(area.toSeq:_*)
 
 }
