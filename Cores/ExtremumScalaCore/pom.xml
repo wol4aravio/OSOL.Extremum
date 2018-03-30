@@ -75,39 +75,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Use build-helper-maven-plugin to add Scala source and test source directories -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.10</version>
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/main/scala</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>add-test-source</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/test/scala</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- Use scala-maven-plugin for Scala support -->
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
@@ -119,6 +86,7 @@
                             <!-- Need to specify this explicitly, otherwise plugin won't be called when doing e.g. mvn compile -->
                             <goal>compile</goal>
                             <goal>testCompile</goal>
+                            <goal>add-source</goal>
                         </goals>
                     </execution>
                 </executions>
