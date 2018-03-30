@@ -7,7 +7,7 @@ import Exceptions._
   * @param vals values which form VectorObject (key-value pairs)
   * @tparam Base value type
   */
-abstract class VectorObject[Base] private (val vals: Map[String, Base]) {
+abstract class VectorObject[Base] (val vals: Map[String, Base]) {
 
   /** Returns all keys that are stored by current VectorObject
     *
