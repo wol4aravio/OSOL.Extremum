@@ -35,13 +35,35 @@ class RealVectorSuite extends FunSuite {
 
   test("Addition") {
     assert(v1 + v2 == z)
-    assert(v1 + v1 == v1 * 2.0)
   }
 
   test("Addition with Imputation") {
     assert(v1 ~+ v3 == (Map("x" -> 0.0, "y" -> 2.0, "z" -> 0.0) |> RealVector.apply))
   }
 
+  test("Multiplication") {
+    assert(v1 * v1 == v2 * v2)
+    assert(v1 * v2 == -v1 * v1)
+  }
+
+  test("Multiplication with Imputation") {
+    assert(v1 ~* v3 == (Map("x" -> -1.0, "y" -> 2.0, "z" -> -9.0) |> RealVector.apply))
+  }
+
+  test("Multiply by coefficient") {
+    assert(v1 + v1 == v1 * 2.0)
+  }
+
+  test("Move by") {
+    assert(v1.moveBy("x" -> -1.0, "z" -> -3.0, "y" -> -2.0) == z)
+  }
+
+  test("Constraining") {
+    assert(v1
+      .constrain("x" -> (-1.0, 0.0))
+      .constrain("y" -> (3.0, 10.0))
+      .constrain("z" -> (-5.0, 5.0)) == (Map("x" -> 0.0, "y" -> 3.0, "z" -> 3.0) |> RealVector.apply))
+  }
 
 
 }
