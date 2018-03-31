@@ -53,7 +53,7 @@ class IntervalSuite extends FunSuite {
 
   test("Approximate Equality") {
     assert(i1 ~ (i1 + 1e-7))
-    assert(!(Interval(Double.NegativeInfinity, Double.NegativeInfinity) ~ Interval(Double.NegativeInfinity, Double.PositiveInfinity)))
+    assert(!(Interval(Double.NegativeInfinity, 0.0) ~ Interval(Double.NegativeInfinity, Double.NaN)))
   }
 
   test("Binary Arithmetic Operations: \"+\"") {
