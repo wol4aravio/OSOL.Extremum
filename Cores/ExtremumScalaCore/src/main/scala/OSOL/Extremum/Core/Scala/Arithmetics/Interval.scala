@@ -33,6 +33,28 @@ class Interval private (val lowerBound: Double, val upperBound: Double) {
   /** Same as [[OSOL.Extremum.Core.Scala.Arithmetics#equalsTo equalsTo]] */
   final def ==(that: Interval): Boolean = this.equalsTo(that)
 
+  /** Deremines whether objects are approximately equal
+    *
+    * @param that second object
+    * @param maxError maximum allowed difference
+    * @return equal or not
+    */
+  final def approximatelyEqualsTo(that: Interval, maxError:Double): Boolean = {
+    def getDifference(a: Double, b: Double): Double = {
+      val delta = math.abs(a - b)
+      if (delta.isNaN) {
+        if (a == b) 0.0
+        else 1.0
+      }
+      else delta
+    }
+    val errorLeft = getDifference(this.lowerBound, that.lowerBound)
+    val errorRight = getDifference(this.upperBound, that.upperBound)
+    errorLeft + errorRight <= maxError
+  }
+  /** Same as [[OSOL.Extremum.Core.Scala.Arithmetics#approximatelyEqualsTo approximatelyEqualsTo]] */
+  final def ~(that: Interval, maxError: Double = 1e-5): Boolean = this.approximatelyEqualsTo(that, maxError)
+
   /** Negates current Interval `[a; b]`
     *
     * @return `[-b; -a]`
@@ -195,7 +217,7 @@ class Interval private (val lowerBound: Double, val upperBound: Double) {
     * @param delta movement value
     * @return moved interval
     */
-  final def move(delta: Double): Interval = this.add(Interval(delta))
+  final def moveBy(delta: Double): Interval = this.add(Interval(delta))
 
   /** Forces interval to be located in `[min; max]` interval
     *
