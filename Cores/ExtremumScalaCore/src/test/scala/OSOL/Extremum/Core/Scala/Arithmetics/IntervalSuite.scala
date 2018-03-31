@@ -21,6 +21,12 @@ class IntervalSuite extends FunSuite {
     assert(i7.toString == "[0.0; 3.0]")
   }
 
+  test("From String") {
+    assert(i1 ~ "[-1.0; 2.0]")
+    assert(i4 ~ "[5.0; 5.1]")
+    assert(i7 ~ "[0.0; 3.0]")
+  }
+
   test("Interval Characteristics: Middlepoint") {
     assert(i1.middlePoint == 0.5)
     assert(i3.middlePoint == 1.5)
@@ -43,6 +49,11 @@ class IntervalSuite extends FunSuite {
     assert(i1.toString == "[-1.0; 2.0]")
     assert(i2.toString == "[-4.0; 3.0]")
     assert(i5.toString == "[-6.0; -5.0]")
+  }
+
+  test("Approximate Equality") {
+    assert(i1 ~ (i1 + 1e-7))
+    assert(!(Interval(Double.NegativeInfinity, Double.NegativeInfinity) ~ Interval(Double.NegativeInfinity, Double.PositiveInfinity)))
   }
 
   test("Binary Arithmetic Operations: \"+\"") {
