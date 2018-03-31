@@ -24,7 +24,7 @@ class IntervalSuite extends FunSuite {
   test("From String") {
     assert(i1 ~ "[-1.0; 2.0]")
     assert(i4 ~ "[5.0; 5.1]")
-    assert(i7 ~ "[0.0; 3.0]")
+    assert(Interval(2.0) ~ "2.0")
   }
 
   test("Interval Characteristics: Middlepoint") {
