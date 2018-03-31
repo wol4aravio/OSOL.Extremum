@@ -67,13 +67,13 @@ object RealVector {
     * @param keyValuePairs target `(key, value)` pairs
     * @return vector composed of `keyValuePairs`
     */
-  def apply(keyValuePairs: (String, Double)*): RealVector = new RealVector(keyValuePairs.toMap)
+  final def apply(keyValuePairs: (String, Double)*): RealVector = new RealVector(keyValuePairs.toMap)
   /** Create object from `(key, value)` pairs
     *
     * @param keyValuePairs target `(key, value)` pairs
     * @return vector composed of `keyValuePairs`
     */
-  def apply(keyValuePairs: Iterable[(String, Double)]): RealVector = RealVector(keyValuePairs.toSeq:_*)
+  final def apply(keyValuePairs: Iterable[(String, Double)]): RealVector = RealVector(keyValuePairs.toSeq:_*)
 
 
 }
