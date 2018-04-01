@@ -3,12 +3,20 @@ package OSOL.Extremum.Core.Scala.Vectors
 import OSOL.Extremum.Core.Scala.Arithmetics.Interval
 import IntervalVector.Converters._
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
+import OSOL.Extremum.Core.Scala.Vectors.Exceptions.DifferentKeysException
 
 /** Interval valued vector
   *
   * @param values values which form VectorObject (key-value pairs)
   */
 class IntervalVector private (override val values: Map[String, Interval]) extends VectorObject[Interval](values) {
+
+  final def equalsTo(that: VectorObject[Interval]): Boolean = {
+    val keys_1 = this.keys
+    val keys_2 = that.keys
+    if (keys_1 != keys_2) throw new DifferentKeysException(keys_1, keys_2)
+    else keys_1.forall(k => this(k) == that(k))
+  }
 
   final override def add(that: VectorObject[Interval]): IntervalVector =
     this.elementWiseOp(that, (a, b) => a + b)
