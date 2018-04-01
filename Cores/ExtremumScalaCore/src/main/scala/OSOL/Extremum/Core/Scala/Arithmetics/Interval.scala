@@ -235,6 +235,27 @@ class Interval private (val lowerBound: Double, val upperBound: Double) {
     Interval(check(lowerBound), check(upperBound))
   }
 
+  /** Splits interval according to ratios
+    *
+    * @param ratios target width ratios
+    * */
+  def split(ratios: Seq[Double]): Seq[Interval] = {
+    val sum = ratios.sum
+    ratios.tail.foldLeft(Seq(Interval(this.lowerBound, this.lowerBound + ratios.head * this.width / sum))) {
+      case (result, r) => {
+        val lastInterval = result.head
+        val newInterval = Interval(lastInterval.upperBound, lastInterval.upperBound + r * this.width / sum)
+        newInterval +: result
+      }
+    }.reverse
+  }
+
+  /** Bisects interval */
+  def bisect(): (Interval, Interval) = {
+    val Seq(first, second) = split(ratios = Seq(1, 1))
+    (first, second)
+  }
+
 }
 
 /** Companion object for [[OSOL.Extremum.Core.Scala.Arithmetics.Interval Interval]] */

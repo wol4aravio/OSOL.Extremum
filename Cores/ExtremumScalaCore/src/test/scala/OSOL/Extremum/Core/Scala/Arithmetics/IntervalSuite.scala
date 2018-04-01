@@ -163,4 +163,10 @@ class IntervalSuite extends FunSuite {
     assert(i5.constrain(min, max) == Interval(min, min))
   }
 
+  test("Splitting") {
+    assert(i1.bisect()._1 ~ Interval(-1.0, 0.5))
+    assert(i1.bisect()._2 ~ Interval(0.5, 2.0))
+    assert(i1.split(Seq(1, 2)).zip(Seq(Interval(-1.0, 0.0), Interval(0.0, 2.0))).forall { case (a, b) => a ~ b })
+  }
+
 }
