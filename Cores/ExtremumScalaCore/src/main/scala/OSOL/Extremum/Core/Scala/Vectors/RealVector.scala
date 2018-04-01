@@ -5,9 +5,9 @@ import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
 
 /** Ordinary numerical vector
   *
-  * @param vals values which form VectorObject (key-value pairs)
+  * @param values values which form VectorObject (key-value pairs)
   */
-class RealVector private (override val vals: Map[String, Double]) extends VectorObject[Double](vals) {
+class RealVector private (override val values: Map[String, Double]) extends VectorObject[Double](values) {
 
   final override def add(that: VectorObject[Double]): RealVector =
     this.elementWiseOp(that, (a, b) => a + b)
@@ -31,7 +31,7 @@ class RealVector private (override val vals: Map[String, Double]) extends Vector
 
   final override def constrain(area: (String, (Double, Double))*): RealVector = {
     val restrictingArea = area.toMap
-    val constrainedVector = this.vals.map { case (k, value) => (k,
+    val constrainedVector = this.values.map { case (k, value) => (k,
       k match {
         case _ if restrictingArea.isDefinedAt(k) =>
           val (min, max) = restrictingArea(k)

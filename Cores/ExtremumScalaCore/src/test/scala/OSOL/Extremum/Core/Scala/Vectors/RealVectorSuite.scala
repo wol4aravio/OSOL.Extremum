@@ -17,10 +17,6 @@ class RealVectorSuite extends FunSuite {
     assert(v1.keys == Set("x", "y", "z"))
   }
 
-  test("Values") {
-    assert(v1.values.toSeq == Seq(1.0, 2.0, 3.0))
-  }
-
   test("Value Extraction") {
 
     assert(v1("x") == 1.0)
