@@ -43,20 +43,6 @@ abstract class VectorObject[Base] (val values: Map[String, Base]) {
     */
   override def toString: String = values.map { case (key, value) => s"$key -> $value" }.mkString("\n")
 
-  /** Deremines whether objects are equal or not
-    *
-    * @param that second object
-    * @return equal or not
-    */
-  final def equalsTo(that: VectorObject[Base]): Boolean = {
-    val keys_1 = this.keys
-    val keys_2 = that.keys
-    if (keys_1 != keys_2) throw new DifferentKeysException(keys_1, keys_2)
-    else keys_1.forall(k => this(k) == that(k))
-  }
-  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#equalsTo equalsTo]] */
-  final def ==(that: VectorObject[Base]): Boolean = this.equalsTo(that)
-
   /** Performs element-wise operation for pair of objects
     *
     * @param that second object
@@ -81,6 +67,15 @@ abstract class VectorObject[Base] (val values: Map[String, Base]) {
     val mergedKeys = this.keys.union(that.keys)
     mergedKeys.map(k => (k, op(this(k, default), that(k, default))))
   }
+
+  /** Deremines whether objects are equal or not
+    *
+    * @param that second object
+    * @return equal or not
+    */
+  def equalsTo(that: VectorObject[Base]): Boolean
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#equalsTo equalsTo]] */
+  final def ==(that: VectorObject[Base]): Boolean = this.equalsTo(that)
 
   /** Adds another VectorObject to the current one
     *
