@@ -2,12 +2,20 @@ package OSOL.Extremum.Core.Scala.Vectors
 
 import RealVector.Converters._
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
+import OSOL.Extremum.Core.Scala.Vectors.Exceptions.DifferentKeysException
 
 /** Ordinary numerical vector
   *
   * @param values values which form VectorObject (key-value pairs)
   */
 class RealVector private (override val values: Map[String, Double]) extends VectorObject[Double](values) {
+
+  final override def equalsTo(that: VectorObject[Double]): Boolean = {
+    val keys_1 = this.keys
+    val keys_2 = that.keys
+    if (keys_1 != keys_2) throw new DifferentKeysException(keys_1, keys_2)
+    else keys_1.forall(k => this(k) == that(k))
+  }
 
   final override def add(that: VectorObject[Double]): RealVector =
     this.elementWiseOp(that, (a, b) => a + b)
