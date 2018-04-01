@@ -148,22 +148,4 @@ abstract class VectorObject[Base] (val values: Map[String, Base]) {
   /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#multiplyImputeMissingKeys multiplyImputeMissingKeys]] */
   final def ~*(that: VectorObject[Base]): VectorObject[Base] = this.multiplyImputeMissingKeys(that)
 
-  /** Moves current VectorObject
-    *
-    * @param delta shift per key
-    * @return moved VectorObject
-    */
-  def moveBy(delta: (String, Double)*): VectorObject[Base]
-  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#moveBy moveBy]] */
-  final def moveBy(delta: Iterable[(String, Double)]): VectorObject[Base] = this.moveBy(delta.toSeq:_*)
-
-  /** Forces VectorObject to be located in given area
-    *
-    * @param area area where VectorObject must be located
-    * @return VectorObject in target area
-    */
-  def constrain(area: (String, (Double, Double))*): VectorObject[Base]
-  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#constrain constrain]] */
-  final def constrain(area: Iterable[(String, (Double, Double))]): VectorObject[Base] = this.constrain(area.toSeq:_*)
-
 }

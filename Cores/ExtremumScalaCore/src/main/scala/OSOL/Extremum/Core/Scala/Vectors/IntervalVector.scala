@@ -3,13 +3,15 @@ package OSOL.Extremum.Core.Scala.Vectors
 import OSOL.Extremum.Core.Scala.Arithmetics.Interval
 import IntervalVector.Converters._
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
+import OSOL.Extremum.Core.Scala.Optimization.Optimizable
 import OSOL.Extremum.Core.Scala.Vectors.Exceptions.DifferentKeysException
 
 /** Interval valued vector
   *
   * @param values values which form VectorObject (key-value pairs)
   */
-class IntervalVector private (override val values: Map[String, Interval]) extends VectorObject[Interval](values) {
+class IntervalVector private (override val values: Map[String, Interval])
+  extends VectorObject[Interval](values) with Optimizable[IntervalVector] {
 
   final def equalsTo(that: VectorObject[Interval]): Boolean = {
     val keys_1 = this.keys

@@ -2,13 +2,15 @@ package OSOL.Extremum.Core.Scala.Vectors
 
 import RealVector.Converters._
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
+import OSOL.Extremum.Core.Scala.Optimization.Optimizable
 import OSOL.Extremum.Core.Scala.Vectors.Exceptions.DifferentKeysException
 
 /** Ordinary numerical vector
   *
   * @param values values which form VectorObject (key-value pairs)
   */
-class RealVector private (override val values: Map[String, Double]) extends VectorObject[Double](values) {
+class RealVector private (override val values: Map[String, Double])
+  extends VectorObject[Double](values) with Optimizable[RealVector] {
 
   final override def equalsTo(that: VectorObject[Double]): Boolean = {
     val keys_1 = this.keys
