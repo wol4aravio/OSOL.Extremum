@@ -81,5 +81,11 @@ class RealVectorSuite extends FunSuite {
     assert((v1 * 2.0).getPerformance(f) == 12.0)
   }
 
+  test("To Double Valued Vector") {
+    assert(v1.toBasicForm()("x") == 1.0)
+    assert(v1.toBasicForm()("y") == 2.0)
+    assert(v1.toBasicForm()("z") == 3.0)
+  }
+
 
 }

@@ -78,5 +78,12 @@ class IntervalVectorSuite extends FunSuite {
     assert((v1 * 2.0).getPerformance(f) == 2.0)
   }
 
+  test("To Double Valued Vector") {
+    assert(v1.toBasicForm()("x") == 1.0)
+    assert(v1.toBasicForm()("y") == 2.5)
+    assert(v1.toBasicForm()("z") == 4.0)
+  }
+
+
 
 }

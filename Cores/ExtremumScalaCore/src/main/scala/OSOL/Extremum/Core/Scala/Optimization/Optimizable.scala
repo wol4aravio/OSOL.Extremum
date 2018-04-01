@@ -1,5 +1,7 @@
 package OSOL.Extremum.Core.Scala.Optimization
 
+import OSOL.Extremum.Core.Scala.Vectors.VectorObject
+
 /** Trait that describes basic requirements for optimizable object
   *
   * @tparam Base type of optimizable object
@@ -31,5 +33,8 @@ trait Optimizable[Base, FuncType] {
     * @return fitness value (lower - better)
     */
   def getPerformance(f: Map[String, FuncType] => FuncType): Double
+
+  /** Converts current object to a form that can be used somewhere else */
+  def toBasicForm(): VectorObject[Double]
 
 }

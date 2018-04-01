@@ -62,6 +62,9 @@ class IntervalVector private (override val values: Map[String, Interval])
   }
 
   final override def getPerformance(f: Map[String, Interval] => Interval): Double = f(this.values).lowerBound
+
+  final override def toBasicForm(): VectorObject[Double] = RealVector(this.values.mapValues(_.middlePoint))
+
 }
 
 /** Companion object for [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]] class */

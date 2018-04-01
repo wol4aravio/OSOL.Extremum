@@ -57,6 +57,8 @@ class RealVector private (override val values: Map[String, Double])
   }
 
   final override def getPerformance(f: Map[String, Double] => Double): Double = f(this.values)
+
+  final override def toBasicForm(): VectorObject[Double] = this
 }
 
 /** Companion object for [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]] class */
