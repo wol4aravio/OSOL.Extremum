@@ -25,6 +25,7 @@ class IntervalSuite extends FunSuite {
     assert(i1 ~ "[-1.0; 2.0]")
     assert(i4 ~ "[5.0; 5.1]")
     assert(Interval(2.0) ~ "2.0")
+    intercept[MinMaxFailureException] { Interval(3.0, 2.0) }
   }
 
   test("Interval Characteristics: Middlepoint") {

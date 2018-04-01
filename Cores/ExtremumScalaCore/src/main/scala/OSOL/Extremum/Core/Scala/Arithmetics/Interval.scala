@@ -274,8 +274,11 @@ object Interval {
     *         ordinary interval ['lowerBound', 'upperBound']
     */
   final def apply(lowerBound: Double, upperBound: Double): Interval = {
-    if (upperBound - lowerBound < minWidth) Interval(0.5 * (lowerBound + upperBound))
-    else new Interval(lowerBound, upperBound)
+    if (lowerBound > upperBound) throw new MinMaxFailureException(lowerBound, upperBound)
+    else {
+      if (upperBound - lowerBound < minWidth) Interval(0.5 * (lowerBound + upperBound))
+      else new Interval(lowerBound, upperBound)
+    }
   }
 
   /** Create Interval number from point
@@ -315,6 +318,13 @@ object Interval {
 
   /** Exceptions that can be raised for [[OSOL.Extremum.Core.Scala.Arithmetics.Interval Interval]] */
   object Exceptions {
+
+    /** Raises when interval [a; b] with a > b occurs
+      *
+      * @param min left bound
+      * @param max right bound
+      */
+    class MinMaxFailureException(min: Double, max: Double) extends Exception
 
     /** Exception for unsupported operation
       *
