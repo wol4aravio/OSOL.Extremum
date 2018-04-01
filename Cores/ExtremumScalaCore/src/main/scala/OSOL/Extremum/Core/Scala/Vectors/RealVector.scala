@@ -10,7 +10,7 @@ import OSOL.Extremum.Core.Scala.Vectors.Exceptions.DifferentKeysException
   * @param values values which form VectorObject (key-value pairs)
   */
 class RealVector private (override val values: Map[String, Double])
-  extends VectorObject[Double](values) with Optimizable[RealVector] {
+  extends VectorObject[Double](values) with Optimizable[RealVector, Double] {
 
   final override def equalsTo(that: VectorObject[Double]): Boolean = {
     val keys_1 = this.keys
@@ -55,6 +55,8 @@ class RealVector private (override val values: Map[String, Double])
     }
     constrainedVector
   }
+
+  final override def getPerformance(f: Map[String, Double] => Double): Double = f(this.values)
 }
 
 /** Companion object for [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]] class */
@@ -69,6 +71,13 @@ object RealVector {
       * @return [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]]
       */
     implicit def Iterable_to_RealVector(v: Iterable[(String, Double)]): RealVector = RealVector(v)
+
+    /** Converts `VectorObject[Double]` to [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]]
+      *
+      * @param v `VectorObject[Double]`
+      * @return [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]]
+      */
+    implicit def VectorObject_to_RealVector(v: VectorObject[Double]): RealVector = RealVector(v.values)
 
   }
 

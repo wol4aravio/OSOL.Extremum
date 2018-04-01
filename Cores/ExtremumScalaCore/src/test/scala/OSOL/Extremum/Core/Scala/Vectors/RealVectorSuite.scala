@@ -75,5 +75,11 @@ class RealVectorSuite extends FunSuite {
       .constrain("z" -> (-5.0, 5.0)) == (Map("x" -> 0.0, "y" -> 3.0, "z" -> 3.0) |> RealVector.apply))
   }
 
+  test("Get Performance") {
+    val f: Map[String, Double] => Double = v => v("x") + v("y") + v("z")
+    assert(v1.getPerformance(f) == 6.0)
+    assert((v1 * 2.0).getPerformance(f) == 12.0)
+  }
+
 
 }

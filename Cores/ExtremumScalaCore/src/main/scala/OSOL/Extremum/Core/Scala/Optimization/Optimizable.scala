@@ -3,8 +3,9 @@ package OSOL.Extremum.Core.Scala.Optimization
 /** Trait that describes basic requirements for optimizable object
   *
   * @tparam Base type of optimizable object
+  * @tparam FuncType required function type
   */
-trait Optimizable[Base] {
+trait Optimizable[Base, FuncType] {
 
   /** Moves current object
     *
@@ -23,5 +24,12 @@ trait Optimizable[Base] {
   def constrain(area: (String, (Double, Double))*): Base
   /** Same as `constrain(area: (String, (Double, Double))*)` */
   final def constrain(area: Iterable[(String, (Double, Double))]): Base = this.constrain(area.toSeq:_*)
+
+  /** How to measure efficiency on target function
+    *
+    * @param f target function
+    * @return fitness value (lower - better)
+    */
+  def getPerformance(f: Map[String, FuncType] => FuncType): Double
 
 }

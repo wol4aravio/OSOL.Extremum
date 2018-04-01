@@ -11,7 +11,7 @@ import OSOL.Extremum.Core.Scala.Vectors.Exceptions.DifferentKeysException
   * @param values values which form VectorObject (key-value pairs)
   */
 class IntervalVector private (override val values: Map[String, Interval])
-  extends VectorObject[Interval](values) with Optimizable[IntervalVector] {
+  extends VectorObject[Interval](values) with Optimizable[IntervalVector, Interval] {
 
   final def equalsTo(that: VectorObject[Interval]): Boolean = {
     val keys_1 = this.keys
@@ -60,6 +60,8 @@ class IntervalVector private (override val values: Map[String, Interval])
     }
     constrainedVector
   }
+
+  final override def getPerformance(f: Map[String, Interval] => Interval): Double = f(this.values).lowerBound
 }
 
 /** Companion object for [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]] class */
@@ -74,6 +76,13 @@ object IntervalVector {
       * @return [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]]
       */
     implicit def Iterable_to_IntervalVector(v: Iterable[(String, Interval)]): IntervalVector = IntervalVector(v)
+
+    /** Converts `VectorObject[Double]` to [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]]
+      *
+      * @param v `VectorObject[Double]`
+      * @return [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]]
+      */
+    implicit def VectorObject_to_IntervalVector(v: VectorObject[Interval]): IntervalVector = IntervalVector(v.values)
 
   }
 

@@ -72,5 +72,11 @@ class IntervalVectorSuite extends FunSuite {
       .constrain("z" -> (-5.0, 4.0)) == (Map("x" -> Interval(0.0), "y" -> Interval(3.0), "z" -> Interval(3.0, 4.0)) |> IntervalVector.apply))
   }
 
+  test("Get Performance") {
+    val f: Map[String, Interval] => Interval = v => v("x") - v("y") + v("z")
+    assert(v1.getPerformance(f) == 1.0)
+    assert((v1 * 2.0).getPerformance(f) == 2.0)
+  }
+
 
 }
