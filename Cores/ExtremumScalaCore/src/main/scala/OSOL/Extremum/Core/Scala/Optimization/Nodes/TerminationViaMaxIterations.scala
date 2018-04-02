@@ -3,10 +3,9 @@ package OSOL.Extremum.Core.Scala.Optimization.Nodes
 import OSOL.Extremum.Core.Scala.Optimization._
 import OSOL.Extremum.Core.Scala.Optimization.Exceptions._
 
-class TerminationViaMaxIterations[Base, FuncType, V <: Optimizable[Base, FuncType]](override val nodeId: Int, val maxIteration: Int)
+class TerminationViaMaxIterations[Base, FuncType, V <: Optimizable[Base, FuncType]]
+(override val nodeId: Int, val maxIteration: Int, parameterName: String = "currentIteration")
   extends GeneralNode[Base, FuncType, V ](nodeId) {
-
-  final private val parameterName = "currentIteration"
 
   final override def initialize(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Unit = {
     var value: Option[Int] = None

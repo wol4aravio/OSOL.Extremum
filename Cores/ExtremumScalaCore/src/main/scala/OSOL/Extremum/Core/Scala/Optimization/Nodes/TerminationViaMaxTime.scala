@@ -3,10 +3,9 @@ package OSOL.Extremum.Core.Scala.Optimization.Nodes
 import OSOL.Extremum.Core.Scala.Optimization._
 import OSOL.Extremum.Core.Scala.Optimization.Exceptions._
 
-class TerminationViaMaxTime[Base, FuncType, V <: Optimizable[Base, FuncType]](override val nodeId: Int, val maxTime: Double)
+class TerminationViaMaxTime[Base, FuncType, V <: Optimizable[Base, FuncType]]
+(override val nodeId: Int, val maxTime: Double, parameterName: String = "startTime")
   extends GeneralNode[Base, FuncType, V ](nodeId) {
-
-  final private val parameterName = "startTime"
 
   final override def initialize(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Unit = {
     try {
