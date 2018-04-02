@@ -89,8 +89,8 @@ class RandomSuite extends FunSuite {
       if (success) success
       else {
         val samples = (1 to 3 * N).map(_ => GoRN.getNormal(Map("x" -> (mu_x, sigma_x), "y" -> (mu_y, sigma_y))))
-        val (muEst_x, sigmaEst_x) = (Statistics.getAverage(samples.map(_ ("x"))), Statistics.getUnbiasedSigma(samples.map(_ ("x"))))
-        val (muEst_y, sigmaEst_y) = (Statistics.getAverage(samples.map(_ ("y"))), Statistics.getUnbiasedSigma(samples.map(_ ("y"))))
+        val (muEst_x, sigmaEst_x) = (Statistics.getMean(samples.map(_ ("x"))), Statistics.getUnbiasedSigma(samples.map(_ ("x"))))
+        val (muEst_y, sigmaEst_y) = (Statistics.getMean(samples.map(_ ("y"))), Statistics.getUnbiasedSigma(samples.map(_ ("y"))))
 
         val success_MuX = math.abs(mu_x - muEst_x) < eps
         val successSigmaX = math.abs(sigma_x - sigmaEst_x) < eps
