@@ -8,23 +8,23 @@ class TerminationViaMaxIterations[Base, FuncType, V <: Optimizable[Base, FuncTyp
 
   final private val parameterName = "currentIteration"
 
-  final override def initialize(f: Map[String, FuncType] => FuncType, area: Area, s: State[Base, FuncType, V]): Unit = {
+  final override def initialize(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Unit = {
     try {
-      val _ = s.getParameter[Int](parameterName)
+      val _ = state.getParameter[Int](parameterName)
       throw new ParameterAlreadyExistsException(parameterName)
     }
     catch {
-      case _: NoSuchParameterException => s.setParameter(parameterName, 0)
+      case _: NoSuchParameterException => state.setParameter(parameterName, 0)
       case _ => throw new Exception("Unknown Exception")
     }
   }
 
-  final override def process(f: Map[String, FuncType] => FuncType, area: Area, s: State[Base, FuncType, V]): Unit = {
-    s.setParameter(parameterName, s.getParameter[Int](parameterName) + 1)
+  final override def process(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Unit = {
+    state.setParameter(parameterName, state.getParameter[Int](parameterName) + 1)
   }
 
-  final override def getCurrentCondition(f: Map[String, FuncType] => FuncType, area: Area, s: State[Base, FuncType, V]): Option[Int] = {
-    if (s.getParameter[Int](parameterName) > maxIteration) Some(-1)
+  final override def getCurrentCondition(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Option[Int] = {
+    if (state.getParameter[Int](parameterName) > maxIteration) Some(-1)
     else Some(nextNodeId)
   }
 
