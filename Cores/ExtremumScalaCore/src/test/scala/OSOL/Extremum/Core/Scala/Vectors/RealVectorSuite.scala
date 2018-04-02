@@ -17,10 +17,6 @@ class RealVectorSuite extends FunSuite {
     assert(v1.keys == Set("x", "y", "z"))
   }
 
-  test("Values") {
-    assert(v1.values.toSeq == Seq(1.0, 2.0, 3.0))
-  }
-
   test("Value Extraction") {
 
     assert(v1("x") == 1.0)
@@ -77,6 +73,18 @@ class RealVectorSuite extends FunSuite {
       .constrain("x" -> (-1.0, 0.0))
       .constrain(Seq("y" -> (3.0, 10.0)))
       .constrain("z" -> (-5.0, 5.0)) == (Map("x" -> 0.0, "y" -> 3.0, "z" -> 3.0) |> RealVector.apply))
+  }
+
+  test("Get Performance") {
+    val f: Map[String, Double] => Double = v => v("x") + v("y") + v("z")
+    assert(v1.getPerformance(f) == 6.0)
+    assert((v1 * 2.0).getPerformance(f) == 12.0)
+  }
+
+  test("To Double Valued Vector") {
+    assert(v1.toBasicForm()("x") == 1.0)
+    assert(v1.toBasicForm()("y") == 2.0)
+    assert(v1.toBasicForm()("z") == 3.0)
   }
 
 

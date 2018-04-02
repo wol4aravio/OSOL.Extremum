@@ -4,22 +4,16 @@ import Exceptions._
 
 /** Current class is used as a base for vector objects
   *
-  * @param vals values which form VectorObject (key-value pairs)
+  * @param values values which form VectorObject (key-value pairs)
   * @tparam Base value type
   */
-abstract class VectorObject[Base] (val vals: Map[String, Base]) {
+abstract class VectorObject[Base] (val values: Map[String, Base]) {
 
   /** Returns all keys that are stored by current VectorObject
     *
     * @return keys
     */
-  final def keys: Set[String] = vals.keySet
-
-  /** Returns all values that are stored by current VectorObject
-    *
-    * @return values
-    */
-  final def values: Iterable[Base] = vals.values
+  final def keys: Set[String] = values.keySet
 
   /** Access value by key
     *
@@ -27,7 +21,7 @@ abstract class VectorObject[Base] (val vals: Map[String, Base]) {
     * @return value that corresponds to 'key'
     */
   final def apply(key: String): Base = {
-    try vals(key)
+    try values(key)
     catch {
       case _: Exception => throw new MissingKeyException(key)
     }
@@ -39,7 +33,7 @@ abstract class VectorObject[Base] (val vals: Map[String, Base]) {
     * @param default value to return if key does not exist
     * @return value that corresponds to 'key' (if it exists), 'default' - otherwise
     */
-  final def getOrElse(key: String, default: Base): Base = vals.getOrElse(key, default)
+  final def getOrElse(key: String, default: Base): Base = values.getOrElse(key, default)
   /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#getOrElse getOrElse]] */
   final def apply(key: String, default: Base): Base = this.getOrElse(key, default)
 
@@ -47,21 +41,7 @@ abstract class VectorObject[Base] (val vals: Map[String, Base]) {
     *
     * @return string representation of VectorObject
     */
-  override def toString: String = vals.map { case (key, value) => s"$key -> $value" }.mkString("\n")
-
-  /** Deremines whether objects are equal or not
-    *
-    * @param that second object
-    * @return equal or not
-    */
-  final def equalsTo(that: VectorObject[Base]): Boolean = {
-    val keys_1 = this.keys
-    val keys_2 = that.keys
-    if (keys_1 != keys_2) throw new DifferentKeysException(keys_1, keys_2)
-    else keys_1.forall(k => this(k) == that(k))
-  }
-  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#equalsTo equalsTo]] */
-  final def ==(that: VectorObject[Base]): Boolean = this.equalsTo(that)
+  override def toString: String = values.map { case (key, value) => s"$key -> $value" }.mkString("\n")
 
   /** Performs element-wise operation for pair of objects
     *
@@ -87,6 +67,15 @@ abstract class VectorObject[Base] (val vals: Map[String, Base]) {
     val mergedKeys = this.keys.union(that.keys)
     mergedKeys.map(k => (k, op(this(k, default), that(k, default))))
   }
+
+  /** Deremines whether objects are equal or not
+    *
+    * @param that second object
+    * @return equal or not
+    */
+  def equalsTo(that: VectorObject[Base]): Boolean
+  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#equalsTo equalsTo]] */
+  final def ==(that: VectorObject[Base]): Boolean = this.equalsTo(that)
 
   /** Adds another VectorObject to the current one
     *
@@ -158,23 +147,5 @@ abstract class VectorObject[Base] (val vals: Map[String, Base]) {
   def multiplyImputeMissingKeys(that: VectorObject[Base]): VectorObject[Base]
   /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#multiplyImputeMissingKeys multiplyImputeMissingKeys]] */
   final def ~*(that: VectorObject[Base]): VectorObject[Base] = this.multiplyImputeMissingKeys(that)
-
-  /** Moves current VectorObject
-    *
-    * @param delta shift per key
-    * @return moved VectorObject
-    */
-  def moveBy(delta: (String, Double)*): VectorObject[Base]
-  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#moveBy moveBy]] */
-  final def moveBy(delta: Iterable[(String, Double)]): VectorObject[Base] = this.moveBy(delta.toSeq:_*)
-
-  /** Forces VectorObject to be located in given area
-    *
-    * @param area area where VectorObject must be located
-    * @return VectorObject in target area
-    */
-  def constrain(area: (String, (Double, Double))*): VectorObject[Base]
-  /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#constrain constrain]] */
-  final def constrain(area: Iterable[(String, (Double, Double))]): VectorObject[Base] = this.constrain(area.toSeq:_*)
 
 }
