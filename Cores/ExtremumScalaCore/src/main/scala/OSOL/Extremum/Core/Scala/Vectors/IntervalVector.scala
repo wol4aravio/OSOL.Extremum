@@ -65,6 +65,20 @@ class IntervalVector private (override val values: Map[String, Interval])
 
   final override def toBasicForm(): VectorObject[Double] = RealVector(this.values.mapValues(_.middlePoint))
 
+  final def split(ratios: Seq[Double], key: Option[String] = None): Seq[IntervalVector] = {
+    val splitKey =
+      if (key.isDefined) key.get
+      else values.minBy { case (k, v) => -v.width }._1
+
+    val splitComponent = this(splitKey).split(ratios)
+    splitComponent.map { i => IntervalVector(this.values + (splitKey -> i))}
+  }
+
+  final def bisect(key: Option[String] = None): (IntervalVector, IntervalVector) = {
+    val Seq(left, right) = this.split(Seq(1.0, 1.0), key)
+    (left, right)
+  }
+
 }
 
 /** Companion object for [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]] class */

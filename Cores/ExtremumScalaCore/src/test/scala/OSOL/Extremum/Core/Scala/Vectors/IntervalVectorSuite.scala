@@ -84,6 +84,17 @@ class IntervalVectorSuite extends FunSuite {
     assert(v1.toBasicForm()("z") == 4.0)
   }
 
+  test("Splitting # 1") {
+    val (left, right) = v1.bisect()
+    assert(left == (Map("x" -> Interval(1.0), "y" -> Interval(2.0, 3.0), "z" -> Interval(3.0, 4.0)) |> IntervalVector.apply))
+    assert(right == (Map("x" -> Interval(1.0), "y" -> Interval(2.0, 3.0), "z" -> Interval(4.0, 5.0)) |> IntervalVector.apply))
+  }
+
+  test("Splitting # 2") {
+    val (left, right) = v1.bisect(key = Some("y"))
+    assert(left == (Map("x" -> Interval(1.0), "y" -> Interval(2.0, 2.5), "z" -> Interval(3.0, 5.0)) |> IntervalVector.apply))
+    assert(right == (Map("x" -> Interval(1.0), "y" -> Interval(2.5, 3.0), "z" -> Interval(3.0, 5.0)) |> IntervalVector.apply))
+  }
 
 
 }
