@@ -15,7 +15,7 @@ class TerminationViaMaxTime[Base, FuncType, V <: Optimizable[Base, FuncType]](ov
     }
     catch {
       case _: NoSuchParameterException => state.setParameter(parameterName, System.nanoTime())
-      case _ => throw new Exception("Unknown Exception")
+      case _ => throw new ParameterAlreadyExistsException(parameterName)
     }
   }
 

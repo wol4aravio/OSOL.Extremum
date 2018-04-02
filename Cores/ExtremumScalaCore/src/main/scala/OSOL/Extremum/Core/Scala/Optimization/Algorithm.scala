@@ -16,13 +16,14 @@ final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]]
 
   def work(f: Map[String, FuncType] => FuncType, area: Area): V = {
     initialize(f, area)
-    while (true) {
+    var continue = true
+    while (continue) {
       currentNode.process(f, area, state)
       val currentConditionValue = currentNode.getCurrentCondition(f, area, state)
       val nextNode = transitionMatrix.find { case (currentId, condition, _) =>
         currentId == currentNode.nodeId && condition == currentConditionValue }
       if (nextNode.isDefined) { currentNode = nodes.find(_.nodeId == nextNode.get._3).get }
-      else return state.result.get
+      else { continue = false }
     }
     state.result.get
   }

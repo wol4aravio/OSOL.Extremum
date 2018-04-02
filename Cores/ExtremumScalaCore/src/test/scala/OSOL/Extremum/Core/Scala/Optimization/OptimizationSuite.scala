@@ -1,5 +1,6 @@
 package OSOL.Extremum.Core.Scala.Optimization
 
+import OSOL.Extremum.Core.Scala.Optimization.Exceptions.ParameterAlreadyExistsException
 import OSOL.Extremum.Core.Scala.Optimization.Nodes.{GeneralNode, TerminationViaMaxIterations, TerminationViaMaxTime}
 import OSOL.Extremum.Core.Scala.Random.GoRN
 import OSOL.Extremum.Core.Scala.Vectors.RealVector
@@ -55,16 +56,29 @@ class OptimizationSuite extends FunSuite {
 
   }
 
-  val tool = DummyOptimization()
+  val tool: Algorithm[RealVector, Double, RealVector] = DummyOptimization()
+  val f: Map[String, Double] => Double = (v: Map[String, Double]) => math.abs(v("x"))
+  val area: Area = Map("x" -> (-10.0, 10.0))
   val eps = 1e-3
+
+  test("TerminationViaMaxIterations") {
+    val node = new TerminationViaMaxIterations[RealVector, Double, RealVector](nodeId = 1, maxIteration = 250)
+    val state: State[RealVector, Double, RealVector] = new State[RealVector, Double, RealVector]()
+
+    node.initialize(f, area, state)
+    intercept[ParameterAlreadyExistsException] { node.initialize(f, area, state) }
+  }
+  test("TerminationViaMaxTime") {
+    val node = new TerminationViaMaxTime[RealVector, Double, RealVector](nodeId = 1, maxTime = 1.0)
+    val state: State[RealVector, Double, RealVector] = new State[RealVector, Double, RealVector]()
+
+    node.initialize(f, area, state)
+    intercept[ParameterAlreadyExistsException] { node.initialize(f, area, state) }
+  }
 
   test("Test #1") {
 
-    val result = tool.work(
-      f = (v: Map[String, Double]) => math.abs(v("x")),
-      area = Map("x" -> (-10.0, 10.0))
-    )
-
+    val result = tool.work(f, area)
     assert(math.abs(result("x")) < eps)
 
   }

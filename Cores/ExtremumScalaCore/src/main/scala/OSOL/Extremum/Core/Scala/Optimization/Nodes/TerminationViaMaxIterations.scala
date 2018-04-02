@@ -9,14 +9,10 @@ class TerminationViaMaxIterations[Base, FuncType, V <: Optimizable[Base, FuncTyp
   final private val parameterName = "currentIteration"
 
   final override def initialize(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Unit = {
-    try {
-      val _ = state.getParameter[Int](parameterName)
-      throw new ParameterAlreadyExistsException(parameterName)
-    }
-    catch {
-      case _: NoSuchParameterException => state.setParameter(parameterName, 0)
-      case _ => throw new Exception("Unknown Exception")
-    }
+    var value: Option[Int] = None
+    try { value = Some(state.getParameter[Int](parameterName)) }
+    catch { case _: NoSuchParameterException => state.setParameter(parameterName, 0) }
+    finally {  if (value.isDefined) throw new ParameterAlreadyExistsException(parameterName) }
   }
 
   final override def process(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Unit = {
