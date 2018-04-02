@@ -56,7 +56,7 @@ class OptimizationSuite extends FunSuite {
   }
 
   val tool = DummyOptimization()
-  val eps = 1e-5
+  val eps = 1e-3
 
   test("Test #1") {
 
