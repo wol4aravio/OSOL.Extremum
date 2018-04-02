@@ -2,13 +2,15 @@ package OSOL.Extremum.Core.Scala.Vectors
 
 import RealVector.Converters._
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
+import OSOL.Extremum.Core.Scala.Optimization.Optimizable
 import OSOL.Extremum.Core.Scala.Vectors.Exceptions.DifferentKeysException
 
 /** Ordinary numerical vector
   *
   * @param values values which form VectorObject (key-value pairs)
   */
-class RealVector private (override val values: Map[String, Double]) extends VectorObject[Double](values) {
+class RealVector private (override val values: Map[String, Double])
+  extends VectorObject[Double](values) with Optimizable[RealVector, Double] {
 
   final override def equalsTo(that: VectorObject[Double]): Boolean = {
     val keys_1 = this.keys
@@ -53,6 +55,10 @@ class RealVector private (override val values: Map[String, Double]) extends Vect
     }
     constrainedVector
   }
+
+  final override def getPerformance(f: Map[String, Double] => Double): Double = f(this.values)
+
+  final override def toBasicForm(): VectorObject[Double] = this
 }
 
 /** Companion object for [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]] class */
@@ -67,6 +73,13 @@ object RealVector {
       * @return [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]]
       */
     implicit def Iterable_to_RealVector(v: Iterable[(String, Double)]): RealVector = RealVector(v)
+
+    /** Converts `VectorObject[Double]` to [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]]
+      *
+      * @param v `VectorObject[Double]`
+      * @return [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]]
+      */
+    implicit def VectorObject_to_RealVector(v: VectorObject[Double]): RealVector = RealVector(v.values)
 
   }
 

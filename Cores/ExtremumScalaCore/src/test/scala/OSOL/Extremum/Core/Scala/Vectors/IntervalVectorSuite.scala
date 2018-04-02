@@ -72,5 +72,29 @@ class IntervalVectorSuite extends FunSuite {
       .constrain("z" -> (-5.0, 4.0)) == (Map("x" -> Interval(0.0), "y" -> Interval(3.0), "z" -> Interval(3.0, 4.0)) |> IntervalVector.apply))
   }
 
+  test("Get Performance") {
+    val f: Map[String, Interval] => Interval = v => v("x") - v("y") + v("z")
+    assert(v1.getPerformance(f) == 1.0)
+    assert((v1 * 2.0).getPerformance(f) == 2.0)
+  }
+
+  test("To Double Valued Vector") {
+    assert(v1.toBasicForm()("x") == 1.0)
+    assert(v1.toBasicForm()("y") == 2.5)
+    assert(v1.toBasicForm()("z") == 4.0)
+  }
+
+  test("Splitting # 1") {
+    val (left, right) = v1.bisect()
+    assert(left == (Map("x" -> Interval(1.0), "y" -> Interval(2.0, 3.0), "z" -> Interval(3.0, 4.0)) |> IntervalVector.apply))
+    assert(right == (Map("x" -> Interval(1.0), "y" -> Interval(2.0, 3.0), "z" -> Interval(4.0, 5.0)) |> IntervalVector.apply))
+  }
+
+  test("Splitting # 2") {
+    val (left, right) = v1.bisect(key = Some("y"))
+    assert(left == (Map("x" -> Interval(1.0), "y" -> Interval(2.0, 2.5), "z" -> Interval(3.0, 5.0)) |> IntervalVector.apply))
+    assert(right == (Map("x" -> Interval(1.0), "y" -> Interval(2.5, 3.0), "z" -> Interval(3.0, 5.0)) |> IntervalVector.apply))
+  }
+
 
 }

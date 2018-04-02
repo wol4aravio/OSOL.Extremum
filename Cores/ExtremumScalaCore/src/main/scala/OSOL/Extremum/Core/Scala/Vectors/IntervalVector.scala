@@ -3,13 +3,15 @@ package OSOL.Extremum.Core.Scala.Vectors
 import OSOL.Extremum.Core.Scala.Arithmetics.Interval
 import IntervalVector.Converters._
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
+import OSOL.Extremum.Core.Scala.Optimization.Optimizable
 import OSOL.Extremum.Core.Scala.Vectors.Exceptions.DifferentKeysException
 
 /** Interval valued vector
   *
   * @param values values which form VectorObject (key-value pairs)
   */
-class IntervalVector private (override val values: Map[String, Interval]) extends VectorObject[Interval](values) {
+class IntervalVector private (override val values: Map[String, Interval])
+  extends VectorObject[Interval](values) with Optimizable[IntervalVector, Interval] {
 
   final def equalsTo(that: VectorObject[Interval]): Boolean = {
     val keys_1 = this.keys
@@ -58,6 +60,25 @@ class IntervalVector private (override val values: Map[String, Interval]) extend
     }
     constrainedVector
   }
+
+  final override def getPerformance(f: Map[String, Interval] => Interval): Double = f(this.values).lowerBound
+
+  final override def toBasicForm(): VectorObject[Double] = RealVector(this.values.mapValues(_.middlePoint))
+
+  final def split(ratios: Seq[Double], key: Option[String] = None): Seq[IntervalVector] = {
+    val splitKey =
+      if (key.isDefined) key.get
+      else values.minBy { case (k, v) => -v.width }._1
+
+    val splitComponent = this(splitKey).split(ratios)
+    splitComponent.map { i => IntervalVector(this.values + (splitKey -> i))}
+  }
+
+  final def bisect(key: Option[String] = None): (IntervalVector, IntervalVector) = {
+    val Seq(left, right) = this.split(Seq(1.0, 1.0), key)
+    (left, right)
+  }
+
 }
 
 /** Companion object for [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]] class */
@@ -72,6 +93,13 @@ object IntervalVector {
       * @return [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]]
       */
     implicit def Iterable_to_IntervalVector(v: Iterable[(String, Interval)]): IntervalVector = IntervalVector(v)
+
+    /** Converts `VectorObject[Double]` to [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]]
+      *
+      * @param v `VectorObject[Double]`
+      * @return [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]]
+      */
+    implicit def VectorObject_to_IntervalVector(v: VectorObject[Interval]): IntervalVector = IntervalVector(v.values)
 
   }
 
