@@ -102,4 +102,21 @@ class RandomSuite extends FunSuite {
     }
     assert(result)
   }
+
+  test("Get from Series") {
+    val elements = Seq(1, 2, 3)
+
+    val chosenWithReturn = (1 to N/100)
+      .map(_ => GoRN.getFromSeries(elements, 5, withReturn = true))
+      .foldLeft(Seq.empty[Int]) { case (seq, chosen) => seq ++ chosen }
+
+    val chosenWithoutReturn = (1 to N/100)
+      .map(_ => GoRN.getFromSeries(elements, 2, withReturn = false))
+      .foldLeft(Seq.empty[Int]) { case (seq, chosen) => seq ++ chosen }
+
+    assert(getProbability(chosenWithReturn, (x: Int) => x) ~ Map(1 -> 1.0/3.0, 2 -> 1.0/3.0, 3 -> 1.0/3.0) < eps)
+    assert(getProbability(chosenWithoutReturn, (x: Int) => x) ~ Map(1 -> 1.0/3.0, 2 -> 1.0/3.0, 3 -> 1.0/3.0) < eps)
+
+  }
+
 }
