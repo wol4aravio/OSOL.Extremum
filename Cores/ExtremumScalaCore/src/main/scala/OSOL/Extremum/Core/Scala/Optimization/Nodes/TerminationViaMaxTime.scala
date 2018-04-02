@@ -3,7 +3,7 @@ package OSOL.Extremum.Core.Scala.Optimization.Nodes
 import OSOL.Extremum.Core.Scala.Optimization._
 import OSOL.Extremum.Core.Scala.Optimization.Exceptions._
 
-class TerminationViaMaxTime[Base, FuncType, V <: Optimizable[Base, FuncType]](val maxTime: Double, val nextNodeId: Int, override val nodeId: Int)
+class TerminationViaMaxTime[Base, FuncType, V <: Optimizable[Base, FuncType]](override val nodeId: Int, val maxTime: Double)
   extends GeneralNode[Base, FuncType, V ](nodeId) {
 
   final private val parameterName = "startTime"
@@ -22,8 +22,8 @@ class TerminationViaMaxTime[Base, FuncType, V <: Optimizable[Base, FuncType]](va
   final override def process(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Unit = { }
 
   final override def getCurrentCondition(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Option[Int] = {
-    if (1e-9 * (System.nanoTime() - state.getParameter[Long](parameterName)) > maxTime) Some(-1)
-    else Some(nextNodeId)
+    if (1e-9 * (System.nanoTime() - state.getParameter[Long](parameterName)) > maxTime) Some(1)
+    else Some(0)
   }
 
 }

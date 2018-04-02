@@ -1,16 +1,18 @@
 package OSOL.Extremum.Core.Scala.Optimization
 
-import scala.util.control.Breaks._
 import OSOL.Extremum.Core.Scala.Optimization.Nodes.GeneralNode
 
-final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]] private
+final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]]
 (nodes: Seq[GeneralNode[Base, FuncType, V]], transitionMatrix: Seq[(Int, Option[Int], Int)]) {
 
-  private var state: State[Base, FuncType, V] = null
+  private var state: State[Base, FuncType, V] = new State()
 
   private var currentNode: GeneralNode[Base, FuncType, V] = null
 
-  def initialize(f: Map[String, FuncType] => FuncType, area: Area): Unit = nodes.foreach(_.initialize(f, area, state))
+  def initialize(f: Map[String, FuncType] => FuncType, area: Area): Unit = {
+    nodes.foreach(_.initialize(f, area, state))
+    currentNode = nodes.head
+  }
 
   def work(f: Map[String, FuncType] => FuncType, area: Area): V = {
     initialize(f, area)
@@ -20,9 +22,9 @@ final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]] private
       val nextNode = transitionMatrix.find { case (currentId, condition, _) =>
         currentId == currentNode.nodeId && condition == currentConditionValue }
       if (nextNode.isDefined) { currentNode = nodes.find(_.nodeId == nextNode.get._3).get }
-      else break
+      else return state.result.get
     }
-    state.elements.minBy(_.getPerformance(f))
+    state.result.get
   }
 
 }

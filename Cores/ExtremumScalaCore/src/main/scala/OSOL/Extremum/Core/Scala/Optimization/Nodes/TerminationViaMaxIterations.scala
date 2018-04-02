@@ -3,7 +3,7 @@ package OSOL.Extremum.Core.Scala.Optimization.Nodes
 import OSOL.Extremum.Core.Scala.Optimization._
 import OSOL.Extremum.Core.Scala.Optimization.Exceptions._
 
-class TerminationViaMaxIterations[Base, FuncType, V <: Optimizable[Base, FuncType]](val maxIteration: Int, val nextNodeId: Int, override val nodeId: Int)
+class TerminationViaMaxIterations[Base, FuncType, V <: Optimizable[Base, FuncType]](override val nodeId: Int, val maxIteration: Int)
   extends GeneralNode[Base, FuncType, V ](nodeId) {
 
   final private val parameterName = "currentIteration"
@@ -24,8 +24,8 @@ class TerminationViaMaxIterations[Base, FuncType, V <: Optimizable[Base, FuncTyp
   }
 
   final override def getCurrentCondition(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Option[Int] = {
-    if (state.getParameter[Int](parameterName) > maxIteration) Some(-1)
-    else Some(nextNodeId)
+    if (state.getParameter[Int](parameterName) > maxIteration) Some(1)
+    else Some(0)
   }
 
 }
