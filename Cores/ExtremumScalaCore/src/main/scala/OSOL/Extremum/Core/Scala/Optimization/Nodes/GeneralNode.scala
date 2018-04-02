@@ -8,6 +8,6 @@ abstract class GeneralNode[Base, FuncType, V <: Optimizable[Base, FuncType]](val
 
   def process(f: Map[String, FuncType] => FuncType, area: Area, s: State[Base, FuncType, V]): Unit
 
-  def getNextNode(f: Map[String, FuncType] => FuncType, area: Area, s: State[Base, FuncType, V]): Option[Int] = None
+  def getCurrentCondition(f: Map[String, FuncType] => FuncType, area: Area, s: State[Base, FuncType, V]): Option[Int] = None
 
 }
