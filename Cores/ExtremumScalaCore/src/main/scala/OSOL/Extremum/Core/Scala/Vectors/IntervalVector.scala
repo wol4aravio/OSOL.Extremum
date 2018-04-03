@@ -5,6 +5,7 @@ import IntervalVector.Converters._
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
 import OSOL.Extremum.Core.Scala.Optimization.Optimizable
 import OSOL.Extremum.Core.Scala.Vectors.Exceptions.DifferentKeysException
+import spray.json._
 
 /** Interval valued vector
   *
@@ -116,5 +117,31 @@ object IntervalVector {
     */
   final def apply(keyValuePairs: Iterable[(String, Interval)]): IntervalVector = IntervalVector(keyValuePairs.toSeq:_*)
 
+  /** Json Serialization for IntervalVector */
+  implicit object IntervalVectorJsonFormat extends RootJsonFormat[IntervalVector] {
+    def write(v: IntervalVector) = JsObject(
+      "IntervalVector" -> JsObject(
+        "elements" -> JsArray(
+          v.elements.map { case (k, v) =>
+            JsObject("key" -> JsString(k), "value" -> v.toJson)
+          }.toVector)))
+
+    def read(json: JsValue): IntervalVector =
+      json.asJsObject.getFields("IntervalVector") match {
+        case Seq(intervalVector) => intervalVector.asJsObject.getFields("elements") match {
+          case Seq(JsArray(elements)) => {
+            val keyValuePairs = elements.map { e =>
+              e.asJsObject.getFields("key", "value") match {
+                case Seq(JsString(k), v) => k -> v.convertTo[Interval]
+                case _ => throw DeserializationException("No necessary fields")
+              }
+            }
+            keyValuePairs.toMap
+          }
+          case _ => throw DeserializationException("No necessary fields")
+        }
+        case _ => throw DeserializationException("No RealVector Field")
+      }
+  }
 
 }
