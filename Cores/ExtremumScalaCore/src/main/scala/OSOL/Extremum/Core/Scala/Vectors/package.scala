@@ -1,8 +1,6 @@
 package OSOL.Extremum.Core.Scala
 
-/** Set of tools and procedures for VectorObjects package
-  *
-  */
+/** Set of tools and procedures for VectorObjects package */
 package object Vectors {
 
   /** Exceptions that can be invoked by [[OSOL.Extremum.Core.Scala.Vectors.VectorObject VectorObject]] class

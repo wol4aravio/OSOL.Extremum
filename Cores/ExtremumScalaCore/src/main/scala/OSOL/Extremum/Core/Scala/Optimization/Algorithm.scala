@@ -2,18 +2,41 @@ package OSOL.Extremum.Core.Scala.Optimization
 
 import OSOL.Extremum.Core.Scala.Optimization.Nodes.GeneralNode
 
+/** Algorithm that is constructed on steps (aka nodes) and transition matrix
+  *
+  * @param nodes algorithm's steps
+  * @param transitionMatrix rules of transition between nodes
+  * @tparam Base base type of `V` element
+  * @tparam FuncType type of target function
+  * @tparam V type of element on which optimization will be performed
+  * @example `Algorithm[RealVector, Double, RealVector`
+  * @example `Algorithm[IntervalVector, Interval, IntervalVector]`
+  */
 final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]]
 (nodes: Seq[GeneralNode[Base, FuncType, V]], transitionMatrix: Seq[(Int, Option[Int], Int)]) {
 
+  /** Holds current [[OSOL.Extremum.Core.Scala.Optimization.State State]] */
   private var state: State[Base, FuncType, V] = new State()
 
+  /** Holds current [[OSOL.Extremum.Core.Scala.Optimization.Nodes.GeneralNode Node]] */
   private var currentNode: GeneralNode[Base, FuncType, V] = null
 
+  /** Initialization phase
+    *
+    * @param f target function
+    * @param area search area
+    */
   def initialize(f: Map[String, FuncType] => FuncType, area: Area): Unit = {
     nodes.foreach(_.initialize(f, area, state))
     currentNode = nodes.head
   }
 
+  /** Run algorithm
+    *
+    * @param f target function
+    * @param area search area
+    * @return `V` on which minimum value is reached
+    */
   def work(f: Map[String, FuncType] => FuncType, area: Area): V = {
     initialize(f, area)
     var continue = true
