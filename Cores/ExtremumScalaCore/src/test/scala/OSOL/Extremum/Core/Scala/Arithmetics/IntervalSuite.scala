@@ -1,7 +1,9 @@
 package OSOL.Extremum.Core.Scala.Arithmetics
 
 import org.scalatest.FunSuite
+import spray.json._
 
+import Interval._
 import Interval.Converters._
 import Interval.Exceptions._
 
@@ -168,6 +170,16 @@ class IntervalSuite extends FunSuite {
     assert(i1.bisect()._1 ~ Interval(-1.0, 0.5))
     assert(i1.bisect()._2 ~ Interval(0.5, 2.0))
     assert(i1.split(Seq(1, 2)).zip(Seq(Interval(-1.0, 0.0), Interval(0.0, 2.0))).forall { case (a, b) => a ~ b })
+  }
+
+  test("JSON") {
+    assert(i1.toJson.convertTo[Interval] == i1)
+    assert(i2.toJson.convertTo[Interval] == i2)
+    assert(i3.toJson.convertTo[Interval] == i3)
+    intercept[DeserializationException]
+      { i1.toJson.prettyPrint.replace("Interval", "Intervall").parseJson.convertTo[Interval] }
+    intercept[DeserializationException]
+      { i1.toJson.prettyPrint.replace("lowerBound", "a").replace("upperBound", "b").parseJson.convertTo[Interval] }
   }
 
 }
