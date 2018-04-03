@@ -342,6 +342,7 @@ object Interval {
 
   }
 
+  /** Json Serialization for Interval */
   implicit object IntervalJsonFormat extends RootJsonFormat[Interval] {
     def write(i: Interval) = JsObject(
       "Interval" -> JsObject(
