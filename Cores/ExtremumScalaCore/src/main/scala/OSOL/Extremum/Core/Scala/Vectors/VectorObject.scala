@@ -4,16 +4,16 @@ import Exceptions._
 
 /** Current class is used as a base for vector objects
   *
-  * @param values values which form VectorObject (key-value pairs)
+  * @param elements values which form VectorObject (key-value pairs)
   * @tparam Base value type
   */
-abstract class VectorObject[Base] (val values: Map[String, Base]) {
+abstract class VectorObject[Base] (val elements: Map[String, Base]) {
 
   /** Returns all keys that are stored by current VectorObject
     *
     * @return keys
     */
-  final def keys: Set[String] = values.keySet
+  final def keys: Set[String] = elements.keySet
 
   /** Access value by key
     *
@@ -21,7 +21,7 @@ abstract class VectorObject[Base] (val values: Map[String, Base]) {
     * @return value that corresponds to 'key'
     */
   final def apply(key: String): Base = {
-    try values(key)
+    try elements(key)
     catch {
       case _: Exception => throw new MissingKeyException(key)
     }
@@ -33,7 +33,7 @@ abstract class VectorObject[Base] (val values: Map[String, Base]) {
     * @param default value to return if key does not exist
     * @return value that corresponds to 'key' (if it exists), 'default' - otherwise
     */
-  final def getOrElse(key: String, default: Base): Base = values.getOrElse(key, default)
+  final def getOrElse(key: String, default: Base): Base = elements.getOrElse(key, default)
   /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#getOrElse getOrElse]] */
   final def apply(key: String, default: Base): Base = this.getOrElse(key, default)
 
@@ -41,7 +41,7 @@ abstract class VectorObject[Base] (val values: Map[String, Base]) {
     *
     * @return string representation of VectorObject
     */
-  override def toString: String = values.map { case (key, value) => s"$key -> $value" }.mkString("\n")
+  override def toString: String = elements.map { case (key, value) => s"$key -> $value" }.mkString("\n")
 
   /** Performs element-wise operation for pair of objects
     *

@@ -8,10 +8,10 @@ import OSOL.Extremum.Core.Scala.Vectors.Exceptions.DifferentKeysException
 
 /** Interval valued vector
   *
-  * @param values values which form VectorObject (key-value pairs)
+  * @param elements values which form VectorObject (key-value pairs)
   */
-class IntervalVector private (override val values: Map[String, Interval])
-  extends VectorObject[Interval](values) with Optimizable[IntervalVector, Interval] {
+class IntervalVector private (override val elements: Map[String, Interval])
+  extends VectorObject[Interval](elements) with Optimizable[IntervalVector, Interval] {
 
   final def equalsTo(that: VectorObject[Interval]): Boolean = {
     val keys_1 = this.keys
@@ -51,7 +51,7 @@ class IntervalVector private (override val values: Map[String, Interval])
       }
     }
     val restrictingArea = area.toMap
-    val constrainedVector = this.values.map { case (k, value) => (k,
+    val constrainedVector = this.elements.map { case (k, value) => (k,
       k match {
         case _ if restrictingArea.isDefinedAt(k) =>
           Interval(constrainValue(value.lowerBound, restrictingArea(k)), constrainValue(value.upperBound, restrictingArea(k)))
@@ -61,17 +61,17 @@ class IntervalVector private (override val values: Map[String, Interval])
     constrainedVector
   }
 
-  final override def getPerformance(f: Map[String, Interval] => Interval): Double = f(this.values).lowerBound
+  final override def getPerformance(f: Map[String, Interval] => Interval): Double = f(this.elements).lowerBound
 
-  final override def toBasicForm(): VectorObject[Double] = RealVector(this.values.mapValues(_.middlePoint))
+  final override def toBasicForm(): VectorObject[Double] = RealVector(this.elements.mapValues(_.middlePoint))
 
   final def split(ratios: Seq[Double], key: Option[String] = None): Seq[IntervalVector] = {
     val splitKey =
       if (key.isDefined) key.get
-      else values.minBy { case (k, v) => -v.width }._1
+      else elements.minBy { case (k, v) => -v.width }._1
 
     val splitComponent = this(splitKey).split(ratios)
-    splitComponent.map { i => IntervalVector(this.values + (splitKey -> i))}
+    splitComponent.map { i => IntervalVector(this.elements + (splitKey -> i))}
   }
 
   final def bisect(key: Option[String] = None): (IntervalVector, IntervalVector) = {
@@ -99,7 +99,7 @@ object IntervalVector {
       * @param v `VectorObject[Double]`
       * @return [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]]
       */
-    implicit def VectorObject_to_IntervalVector(v: VectorObject[Interval]): IntervalVector = IntervalVector(v.values)
+    implicit def VectorObject_to_IntervalVector(v: VectorObject[Interval]): IntervalVector = IntervalVector(v.elements)
 
   }
 
