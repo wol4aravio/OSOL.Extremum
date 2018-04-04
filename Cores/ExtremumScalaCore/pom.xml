@@ -82,12 +82,14 @@
                 <version>3.2.2</version>
                 <executions>
                     <execution>
+                        <id>scala-test-compile</id>
                         <goals>
                             <!-- Need to specify this explicitly, otherwise plugin won't be called when doing e.g. mvn compile -->
                             <goal>testCompile</goal>
                         </goals>
                     </execution>
                     <execution>
+                        <id>scala-doc</id>
                         <goals>
                             <!-- Need to specify this explicitly, otherwise plugin won't be called when doing e.g. mvn compile -->
                             <goal>compile</goal>
@@ -95,6 +97,7 @@
                         </goals>
                     </execution>
                     <execution>
+                        <id>scala-sources</id>
                         <goals>
                             <!-- Need to specify this explicitly, otherwise plugin won't be called when doing e.g. mvn compile -->
                             <goal>compile</goal>
