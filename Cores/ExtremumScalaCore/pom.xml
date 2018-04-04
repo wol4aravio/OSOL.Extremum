@@ -89,6 +89,11 @@
                             <goal>add-source</goal>
                             <goal>doc-jar</goal>
                         </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/scala</source>
+                            </sources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
