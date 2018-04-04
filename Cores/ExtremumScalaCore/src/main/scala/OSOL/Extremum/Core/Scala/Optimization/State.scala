@@ -47,6 +47,7 @@ class State[Base, FuncType, V <: Optimizable[Base, FuncType]] {
       },
       "parameters" -> JsArray(parameters.map { case (k, v) => JsObject(k -> {
         v match {
+          case b: Boolean => JsBoolean(b)
           case d: Double => JsNumber(d)
           case i: Int => JsNumber(i)
           case l: Long => JsNumber(l)
