@@ -5,13 +5,14 @@ import IntervalVector.Converters._
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
 import OSOL.Extremum.Core.Scala.Optimization.Optimizable
 import OSOL.Extremum.Core.Scala.Vectors.Exceptions.DifferentKeysException
+import spray.json._
 
 /** Interval valued vector
   *
-  * @param values values which form VectorObject (key-value pairs)
+  * @param elements values which form VectorObject (key-value pairs)
   */
-class IntervalVector private (override val values: Map[String, Interval])
-  extends VectorObject[Interval](values) with Optimizable[IntervalVector, Interval] {
+class IntervalVector private (override val elements: Map[String, Interval])
+  extends VectorObject[Interval](elements) with Optimizable[IntervalVector, Interval] {
 
   final def equalsTo(that: VectorObject[Interval]): Boolean = {
     val keys_1 = this.keys
@@ -51,7 +52,7 @@ class IntervalVector private (override val values: Map[String, Interval])
       }
     }
     val restrictingArea = area.toMap
-    val constrainedVector = this.values.map { case (k, value) => (k,
+    val constrainedVector = this.elements.map { case (k, value) => (k,
       k match {
         case _ if restrictingArea.isDefinedAt(k) =>
           Interval(constrainValue(value.lowerBound, restrictingArea(k)), constrainValue(value.upperBound, restrictingArea(k)))
@@ -61,23 +62,26 @@ class IntervalVector private (override val values: Map[String, Interval])
     constrainedVector
   }
 
-  final override def getPerformance(f: Map[String, Interval] => Interval): Double = f(this.values).lowerBound
+  final override def getPerformance(f: Map[String, Interval] => Interval): Double = f(this.elements).lowerBound
 
-  final override def toBasicForm(): VectorObject[Double] = RealVector(this.values.mapValues(_.middlePoint))
+  final override def toBasicForm(): VectorObject[Double] = RealVector(this.elements.mapValues(_.middlePoint))
 
   final def split(ratios: Seq[Double], key: Option[String] = None): Seq[IntervalVector] = {
     val splitKey =
       if (key.isDefined) key.get
-      else values.minBy { case (k, v) => -v.width }._1
+      else elements.minBy { case (k, v) => -v.width }._1
 
     val splitComponent = this(splitKey).split(ratios)
-    splitComponent.map { i => IntervalVector(this.values + (splitKey -> i))}
+    splitComponent.map { i => IntervalVector(this.elements + (splitKey -> i))}
   }
 
   final def bisect(key: Option[String] = None): (IntervalVector, IntervalVector) = {
     val Seq(left, right) = this.split(Seq(1.0, 1.0), key)
     (left, right)
   }
+
+  import IntervalVector.IntervalVectorJsonFormat._
+  final override def convertToJson(): JsValue = this.toJson
 
 }
 
@@ -99,7 +103,7 @@ object IntervalVector {
       * @param v `VectorObject[Double]`
       * @return [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]]
       */
-    implicit def VectorObject_to_IntervalVector(v: VectorObject[Interval]): IntervalVector = IntervalVector(v.values)
+    implicit def VectorObject_to_IntervalVector(v: VectorObject[Interval]): IntervalVector = IntervalVector(v.elements)
 
   }
 
@@ -116,5 +120,31 @@ object IntervalVector {
     */
   final def apply(keyValuePairs: Iterable[(String, Interval)]): IntervalVector = IntervalVector(keyValuePairs.toSeq:_*)
 
+  /** Json Serialization for IntervalVector */
+  implicit object IntervalVectorJsonFormat extends RootJsonFormat[IntervalVector] {
+    def write(v: IntervalVector) = JsObject(
+      "IntervalVector" -> JsObject(
+        "elements" -> JsArray(
+          v.elements.map { case (k, v) =>
+            JsObject("key" -> JsString(k), "value" -> v.toJson)
+          }.toVector)))
+
+    def read(json: JsValue): IntervalVector =
+      json.asJsObject.getFields("IntervalVector") match {
+        case Seq(intervalVector) => intervalVector.asJsObject.getFields("elements") match {
+          case Seq(JsArray(elements)) => {
+            val keyValuePairs = elements.map { e =>
+              e.asJsObject.getFields("key", "value") match {
+                case Seq(JsString(k), v) => k -> v.convertTo[Interval]
+                case _ => throw DeserializationException("No necessary fields")
+              }
+            }
+            keyValuePairs.toMap
+          }
+          case _ => throw DeserializationException("No necessary fields")
+        }
+        case _ => throw DeserializationException("No RealVector Field")
+      }
+  }
 
 }

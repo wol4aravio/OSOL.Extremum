@@ -1,6 +1,7 @@
 package OSOL.Extremum.Core.Scala.Optimization
 
 import OSOL.Extremum.Core.Scala.Vectors.VectorObject
+import spray.json.JsValue
 
 /** Trait that describes basic requirements for optimizable object
   *
@@ -36,5 +37,8 @@ trait Optimizable[Base, FuncType] {
 
   /** Converts current object to a form that can be used somewhere else */
   def toBasicForm(): VectorObject[Double]
+
+  /** Converts to JSON */
+  def convertToJson(): JsValue
 
 }

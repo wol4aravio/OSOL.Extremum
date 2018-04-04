@@ -1,6 +1,7 @@
 package OSOL.Extremum.Core.Scala.Vectors
 
 import org.scalatest.FunSuite
+import spray.json._
 
 import OSOL.Extremum.Core.Scala.Vectors.RealVector.Converters._
 import OSOL.Extremum.Core.Scala.Vectors.Exceptions._
@@ -87,5 +88,17 @@ class RealVectorSuite extends FunSuite {
     assert(v1.toBasicForm()("z") == 3.0)
   }
 
+  test("JSON") {
+    assert(v1.convertToJson.convertTo[RealVector] == v1)
+    assert(v2.convertToJson.convertTo[RealVector] == v2)
+    intercept[DeserializationException]
+      { v1.convertToJson.prettyPrint.replace("RealVector", "Vector").parseJson.convertTo[RealVector]}
+    intercept[DeserializationException]
+      { v1.convertToJson.prettyPrint.replace("elements", "values").parseJson.convertTo[RealVector]}
+    intercept[DeserializationException]
+      { v1.convertToJson.prettyPrint.replace("key", "k").parseJson.convertTo[RealVector]}
+    intercept[DeserializationException]
+      { v1.convertToJson.prettyPrint.replace("value", "v").parseJson.convertTo[RealVector]}
+  }
 
 }

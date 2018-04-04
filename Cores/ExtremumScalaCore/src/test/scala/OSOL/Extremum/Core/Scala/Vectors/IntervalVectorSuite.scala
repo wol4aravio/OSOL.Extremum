@@ -5,6 +5,7 @@ import org.scalatest.FunSuite
 import OSOL.Extremum.Core.Scala.Vectors.IntervalVector.Converters._
 import OSOL.Extremum.Core.Scala.Vectors.Exceptions._
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
+import spray.json._
 
 class IntervalVectorSuite extends FunSuite {
 
@@ -96,5 +97,17 @@ class IntervalVectorSuite extends FunSuite {
     assert(right == (Map("x" -> Interval(1.0), "y" -> Interval(2.5, 3.0), "z" -> Interval(3.0, 5.0)) |> IntervalVector.apply))
   }
 
+  test("JSON") {
+    assert(v1.convertToJson.convertTo[IntervalVector] == v1)
+    assert(v2.convertToJson.convertTo[IntervalVector] == v2)
+    intercept[DeserializationException]
+      { v1.convertToJson.prettyPrint.replace("IntervalVector", "Vector").parseJson.convertTo[IntervalVector]}
+    intercept[DeserializationException]
+      { v1.convertToJson.prettyPrint.replace("elements", "values").parseJson.convertTo[IntervalVector]}
+    intercept[DeserializationException]
+      { v1.convertToJson.prettyPrint.replace("key", "k").parseJson.convertTo[IntervalVector]}
+    intercept[DeserializationException]
+      { v1.convertToJson.prettyPrint.replace("value", "v").parseJson.convertTo[IntervalVector]}
+  }
 
 }

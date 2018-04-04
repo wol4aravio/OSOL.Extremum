@@ -1,6 +1,7 @@
 package OSOL.Extremum.Core.Scala.Arithmetics
 
 import Interval.Exceptions._
+import spray.json._
 
 /** Represents interval numbers in the form `[a; b]`
   *
@@ -285,7 +286,7 @@ object Interval {
     *
     * @param value midpoint
     * @return degenerate interval [`value`; `value`]
-    **/
+    * */
   final def apply(value: Double): Interval = value
 
   /** Implicit converters for [[OSOL.Extremum.Core.Scala.Arithmetics.Interval Interval]] */
@@ -294,13 +295,13 @@ object Interval {
     /** Converts Double value to Interval number
       *
       * @param value value to convert
-      * */
+      **/
     implicit def fromDouble(value: Double): Interval = new Interval(value, value)
 
     /** Converts String value to Interval number
       *
       * @param value value to convert
-      * */
+      **/
     implicit def fromString(value: String): Interval = {
       val split = value.drop(1).dropRight(1).split(";")
       if (split.length == 2) Interval(split(0).toDouble, split(1).toDouble)
@@ -311,7 +312,7 @@ object Interval {
       *
       * @param pair value to convert
       * @return interval [`pair_1`; `pair_2`]
-      * */
+      **/
     implicit def fromPair(pair: (Double, Double)): Interval = Interval(pair._1, pair._2)
 
   }
@@ -334,11 +335,29 @@ object Interval {
 
     /** Exception for bad operation argument
       *
-      * @param opName operation name
+      * @param opName   operation name
       * @param interval bad interval
       */
     class BadAreaOperationException(opName: String, interval: Interval) extends Exception
 
+  }
+
+  /** Json Serialization for Interval */
+  implicit object IntervalJsonFormat extends RootJsonFormat[Interval] {
+    def write(i: Interval) = JsObject(
+      "Interval" -> JsObject(
+        "lowerBound" -> JsNumber(i.lowerBound),
+        "upperBound" -> JsNumber(i.upperBound)))
+
+    def read(json: JsValue): Interval =
+      json.asJsObject.getFields("Interval") match {
+        case Seq(interval) => interval.asJsObject.getFields("lowerBound", "upperBound") match {
+          case Seq(JsNumber(lowerBound), JsNumber(upperBound)) =>
+            Interval(lowerBound.toDouble, upperBound.toDouble)
+          case _ => throw DeserializationException("No necessary fields")
+        }
+        case _ => throw DeserializationException("No Interval Field")
+      }
   }
 
 }

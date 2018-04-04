@@ -1,6 +1,7 @@
 package OSOL.Extremum.Core.Scala.Optimization
 
 import OSOL.Extremum.Core.Scala.Optimization.Nodes.GeneralNode
+import spray.json.JsValue
 
 /** Algorithm that is constructed on steps (aka nodes) and transition matrix
   *
@@ -50,5 +51,8 @@ final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]]
     }
     state.result.get
   }
+
+  /** Serializes current state */
+  def serializeState(): JsValue = this.state.toJson()
 
 }
