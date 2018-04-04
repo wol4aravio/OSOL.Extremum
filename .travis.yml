@@ -6,22 +6,22 @@ env:
 
 matrix:
   include:
-    language: scala
-    scala: 2.12.5
-    before_script:
-      - cd Cores/ExtremumScalaCore
-    script:
-      - sbt clean coverage test coverageReport
-    after_success:
-      - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-      - mvn clean deploy --settings settings.xml
+    - language: scala
+      scala: 2.12.5
+      before_script:
+        - cd Cores/ExtremumScalaCore
+      script:
+        - sbt clean coverage test coverageReport
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - mvn clean deploy --settings settings.xml
 
-    language: scala
-    scala: 2.12.5
-    before_script:
-      - cd OptimizationAlgorithms/RandomSearch
-    script:
-      - sbt clean coverage test coverageReport
-    after_success:
-      - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-      - mvn clean deploy --settings settings.xml
+    - language: scala
+      scala: 2.12.5
+      before_script:
+        - cd OptimizationAlgorithms/RandomSearch
+      script:
+        - sbt clean coverage test coverageReport
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - mvn clean deploy --settings settings.xml
