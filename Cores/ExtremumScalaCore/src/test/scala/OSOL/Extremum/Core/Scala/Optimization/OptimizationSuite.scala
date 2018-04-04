@@ -3,7 +3,7 @@ package OSOL.Extremum.Core.Scala.Optimization
 import java.io.{BufferedWriter, FileWriter}
 
 import OSOL.Extremum.Core.Scala.Optimization.Exceptions.ParameterAlreadyExistsException
-import OSOL.Extremum.Core.Scala.Optimization.Nodes.{GeneralNode, TerminationViaMaxIterations, TerminationViaMaxTime}
+import OSOL.Extremum.Core.Scala.Optimization.Nodes.{GeneralNode, SetParametersNode, TerminationViaMaxIterations, TerminationViaMaxTime}
 import OSOL.Extremum.Core.Scala.Random.GoRN
 import OSOL.Extremum.Core.Scala.Arithmetics.Interval
 import OSOL.Extremum.Core.Scala.Vectors.{IntervalVector, RealVector}
@@ -24,8 +24,10 @@ class OptimizationSuite extends FunSuite {
 
       override def process(f: Map[String, Double] => Double, area: Area, state: State[RealVector, Double, RealVector]): Unit = {
         val alreadySampledPoints = state.getParameter[Seq[RealVector]](parameterName)
-        val newPoint: RealVector = GoRN.getContinuousUniform(area)
-        state.setParameter(parameterName, newPoint +: alreadySampledPoints.sortBy(_.getPerformance(f)).take(9))
+        if (state.getParameter[Boolean]("generate")) {
+          val newPoint: RealVector = GoRN.getContinuousUniform(area)
+          state.setParameter(parameterName, newPoint +: alreadySampledPoints.sortBy(_.getPerformance(f)).take(9))
+        }
       }
 
     }
@@ -42,17 +44,19 @@ class OptimizationSuite extends FunSuite {
 
     def apply(): Algorithm[RealVector, Double, RealVector] = {
       val nodes = Seq(
-        new SampleNode(nodeId = 0),
-        new TerminationViaMaxIterations[RealVector, Double, RealVector](nodeId = 1, maxIteration = 250),
-        new TerminationViaMaxTime[RealVector, Double, RealVector](nodeId = 2, maxTime = 2.5),
-        new SelectBest(nodeId = 3)
+        new SetParametersNode[RealVector, Double, RealVector](nodeId = 0, parameters = Map("generate" -> true)),
+        new SampleNode(nodeId = 1),
+        new TerminationViaMaxIterations[RealVector, Double, RealVector](nodeId = 2, maxIteration = 250),
+        new TerminationViaMaxTime[RealVector, Double, RealVector](nodeId = 3, maxTime = 2.5),
+        new SelectBest(nodeId = 4)
       )
       val transitionMatrix = Seq(
         (0, None, 1),
-        (1, Some(0), 0),
-        (1, Some(1), 2),
-        (2, Some(0), 0),
-        (2, Some(1), 3)
+        (1, None, 2),
+        (2, Some(0), 1),
+        (2, Some(1), 3),
+        (3, Some(0), 1),
+        (3, Some(1), 4)
       )
       new Algorithm[RealVector, Double, RealVector](nodes, transitionMatrix)
     }
