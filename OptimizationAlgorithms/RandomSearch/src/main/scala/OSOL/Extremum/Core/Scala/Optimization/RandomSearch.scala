@@ -7,17 +7,17 @@ import OSOL.Extremum.Core.Scala.Vectors.RealVector.Converters._
 
 object RandomSearch {
 
-  val currentPointName = "currentPoint"
-  val currentPointEfficiencyName = "currentPointEfficiency"
-  val radiusParameterName = "r"
+  private val currentPointName = "currentPoint"
+  private val currentPointEfficiencyName = "currentPointEfficiency"
+  private val radiusParameterName = "r"
 
-  def generateRandomOnSphere(currentPoint: RealVector, radius: Double, area: Area): RealVector = {
+  private def generateRandomOnSphere(currentPoint: RealVector, radius: Double, area: Area): RealVector = {
     val normallyDistributed = GoRN.getNormal(area.mapValues(_ => (0.0, 1.0)))
     val r = math.sqrt(normallyDistributed.values.map(v => v * v).sum)
     (currentPoint + normallyDistributed * (GoRN.getContinuousUniform(-1.0, 1.0) / r)).constrain(area)
   }
 
-  final class GenerateInitialPointNode(override val nodeId: Int) extends GeneralNode[RealVector, Double, RealVector](nodeId) {
+  private final class GenerateInitialPointNode(override val nodeId: Int) extends GeneralNode[RealVector, Double, RealVector](nodeId) {
 
     override def initialize(f: Map[String, Double] => Double, area: Area, state: State[RealVector, Double, RealVector]): Unit = {
       val initialPoint: RealVector = GoRN.getContinuousUniform(area)
@@ -29,7 +29,7 @@ object RandomSearch {
 
   }
 
-  final class SampleNewPointNode_FixedStep(override val nodeId: Int) extends GeneralNode[RealVector, Double, RealVector](nodeId) {
+  private final class SampleNewPointNode_FixedStep(override val nodeId: Int) extends GeneralNode[RealVector, Double, RealVector](nodeId) {
 
     override def initialize(f: Map[String, Double] => Double, area: Area, state: State[RealVector, Double, RealVector]): Unit = { }
 
@@ -49,7 +49,7 @@ object RandomSearch {
 
   }
 
-  final class SetBestNode(override val nodeId: Int) extends GeneralNode[RealVector, Double, RealVector](nodeId) {
+  private final class SetBestNode(override val nodeId: Int) extends GeneralNode[RealVector, Double, RealVector](nodeId) {
 
     override def initialize(f: Map[String, Double] => Double, area: Area, state: State[RealVector, Double, RealVector]): Unit = { }
 
