@@ -5,7 +5,7 @@ import org.scalatest.FunSuite
 
 class RandomSearchSuite extends FunSuite {
 
-  val eps = 1e-5
+  val eps = 1e-3
   val r: Double = 1.0
   val fiveSec: Double = 5.0
 
