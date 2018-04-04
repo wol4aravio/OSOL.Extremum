@@ -98,16 +98,16 @@ class IntervalVectorSuite extends FunSuite {
   }
 
   test("JSON") {
-    assert(v1.toJson.convertTo[IntervalVector] == v1)
-    assert(v2.toJson.convertTo[IntervalVector] == v2)
+    assert(v1.convertToJson.convertTo[IntervalVector] == v1)
+    assert(v2.convertToJson.convertTo[IntervalVector] == v2)
     intercept[DeserializationException]
-      { v1.toJson.prettyPrint.replace("IntervalVector", "Vector").parseJson.convertTo[IntervalVector]}
+      { v1.convertToJson.prettyPrint.replace("IntervalVector", "Vector").parseJson.convertTo[IntervalVector]}
     intercept[DeserializationException]
-      { v1.toJson.prettyPrint.replace("elements", "values").parseJson.convertTo[IntervalVector]}
+      { v1.convertToJson.prettyPrint.replace("elements", "values").parseJson.convertTo[IntervalVector]}
     intercept[DeserializationException]
-      { v1.toJson.prettyPrint.replace("key", "k").parseJson.convertTo[IntervalVector]}
+      { v1.convertToJson.prettyPrint.replace("key", "k").parseJson.convertTo[IntervalVector]}
     intercept[DeserializationException]
-      { v1.toJson.prettyPrint.replace("value", "v").parseJson.convertTo[IntervalVector]}
+      { v1.convertToJson.prettyPrint.replace("value", "v").parseJson.convertTo[IntervalVector]}
   }
 
 }

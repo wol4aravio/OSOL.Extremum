@@ -80,6 +80,9 @@ class IntervalVector private (override val elements: Map[String, Interval])
     (left, right)
   }
 
+  import IntervalVector.IntervalVectorJsonFormat._
+  final override def convertToJson(): JsValue = this.toJson
+
 }
 
 /** Companion object for [[OSOL.Extremum.Core.Scala.Vectors.IntervalVector IntervalVector]] class */

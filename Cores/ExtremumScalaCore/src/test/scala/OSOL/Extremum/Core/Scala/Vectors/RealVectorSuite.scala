@@ -89,16 +89,16 @@ class RealVectorSuite extends FunSuite {
   }
 
   test("JSON") {
-    assert(v1.toJson.convertTo[RealVector] == v1)
-    assert(v2.toJson.convertTo[RealVector] == v2)
+    assert(v1.convertToJson.convertTo[RealVector] == v1)
+    assert(v2.convertToJson.convertTo[RealVector] == v2)
     intercept[DeserializationException]
-      { v1.toJson.prettyPrint.replace("RealVector", "Vector").parseJson.convertTo[RealVector]}
+      { v1.convertToJson.prettyPrint.replace("RealVector", "Vector").parseJson.convertTo[RealVector]}
     intercept[DeserializationException]
-      { v1.toJson.prettyPrint.replace("elements", "values").parseJson.convertTo[RealVector]}
+      { v1.convertToJson.prettyPrint.replace("elements", "values").parseJson.convertTo[RealVector]}
     intercept[DeserializationException]
-      { v1.toJson.prettyPrint.replace("key", "k").parseJson.convertTo[RealVector]}
+      { v1.convertToJson.prettyPrint.replace("key", "k").parseJson.convertTo[RealVector]}
     intercept[DeserializationException]
-      { v1.toJson.prettyPrint.replace("value", "v").parseJson.convertTo[RealVector]}
+      { v1.convertToJson.prettyPrint.replace("value", "v").parseJson.convertTo[RealVector]}
   }
 
 }

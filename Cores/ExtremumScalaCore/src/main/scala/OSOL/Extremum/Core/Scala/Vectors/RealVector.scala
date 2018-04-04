@@ -60,6 +60,10 @@ class RealVector private (override val elements: Map[String, Double])
   final override def getPerformance(f: Map[String, Double] => Double): Double = f(this.elements)
 
   final override def toBasicForm(): VectorObject[Double] = this
+
+  import RealVector.RealVectorJsonFormat._
+  final override def convertToJson(): JsValue = this.toJson
+
 }
 
 /** Companion object for [[OSOL.Extremum.Core.Scala.Vectors.RealVector RealVector]] class */
@@ -124,6 +128,5 @@ object RealVector {
         case _ => throw DeserializationException("No RealVector Field")
       }
   }
-
 
 }
