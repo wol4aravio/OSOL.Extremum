@@ -84,10 +84,21 @@
                     <execution>
                         <goals>
                             <!-- Need to specify this explicitly, otherwise plugin won't be called when doing e.g. mvn compile -->
-                            <goal>compile</goal>
                             <goal>testCompile</goal>
-                            <goal>add-source</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <!-- Need to specify this explicitly, otherwise plugin won't be called when doing e.g. mvn compile -->
+                            <goal>compile</goal>
                             <goal>doc-jar</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <!-- Need to specify this explicitly, otherwise plugin won't be called when doing e.g. mvn compile -->
+                            <goal>compile</goal>
+                            <goal>add-source</goal>
                         </goals>
                         <configuration>
                             <sources>
