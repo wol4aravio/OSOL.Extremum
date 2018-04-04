@@ -1,6 +1,8 @@
 package OSOL.Extremum.Core.Scala.Optimization
 
 import OSOL.Extremum.Core.Scala.Optimization.Exceptions._
+import spray.json._
+import spray.json.DefaultJsonProtocol._
 
 /** This class represents arbitrary state of an algorithm
   *
@@ -35,6 +37,26 @@ class State[Base, FuncType, V <: Optimizable[Base, FuncType]] {
   def getParameter[T <: Any](name: String): T = {
     if (parameters.contains(name)) parameters(name).asInstanceOf[T]
     else throw new NoSuchParameterException(name)
+  }
+
+  /** Convert current state to JSON */
+  def toJson(): JsValue = {
+    JsObject(
+      "result" -> {
+        if (result.isDefined) result.get.convertToJson() else JsString("None")
+      },
+      "parameters" -> JsArray(parameters.map { case (k, v) => JsObject(k -> {
+        v match {
+          case d: Double => JsNumber(d)
+          case i: Int => JsNumber(i)
+          case l: Long => JsNumber(l)
+          case v: V => v.convertToJson()
+          case t: Traversable[V] => JsArray(t.map(_.convertToJson()).toVector)
+          case _ => throw new Exception(s"Can't serialize ($k, $v)")
+        }
+      })
+      }.toVector)
+    )
   }
 
 }

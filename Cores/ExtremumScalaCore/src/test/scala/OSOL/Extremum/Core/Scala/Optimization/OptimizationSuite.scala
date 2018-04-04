@@ -1,5 +1,7 @@
 package OSOL.Extremum.Core.Scala.Optimization
 
+import java.io.{BufferedWriter, FileWriter}
+
 import OSOL.Extremum.Core.Scala.Optimization.Exceptions.ParameterAlreadyExistsException
 import OSOL.Extremum.Core.Scala.Optimization.Nodes.{GeneralNode, TerminationViaMaxIterations, TerminationViaMaxTime}
 import OSOL.Extremum.Core.Scala.Random.GoRN
@@ -23,7 +25,7 @@ class OptimizationSuite extends FunSuite {
       override def process(f: Map[String, Double] => Double, area: Area, state: State[RealVector, Double, RealVector]): Unit = {
         val alreadySampledPoints = state.getParameter[Seq[RealVector]](parameterName)
         val newPoint: RealVector = GoRN.getContinuousUniform(area)
-        state.setParameter(parameterName, newPoint +: alreadySampledPoints)
+        state.setParameter(parameterName, newPoint +: alreadySampledPoints.sortBy(_.getPerformance(f)).take(9))
       }
 
     }
@@ -129,11 +131,14 @@ class OptimizationSuite extends FunSuite {
 
   test("Test #1") {
     val result = toolReal.work(fReal, area)
+    assert(try { val json = toolReal.serializeState(); true} catch { case _: Exception => false })
     assert(math.abs(result("x")) < eps)
   }
 
   test("Test #2") {
     val result = toolInterval.work(fInterval, area)
+    val json = toolInterval.serializeState()
+    assert(try { val json = toolInterval.serializeState(); true} catch { case _: Exception => false })
     assert(math.abs(result("x").middlePoint) < eps)
   }
 
