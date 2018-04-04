@@ -51,6 +51,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.12</artifactId>
+            <version>3.0.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.github.wol4aravio</groupId>
             <artifactId>OSOL.Extremum.ScalaCore_2.12</artifactId>
             <version>0.0.3-SNAPSHOT</version>
