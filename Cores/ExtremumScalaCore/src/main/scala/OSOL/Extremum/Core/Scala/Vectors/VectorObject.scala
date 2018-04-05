@@ -126,7 +126,7 @@ abstract class VectorObject[Base] (val elements: Map[String, Base]) {
     * @param that VectorObject to subtract
     * @return difference of VectorObjects
     */
-  final def subtractImputeMissingKeys(that: VectorObject[Base]): VectorObject[Base] = this.addImputeMissingKeys(that.multiply(-1))
+  final def subtractImputeMissingKeys(that: VectorObject[Base]): VectorObject[Base] = this.addImputeMissingKeys(that.neg())
   /** Same as [[OSOL.Extremum.Core.Scala.Vectors.VectorObject#subtractImputeMissingKeys subtractImputeMissingKeys]] */
   final def ~-(that: VectorObject[Base]): VectorObject[Base] = this.subtractImputeMissingKeys(that)
 
