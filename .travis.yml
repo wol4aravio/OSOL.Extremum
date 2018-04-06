@@ -4,39 +4,43 @@ env:
     - secure: "JOgFsf3X6R56xX5rO2n571AJKYe9taRMmequBqbFv/KUfHrrJmNsU7/hmifqIDQ9R9AFX8TrtzWWWog2l5q42m7COl4h/WdzGFkDuwTJd1L1vKpp1miiE8PEmyIDQNjJSEXSLncoY3vbmwNk6zveO/ALkDxSdiM+fyw57IHPcSfvAdAqd2vO8BMUrslvFzr6eY+kIIeF9JXffV+HvXCzBTTdymLadhy9B1DyeDUN7s9vhT/Fot0HKV5i3gSB6XcwD36yXk0FB27a26WEdEb1mvEnwsKjkAqiQabsJUDlO387MBllkCbwQsvSeZzOjSc5EeGEMCjBjBVdZeRQFdqsghh6SK3B1rpnFxIBUzPh+ht9/fHEFeWHTlPc94SCbA2qWJygJ2OeCEns5drRCVO7raSX59Cqj9SKH+a8+sNKxQypgHmU8zdBEWOdk3ET88gB8GYLlq16rPMeUqj9xCuEsvBxsAjtAm/Yxp22tWfcqSTet1cY4+JdIb4I5WFfVYbuXftSgoDVYR4FrUTg3dS5TZZHtA8uONwEAuLP7orryDKl0qSNEKuleYPmeEvAdHr5GDNtmoHaDq8Kfvqb9Fsk9qZtlfXEWkPfniQUnvDdwJdMUR0FOVhgORKR/9WdacvEcpBrYDhZUcPnFvR1O+gjk4ZwzXz8RDjEjS8Dous7sQU="
     - secure: "ovxoZQAhCQIeHY+pYZAJUv+QabcXWM4BjRxFP7pMctKVEUF3Pa0ajEfiP7XPfLiwZyGVIhitHxpYxgt9n7RVFtanhXan9RWe0gjN5enyDFiJBnlXxZwmLAIzJeV8CpLCKyNBg2XU7eKqMFjNI/MnVOgGsO/5WOz/5vhLH/Z13QkoIZm0BeGrW8a1lAOs0/jmpPs9nhmcfGncxQR1NyIGayo+Fj5ZMfs2COL6wibSMzSKpT0OngjQy47QHxHZ3Q3oRuMH0o9f0x6+/jE+5NCfvsO5kBclK69SL6sn7QjO4IsJdSjY1kTjeRco3y1wlhbx4xKDf+7C8jqu+y9gTAvxhLlbYuCxJTqO6aDHeoYY52j9c/DVkQORmgqwJ0XrY1XmQDWAFMeUy8Js44M3LjJc0bsS3JxY4s58bCHasiDojSq7g1Jnzj9psvJviRTzZYb5dcgpmQE8ckjDkw4X9Ljcz6vb8q0pIACMeE2F1GIMyuX4yHhnTmWkOfkeMlUEmVqbzCNe9la2kyKEe1QUjvQhpa99rVygLVmmRKjfdrHe84oObdygCfNC0NSq+iPkJ6Y7MfbHiLYsI9Mkw9Sw5AsxYaxw4D+8SpphTmcrOzw47VvLIEfvui6JB55I23hM88NfmbH8LtQovv0gmGXFBdg6SVZnsJ3+eLfulhackYVN/hI="
 
-jobs:
+matrix:
   include:
-    - stage: cores
-      language: scala
-      scala: 2.12.5
-      before_script:
-        - cd Cores/ExtremumScalaCore
-      script:
-        - sbt clean coverage test coverageReport
-      after_success:
-        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-        - mvn clean deploy --settings settings.xml
+    jobs:
+      include:
+        - stage: cores
+          language: scala
+          scala: 2.12.5
+          before_script:
+            - cd Cores/ExtremumScalaCore
+          script:
+            - sbt clean coverage test coverageReport
+          after_success:
+            - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+            - mvn clean deploy --settings settings.xml
 
-    - stage: algorithms
-      language: scala
-      scala: 2.12.5
-      before_script:
-        - cd OptimizationAlgorithms/RandomSearch
-      script:
-        - sbt clean coverage test coverageReport
-      after_success:
-        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-        - mvn clean deploy --settings settings.xml
-jobs:
+        - stage: algorithms
+          language: scala
+          scala: 2.12.5
+          before_script:
+            - cd OptimizationAlgorithms/RandomSearch
+          script:
+            - sbt clean coverage test coverageReport
+          after_success:
+            - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+            - mvn clean deploy --settings settings.xml
+            
   include:
-    - stage: core
-      language: csharp
-      mono: none
-      dotnet: 2.0.0
-      before_script:
-        - cd Cores/OSOL.Extremum.Core.DotNet
-      script:
-        - dotnet restore
-        - dotnet build
-        - cd ./OSOL.Extremum.Core.DotNet
-        - dotnet xunit
+    jobs:
+      include:
+        - stage: core
+          language: csharp
+          mono: none
+          dotnet: 2.0.0
+          before_script:
+            - cd Cores/OSOL.Extremum.Core.DotNet
+          script:
+            - dotnet restore
+            - dotnet build
+            - cd ./OSOL.Extremum.Core.DotNet
+            - dotnet xunit
