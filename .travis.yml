@@ -6,7 +6,7 @@ env:
 
 jobs:
   include:
-    - stage: core
+    - stage: cores
       language: scala
       scala: 2.12.5
       before_script:
@@ -38,4 +38,5 @@ jobs:
       script:
         - dotnet restore
         - dotnet build
+        - cd ./OSOL.Extremum.Core.DotNet
         - dotnet xunit
