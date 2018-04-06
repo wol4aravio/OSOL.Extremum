@@ -33,6 +33,8 @@ jobs:
       language: csharp
       mono: none
       dotnet: 2.0.0
+      before_script:
+        - cd Cores/OSOL.Extremum.Core.DotNet
       script:
         - dotnet restore
         - dotnet build
