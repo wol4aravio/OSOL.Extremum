@@ -37,5 +37,5 @@ jobs:
       script:
         - dotnet restore
         - dotnet build
-        - cdOSOL.Extremum.Core.DotNet
+        - cd ./OSOL.Extremum.Core.DotNet
         - dotnet xunit
