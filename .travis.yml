@@ -32,7 +32,7 @@ jobs:
         - dotnet pack -c Release --include-source --output nuget
         - dotnet xunit
       after_success:
-        - dotnet nuget push ./OSOL.Extremum.Core.DotNet/nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+        - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
 
     - stage: algorithms
