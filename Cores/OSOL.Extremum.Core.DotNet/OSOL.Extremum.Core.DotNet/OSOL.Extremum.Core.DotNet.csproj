@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <IsPackable>true</IsPackable>
-    <PackageVersion>0.0.0.0.1</PackageVersion>
+    <PackageVersion>0.0.0.1</PackageVersion>
     <Authors>Valentin Panovskiy</Authors>
   </PropertyGroup>
 
