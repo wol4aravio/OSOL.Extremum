@@ -12,8 +12,12 @@ namespace OSOL.Extremum.Core.DotNet.Vectors
         
         public TBase this[string key]
         {
-            get => this.Elements[key];
-            set => Elements[key] = value;
+            get
+            {
+                try { return this.Elements[key]; }
+                catch(Exception e) { throw new VectorExceptions.MissingKeyException(key); }
+            }
+        set => Elements[key] = value;
         }
 
         public TBase this[string key, TBase defaultValue] => Keys.Contains(key) ? this[key] : defaultValue;
