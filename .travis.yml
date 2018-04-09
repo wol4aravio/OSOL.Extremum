@@ -30,6 +30,7 @@ jobs:
         - dotnet pack -c Release --include-source --output nuget
         - dotnet xunit
       after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
 
