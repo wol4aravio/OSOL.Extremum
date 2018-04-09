@@ -26,10 +26,14 @@ jobs:
         - cd Cores/OSOL.Extremum.Core.DotNet
       script:
         - dotnet restore
-        - cd ./OSOL.Extremum.Core.DotNet
         - dotnet pack -c Release --include-source --output nuget
-        - dotnet xunit
+        - dotnet build -c Release
       after_success:
+        - cd Src/OSOL.Extremum.Core.DotNet/
+        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Core.DotNet*.dll
+        - dotnet test -c Release --no-build
+        - dotnet minicover opencoverreport
+        - dotnet minicover uninstrument
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 

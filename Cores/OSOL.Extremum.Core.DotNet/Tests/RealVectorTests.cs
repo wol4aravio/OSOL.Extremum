@@ -4,7 +4,7 @@ using Xunit;
 
 using OSOL.Extremum.Core.DotNet.Vectors;
 
-namespace OSOL.Extremum.Core.DotNet.Vectors.Tests
+namespace OSOL.Extremum.Core.DotNet.Tests
 {
     public class RealVectorTests
     {
@@ -19,15 +19,15 @@ namespace OSOL.Extremum.Core.DotNet.Vectors.Tests
             Assert.True(v1.Keys.ToArray().Zip(new string[]{"x", "y", "z"}, (first, second) => first.Equals(second)).All(_ => _));
         }
 
-        [Fact]
-        public void ValueExtraction()
-        {
-            Assert.True(v1["x"] == 1.0);
-            Assert.True(v1["y"] == 2.0);
-            Assert.True(v1["z", 0.0] == 3.0);
-            Assert.True(v1["a", 0.0] == 0.0);
-            Assert.Throws<VectorExceptions.MissingKeyException>(() => v1["a"]);
-        }
+//        [Fact]
+//        public void ValueExtraction()
+//        {
+//            Assert.True(v1["x"] == 1.0);
+//            Assert.True(v1["y"] == 2.0);
+//            Assert.True(v1["z", 0.0] == 3.0);
+//            Assert.True(v1["a", 0.0] == 0.0);
+//            Assert.Throws<VectorExceptions.MissingKeyException>(() => v1["a"]);
+//        }
         
 
     }
