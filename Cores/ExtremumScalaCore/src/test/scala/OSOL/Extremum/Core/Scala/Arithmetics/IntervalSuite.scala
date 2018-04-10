@@ -30,7 +30,7 @@ class IntervalSuite extends FunSuite {
     intercept[MinMaxFailureException] { Interval(3.0, 2.0) }
   }
 
-  test("Interval Characteristics: Middlepoint") {
+  test("Interval Characteristics: MiddlePoint") {
     assert(i1.middlePoint == 0.5)
     assert(i3.middlePoint == 1.5)
     assert(i7.middlePoint == 1.5)
