@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json.Bson;
 using Xunit;
 
 using OSOL.Extremum.Core.DotNet.Vectors;
