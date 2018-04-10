@@ -23,7 +23,7 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
             double w = upperBound - lowerBound;
             if (w < MinWidth)
             {
-                this.LowerBound = this.UpperBound = 0.0;
+                this.LowerBound = this.UpperBound = 0.5 *(lowerBound + upperBound);
             }
             else
             {
