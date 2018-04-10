@@ -32,7 +32,7 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
             }
         }
         
-        public static implicit operator Interval(Tuple<double, double> pair) => new Interval(pair.Item1, pair.Item2);
+        public static implicit operator Interval(double value) => new Interval(value);
 
         public override string ToString() => $"[{LowerBound}; {UpperBound}]";
 
@@ -41,7 +41,7 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
         public static bool operator ==(Interval a, Interval b) => a.EqualsTo(b);
         public static bool operator !=(Interval a, Interval b) => !(a == b);
 
-        public bool ApproximatelyEqualsTo(Interval that, double maxError)
+        public bool ApproximatelyEqualsTo(Interval that, double maxError = 1e-5)
         {
             Func<double, double, double> getDifference = (a, b) =>
             {
@@ -100,7 +100,7 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
                     return new Interval(v1, v2);
                 else
                 {
-                    if(this.LowerBound * this.LowerBound < 0) return new Interval(0.0, Math.Max(v1, v2));
+                    if(this.LowerBound * this.UpperBound < 0) return new Interval(0.0, Math.Max(v1, v2));
                     else return this.LowerBound >= 0 ? new Interval(v1, v2) : new Interval(v2, v1);
                 }
             }
@@ -110,7 +110,7 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
         {
             double v1 = Math.Abs(this.LowerBound);
             double v2 = Math.Abs(this.UpperBound);
-            if(this.LowerBound * this.LowerBound < 0) return new Interval(0.0, Math.Max(v1, v2));
+            if(this.LowerBound * this.UpperBound < 0) return new Interval(0.0, Math.Max(v1, v2));
             else return this.LowerBound >= 0 ? new Interval(v1, v2) : new Interval(v2, v1);
         }
         
@@ -199,8 +199,8 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
                 throw new IntervalExceptions.BadAreaOperationException(opName: "Ln", interval: this);
             else
             {
-                if (this.LowerBound < 0) return new Interval(0.0, Math.Log(this.UpperBound));
-                else return new Interval(Math.Log(this.LowerBound, this.UpperBound));
+                if (this.LowerBound < 0) return new Interval(0.0, Math.Sqrt(this.UpperBound));
+                else return new Interval(Math.Sqrt(this.LowerBound), Math.Sqrt(this.UpperBound));
             }  
         }
 
@@ -211,7 +211,7 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
             else
             {
                 if (this.LowerBound < 0) return new Interval(double.NegativeInfinity, Math.Log(this.UpperBound));
-                else return new Interval(Math.Log(this.LowerBound, this.UpperBound));
+                else return new Interval(Math.Log(this.LowerBound), Math.Log(this.UpperBound));
             }  
         }
         
