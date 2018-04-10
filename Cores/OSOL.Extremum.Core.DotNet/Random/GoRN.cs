@@ -5,7 +5,7 @@ namespace OSOL.Extremum.Core.DotNet.Random
 {
     public static class GoRN
     {
-        private class Core: DiscreteUniform, ContinuousUniform, Normal
+        private class Core: IDiscreteUniform, IContinuousUniform, INormal
         {
             private System.Random _seed;
 
@@ -19,20 +19,20 @@ namespace OSOL.Extremum.Core.DotNet.Random
                 this._seed = new System.Random();
             }
 
-            public int getDiscreteUniform(int min, int max) => _seed.Next(min, max + 1);
+            public int GetDiscreteUniform(int min, int max) => _seed.Next(min, max + 1);
 
-            public double getContinuousUniform(double min, double max) => min + _seed.NextDouble() * (max - min);
+            public double GetContinuousUniform(double min, double max) => min + _seed.NextDouble() * (max - min);
 
-            public double getNormal(double mu, double sigma)
+            public double GetNormal(double mu, double sigma)
             {
-                double x = getContinuousUniform(-1.0, 1.0);
-                double y = getContinuousUniform(-1.0, 1.0);
+                double x = GetContinuousUniform(-1.0, 1.0);
+                double y = GetContinuousUniform(-1.0, 1.0);
                 double s = x * x + y * y;
 
                 while (s > 1)
                 {
-                    x = getContinuousUniform(-1.0, 1.0);
-                    y = getContinuousUniform(-1.0, 1.0);
+                    x = GetContinuousUniform(-1.0, 1.0);
+                    y = GetContinuousUniform(-1.0, 1.0);
                     s = x * x + y * y;
                 }
 

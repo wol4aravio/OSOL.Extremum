@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace OSOL.Extremum.Core.DotNet.Random.Distributions
 {
-    public interface DiscreteUniform
+    public interface IDiscreteUniform
     {
-        int getDiscreteUniform(int min, int max);   
+        int GetDiscreteUniform(int min, int max);   
     }
 
     public static class DiscreteUniformFunctions
     {
-        public static Dictionary<string, int> Diameter(this DiscreteUniform GoRN, Dictionary<string, Tuple<int, int>> area) =>
+        public static Dictionary<string, int> Diameter(this IDiscreteUniform GoRN, Dictionary<string, Tuple<int, int>> area) =>
             area.ToDictionary(kvp => kvp.Key,
-                kvp => GoRN.getDiscreteUniform(kvp.Value.Item1, kvp.Value.Item2));
+                kvp => GoRN.GetDiscreteUniform(kvp.Value.Item1, kvp.Value.Item2));
     }
 
 }

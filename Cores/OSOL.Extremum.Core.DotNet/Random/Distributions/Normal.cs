@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace OSOL.Extremum.Core.DotNet.Random.Distributions
 {
-    public interface Normal
+    public interface INormal
     {
-        double getNormal(double mu, double sigma);   
+        double GetNormal(double mu, double sigma);   
     }
 
     public static class NormalFunctions
     {
-        public static Dictionary<string, double> Diameter(this Normal GoRN, Dictionary<string, Tuple<double, double>> area) =>
+        public static Dictionary<string, double> Diameter(this INormal GoRN, Dictionary<string, Tuple<double, double>> area) =>
             area.ToDictionary(kvp => kvp.Key,
-                kvp => GoRN.getNormal(kvp.Value.Item1, kvp.Value.Item2));
+                kvp => GoRN.GetNormal(kvp.Value.Item1, kvp.Value.Item2));
     }
 
 }
