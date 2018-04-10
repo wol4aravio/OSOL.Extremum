@@ -11,7 +11,7 @@ namespace OSOL.Extremum.Core.DotNet.Random.Distributions
 
     public static class ContinuousUniformFunctions
     {
-        public static Dictionary<string, double> Diameter(this IContinuousUniform GoRN, Dictionary<string, Tuple<double, double>> area) =>
+        public static Dictionary<string, double> GetContinuousUniformVector(this IContinuousUniform GoRN, Dictionary<string, Tuple<double, double>> area) =>
             area.ToDictionary(kvp => kvp.Key,
                 kvp => GoRN.GetContinuousUniform(kvp.Value.Item1, kvp.Value.Item2));
     }

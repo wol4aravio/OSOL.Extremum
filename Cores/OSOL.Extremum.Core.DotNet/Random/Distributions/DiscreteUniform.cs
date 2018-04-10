@@ -11,7 +11,7 @@ namespace OSOL.Extremum.Core.DotNet.Random.Distributions
 
     public static class DiscreteUniformFunctions
     {
-        public static Dictionary<string, int> Diameter(this IDiscreteUniform GoRN, Dictionary<string, Tuple<int, int>> area) =>
+        public static Dictionary<string, int> GetDiscreteUniformVector(this IDiscreteUniform GoRN, Dictionary<string, Tuple<int, int>> area) =>
             area.ToDictionary(kvp => kvp.Key,
                 kvp => GoRN.GetDiscreteUniform(kvp.Value.Item1, kvp.Value.Item2));
     }
