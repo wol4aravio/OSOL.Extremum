@@ -17,7 +17,7 @@ namespace OSOL.Extremum.Core.DotNet.Vectors
         {
             string[] keys_1 = this.Keys.ToArray();
             string[] keys_2 = that.Keys.ToArray();
-            if (!(keys_1.All(k => keys_2.Contains(k)) || keys_2.All(k => keys_1.Contains(k))))
+            if (!(keys_1.All(k => keys_2.Contains(k)) && keys_2.All(k => keys_1.Contains(k))))
                 throw new VectorExceptions.DifferentKeysException(keys_1, keys_2);
             else return keys_1.All(k => this[k] == that[k]);
         }
