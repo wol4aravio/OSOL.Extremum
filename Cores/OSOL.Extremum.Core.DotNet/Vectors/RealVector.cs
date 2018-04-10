@@ -5,7 +5,6 @@ namespace OSOL.Extremum.Core.DotNet.Vectors
 {
     public class RealVector: VectorObject<double>
     {
-
         public RealVector(Dictionary<string, double> elements)
         {
             this.Elements = elements;
