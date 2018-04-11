@@ -141,7 +141,6 @@ class OptimizationSuite extends FunSuite {
 
   test("Test #2") {
     val result = toolInterval.work(fInterval, area)
-    val json = toolInterval.serializeState()
     assert(try { val json = toolInterval.serializeState(); true} catch { case _: Exception => false })
     assert(math.abs(result("x").middlePoint) < eps)
   }
