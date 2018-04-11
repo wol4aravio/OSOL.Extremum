@@ -6,6 +6,9 @@ using OSOL.Extremum.Core.DotNet.Optimization.Nodes;
 
 namespace OSOL.Extremum.Core.DotNet.Optimization
 {
+    
+    using Area = Dictionary<string, Tuple<double, double>>;
+    
     public class Algorithm<TBase, TFuncType, TV> where TV: class, IOptimizable<TBase, TFuncType>
     {
         public State<TBase, TFuncType, TV> State = new State<TBase, TFuncType, TV>();
@@ -14,10 +17,17 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
         public GeneralNode<TBase, TFuncType, TV>[] Nodes;
         public Tuple<int, int?, int>[] TransitionMatrix;
 
+        public Algorithm(GeneralNode<TBase, TFuncType, TV>[] nodes, Tuple<int, int?, int>[] transitionMatrix)
+        {
+            this.Nodes = nodes;
+            this.TransitionMatrix = transitionMatrix;
+        }
+
         public void Initialize(Func<Dictionary<string, TFuncType>, TFuncType> f, Area area)
         {
             foreach(var n in Nodes)
                 n.Initialize(f, area, State);
+            CurrentNode = Nodes.First();
         }
 
         public TV Work(Func<Dictionary<string, TFuncType>, TFuncType> f, Area area)

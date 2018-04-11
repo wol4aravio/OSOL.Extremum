@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace OSOL.Extremum.Core.DotNet.Optimization.Nodes
 {
+    
+    using Area = Dictionary<string, Tuple<double, double>>;
+
     public class TerminationViaMaxTime<TBase, TFuncType, TV>: GeneralNode<TBase, TFuncType, TV>
         where TV: class, IOptimizable<TBase, TFuncType>
     {
@@ -18,10 +21,10 @@ namespace OSOL.Extremum.Core.DotNet.Optimization.Nodes
 
         public override void Initialize(Func<Dictionary<string, TFuncType>, TFuncType> f, Area area, State<TBase, TFuncType, TV> state)
         {
-            int? value = null;
+            DateTime? value = null;
             try
             {
-                value = state.GetParameter<int>(ParameterName);
+                value = state.GetParameter<DateTime>(ParameterName);
             }
             catch (OptimizationExceptions.NoSuchParameterException e)
             {
@@ -35,7 +38,6 @@ namespace OSOL.Extremum.Core.DotNet.Optimization.Nodes
 
         public override void Process(Func<Dictionary<string, TFuncType>, TFuncType> f, Area area, State<TBase, TFuncType, TV> state)
         {
-            state.SetParameter(name: ParameterName, value: state.GetParameter<int>(ParameterName) + 1);
         }
 
         public override int? GetCurrentCondition(Func<Dictionary<string, TFuncType>, TFuncType> f, Area area, State<TBase, TFuncType, TV> state) => 

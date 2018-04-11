@@ -12,8 +12,6 @@ namespace OSOL.Extremum.Core.DotNet.Vectors
             {
                 this._missingKey = string.Copy(missingKey);
             }
-
-            public override string Message => $"{_missingKey} is not present in current VectorObject";
         }
 
         public class DifferentKeysException : Exception
@@ -28,8 +26,6 @@ namespace OSOL.Extremum.Core.DotNet.Vectors
                 Array.Copy(keys_1, _keys_1, keys_1.Length);
                 Array.Copy(keys_2, _keys_2, keys_2.Length);
             }
-
-            public override string Message => $"VectorObjects have different set of keys: {_keys_1} and {_keys_2}";
         }
     }
 }

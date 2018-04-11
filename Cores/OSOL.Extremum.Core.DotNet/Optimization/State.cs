@@ -4,6 +4,13 @@ using Newtonsoft.Json.Linq;
 
 namespace OSOL.Extremum.Core.DotNet.Optimization
 {
+    public class TypeSwitch
+    {
+        Dictionary<Type, Action<object>> matches = new Dictionary<Type, Action<object>>();
+        public TypeSwitch Case<T>(Action<T> action) { matches.Add(typeof(T), (x) => action((T)x)); return this; } 
+        public void Switch(object x) { matches[x.GetType()](x); }
+    }
+    
     public class State<TBase, TFuncType, TV> where TV: class, IOptimizable<TBase, TFuncType>
     {
         public TV result = null;
@@ -30,26 +37,32 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
             foreach (var p in this.parameters)
             {
                 JObject temp = new JObject();
-                try
-                {
-                    var v = (TV) p.Value;
-                    temp[p.Key] = v.ConvertToJson();
-                }
-                catch (Exception _)
-                {
-                    try
+                var ts = new TypeSwitch()
+                    .Case((bool x) => temp[p.Key] = x)
+                    .Case((double x) => temp[p.Key] = x)
+                    .Case((int x) => temp[p.Key] = x)
+                    .Case((DateTime x) => temp[p.Key] = x)
+                    .Case((TV x) => temp[p.Key] = x.ConvertToJson())
+                    .Case((TV[] x) =>
                     {
                         var v = (IEnumerable<TV>) p.Value;
                         var tempArray = new JArray();
                         foreach (var _v in v)
                             tempArray.Add(_v.ConvertToJson());
                         temp[p.Key] = tempArray;
-                    }
-                    catch (Exception __)
+                    })
+                    .Case((List<TV> x) =>
                     {
-                        temp[p.Key] = new JObject(p.Value);
-                    }
-                }
+                        var v = (IEnumerable<TV>) p.Value;
+                        var tempArray = new JArray();
+                        foreach (var _v in v)
+                            tempArray.Add(_v.ConvertToJson());
+                        temp[p.Key] = tempArray;
+                    })
+                    .Case((object x) => throw new Exception());
+                
+                ts.Switch(p.Value);
+
                 array.Add(temp);
             }
             result["parameters"] = array;

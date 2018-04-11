@@ -28,6 +28,7 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
         
         public Interval(double lowerBound, double upperBound)
         {
+            if (lowerBound > upperBound) throw new IntervalExceptions.MinMaxFailureException(lowerBound, upperBound);
             double w = upperBound - lowerBound;
             if (w < MinWidth)
             {

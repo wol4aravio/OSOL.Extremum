@@ -16,6 +16,12 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         Interval i7 = new Interval(0.0, 3.0);
 
         [Fact]
+        void TestBadInitialization()
+        {
+            Assert.Throws<IntervalExceptions.MinMaxFailureException>(() => new Interval(2.0, -2.0));
+        }
+
+        [Fact]
         void TestToString()
         {
             Assert.True(i1.ToString().Equals("[-1; 2]"));
@@ -94,6 +100,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             Assert.True((i1.Power(2.0)).ApproximatelyEqualsTo(new Interval(0.0, 4.0)));
             Assert.True((i2.Power(3.0)).ApproximatelyEqualsTo(new Interval(-64.0, 27.0)));
             Assert.True((i5.Power(0.0)).ApproximatelyEqualsTo(new Interval(1.0, 1.0)));
+            Assert.Throws<IntervalExceptions.UnknownOperationException>(() => i1.Power(new Interval(-1.0, 1.0)));
         }
 
         [Fact]

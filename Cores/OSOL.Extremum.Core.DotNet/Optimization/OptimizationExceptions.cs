@@ -4,10 +4,6 @@ using System.Collections.Generic;
 namespace OSOL.Extremum.Core.DotNet.Optimization
 {
     
-    public class Area : Dictionary<string, Tuple<double, double>>
-    {
-    };
-    
     public static class OptimizationExceptions
     {
 

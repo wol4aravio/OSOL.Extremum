@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace OSOL.Extremum.Core.DotNet.Optimization.Nodes
 {
+    
+    using Area = Dictionary<string, Tuple<double, double>>;
+
     public class TerminationViaMaxIterations<TBase, TFuncType, TV>: GeneralNode<TBase, TFuncType, TV>
         where TV: class, IOptimizable<TBase, TFuncType>
     {
