@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -86,6 +87,50 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public void TestMultiplyByCoefficient()
         {
             Assert.True((RealVector)( v1 + v1) == (RealVector)(v1 * 2));
+        }
+
+        [Fact]
+        public void TestMoveBy()
+        {
+            RealVector r1 = v1
+                .MoveBy(new Dictionary<string, double>(){{"x", -1.0}})
+                .MoveBy(new Dictionary<string, double>(){{"z", -3.0}, {"y", -2.0}});
+            Assert.True(r1 == z);
+        }
+
+        [Fact]
+        public void TestConstrain()
+        {
+            RealVector r1 = v1
+                .Constrain(new Dictionary<string, Tuple<double, double>>() {{"x", Tuple.Create(-1.0, 0.0)}})
+                .Constrain(new Dictionary<string, Tuple<double, double>>() {{"y", Tuple.Create(3.0, 10.0)}})
+                .Constrain(new Dictionary<string, Tuple<double, double>>() {{"z", Tuple.Create(-5.0, 5.0)}});
+            RealVector r2 = new Dictionary<string, double>() {{"x", 0.0}, {"y", 3.0}, {"z", 3.0}};
+            Assert.True(r1 == r2);
+        }
+
+        [Fact]
+        public void TestGetPerformance()
+        {
+            Func<Dictionary<string, double>, double> f = v => v["x"] + v["y"] + v["z"];
+            Assert.Equal(v1.GetPerformance(f), 6.0);
+            Assert.Equal(((RealVector)(v1 * 2.0)).GetPerformance(f), 12.0);
+        }
+
+        [Fact]
+        public void TestToDoubleValuedVector()
+        {
+            Assert.Equal(v1.ToBasicForm()["x"], 1.0);
+            Assert.Equal(v1.ToBasicForm()["y"], 2.0);
+            Assert.Equal(v1.ToBasicForm()["z"], 3.0);
+        }
+
+        [Fact]
+        public void TestJSON()
+        {
+            Assert.True(new RealVector(v1.ConvertToJson()) == v1);
+            Assert.True(new RealVector(v2.ConvertToJson()) == v2);
+            Assert.True(new RealVector(v3.ConvertToJson()) == v3);
         }
 
     }

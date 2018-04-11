@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OSOL.Extremum.Core.DotNet.Vectors;
 
+using Newtonsoft.Json.Linq;
 
 namespace OSOL.Extremum.Core.DotNet.Optimization
 {
@@ -15,6 +16,6 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
 
         VectorObject<double> ToBasicForm();
 
-        string ConvertToJson();
+        JObject ConvertToJson();
     }
 }
