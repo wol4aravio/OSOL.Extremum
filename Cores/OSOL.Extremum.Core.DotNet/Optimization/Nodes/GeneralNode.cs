@@ -10,7 +10,6 @@ namespace OSOL.Extremum.Core.DotNet.Optimization.Nodes
         public abstract void Initialize(Func<Dictionary<string, TFuncType>, TFuncType> f, Area area, State<TBase, TFuncType, TV> state);
         public abstract void Process(Func<Dictionary<string, TFuncType>, TFuncType> f, Area area, State<TBase, TFuncType, TV> state);
 
-        public virtual int? GetCurrentCondition(Func<Dictionary<string, TFuncType>, TFuncType> f, Area area,
-            State<TBase, TFuncType, TV> state) => null;
+        public virtual int? GetCurrentCondition(Func<Dictionary<string, TFuncType>, TFuncType> f, Area area, State<TBase, TFuncType, TV> state) => null;
     }
 }
