@@ -188,6 +188,14 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             Assert.True(i1.Split(new double[] {1, 2})[0].ApproximatelyEqualsTo(new Interval(-1.0, 0.0)));
             Assert.True(i1.Split(new double[] {1, 2})[1].ApproximatelyEqualsTo(new Interval(0.0, 2.0)));
         }
+
+        [Fact]
+        void TestJSON()
+        {
+            Assert.True(new Interval(i1.ConvertToJson()) == i1);
+            Assert.True(new Interval(i2.ConvertToJson()) == i2);
+            Assert.True(new Interval(i3.ConvertToJson()) == i3);
+        }
         
     }
 }

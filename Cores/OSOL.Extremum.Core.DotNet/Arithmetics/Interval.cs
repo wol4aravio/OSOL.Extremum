@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection.Metadata.Ecma335;
+using Newtonsoft.Json.Linq;
 
 namespace OSOL.Extremum.Core.DotNet.Arithmetics
 {
@@ -18,6 +19,13 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
         {
             this.LowerBound = this.UpperBound = value;
         }
+
+        public Interval(JObject json)
+        {
+            this.LowerBound = json["Interval"]["lowerBound"].Value<double>();
+            this.UpperBound = json["Interval"]["upperBound"].Value<double>();
+        }
+        
         public Interval(double lowerBound, double upperBound)
         {
             double w = upperBound - lowerBound;
@@ -249,6 +257,16 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
         {
             Interval[] divided = this.Split(new double[] {1.0, 1.0});
             return Tuple.Create(divided[0], divided[1]);
+        }
+
+        public JObject ConvertToJson()
+        {
+            JObject json = new JObject();
+            JObject interval = new JObject();
+            interval["lowerBound"] = this.LowerBound;
+            interval["upperBound"] = this.UpperBound;
+            json["Interval"] = interval;
+            return json;
         }
 
     }
