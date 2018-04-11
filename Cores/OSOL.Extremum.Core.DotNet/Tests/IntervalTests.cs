@@ -161,5 +161,33 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             Assert.True((i6.Ln()).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, double.NegativeInfinity)));
             Assert.True((i7.Ln()).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, Math.Log(3.0))));
         }
+
+        [Fact]
+        void TestMove()
+        {
+            Assert.True(i1.MoveBy(1.0) == i7);
+            Assert.True(i7.MoveBy(-1.0) == i1);
+            Assert.True(i5.MoveBy(0.5) == new Interval(-5.5, -4.5));
+        }
+
+        [Fact]
+        void TestRecover()
+        {
+            double min = -0.7, max = 1.5;
+            Assert.True(i1.Constrain(min, max) == new Interval(min, max));
+            Assert.True(i3.Constrain(min, max) == new Interval(1.0, max));
+            Assert.True(i4.Constrain(min, max) == new Interval(max, max));
+            Assert.True(i5.Constrain(min, max) == new Interval(min, min));
+        }
+
+        [Fact]
+        void TestSplitting()
+        {
+            Assert.True(i1.Bisect().Item1.ApproximatelyEqualsTo(new Interval(-1.0, 0.5)));
+            Assert.True(i1.Bisect().Item2.ApproximatelyEqualsTo(new Interval(0.5, 2.0)));
+            Assert.True(i1.Split(new double[] {1, 2})[0].ApproximatelyEqualsTo(new Interval(-1.0, 0.0)));
+            Assert.True(i1.Split(new double[] {1, 2})[1].ApproximatelyEqualsTo(new Interval(0.0, 2.0)));
+        }
+        
     }
 }

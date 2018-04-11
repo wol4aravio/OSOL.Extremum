@@ -214,6 +214,42 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
                 else return new Interval(Math.Log(this.LowerBound), Math.Log(this.UpperBound));
             }  
         }
-        
+
+        public Interval MoveBy(double delta) => this.Add(delta);
+
+        public Interval Constrain(double min, double max)
+        {
+            Func<double, double> check = v =>
+            {
+                if (v < min) return min;
+                else
+                {
+                    if (v > max) return max;
+                    else return v;
+                }
+            };
+            return new Interval(check(this.LowerBound), check(this.UpperBound));
+        }
+
+        public Interval[] Split(double[] ratios)
+        {
+            double sum = ratios.Sum();
+            double last = this.LowerBound;
+            Interval[] result = new Interval[ratios.Length];
+            for (int i = 0; i < result.Length; ++i)
+            {
+                result[i]=new Interval(last, last + ratios[i] * this.Width / sum);
+                last = result[i].UpperBound;
+            }
+
+            return result;
+        }
+
+        public Tuple<Interval, Interval> Bisect()
+        {
+            Interval[] divided = this.Split(new double[] {1.0, 1.0});
+            return Tuple.Create(divided[0], divided[1]);
+        }
+
     }
 }
