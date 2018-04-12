@@ -86,7 +86,7 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
 
         public Interval Multiply(Interval that)
         {
-            var values = new double[]
+            var values = new []
             {
                 this.LowerBound * that.LowerBound,
                 this.LowerBound * that.UpperBound,
@@ -336,7 +336,7 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
 
         public Tuple<Interval, Interval> Bisect()
         {
-            var divided = this.Split(new double[] {1.0, 1.0});
+            var divided = this.Split(new [] {1.0, 1.0});
             return Tuple.Create(divided[0], divided[1]);
         }
 

@@ -25,7 +25,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         [Fact]
         public static void TestKeys()
         {
-            Assert.True(v1.Keys.ToArray().Zip(new string[]{"x", "y", "z"}, (first, second) => first.Equals(second)).All(_ => _));
+            Assert.True(v1.Keys.ToArray().Zip(new []{"x", "y", "z"}, (first, second) => first.Equals(second)).All(_ => _));
         }
 
         [Fact]

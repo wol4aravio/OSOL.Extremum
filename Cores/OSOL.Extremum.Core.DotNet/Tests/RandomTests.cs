@@ -49,7 +49,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         [Fact]
         static void TestGetProbabilityFunction()
         {
-            double[] initialValues = new double[] {0.1, 0.2, 0.5, 2.1, 2.2, 3.4};
+            double[] initialValues = new [] {0.1, 0.2, 0.5, 2.1, 2.2, 3.4};
             Func<double, int> project = x => (int) x;
             Assert.Equal(
                 GetProbability(initialValues, project),
@@ -196,7 +196,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         [Fact]
         static void TestGetFromSeries()
         {
-            int[] elements = new int[] {1, 2, 3};
+            int[] elements = new [] {1, 2, 3};
             int n = 5;
             var chosenWithReturn = new List<int>();
             var chosenWithoutReturn = new List<int>();

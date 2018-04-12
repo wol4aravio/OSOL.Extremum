@@ -80,7 +80,7 @@ namespace OSOL.Extremum.Core.DotNet.Vectors
 
         public Tuple<IntervalVector, IntervalVector> Bisect(string key = null)
         {
-            var divided = this.Split(ratios: new double[] {1.0, 1.0}, key: key);
+            var divided = this.Split(ratios: new [] {1.0, 1.0}, key: key);
             return Tuple.Create(divided[0], divided[1]);
         }
 
