@@ -45,9 +45,8 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
 
         public JObject ConvertToJson()
         {
-            var result = new JObject();
-            result["result"] = (this.result == null) ? new JObject("None") : this.result.ConvertToJson();
-            var parameters = new JObject();
+            var json = new JObject();
+            json["result"] = (this.result == null) ? new JObject("None") : this.result.ConvertToJson();
             var array = new JArray();
             foreach (var p in this.parameters)
             {
@@ -87,8 +86,8 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
                 array.Add(temp);
             }
 
-            result["parameters"] = array;
-            return result;
+            json["parameters"] = array;
+            return json;
         }
     }
 }

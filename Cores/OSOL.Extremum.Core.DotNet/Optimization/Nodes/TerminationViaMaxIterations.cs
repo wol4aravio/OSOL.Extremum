@@ -9,8 +9,8 @@ namespace OSOL.Extremum.Core.DotNet.Optimization.Nodes
     public class TerminationViaMaxIterations<TBase, TFuncType, TV> : GeneralNode<TBase, TFuncType, TV>
         where TV : class, IOptimizable<TBase, TFuncType>
     {
-        private string ParameterName;
-        private int MaxIteration;
+        private readonly string ParameterName;
+        private readonly int MaxIteration;
 
         public TerminationViaMaxIterations(int nodeId, int maxIteration, string parameterName = "currentIteration")
         {

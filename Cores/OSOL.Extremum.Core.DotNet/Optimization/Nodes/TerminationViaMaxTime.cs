@@ -9,8 +9,8 @@ namespace OSOL.Extremum.Core.DotNet.Optimization.Nodes
     public class TerminationViaMaxTime<TBase, TFuncType, TV> : GeneralNode<TBase, TFuncType, TV>
         where TV : class, IOptimizable<TBase, TFuncType>
     {
-        private string ParameterName;
-        private double MaxTime;
+        private readonly string ParameterName;
+        private readonly double MaxTime;
 
         public TerminationViaMaxTime(int nodeId, double maxTime, string parameterName = "startTime")
         {

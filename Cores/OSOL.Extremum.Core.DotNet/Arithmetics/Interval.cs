@@ -86,7 +86,7 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
 
         public Interval Multiply(Interval that)
         {
-            double[] values = new double[]
+            var values = new double[]
             {
                 this.LowerBound * that.LowerBound,
                 this.LowerBound * that.UpperBound,
@@ -137,7 +137,10 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
                 }
                 else
                 {
-                    if (this.LowerBound * this.UpperBound < 0) return new Interval(0.0, Math.Max(v1, v2));
+                    if (this.LowerBound * this.UpperBound < 0)
+                    {
+                        return new Interval(0.0, Math.Max(v1, v2));
+                    }
                     else
                     {
                         return this.LowerBound >= 0 ? new Interval(v1, v2) : new Interval(v2, v1);
@@ -150,7 +153,10 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
         {
             double v1 = Math.Abs(this.LowerBound);
             double v2 = Math.Abs(this.UpperBound);
-            if (this.LowerBound * this.UpperBound < 0) return new Interval(0.0, Math.Max(v1, v2));
+            if (this.LowerBound * this.UpperBound < 0)
+            {
+                return new Interval(0.0, Math.Max(v1, v2));
+            }
             else
             {
                 return this.LowerBound >= 0 ? new Interval(v1, v2) : new Interval(v2, v1);
@@ -273,7 +279,9 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
         public Interval Ln()
         {
             if (this.UpperBound < 0)
+            {
                 throw new IntervalExceptions.BadAreaOperationException(opName: "Ln", interval: this);
+            }
             else
             {
                 if (this.LowerBound < 0)
@@ -328,7 +336,7 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
 
         public Tuple<Interval, Interval> Bisect()
         {
-            Interval[] divided = this.Split(new double[] {1.0, 1.0});
+            var divided = this.Split(new double[] {1.0, 1.0});
             return Tuple.Create(divided[0], divided[1]);
         }
 
