@@ -6,10 +6,10 @@ using OSOL.Extremum.Core.DotNet.Optimization.Nodes;
 
 namespace OSOL.Extremum.Core.DotNet.Optimization
 {
-    
+
     using Area = Dictionary<string, Tuple<double, double>>;
-    
-    public class Algorithm<TBase, TFuncType, TV> where TV: class, IOptimizable<TBase, TFuncType>
+
+    public class Algorithm<TBase, TFuncType, TV> where TV : class, IOptimizable<TBase, TFuncType>
     {
         public State<TBase, TFuncType, TV> State = new State<TBase, TFuncType, TV>();
         public GeneralNode<TBase, TFuncType, TV> CurrentNode = null;
@@ -25,8 +25,11 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
 
         public void Initialize(Func<Dictionary<string, TFuncType>, TFuncType> f, Area area)
         {
-            foreach(var n in Nodes)
+            foreach (var n in Nodes)
+            {
                 n.Initialize(f, area, State);
+            }
+
             CurrentNode = Nodes.First();
         }
 
@@ -43,9 +46,13 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
                     .Select(rule => (double) rule.Item3).ToArray();
                 var nextNode = nextNodes.Length == 0 ? double.NaN : nextNodes[0];
                 if (double.IsNaN(nextNode))
+                {
                     continueOrNot = false;
+                }
                 else
-                    CurrentNode = Nodes.First(n => n.NodeId == (int)nextNode);
+                {
+                    CurrentNode = Nodes.First(n => n.NodeId == (int) nextNode);
+                }
             }
 
             return State.result;

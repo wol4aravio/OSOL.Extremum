@@ -15,12 +15,12 @@ namespace OSOL.Extremum.Core.DotNet.Tests
     
     using Area = Dictionary<string, Tuple<double, double>>;
 
-    public class OptimizationTests
+    public static class OptimizationTests
     {
         public static class DummyRealOptimization
         {
-            public static string ParameterName = "samples";
-            public static GoRN gorn = new GoRN();
+            private static string ParameterName = "samples";
+            private static GoRN gorn = new GoRN();
             
             public class SampleNode: GeneralNode<RealVector, double, RealVector>
             {
@@ -69,7 +69,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             {
                 var nodes = new GeneralNode<RealVector, double, RealVector>[]
                 {
-                    new SetParametersNode<RealVector, double, RealVector>(nodeId: 0, parameters: new Dictionary<string, object>() {{"generate", true}}),
+                    new SetParametersNode<RealVector, double, RealVector>(nodeId: 0, parameters: new Dictionary<string, object> {{"generate", true}}),
                     new SampleNode(nodeId: 1),
                     new TerminationViaMaxIterations<RealVector, double, RealVector>(nodeId: 2, maxIteration: 250),
                     new TerminationViaMaxTime<RealVector, double, RealVector>(nodeId: 3, maxTime: 2.5),
@@ -91,8 +91,8 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         
         public static class DummyIntervalOptimization
         {
-            public static string ParameterName = "sample";
-            public static GoRN gorn = new GoRN();
+            private static string ParameterName = "sample";
+            private static GoRN gorn = new GoRN();
             
             public class SplitNode: GeneralNode<IntervalVector, Interval, IntervalVector>
             {
@@ -114,7 +114,9 @@ namespace OSOL.Extremum.Core.DotNet.Tests
                     var leftRight = currentIntervalVector.Bisect();
                     var newIntervalVector = leftRight.Item1;
                     if (leftRight.Item2.GetPerformance(f) < leftRight.Item1.GetPerformance(f))
+                    {
                         newIntervalVector = leftRight.Item2;
+                    }
                     state.SetParameter(name: DummyIntervalOptimization.ParameterName, value: newIntervalVector);
                 }
             }
@@ -158,18 +160,18 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             }
         }
 
-        private Algorithm<RealVector, double, RealVector> toolReal = DummyRealOptimization.CreateAlgorithm();
-        private Algorithm<IntervalVector, Interval, IntervalVector> toolInterval = DummyIntervalOptimization.CreateAlgorithm();
-        private Func<Dictionary<string, double>, double> fReal = v => Math.Abs(v["x"]);
-        private Func<Dictionary<string, Interval>, Interval> fInterval = v => v["x"].Abs();
-        private Area area = new Dictionary<string, Tuple<double, double>>()
+        private static Algorithm<RealVector, double, RealVector> toolReal = DummyRealOptimization.CreateAlgorithm();
+        private static Algorithm<IntervalVector, Interval, IntervalVector> toolInterval = DummyIntervalOptimization.CreateAlgorithm();
+        private static Func<Dictionary<string, double>, double> fReal = v => Math.Abs(v["x"]);
+        private static Func<Dictionary<string, Interval>, Interval> fInterval = v => v["x"].Abs();
+        private static Area area = new Dictionary<string, Tuple<double, double>>
         {
             {"x", Tuple.Create(-10.0, 10.0)}
         };
-        private double eps = 1e-3;
+        private static double eps = 1e-3;
 
         [Fact]
-        void TestTerminationViaMaxIterations()
+        static void TestTerminationViaMaxIterations()
         {
             var node = new TerminationViaMaxIterations<RealVector, double, RealVector>(nodeId: 1, maxIteration: 250);
             var state = new State<RealVector, double, RealVector>();
@@ -180,7 +182,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestTerminationViaMaxTime()
+        static void TestTerminationViaMaxTime()
         {
             var node = new TerminationViaMaxTime<IntervalVector, Interval, IntervalVector>(nodeId: 1, maxTime: 2.5);
             var state = new State<IntervalVector, Interval, IntervalVector>();
@@ -191,7 +193,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestRealOptimization()
+        static void TestRealOptimization()
         {
             var result = toolReal.Work(fReal, area);
             Assert.True(Math.Abs(result["x"]) < eps);
@@ -210,7 +212,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestIntervalOptimization()
+        static void TestIntervalOptimization()
         {
             var result = toolInterval.Work(fInterval, area);
             Assert.True(Math.Abs(result["x"].MiddlePoint) < eps);

@@ -47,8 +47,10 @@ namespace OSOL.Extremum.Core.DotNet.Random
             int size = data.Count();
             if (withReturn)
             {
-                for(int i=0;i<n;++i)
+                for (int i = 0; i < n; ++i)
+                {
                     seq.Add(data[GetDiscreteUniform(0, size - 1)]);
+                }
             }
             else
             {
@@ -62,7 +64,7 @@ namespace OSOL.Extremum.Core.DotNet.Random
 
             return seq;
         }
-        
+
     }
 
 }

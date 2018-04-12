@@ -5,24 +5,24 @@ using OSOL.Extremum.Core.DotNet.Arithmetics;
 
 namespace OSOL.Extremum.Core.DotNet.Tests
 {
-    public class IntervalTests
+    public static class IntervalTests
     {
-        Interval i1 = new Interval(-1.0, 2.0);
-        Interval i2 = new Interval(-4.0, 3.0);
-        Interval i3 = new Interval(1.0, 2.0);
-        Interval i4 = new Interval(5.0, 5.1);
-        Interval i5 = new Interval(-6.0, -5.0);
-        Interval i6 = new Interval(-2.0, 0.0);
-        Interval i7 = new Interval(0.0, 3.0);
+        static Interval i1 = new Interval(-1.0, 2.0);
+        static Interval i2 = new Interval(-4.0, 3.0);
+        static Interval i3 = new Interval(1.0, 2.0);
+        static Interval i4 = new Interval(5.0, 5.1);
+        static Interval i5 = new Interval(-6.0, -5.0);
+        static Interval i6 = new Interval(-2.0, 0.0);
+        static Interval i7 = new Interval(0.0, 3.0);
 
         [Fact]
-        void TestBadInitialization()
+        static void TestBadInitialization()
         {
             Assert.Throws<IntervalExceptions.MinMaxFailureException>(() => new Interval(2.0, -2.0));
         }
 
         [Fact]
-        void TestToString()
+        static void TestToString()
         {
             Assert.True(i1.ToString().Equals("[-1; 2]"));
             Assert.True(i4.ToString().Equals("[5; 5.1]"));
@@ -30,7 +30,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestMiddlePoint()
+        static void TestMiddlePoint()
         {
             Assert.Equal(i1.MiddlePoint, 0.5);
             Assert.Equal(i3.MiddlePoint, 1.5);
@@ -38,7 +38,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestWidth()
+        static void TestWidth()
         {
             Assert.Equal(i1.Width, 3.0);
             Assert.Equal(i3.Width, 1.0);
@@ -46,7 +46,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestRadius()
+        static void TestRadius()
         {
             Assert.Equal(i1.Radius, 1.5);
             Assert.Equal(i3.Radius, 0.5);
@@ -54,14 +54,14 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestApproximateEquality()
+        static void TestApproximateEquality()
         {
             Assert.True(i1.ApproximatelyEqualsTo(i1 + 1e-7));
             Assert.False((new Interval(double.NegativeInfinity, 0.0)).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, double.NaN)));
         }
 
         [Fact]
-        void TestAddition()
+        static void TestAddition()
         {
             Assert.True((i1 + i2).ApproximatelyEqualsTo(new Interval(-5.0, 5.0)));
             Assert.True((i2 + i3).ApproximatelyEqualsTo(new Interval(-3.0, 5.0)));
@@ -69,7 +69,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestSubtraction()
+        static void TestSubtraction()
         {
             Assert.True((i1 - i2).ApproximatelyEqualsTo(new Interval(-4.0, 6.0)));
             Assert.True((i2 - i3).ApproximatelyEqualsTo(new Interval(-6.0, 2.0)));
@@ -77,7 +77,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
         
         [Fact]
-        void TestMultiplication()
+        static void TestMultiplication()
         {
             Assert.True((i1 * i2).ApproximatelyEqualsTo(new Interval(-8.0, 6.0)));
             Assert.True((i2 * i3).ApproximatelyEqualsTo(new Interval(-8.0, 6.0)));
@@ -85,7 +85,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
         
         [Fact]
-        void TestDivision()
+        static void TestDivision()
         {
             Assert.True((i1 / i2).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, double.PositiveInfinity)));
             Assert.True((i2 / i3).ApproximatelyEqualsTo(new Interval(-4.0, 3.0)));
@@ -95,7 +95,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
         
         [Fact]
-        void TestPower()
+        static void TestPower()
         {
             Assert.True((i1.Power(2.0)).ApproximatelyEqualsTo(new Interval(0.0, 4.0)));
             Assert.True((i2.Power(3.0)).ApproximatelyEqualsTo(new Interval(-64.0, 27.0)));
@@ -104,7 +104,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestNeg()
+        static void TestNeg()
         {
             Assert.True((-i1).ApproximatelyEqualsTo(new Interval(-2.0, 1.0)));
             Assert.True((-i5).ApproximatelyEqualsTo(new Interval(5.0, 6.0)));
@@ -112,7 +112,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestSin()
+        static void TestSin()
         {
             Assert.True((i1.Sin()).ApproximatelyEqualsTo(new Interval(Math.Sin(-1.0), 1.0)));
             Assert.True((i2.Sin()).ApproximatelyEqualsTo(new Interval(-1.0, 1.0)));
@@ -121,7 +121,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestCos()
+        static void TestCos()
         {
             Assert.True((i1.Cos()).ApproximatelyEqualsTo(new Interval(Math.Cos(2.0), 1.0)));
             Assert.True((i2.Cos()).ApproximatelyEqualsTo(new Interval(-1.0, 1.0)));
@@ -130,7 +130,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestAbs()
+        static void TestAbs()
         {
             Assert.True((i1.Abs()).ApproximatelyEqualsTo(new Interval(0.0, 2.0)));
             Assert.True((i2.Abs()).ApproximatelyEqualsTo(new Interval(0.0, 4.0)));
@@ -142,7 +142,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
         
         [Fact]
-        void TestExp()
+        static void TestExp()
         {
             Assert.True((i1.Exp()).ApproximatelyEqualsTo(new Interval(Math.Exp(-1.0), Math.Exp(2.0))));
             Assert.True((i2.Exp()).ApproximatelyEqualsTo(new Interval(Math.Exp(-4.0), Math.Exp(3.0))));
@@ -150,7 +150,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestSqrt()
+        static void TestSqrt()
         {
             Assert.True(i1.Sqrt().ApproximatelyEqualsTo(new Interval(0.0, Math.Sqrt(2.0))));
             Assert.True(i3.Sqrt().ApproximatelyEqualsTo(new Interval(Math.Sqrt(1.0), Math.Sqrt(2.0))));
@@ -158,7 +158,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
         
         [Fact]
-        void TestLn()
+        static void TestLn()
         {
             Assert.True((i1.Ln()).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, Math.Log(2.0))));
             Assert.True((i2.Ln()).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, Math.Log(3.0))));
@@ -170,7 +170,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestMove()
+        static void TestMove()
         {
             Assert.True(i1.MoveBy(1.0) == i7);
             Assert.True(i7.MoveBy(-1.0) == i1);
@@ -178,7 +178,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestRecover()
+        static void TestRecover()
         {
             double min = -0.7, max = 1.5;
             Assert.True(i1.Constrain(min, max) == new Interval(min, max));
@@ -188,16 +188,16 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestSplitting()
+        static void TestSplitting()
         {
             Assert.True(i1.Bisect().Item1.ApproximatelyEqualsTo(new Interval(-1.0, 0.5)));
             Assert.True(i1.Bisect().Item2.ApproximatelyEqualsTo(new Interval(0.5, 2.0)));
-            Assert.True(i1.Split(new double[] {1, 2})[0].ApproximatelyEqualsTo(new Interval(-1.0, 0.0)));
-            Assert.True(i1.Split(new double[] {1, 2})[1].ApproximatelyEqualsTo(new Interval(0.0, 2.0)));
+            Assert.True(i1.Split(new [] {1.0, 2.0})[0].ApproximatelyEqualsTo(new Interval(-1.0, 0.0)));
+            Assert.True(i1.Split(new [] {1.0, 2.0})[1].ApproximatelyEqualsTo(new Interval(0.0, 2.0)));
         }
 
         [Fact]
-        void TestJSON()
+        static void TestJSON()
         {
             Assert.True(new Interval(i1.ConvertToJson()) == i1);
             Assert.True(new Interval(i2.ConvertToJson()) == i2);
