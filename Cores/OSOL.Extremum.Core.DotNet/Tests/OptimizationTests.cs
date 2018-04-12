@@ -19,8 +19,8 @@ namespace OSOL.Extremum.Core.DotNet.Tests
     {
         public static class DummyRealOptimization
         {
-            public static string ParameterName = "samples";
-            public static GoRN gorn = new GoRN();
+            private static string ParameterName = "samples";
+            private static GoRN gorn = new GoRN();
             
             public class SampleNode: GeneralNode<RealVector, double, RealVector>
             {
@@ -91,8 +91,8 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         
         public static class DummyIntervalOptimization
         {
-            public static string ParameterName = "sample";
-            public static GoRN gorn = new GoRN();
+            private static string ParameterName = "sample";
+            private static GoRN gorn = new GoRN();
             
             public class SplitNode: GeneralNode<IntervalVector, Interval, IntervalVector>
             {
@@ -114,7 +114,9 @@ namespace OSOL.Extremum.Core.DotNet.Tests
                     var leftRight = currentIntervalVector.Bisect();
                     var newIntervalVector = leftRight.Item1;
                     if (leftRight.Item2.GetPerformance(f) < leftRight.Item1.GetPerformance(f))
+                    {
                         newIntervalVector = leftRight.Item2;
+                    }
                     state.SetParameter(name: DummyIntervalOptimization.ParameterName, value: newIntervalVector);
                 }
             }

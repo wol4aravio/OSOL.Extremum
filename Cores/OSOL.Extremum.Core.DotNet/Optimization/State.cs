@@ -7,14 +7,23 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
     public class TypeSwitch
     {
         Dictionary<Type, Action<object>> matches = new Dictionary<Type, Action<object>>();
-        public TypeSwitch Case<T>(Action<T> action) { matches.Add(typeof(T), (x) => action((T)x)); return this; } 
-        public void Switch(object x) { matches[x.GetType()](x); }
+
+        public TypeSwitch Case<T>(Action<T> action)
+        {
+            matches.Add(typeof(T), (x) => action((T) x));
+            return this;
+        }
+
+        public void Switch(object x)
+        {
+            matches[x.GetType()](x);
+        }
     }
-    
-    public class State<TBase, TFuncType, TV> where TV: class, IOptimizable<TBase, TFuncType>
+
+    public class State<TBase, TFuncType, TV> where TV : class, IOptimizable<TBase, TFuncType>
     {
         public TV result = null;
-        
+
         private Dictionary<string, object> parameters = new Dictionary<string, object>();
 
         public void SetParameter<T>(string name, T value)
@@ -24,8 +33,14 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
 
         public T GetParameter<T>(string name)
         {
-            if (parameters.ContainsKey(name)) return (T) parameters[name];
-            else throw new OptimizationExceptions.NoSuchParameterException(name);
+            if (parameters.ContainsKey(name))
+            {
+                return (T) parameters[name];
+            }
+            else
+            {
+                throw new OptimizationExceptions.NoSuchParameterException(name);
+            }
         }
 
         public JObject ConvertToJson()
@@ -48,7 +63,10 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
                         var v = (IEnumerable<TV>) p.Value;
                         var tempArray = new JArray();
                         foreach (var _v in v)
+                        {
                             tempArray.Add(_v.ConvertToJson());
+                        }
+
                         temp[p.Key] = tempArray;
                     })
                     .Case((List<TV> x) =>
@@ -56,15 +74,19 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
                         var v = (IEnumerable<TV>) p.Value;
                         var tempArray = new JArray();
                         foreach (var _v in v)
+                        {
                             tempArray.Add(_v.ConvertToJson());
+                        }
+
                         temp[p.Key] = tempArray;
                     })
                     .Case((object x) => throw new Exception());
-                
+
                 ts.Switch(p.Value);
 
                 array.Add(temp);
             }
+
             result["parameters"] = array;
             return result;
         }
