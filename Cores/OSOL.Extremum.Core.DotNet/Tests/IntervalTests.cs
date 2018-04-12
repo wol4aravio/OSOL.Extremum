@@ -192,8 +192,8 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         {
             Assert.True(i1.Bisect().Item1.ApproximatelyEqualsTo(new Interval(-1.0, 0.5)));
             Assert.True(i1.Bisect().Item2.ApproximatelyEqualsTo(new Interval(0.5, 2.0)));
-            Assert.True(i1.Split(new [] {1, 2})[0].ApproximatelyEqualsTo(new Interval(-1.0, 0.0)));
-            Assert.True(i1.Split(new [] {1, 2})[1].ApproximatelyEqualsTo(new Interval(0.0, 2.0)));
+            Assert.True(i1.Split(new [] {1.0, 2.0})[0].ApproximatelyEqualsTo(new Interval(-1.0, 0.0)));
+            Assert.True(i1.Split(new [] {1.0, 2.0})[1].ApproximatelyEqualsTo(new Interval(0.0, 2.0)));
         }
 
         [Fact]
