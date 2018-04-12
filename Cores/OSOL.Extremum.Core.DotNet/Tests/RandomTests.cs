@@ -8,13 +8,13 @@ using OSOL.Extremum.Core.DotNet.Random.Distributions;
 
 namespace OSOL.Extremum.Core.DotNet.Tests
 {
-    public class RandomTests
+    public static class RandomTests
     {
         private static double eps = 1e-2;
         private static int N = (int) 1e6;
         private static int seed = 17091992;
 
-        Dictionary<int, double> GetProbability<T>(IEnumerable<T> values, Func<T, int> project)
+        static Dictionary<int, double> GetProbability<T>(IEnumerable<T> values, Func<T, int> project)
         {
             List<int> projectedValues = values.Select(project).ToList();
             return projectedValues
@@ -24,7 +24,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
                     v => (double) (projectedValues.Count(_v => _v == v)) / projectedValues.Count());
         }
 
-        double Distance<T>(Dictionary<T, double> prob_1, Dictionary<T, double> prob_2)
+        static double Distance<T>(Dictionary<T, double> prob_1, Dictionary<T, double> prob_2)
         {
             List<T> keys = prob_1.Keys.ToList();
             foreach (T k in prob_2.Keys)
@@ -47,7 +47,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         private static GoRN gorn = new GoRN(seed);
 
         [Fact]
-        void TestGetProbabilityFunction()
+        static void TestGetProbabilityFunction()
         {
             double[] initialValues = new double[] {0.1, 0.2, 0.5, 2.1, 2.2, 3.4};
             Func<double, int> project = x => (int) x;
@@ -62,7 +62,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestDistanceFunction()
+        static void TestDistanceFunction()
         {
             Dictionary<int, double> prob = new Dictionary<int, double>()
             {
@@ -78,7 +78,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestDiscreteUniform()
+        static void TestDiscreteUniform()
         {
             Dictionary<int, double> idealProb_x = new Dictionary<int, double>()
             {
@@ -111,7 +111,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestContinuousUniform()
+        static void TestContinuousUniform()
         {
             Dictionary<int, double> idealProb_x = new Dictionary<int, double>()
             {
@@ -154,7 +154,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestNormalAndStatistic()
+        static void TestNormalAndStatistic()
         {
             var mu_sigma_x = Tuple.Create(17.0, 7.0);
             var mu_sigma_y = Tuple.Create(7.0, 17.0);
@@ -194,7 +194,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         }
 
         [Fact]
-        void TestGetFromSeries()
+        static void TestGetFromSeries()
         {
             int[] elements = new int[] {1, 2, 3};
             int n = 5;
