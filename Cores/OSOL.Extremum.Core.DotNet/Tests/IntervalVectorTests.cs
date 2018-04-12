@@ -10,13 +10,13 @@ namespace OSOL.Extremum.Core.DotNet.Tests
 {
     public static class IntervalVectorTests
     {
-        private static IntervalVector v1 = new Dictionary<string, Interval>()
+        private static IntervalVector v1 = new Dictionary<string, Interval>
         {
             {"x", 1.0 }, 
             {"y", new Interval(2.0, 3.0)},
             {"z", new Interval(3.0, 5.0)}
         };
-        private static IntervalVector v2 = new Dictionary<string, Interval>()
+        private static IntervalVector v2 = new Dictionary<string, Interval>
         {
             {"x", 1.0 }, 
             {"z", new Interval(-3.0, -2.0)}
@@ -55,7 +55,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static void TestAdditionWithImputation()
         {
             IntervalVector r1 = v1.AddImputeMissingKeys(v2);
-            IntervalVector r2 = new Dictionary<string, Interval>()
+            IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 2.0}, 
                 {"y", v1["y"]}, 
@@ -68,7 +68,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static void TestSubtraction()
         {
             IntervalVector r1 = v1 - v1;
-            IntervalVector r2 = new Dictionary<string, Interval>()
+            IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 0.0}, 
                 {"y", new Interval(-1.0, 1.0)}, 
@@ -81,7 +81,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static void TestSubtractionWithImputation()
         {
             IntervalVector r1 = v1.SubtractImputeMissingKeys(v2);
-            IntervalVector r2 = new Dictionary<string, Interval>()
+            IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 0.0}, 
                 {"y", v1["y"]}, 
@@ -95,7 +95,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static void TestMultiplication()
         {
             IntervalVector r1 = v1 * v1;
-            IntervalVector r2 = new Dictionary<string, Interval>()
+            IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 1.0}, 
                 {"y", new Interval(4.0, 9.0)}, 
@@ -108,7 +108,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static void TestMultiplicationWithImputation()
         {
             IntervalVector r1 = v1.MultiplyImputeMissingKeys(v2);
-            IntervalVector r2 = new Dictionary<string, Interval>()
+            IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 1.0}, 
                 {"y", v1["y"]}, 
@@ -127,13 +127,13 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static void TestSplitting_1()
         {
             var result = v1.Bisect();
-            IntervalVector r1 = new Dictionary<string, Interval>()
+            IntervalVector r1 = new Dictionary<string, Interval>
             {
                 {"x", 1.0}, 
                 {"y", new Interval(2.0, 3.0)}, 
                 {"z", new Interval(3.0, 4.0)}
             };
-            IntervalVector r2 = new Dictionary<string, Interval>()
+            IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 1.0}, 
                 {"y", new Interval(2.0, 3.0)}, 
@@ -147,13 +147,13 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static void TestSplitting_2()
         {
             var result = v1.Bisect(key: "y");
-            IntervalVector r1 = new Dictionary<string, Interval>()
+            IntervalVector r1 = new Dictionary<string, Interval>
             {
                 {"x", 1.0}, 
                 {"y", new Interval(2.0, 2.5)}, 
                 {"z", new Interval(3.0, 5.0)}
             };
-            IntervalVector r2 = new Dictionary<string, Interval>()
+            IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 1.0}, 
                 {"y", new Interval(2.5, 3.0)}, 
@@ -174,9 +174,9 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static void TestMoveBy()
         {
             IntervalVector r1 = v1
-                .MoveBy(new Dictionary<string, double>(){{"x", -1.0}})
-                .MoveBy(new Dictionary<string, double>(){{"z", -3.0}, {"y", -2.0}});
-            IntervalVector r2 = new Dictionary<string, Interval>()
+                .MoveBy(new Dictionary<string, double>{{"x", -1.0}})
+                .MoveBy(new Dictionary<string, double>{{"z", -3.0}, {"y", -2.0}});
+            IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 0.0}, 
                 {"y", new Interval(0.0, 1.0)}, 
@@ -189,10 +189,10 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static void TestConstrain()
         {
             IntervalVector r1 = v1
-                .Constrain(new Dictionary<string, Tuple<double, double>>() {{"x", Tuple.Create(-1.0, 0.0)}})
-                .Constrain(new Dictionary<string, Tuple<double, double>>() {{"y", Tuple.Create(3.0, 10.0)}})
-                .Constrain(new Dictionary<string, Tuple<double, double>>() {{"z", Tuple.Create(-5.0, 4.0)}});
-            IntervalVector r2 = new Dictionary<string, Interval>()
+                .Constrain(new Dictionary<string, Tuple<double, double>> {{"x", Tuple.Create(-1.0, 0.0)}})
+                .Constrain(new Dictionary<string, Tuple<double, double>> {{"y", Tuple.Create(3.0, 10.0)}})
+                .Constrain(new Dictionary<string, Tuple<double, double>> {{"z", Tuple.Create(-5.0, 4.0)}});
+            IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 0.0}, 
                 {"y", 3.0}, 

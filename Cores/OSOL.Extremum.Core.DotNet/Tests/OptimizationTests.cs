@@ -69,7 +69,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             {
                 var nodes = new GeneralNode<RealVector, double, RealVector>[]
                 {
-                    new SetParametersNode<RealVector, double, RealVector>(nodeId: 0, parameters: new Dictionary<string, object>() {{"generate", true}}),
+                    new SetParametersNode<RealVector, double, RealVector>(nodeId: 0, parameters: new Dictionary<string, object> {{"generate", true}}),
                     new SampleNode(nodeId: 1),
                     new TerminationViaMaxIterations<RealVector, double, RealVector>(nodeId: 2, maxIteration: 250),
                     new TerminationViaMaxTime<RealVector, double, RealVector>(nodeId: 3, maxTime: 2.5),
@@ -164,7 +164,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         private static Algorithm<IntervalVector, Interval, IntervalVector> toolInterval = DummyIntervalOptimization.CreateAlgorithm();
         private static Func<Dictionary<string, double>, double> fReal = v => Math.Abs(v["x"]);
         private static Func<Dictionary<string, Interval>, Interval> fInterval = v => v["x"].Abs();
-        private static Area area = new Dictionary<string, Tuple<double, double>>()
+        private static Area area = new Dictionary<string, Tuple<double, double>>
         {
             {"x", Tuple.Create(-10.0, 10.0)}
         };

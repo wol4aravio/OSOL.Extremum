@@ -9,10 +9,10 @@ namespace OSOL.Extremum.Core.DotNet.Tests
 {
     public static class RealVectorTests
     {
-        private static RealVector v1 = new Dictionary<string, double>(){ {"x", 1.0 }, {"y", 2.0 }, {"z", 3.0 }};
-        private static RealVector v2 = new Dictionary<string, double>(){ {"x", -1.0 }, {"y", -2.0 }, {"z", -3.0 }};
-        private static RealVector v3 = new Dictionary<string, double>(){ {"x", -1.0 }, {"z", -3.0 }};
-        private static RealVector z = new Dictionary<string, double>(){ {"x", 0.0 }, {"y", 0.0 }, {"z", 0.0 }};
+        private static RealVector v1 = new Dictionary<string, double>{ {"x", 1.0 }, {"y", 2.0 }, {"z", 3.0 }};
+        private static RealVector v2 = new Dictionary<string, double>{ {"x", -1.0 }, {"y", -2.0 }, {"z", -3.0 }};
+        private static RealVector v3 = new Dictionary<string, double>{ {"x", -1.0 }, {"z", -3.0 }};
+        private static RealVector z = new Dictionary<string, double>{ {"x", 0.0 }, {"y", 0.0 }, {"z", 0.0 }};
 
         [Fact]
         public static void TestKeys()
@@ -93,8 +93,8 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static void TestMoveBy()
         {
             RealVector r1 = v1
-                .MoveBy(new Dictionary<string, double>(){{"x", -1.0}})
-                .MoveBy(new Dictionary<string, double>(){{"z", -3.0}, {"y", -2.0}});
+                .MoveBy(new Dictionary<string, double>{{"x", -1.0}})
+                .MoveBy(new Dictionary<string, double>{{"z", -3.0}, {"y", -2.0}});
             Assert.True(r1 == z);
         }
 
@@ -102,9 +102,9 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static void TestConstrain()
         {
             RealVector r1 = v1
-                .Constrain(new Dictionary<string, Tuple<double, double>>() {{"x", Tuple.Create(-1.0, 0.0)}})
-                .Constrain(new Dictionary<string, Tuple<double, double>>() {{"y", Tuple.Create(3.0, 10.0)}})
-                .Constrain(new Dictionary<string, Tuple<double, double>>() {{"z", Tuple.Create(-5.0, 5.0)}});
+                .Constrain(new Dictionary<string, Tuple<double, double>> {{"x", Tuple.Create(-1.0, 0.0)}})
+                .Constrain(new Dictionary<string, Tuple<double, double>> {{"y", Tuple.Create(3.0, 10.0)}})
+                .Constrain(new Dictionary<string, Tuple<double, double>> {{"z", Tuple.Create(-5.0, 5.0)}});
             RealVector r2 = new Dictionary<string, double>() {{"x", 0.0}, {"y", 3.0}, {"z", 3.0}};
             Assert.True(r1 == r2);
         }

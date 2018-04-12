@@ -53,7 +53,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             Func<double, int> project = x => (int) x;
             Assert.Equal(
                 GetProbability(initialValues, project),
-                new Dictionary<int, double>()
+                new Dictionary<int, double>
                 {
                     {0, 0.5},
                     {2, 1.0 / 3.0},
@@ -64,7 +64,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         [Fact]
         static void TestDistanceFunction()
         {
-            Dictionary<int, double> prob = new Dictionary<int, double>()
+            Dictionary<int, double> prob = new Dictionary<int, double>
             {
                 {1, 1.0 / 7.0},
                 {2, 3.0 / 7.0},
@@ -80,12 +80,12 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         [Fact]
         static void TestDiscreteUniform()
         {
-            Dictionary<int, double> idealProb_x = new Dictionary<int, double>()
+            Dictionary<int, double> idealProb_x = new Dictionary<int, double>
             {
                 {0, 0.5},
                 {1, 0.5}
             };
-            Dictionary<int, double> idealProb_y = new Dictionary<int, double>()
+            Dictionary<int, double> idealProb_y = new Dictionary<int, double>
             {
                 {0, 1.0 / 3.0},
                 {1, 1.0 / 3.0},
@@ -113,14 +113,14 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         [Fact]
         static void TestContinuousUniform()
         {
-            Dictionary<int, double> idealProb_x = new Dictionary<int, double>()
+            Dictionary<int, double> idealProb_x = new Dictionary<int, double>
             {
                 {1, 0.25},
                 {2, 0.25},
                 {3, 0.25},
                 {4, 0.25}
             };
-            Dictionary<int, double> idealProb_y = new Dictionary<int, double>()
+            Dictionary<int, double> idealProb_y = new Dictionary<int, double>
             {
                 {1, 0.1},
                 {2, 0.1},
@@ -134,7 +134,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
                 {10, 0.1}
             };
 
-            Dictionary<string, Tuple<double, double>> prob = new Dictionary<string, Tuple<double, double>>()
+            Dictionary<string, Tuple<double, double>> prob = new Dictionary<string, Tuple<double, double>>
             {
                 {"x", Tuple.Create(0.0, 4.0)},
                 {"y", Tuple.Create(0.0, 10.0)}
@@ -158,7 +158,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         {
             var mu_sigma_x = Tuple.Create(17.0, 7.0);
             var mu_sigma_y = Tuple.Create(7.0, 17.0);
-            var prob = new Dictionary<string, Tuple<double, double>>()
+            var prob = new Dictionary<string, Tuple<double, double>>
             {
                 {"x", mu_sigma_x},
                 {"y", mu_sigma_y}
@@ -206,7 +206,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
                 chosenWithReturn.AddRange(gorn.GetFromSeries(data: elements.ToList(), n: n, withReturn: true));
             }
 
-            Dictionary<int, double> idealProb = new Dictionary<int, double>()
+            Dictionary<int, double> idealProb = new Dictionary<int, double>
             {
                 {1, 1.0 / 3.0},
                 {2, 1.0 / 3.0},
