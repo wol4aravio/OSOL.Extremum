@@ -200,7 +200,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             bool madeJson = false;
             try
             {
-                var json = toolReal.State.ConvertToJson();
+                toolReal.State.ConvertToJson();
                 madeJson = true;
             }
             catch (Exception e)
@@ -219,7 +219,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             bool madeJson = false;
             try
             {
-                var json = toolInterval.State.ConvertToJson();
+                toolInterval.State.ConvertToJson();
                 madeJson = true;
             }
             catch (Exception e)
