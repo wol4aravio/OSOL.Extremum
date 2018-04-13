@@ -10,11 +10,11 @@ namespace OSOL.Extremum.Core.DotNet.Tests
 {
     public static class RandomSearchTests
     {
-        public static double eps = 1e-3;
-        public static double r = 1.0;
-        public static double fiveSec = 5.0;
+        private static double eps = 1e-3;
+        private static double r = 1.0;
+        private static double fiveSec = 5.0;
 
-        public static double GetNorm(RealVector v) => Math.Sqrt(v.Elements.Values.Select(x => x * x).Sum());
+        private static double GetNorm(RealVector v) => Math.Sqrt(v.Elements.Values.Select(x => x * x).Sum());
 
         [Fact]
         static void Test_1()
