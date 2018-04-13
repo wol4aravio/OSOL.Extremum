@@ -92,7 +92,6 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static class DummyIntervalOptimization
         {
             private static string ParameterName = "sample";
-            private static GoRN gorn = new GoRN();
             
             public class SplitNode: GeneralNode<IntervalVector, Interval, IntervalVector>
             {
