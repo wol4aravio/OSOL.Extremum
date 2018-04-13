@@ -8,7 +8,7 @@ namespace OSOL.Extremum.Core.DotNet.Random
 {
     public class GoRN : IDiscreteUniform, IContinuousUniform, INormal
     {
-        private System.Random _seed;
+        private readonly System.Random _seed;
 
         public GoRN(int seed)
         {

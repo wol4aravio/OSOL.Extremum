@@ -6,7 +6,7 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
 {
     public class TypeSwitch
     {
-        Dictionary<Type, Action<object>> matches = new Dictionary<Type, Action<object>>();
+        readonly Dictionary<Type, Action<object>> matches = new Dictionary<Type, Action<object>>();
 
         public TypeSwitch Case<T>(Action<T> action)
         {
@@ -24,7 +24,7 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
     {
         public TV result = null;
 
-        private Dictionary<string, object> parameters = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> parameters = new Dictionary<string, object>();
 
         public void SetParameter<T>(string name, T value)
         {

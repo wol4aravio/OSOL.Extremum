@@ -9,7 +9,7 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
 
         public class ParameterAlreadyExistsException : Exception
         {
-            private string _parameterName;
+            private readonly string _parameterName;
 
             public ParameterAlreadyExistsException(string parameterName)
             {
@@ -19,7 +19,7 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
 
         public class NoSuchParameterException : Exception
         {
-            private string _parameterName;
+            private readonly string _parameterName;
 
             public NoSuchParameterException(string parameterName)
             {
