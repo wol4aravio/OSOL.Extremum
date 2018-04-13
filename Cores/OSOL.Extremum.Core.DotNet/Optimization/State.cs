@@ -51,7 +51,8 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
             foreach (var p in this.parameters)
             {
                 JObject temp = new JObject();
-                var ts = new TypeSwitch()
+                var ts = new TypeSwitch();
+                ts = ts
                     .Case((bool x) => temp[p.Key] = x)
                     .Case((double x) => temp[p.Key] = x)
                     .Case((int x) => temp[p.Key] = x)
