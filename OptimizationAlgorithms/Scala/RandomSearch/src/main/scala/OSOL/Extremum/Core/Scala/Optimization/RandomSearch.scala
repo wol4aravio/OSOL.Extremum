@@ -11,7 +11,7 @@ object RandomSearch {
   private val currentPointEfficiencyName = "currentPointEfficiency"
   private val radiusParameterName = "r"
 
-  private def generateRandomOnSphere(currentPoint: RealVector, radius: Double, area: Area): RealVector = {
+  private def generateRandomInSphere(currentPoint: RealVector, radius: Double, area: Area): RealVector = {
     val normallyDistributed = GoRN.getNormal(area.mapValues(_ => (0.0, 1.0)))
     val r = math.sqrt(normallyDistributed.values.map(v => v * v).sum)
     (currentPoint + normallyDistributed * (GoRN.getContinuousUniform(-1.0, 1.0) / r)).constrain(area)
@@ -38,7 +38,7 @@ object RandomSearch {
       val currentPointEfficiency = state.getParameter[Double](currentPointEfficiencyName)
       val r = state.getParameter[Double](radiusParameterName)
 
-      val newPoint = generateRandomOnSphere(currentPoint, r, area)
+      val newPoint = generateRandomInSphere(currentPoint, r, area)
       val newPointEfficiency = newPoint.getPerformance(f)
 
       if (newPointEfficiency < currentPointEfficiency) {

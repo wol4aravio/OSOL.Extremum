@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <PackageVersion>0.0.1</PackageVersion>
+    <Authors>Valentin Panovskiy</Authors>
+    <AssemblyName>OSOL.Extremum.Core.DotNet.RandomSearch</AssemblyName>
+    <RootNamespace>OSOL.Extremum.Core.DotNet</RootNamespace>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="OSOL.Extremum.Core.DotNet" Version="0.0.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+    <DotNetCliToolReference Include="MiniCover" Version="2.0.0-ci-20180329054201" />
+  </ItemGroup>
+</Project>
