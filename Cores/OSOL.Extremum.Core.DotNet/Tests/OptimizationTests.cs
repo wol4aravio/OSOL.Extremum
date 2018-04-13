@@ -92,7 +92,6 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         public static class DummyIntervalOptimization
         {
             private static string ParameterName = "sample";
-            private static GoRN gorn = new GoRN();
             
             public class SplitNode: GeneralNode<IntervalVector, Interval, IntervalVector>
             {
@@ -201,7 +200,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             bool madeJson = false;
             try
             {
-                var json = toolReal.State.ConvertToJson();
+                toolReal.State.ConvertToJson();
                 madeJson = true;
             }
             catch (Exception e)
@@ -220,7 +219,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             bool madeJson = false;
             try
             {
-                var json = toolInterval.State.ConvertToJson();
+                toolInterval.State.ConvertToJson();
                 madeJson = true;
             }
             catch (Exception e)

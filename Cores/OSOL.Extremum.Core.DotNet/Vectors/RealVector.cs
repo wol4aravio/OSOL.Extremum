@@ -49,7 +49,7 @@ namespace OSOL.Extremum.Core.DotNet.Vectors
             this.ElementWiseOpImputeMissingKeys(that, (x, y) => x + y, defaultValue: 0.0);
 
         public sealed override Dictionary<string, double> Multiply(double coefficient) =>
-            this.Elements.Select(x => (x.Key, coefficient * x.Value)).ToDictionary(x => x.Item1, x => x.Item2);
+            this.Elements.ToDictionary(x => x.Key, x => coefficient * x.Value);
 
         public sealed override Dictionary<string, double> Multiply(VectorObject<double> that) =>
             this.ElementWiseOp(that, (x, y) => x * y);

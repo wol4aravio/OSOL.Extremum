@@ -17,7 +17,8 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
 
         public Interval(double value)
         {
-            this.LowerBound = this.UpperBound = value;
+            this.LowerBound = value;
+            this.UpperBound = value;
         }
 
         public Interval(JObject json)
@@ -36,7 +37,8 @@ namespace OSOL.Extremum.Core.DotNet.Arithmetics
             double w = upperBound - lowerBound;
             if (w < MinWidth)
             {
-                this.LowerBound = this.UpperBound = 0.5 * (lowerBound + upperBound);
+                this.LowerBound = 0.5 * (lowerBound + upperBound);
+                this.UpperBound = 0.5 * (lowerBound + upperBound);
             }
             else
             {
