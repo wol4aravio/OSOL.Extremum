@@ -92,7 +92,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
                 {2, 1.0 / 3.0}
             };
 
-            Dictionary<string, Tuple<int, int>> prob = new Dictionary<string, Tuple<int, int>>()
+            Dictionary<string, Tuple<int, int>> prob = new Dictionary<string, Tuple<int, int>>
             {
                 {"x", Tuple.Create(0, 1)},
                 {"y", Tuple.Create(0, 2)}
