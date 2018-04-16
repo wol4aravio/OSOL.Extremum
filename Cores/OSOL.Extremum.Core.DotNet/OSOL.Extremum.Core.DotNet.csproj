@@ -12,4 +12,12 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
     <DotNetCliToolReference Include="MiniCover" Version="2.0.0-ci-20180329054201" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Arithmetics" />
+    <Folder Include="CodeFeatures" />
+    <Folder Include="Optimization" />
+    <Folder Include="Random" />
+    <Folder Include="Tests" />
+    <Folder Include="Vectors" />
+  </ItemGroup>
 </Project>
