@@ -1,12 +1,14 @@
 package OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser
 
 import OSOL.Extremum.Core.Scala.Arithmetics.Interval
+import OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser.Trees.{Tree, TreeD, TreeI}
 import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
 
 object Parser {
 
-  private object ParserMethods {
+  object ParserMethods {
 
+    val space: (String, String) = " " -> ""
     val doubleMinus: (String, String) = "(\\-\\-)" -> "+"
     val plusMinus: (String, String) = "(\\+\\-)" -> "-"
     val minusPlus: (String, String) = "(\\-\\+)" -> "-"
@@ -14,7 +16,7 @@ object Parser {
     val afterOpeningBracket: (String, String) = "(\\(\\-)" -> "(~"
     val unnecessaryAddition: (String, String) = "(\\(\\+)" -> "("
 
-    val rules = Seq(doubleMinus, plusMinus, minusPlus, inTheBeginning, afterOpeningBracket, unnecessaryAddition)
+    val rules = Seq(space, doubleMinus, plusMinus, minusPlus, inTheBeginning, afterOpeningBracket, unnecessaryAddition)
 
     val tokenRegex = "(?<=[-+{*}/{)~(}^])|(?=[-+{*}/{)~(}^])"
 
