@@ -1,16 +1,9 @@
 package OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser
 
 import OSOL.Extremum.Core.Scala.Vectors.VectorObject
+import OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser.Tree._
 
 object TreeD {
-
-  abstract class BinaryOpTree[Double](left: Tree[Double], right: Tree[Double], op: (Double, Double) => Double) extends Tree[Double] {
-    final override def calculate(v: VectorObject[Double]): Double = op(left.calculate(v), right.calculate(v))
-  }
-
-  abstract class UnaryOpTree[Double](subTree: Tree[Double], op: Double => Double) extends Tree[Double] {
-    final override def calculate(v: VectorObject[Double]): Double = op(subTree.calculate(v))
-  }
 
   class AdditionTree(left: Tree[Double], right: Tree[Double]) extends BinaryOpTree[Double](left, right, (x, y) => x + y)
 

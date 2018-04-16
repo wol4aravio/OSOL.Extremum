@@ -2,16 +2,10 @@ package OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser
 
 import OSOL.Extremum.Core.Scala.Vectors.VectorObject
 import OSOL.Extremum.Core.Scala.Arithmetics.Interval
+import OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser.Tree._
+
 
 object TreeI {
-
-  abstract class BinaryOpTree[Interval](left: Tree[Interval], right: Tree[Interval], op: (Interval, Interval) => Interval) extends Tree[Interval] {
-    final override def calculate(v: VectorObject[Interval]): Interval = op(left.calculate(v), right.calculate(v))
-  }
-
-  abstract class UnaryOpTree[Interval](subTree: Tree[Interval], op: Interval => Interval) extends Tree[Interval] {
-    final override def calculate(v: VectorObject[Interval]): Interval = op(subTree.calculate(v))
-  }
 
   class AdditionTree(left: Tree[Interval], right: Tree[Interval]) extends BinaryOpTree[Interval](left, right, (x, y) => x + y)
 
