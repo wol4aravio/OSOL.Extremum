@@ -1,53 +1,48 @@
 package OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser
 
+import OSOL.Extremum.Core.Scala.Vectors.VectorObject
 import OSOL.Extremum.Core.Scala.Arithmetics.Interval
-
-abstract class TreeI {
-
-  def calculate(values: Map[String, Interval]): Interval
-
-}
 
 object TreeI {
 
-  abstract class BinaryOpTreeI(left: TreeI, right: TreeI, op: (Interval, Interval) => Interval) extends TreeI {
-    final override def calculate(values: Map[String, Interval]): Interval = op(left.calculate(values), right.calculate(values))
+  abstract class BinaryOpTree[Interval](left: Tree[Interval], right: Tree[Interval], op: (Interval, Interval) => Interval) extends Tree[Interval] {
+    final override def calculate(v: VectorObject[Interval]): Interval = op(left.calculate(v), right.calculate(v))
   }
 
-  abstract class UnaryOpTree(subTree: TreeI, op: Interval => Interval) extends TreeI {
-    final override def calculate(values: Map[String, Interval]): Interval = op(subTree.calculate(values))
+  abstract class UnaryOpTree[Interval](subTree: Tree[Interval], op: Interval => Interval) extends Tree[Interval] {
+    final override def calculate(v: VectorObject[Interval]): Interval = op(subTree.calculate(v))
   }
 
-  class AdditionTree(left: TreeI, right: TreeI) extends BinaryOpTreeI(left, right, (x, y) => x + y)
+  class AdditionTree(left: Tree[Interval], right: Tree[Interval]) extends BinaryOpTree[Interval](left, right, (x, y) => x + y)
 
-  class SubtractionTree(left: TreeI, right: TreeI) extends BinaryOpTreeI(left, right, (x, y) => x - y)
+  class SubtractionTree(left: Tree[Interval], right: Tree[Interval]) extends BinaryOpTree[Interval](left, right, (x, y) => x - y)
 
-  class MultiplicationTree(left: TreeI, right: TreeI) extends BinaryOpTreeI(left, right, (x, y) => x * y)
+  class MultiplicationTree(left: Tree[Interval], right: Tree[Interval]) extends BinaryOpTree[Interval](left, right, (x, y) => x * y)
 
-  class DivisionTree(left: TreeI, right: TreeI) extends BinaryOpTreeI(left, right, (x, y) => x / y)
+  class DivisionTree(left: Tree[Interval], right: Tree[Interval]) extends BinaryOpTree[Interval](left, right, (x, y) => x / y)
 
-  class PowerTree(left: TreeI, right: TreeI) extends BinaryOpTreeI(left, right, (x, y) => x ** y)
+  class PowerTree(left: Tree[Interval], right: Tree[Interval]) extends BinaryOpTree[Interval](left, right, (x, y) => x ** y)
 
-  class NegTree(subTree: TreeI) extends UnaryOpTree(subTree, x => -x)
+  class NegTree(subTree: Tree[Interval]) extends UnaryOpTree[Interval](subTree, x => -x)
 
-  class SinTree(subTree: TreeI) extends UnaryOpTree(subTree, x => x.sin())
+  class SinTree(subTree: Tree[Interval]) extends UnaryOpTree[Interval](subTree, x => x.sin())
 
-  class CosTree(subTree: TreeI) extends UnaryOpTree(subTree, x => x.cos())
+  class CosTree(subTree: Tree[Interval]) extends UnaryOpTree[Interval](subTree, x => x.cos())
 
-  class ExpTree(subTree: TreeI) extends UnaryOpTree(subTree, x => x.exp())
+  class ExpTree(subTree: Tree[Interval]) extends UnaryOpTree[Interval](subTree, x => x.exp())
 
-  class AbsTree(subTree: TreeI) extends UnaryOpTree(subTree, x => x.abs())
+  class AbsTree(subTree: Tree[Interval]) extends UnaryOpTree[Interval](subTree, x => x.abs())
 
-  class LnTree(subTree: TreeI) extends UnaryOpTree(subTree, x => x.ln())
+  class LnTree(subTree: Tree[Interval]) extends UnaryOpTree[Interval](subTree, x => x.ln())
 
-  class SqrtTree(subTree: TreeI) extends UnaryOpTree(subTree, x => x.sqrt())
+  class SqrtTree(subTree: Tree[Interval]) extends UnaryOpTree[Interval](subTree, x => x.sqrt())
 
-  class ConstantTree(value: Interval) extends TreeI {
-    final override def calculate(values: Map[String, Interval]): Interval = value
+  class ConstantTree(value: Interval) extends Tree[Interval] {
+    final override def calculate(v: VectorObject[Interval]): Interval = value
   }
 
-  class VariableTree(varName: String) extends TreeI {
-    final override def calculate(values: Map[String, Interval]): Interval = values(varName)
+  class VariableTree(varName: String) extends Tree[Interval] {
+    final override def calculate(v: VectorObject[Interval]): Interval = v(varName)
   }
 
 }
