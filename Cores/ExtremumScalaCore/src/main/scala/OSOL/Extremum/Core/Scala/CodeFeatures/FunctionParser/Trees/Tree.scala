@@ -1,4 +1,4 @@
-package OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser
+package OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser.Trees
 
 import OSOL.Extremum.Core.Scala.Vectors.VectorObject
 

@@ -1,9 +1,8 @@
-package OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser
+package OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser.Trees
 
-import OSOL.Extremum.Core.Scala.Vectors.VectorObject
+import OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser.Trees.Tree._
 import OSOL.Extremum.Core.Scala.Arithmetics.Interval
-import OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser.Tree._
-
+import OSOL.Extremum.Core.Scala.Vectors.VectorObject
 
 object TreeI {
 
