@@ -7,6 +7,16 @@ env:
 
 jobs:
   include:
+    - stage: preliminaries
+      language: python
+      python: "3.6"
+      before_script:
+        - cd PyTools
+      script:
+        - sbt clean coverage test coverageReport
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+
     - stage: cores
       language: scala
       scala: 2.12.5
