@@ -1,146 +1,127 @@
 package OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser
 
+import java.io.{File, PrintWriter}
+
 import OSOL.Extremum.Core.Scala.Arithmetics.Interval
 import OSOL.Extremum.Core.Scala.CodeFeatures.FunctionParser.Trees.{Tree, TreeD, TreeI}
-import OSOL.Extremum.Core.Scala.CodeFeatures.Pipe
+import OSOL.Extremum.Core.Scala.CodeFeatures._
+import spray.json._
+
+import scala.sys.process.Process
 
 object Parser {
+  
+  class UnsupportedOperation(message: String) extends Exception
 
-  object ParserMethods {
-
-    val space: (String, String) = " " -> ""
-    val doubleMinus: (String, String) = "(\\-\\-)" -> "+"
-    val plusMinus: (String, String) = "(\\+\\-)" -> "-"
-    val minusPlus: (String, String) = "(\\-\\+)" -> "-"
-    val inTheBeginning: (String, String) = "(\\A\\-)" -> "~"
-    val afterOpeningBracket: (String, String) = "(\\(\\-)" -> "(~"
-    val unnecessaryAddition: (String, String) = "(\\(\\+)" -> "("
-
-    val rules = Seq(space, doubleMinus, plusMinus, minusPlus, inTheBeginning, afterOpeningBracket, unnecessaryAddition)
-
-    val tokenRegex = "(?<=[-+{*}/{)~(}^])|(?=[-+{*}/{)~(}^])"
-
-    val functionNames = Seq("~", "sin", "cos", "exp", "abs", "sqrt", "ln")
-
-    val operators = Seq("+", "-", "*", "/", "^")
-
-    val priority: Map[String, Int] =
-      Map(
-        "+" -> 1,
-        "-" -> 1,
-        "*" -> 2,
-        "/" -> 2,
-        "^" -> 3,
-        "(" -> 0,
-        ")" -> 0
-      ) ++ functionNames.map(_ -> 4)
-
-    val associativity: Map[String, Int] = Map(
-      "+" -> -1,
-      "-" -> -1,
-      "*" -> -1,
-      "/" -> -1,
-      "^" -> 1
-    ) // "-1" for left, "1" for right
-
-    @scala.annotation.tailrec
-    def toPostfixPart(seq: Seq[String], stack: Seq[String], postfix: Seq[String]): Seq[String] = seq match {
-      case current +: tail =>
-        if (functionNames.contains(current) || current == "(") toPostfixPart(tail, current +: stack, postfix)
-        else {
-          if (current == ")") {
-            if (!stack.contains("(")) throw new Exception("Smth is wrong with brackets")
-            else {
-              val symbols = stack.takeWhile(_ != "(")
-              toPostfixPart(tail, stack.drop(symbols.length).tail, postfix ++ symbols)
-            }
-          }
-          else {
-            if (operators.contains(current)) {
-              val symbols =
-                stack.takeWhile { symbol =>
-                  (associativity(current) == 1 && priority(symbol) > priority(current)) ||
-                    (associativity(current) == -1 && priority(symbol) >= priority(current))
-                }
-              toPostfixPart(tail, current +: stack.drop(symbols.length), postfix ++ symbols)
-            }
-            else toPostfixPart(tail, stack, postfix :+ current)
-          }
+  def buildTreeD(json: JsValue): Tree[Double] = {
+    val jsonObject = json.asJsObject
+    jsonObject.getFields("type") match {
+      case Seq(JsString("binary")) => {
+        val Seq(op, left, right) = jsonObject.getFields("op", "left", "right")
+        val leftTree = buildTreeD(left)
+        val rightTree = buildTreeD(right)
+        op match {
+          case JsString("add") => new TreeD.AdditionTree(leftTree, rightTree)
+          case JsString("sub") => new TreeD.SubtractionTree(leftTree, rightTree)
+          case JsString("mult") => new TreeD.MultiplicationTree(leftTree, rightTree)
+          case JsString("div") => new TreeD.DivisionTree(leftTree, rightTree)
+          case JsString("pow") => new TreeD.PowerTree(leftTree, rightTree)
+          case _ => throw new UnsupportedOperation(s"Unsupported op: $op")
         }
-      case Nil =>
-        if (!stack.forall(symbol => functionNames.contains(symbol) || operators.contains(symbol)))
-          throw new BadBracketsException()
-        else
-          postfix ++ stack
+      }
+      case Seq(JsString("unary")) => {
+        val Seq(op, operand) = jsonObject.getFields("op", "operand")
+        val operandTree = buildTreeD(operand)
+        op match {
+          case JsString("usub") => new TreeD.NegTree(operandTree)
+          case _ => throw new UnsupportedOperation(s"Unsupported op: $op")
+        }
+      }
+      case Seq(JsString("func")) => {
+        val Seq(func, args) = jsonObject.getFields("func", "args")
+        val argsTrees = args.asInstanceOf[JsArray].elements.map(buildTreeD)
+        func match {
+          case JsString("sin") => new TreeD.SinTree(argsTrees(0))
+          case JsString("cos") => new TreeD.CosTree(argsTrees(0))
+          case JsString("exp") => new TreeD.ExpTree(argsTrees(0))
+          case JsString("abs") => new TreeD.AbsTree(argsTrees(0))
+          case JsString("ln") => new TreeD.LnTree(argsTrees(0))
+          case JsString("sqrt") => new TreeD.SqrtTree(argsTrees(0))
+          case _ => throw new UnsupportedOperation(s"Unsupported func: $func")
+        }
+      }
+      case Seq(JsString("const")) => {
+        val Seq(value) = jsonObject.getFields("value")
+        new TreeD.ConstantTree(value.toString().toDouble)
+      }
+      case Seq(JsString("var")) => {
+        val Seq(name) = jsonObject.getFields("name")
+        new TreeD.VariableTree(name.toString().drop(1).dropRight(1))
+      }
+      case _ => throw new DeserializationException(s"Can't parse $json")
     }
-
-    @scala.annotation.tailrec
-    def buildTreeD(stack: Seq[Tree[Double]], postfix: Seq[String]): Tree[Double] =
-      postfix match {
-        case current +: rest =>
-          current match {
-            case "+" => buildTreeD(new TreeD.AdditionTree(stack(1), stack.head) +: stack.drop(2), rest)
-            case "-" => buildTreeD(new TreeD.SubtractionTree(stack(1), stack.head) +: stack.drop(2), rest)
-            case "*" => buildTreeD(new TreeD.MultiplicationTree(stack(1), stack.head) +: stack.drop(2), rest)
-            case "/" => buildTreeD(new TreeD.DivisionTree(stack(1), stack.head) +: stack.drop(2), rest)
-            case "^" => buildTreeD(new TreeD.PowerTree(stack(1), stack.head) +: stack.drop(2), rest)
-            case "~" => buildTreeD(new TreeD.NegTree(stack.head) +: stack.tail, rest)
-            case "sin" => buildTreeD(new TreeD.SinTree(stack.head) +: stack.tail, rest)
-            case "cos" => buildTreeD(new TreeD.CosTree(stack.head) +: stack.tail, rest)
-            case "exp" => buildTreeD(new TreeD.ExpTree(stack.head) +: stack.tail, rest)
-            case "abs" => buildTreeD(new TreeD.AbsTree(stack.head) +: stack.tail, rest)
-            case "ln" => buildTreeD(new TreeD.LnTree(stack.head) +: stack.tail, rest)
-            case "sqrt" => buildTreeD(new TreeD.SqrtTree(stack.head) +: stack.tail, rest)
-            case varName if current.matches("[a-zA-z]{1,}\\d{0,}") => buildTreeD(new TreeD.VariableTree(varName) +: stack, rest)
-            case _ => buildTreeD(new TreeD.ConstantTree(current.toDouble) +: stack, rest)
-          }
-        case Nil => stack.head
-      }
-
-    @scala.annotation.tailrec
-    def buildTreeI(stack: Seq[Tree[Interval]], postfix: Seq[String]): Tree[Interval] =
-      postfix match {
-        case current +: rest =>
-          current match {
-            case "+" => buildTreeI(new TreeI.AdditionTree(stack(1), stack.head) +: stack.drop(2), rest)
-            case "-" => buildTreeI(new TreeI.SubtractionTree(stack(1), stack.head) +: stack.drop(2), rest)
-            case "*" => buildTreeI(new TreeI.MultiplicationTree(stack(1), stack.head) +: stack.drop(2), rest)
-            case "/" => buildTreeI(new TreeI.DivisionTree(stack(1), stack.head) +: stack.drop(2), rest)
-            case "^" => buildTreeI(new TreeI.PowerTree(stack(1), stack.head) +: stack.drop(2), rest)
-            case "~" => buildTreeI(new TreeI.NegTree(stack.head) +: stack.tail, rest)
-            case "sin" => buildTreeI(new TreeI.SinTree(stack.head) +: stack.tail, rest)
-            case "cos" => buildTreeI(new TreeI.CosTree(stack.head) +: stack.tail, rest)
-            case "exp" => buildTreeI(new TreeI.ExpTree(stack.head) +: stack.tail, rest)
-            case "abs" => buildTreeI(new TreeI.AbsTree(stack.head) +: stack.tail, rest)
-            case "ln" => buildTreeI(new TreeI.LnTree(stack.head) +: stack.tail, rest)
-            case "sqrt" => buildTreeI(new TreeI.SqrtTree(stack.head) +: stack.tail, rest)
-            case varName if current.matches("[a-zA-z]{1,}\\d{0,}") => buildTreeI(new TreeI.VariableTree(varName) +: stack, rest)
-            case _ => buildTreeI(new TreeI.ConstantTree(Interval(current.toDouble)) +: stack, rest)
-          }
-        case Nil => stack.head
-      }
-
-    def prepare(str: String): String =
-      rules.foldLeft(str) { case (s, (rule, sub)) => s.replaceAll(rule, sub) }
-
-    def toTokens(str: String): Seq[String] =
-      str.split(tokenRegex)
-
-    def toPostfix(seq: Seq[String]): Seq[String] =
-      toPostfixPart(seq, Seq(), Seq())
-
-    def toTreeD(postfix: Seq[String]): Tree[Double] =
-      buildTreeD(Seq(), postfix)
-
-    def toTreeI(postfix: Seq[String]): Tree[Interval] =
-      buildTreeI(Seq(), postfix)
-
   }
 
-  def parseToDoubleTree(str: String): Tree[Double] =
-    str |> ParserMethods.prepare |> ParserMethods.toTokens |> ParserMethods.toPostfix |> ParserMethods.toTreeD
+  def buildTreeI(json: JsValue): Tree[Interval] = {
+    val jsonObject = json.asJsObject
+    jsonObject.getFields("type") match {
+      case Seq(JsString("binary")) => {
+        val Seq(op, left, right) = jsonObject.getFields("op", "left", "right")
+        val leftTree = buildTreeI(left)
+        val rightTree = buildTreeI(right)
+        op match {
+          case JsString("add") => new TreeI.AdditionTree(leftTree, rightTree)
+          case JsString("sub") => new TreeI.SubtractionTree(leftTree, rightTree)
+          case JsString("mult") => new TreeI.MultiplicationTree(leftTree, rightTree)
+          case JsString("div") => new TreeI.DivisionTree(leftTree, rightTree)
+          case JsString("pow") => new TreeI.PowerTree(leftTree, rightTree)
+          case _ => throw new UnsupportedOperation(s"Unsupported op: $op")
+        }
+      }
+      case Seq(JsString("unary")) => {
+        val Seq(op, operand) = jsonObject.getFields("op", "operand")
+        val operandTree = buildTreeI(operand)
+        op match {
+          case JsString("usub") => new TreeI.NegTree(operandTree)
+          case _ => throw new UnsupportedOperation(s"Unsupported op: $op")
+        }
+      }
+      case Seq(JsString("func")) => {
+        val Seq(func, args) = jsonObject.getFields("func", "args")
+        val argsTrees = args.asInstanceOf[JsArray].elements.map(buildTreeI)
+        func match {
+          case JsString("sin") => new TreeI.SinTree(argsTrees(0))
+          case JsString("cos") => new TreeI.CosTree(argsTrees(0))
+          case JsString("exp") => new TreeI.ExpTree(argsTrees(0))
+          case JsString("abs") => new TreeI.AbsTree(argsTrees(0))
+          case JsString("ln") => new TreeI.LnTree(argsTrees(0))
+          case JsString("sqrt") => new TreeI.SqrtTree(argsTrees(0))
+          case _ => throw new UnsupportedOperation(s"Unsupported func: $func")
+        }
+      }
+      case Seq(JsString("const")) => {
+        val Seq(value) = jsonObject.getFields("value")
+        new TreeI.ConstantTree(Interval(value.toString().toDouble))
+      }
+      case Seq(JsString("var")) => {
+        val Seq(name) = jsonObject.getFields("name")
+        new TreeI.VariableTree(name.toString().drop(1).dropRight(1))
+      }
+      case _ => throw new DeserializationException(s"Can't parse $json")
+    }
+  }
 
-  def parseToIntervalTree(str: String): Tree[Interval] =
-    str |> ParserMethods.prepare |> ParserMethods.toTokens |> ParserMethods.toPostfix |> ParserMethods.toTreeI
+  def parseString(str: String): JsValue = {
+    val rootFolder = "temp"
+    val parserLibFile = extractResource("parser", "py", "parser", s"$rootFolder/parser")
+    val parserLibInitFile = extractResource("__init__", "py", "parser", s"$rootFolder/parser")
+    val parserAppFile = extractResource("parser_app", "py", "apps", s"$rootFolder")
+    val treeJson = (Process("python",  Seq(parserAppFile.getAbsolutePath, "--function", str)) !!).replace('\'', '\"').parseJson
+    deleteDirectory(new File(rootFolder))
+    treeJson
+  }
 
+  def parseToDoubleTree(str: String): Tree[Double] = str |> parseString |> buildTreeD
+
+  def parseToIntervalTree(str: String): Tree[Interval] = str |> parseString |> buildTreeI
 }
