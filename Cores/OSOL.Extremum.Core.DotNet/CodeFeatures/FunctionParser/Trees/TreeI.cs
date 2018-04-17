@@ -115,7 +115,7 @@ namespace OSOL.Extremum.Core.DotNet.CodeFeatures.FunctionParser.Trees
             public SqrtTree(Tree<Interval> subTree)
             {
                 this.SubTree = subTree;
-                this.Op = x => x.Sqrt()();
+                this.Op = x => x.Sqrt();
             }
         }
     }
