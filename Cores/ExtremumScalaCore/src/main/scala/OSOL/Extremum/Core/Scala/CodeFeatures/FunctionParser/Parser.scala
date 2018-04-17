@@ -116,7 +116,10 @@ object Parser {
     val parserLibFile = extractResource("parser", "py", "parser", s"$rootFolder/parser")
     val parserLibInitFile = extractResource("__init__", "py", "parser", s"$rootFolder/parser")
     val parserAppFile = extractResource("parser_app", "py", "apps", s"$rootFolder")
-    val treeJson = (Process("python",  Seq(parserAppFile.getAbsolutePath, "--function", str)) !!).replace('\'', '\"').parseJson
+    val treeJson = (Process("python",  Seq(parserAppFile.getAbsolutePath, "--function", str)) !!)
+      .replace('\'', '\"')
+      .replace("u\"", "\"")
+      .parseJson
     deleteDirectory(new File(rootFolder))
     treeJson
   }
