@@ -12,6 +12,7 @@ jobs:
       python: "3.6"
       before_script:
         - cd PyTools
+        - pip install pytest pytest-cov
       script:
         - pytest --cov=./ --ignore=./apps/* && rm .coverage
       after_success:
