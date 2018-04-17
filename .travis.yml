@@ -15,7 +15,7 @@ jobs:
         - pip install -r requirements.txt
         - pip install pytest pytest-cov
       script:
-        - pytest --cov=./ --ignore=./apps/* && rm .coverage
+        - pytest --cov=./ --ignore=./apps/*
       after_success:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
