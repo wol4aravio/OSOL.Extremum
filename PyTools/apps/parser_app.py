@@ -4,6 +4,7 @@ import os
 cwd = os.getcwd()
 sys.path.insert(0, cwd)
 sys.path.insert(0, cwd[:cwd.rindex('/')])
+sys.path.insert(0, cwd + '/temp')
 
 from argparse import ArgumentParser, RawTextHelpFormatter
 from parser.parser import parse_to_tree

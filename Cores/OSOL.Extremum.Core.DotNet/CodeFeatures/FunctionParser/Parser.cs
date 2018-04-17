@@ -1,39 +1,62 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Reflection;
+using Newtonsoft.Json.Linq;
 
 namespace OSOL.Extremum.Core.DotNet.CodeFeatures.FunctionParser
 {
     public static class Parser
     {
-        private static Tuple<string, string> space = Tuple.Create(" ", "");
-        private static Tuple<string, string> doubleMinus = Tuple.Create("\\-\\-", "+");
-        private static Tuple<string, string> plusMinus = Tuple.Create("\\+\\-", "-");
-        private static Tuple<string, string> minusPlus = Tuple.Create("\\-\\+", "-");
-        private static Tuple<string, string> inTheBeginning = Tuple.Create("^\\-", "~");
-        private static Tuple<string, string> afterOpeningBracket = Tuple.Create("\\(\\-", "(~");
-        private static Tuple<string, string> unnecessaryAddition = Tuple.Create("\\(\\+", "(");
-        
-        private static string tokenRegex = "(?<=[-+{*}/{)~(}^])|(?=[-+{*}/{)~(}^])";
-        
-        private static Tuple<string, string>[] rules = new[]
+        private static FileStream ExtractResource(string filename, string suffix, string location = "", string where = ".")
         {
-            space,
-            doubleMinus,
-            plusMinus,
-            minusPlus,
-            inTheBeginning,
-            afterOpeningBracket,
-            unnecessaryAddition
-        };
+            var assembly = Assembly.GetExecutingAssembly();
+            string resourceName = $"OSOL.Extremum.Core.DotNet.Resources.{filename}.{suffix}";
+            if(location.Length != 0)
+            {
+                resourceName = $"OSOL.Extremum.Core.DotNet.Resources.{location}.{filename}.{suffix}";
+            }
+            var resource = assembly.GetManifestResourceStream(resourceName);
 
-        public static string Prepare(string str) =>
-            rules.Aggregate(str, (f, rule) => Regex.Replace(f, rule.Item1, rule.Item2));
+            if (!Directory.Exists(where))
+            {
+                Directory.CreateDirectory(where);
+            }
 
-        public static string[] ToTokens(string str) => Regex.Split(str, tokenRegex).Where(_ => _.Length > 0).ToArray();
-//
-//        def toTokens(str: String): Seq[String] =
-//        str.split(tokenRegex)
+            var file = File.Create($"{where}/{filename}.{suffix}");
+            resource.CopyTo(file);
+            file.Close();
 
+            return file;
+        }
+        
+        public static object ParseString(string str)
+        {
+            var rootFolder = "temp";
+            var parserLibFile = ExtractResource("parser", "py", "parser", $"{rootFolder}/parser");
+            var parserLibInitFile = ExtractResource("__init__", "py", "parser", $"{rootFolder}/parser");
+            var parserAppFile = ExtractResource("parser_app", "py", "apps", rootFolder);
+            
+            
+            
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.FileName = "python";
+            start.Arguments = $"{parserAppFile.Name} --function \"{str}\"";
+            start.UseShellExecute = false;
+            start.RedirectStandardOutput = true;
+            
+            using (Process process = Process.Start(start))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string result = reader.ReadToEnd();
+                    
+                    Directory.Delete(rootFolder, true);
+                    return result;
+                }
+            }
+            
+        }
     }
 }
