@@ -13,7 +13,7 @@ jobs:
       before_script:
         - cd PyTools
       script:
-        - sbt clean coverage test coverageReport
+        - pytest --cov=./ --ignore=./apps/* && rm .coverage
       after_success:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
