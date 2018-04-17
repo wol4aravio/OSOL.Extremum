@@ -17,13 +17,13 @@ class ParserSuite extends FunSuite {
   test("DoubleTreeFunction") {
     val f = DoubleTreeFunction(str)
     val testPoints = (1 to N).map(_ => GoRN.getContinuousUniform(Seq("x", "y", "z").map(k => (k, (-1.0, 1.0))).toMap)).map(v => RealVector(v))
-    assert(testPoints.forall(x => fDouble(x.elements) - f(x) < tol))
+    assert(testPoints.forall(x => math.abs(fDouble(x.elements) - f(x)) < tol))
   }
 
   test("IntervalTreeFunction") {
     val f = IntervalTreeFunction(str)
     val testPoints = (1 to N).map(_ => GoRN.getContinuousUniform(Seq("x", "y", "z").map(k => (k, (-1.0, 1.0))).toMap)).map(_.mapValues(Interval(_))).map(v => IntervalVector(v))
-    assert(testPoints.forall(x => (fInterval(x.elements) - f(x)).middlePoint < tol))
+    assert(testPoints.forall(x => ((fInterval(x.elements) - f(x)).abs()).middlePoint < tol))
   }
 
 }
