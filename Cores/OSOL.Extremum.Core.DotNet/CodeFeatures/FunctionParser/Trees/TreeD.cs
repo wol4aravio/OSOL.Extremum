@@ -1,4 +1,5 @@
 ﻿using System;
+using OSOL.Extremum.Core.DotNet.Vectors;
 
 namespace OSOL.Extremum.Core.DotNet.CodeFeatures.FunctionParser.Trees
 {
@@ -115,6 +116,30 @@ namespace OSOL.Extremum.Core.DotNet.CodeFeatures.FunctionParser.Trees
                 this.SubTree = subTree;
                 this.Op = Math.Sqrt;
             }
+        }
+
+        public class ConstantTree : Tree<double>
+        {
+            public double Value;
+
+            public ConstantTree(double value)
+            {
+                this.Value = value;
+            }
+
+            public override double Calculate(VectorObject<double> v) => Value;
+        }
+
+        public class VariableTree : Tree<double>
+        {
+            public string VarName;
+
+            public VariableTree(string varName)
+            {
+                this.VarName = varName;
+            }
+
+            public override double Calculate(VectorObject<double> v) => v[VarName];
         }
     }
 }

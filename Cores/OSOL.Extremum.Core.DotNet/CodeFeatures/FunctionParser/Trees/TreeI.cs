@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using OSOL.Extremum.Core.DotNet.Arithmetics;
+using OSOL.Extremum.Core.DotNet.Vectors;
 
 namespace OSOL.Extremum.Core.DotNet.CodeFeatures.FunctionParser.Trees
 {
@@ -117,6 +118,30 @@ namespace OSOL.Extremum.Core.DotNet.CodeFeatures.FunctionParser.Trees
                 this.SubTree = subTree;
                 this.Op = x => x.Sqrt();
             }
+        }
+        
+        public class ConstantTree : Tree<Interval>
+        {
+            public Interval Value;
+
+            public ConstantTree(Interval value)
+            {
+                this.Value = value;
+            }
+
+            public override Interval Calculate(VectorObject<Interval> v) => Value;
+        }
+
+        public class VariableTree : Tree<Interval>
+        {
+            public string VarName;
+
+            public VariableTree(string varName)
+            {
+                this.VarName = varName;
+            }
+
+            public override Interval Calculate(VectorObject<Interval> v) => v[VarName];
         }
     }
 }
