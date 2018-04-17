@@ -13,6 +13,11 @@ namespace OSOL.Extremum.Core.DotNet.CodeFeatures.FunctionParser.TreeFunctions
             this.Tree = tree;
         }
 
+        public DoubleTreeFunction(string str) : this(Parser.BuildTreeD(Parser.ParseString(str)))
+        {
+            
+        }
+
         public double Calculate(RealVector v) => Tree.Calculate(v);
     }
     

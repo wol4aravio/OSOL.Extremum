@@ -12,6 +12,11 @@ namespace OSOL.Extremum.Core.DotNet.CodeFeatures.FunctionParser.TreeFunctions
         {
             this.Tree = tree;
         }
+        
+        public IntervalTreeFunction(string str) : this(Parser.BuildTreeI(Parser.ParseString(str)))
+        {
+            
+        }
 
         public Interval Calculate(IntervalVector v) => Tree.Calculate(v);
     }
