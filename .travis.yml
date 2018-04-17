@@ -23,9 +23,9 @@ jobs:
       language: scala
       scala: 2.12.5
       python: "3.6"
-      before_install:
-        - pip install -r PyTools/requirements.txt
+      sudo: required
       before_script:
+        - pip install -r PyTools/requirements.txt
         - cd Cores/ExtremumScalaCore
       script:
         - sbt clean coverage test coverageReport
@@ -38,9 +38,9 @@ jobs:
       mono: none
       dotnet: 2.0.0
       python: "3.6"
-      before_install:
-        - pip install -r PyTools/requirements.txt
+      sudo: required
       before_script:
+        - pip install -r PyTools/requirements.txt
         - cd Cores/OSOL.Extremum.Core.DotNet
       script:
         - dotnet restore
