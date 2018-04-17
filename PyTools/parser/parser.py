@@ -1,6 +1,7 @@
 import ast
 from ast2json import ast2json
 
+
 def parse_to_tree(f_str):
 
     def purify(json):
