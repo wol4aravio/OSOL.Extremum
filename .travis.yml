@@ -10,6 +10,8 @@ jobs:
     - stage: preliminaries
       language: python
       python: "3.6"
+      install:
+        - pip install -r requirements.txt
       before_script:
         - cd PyTools
         - pip install pytest pytest-cov
