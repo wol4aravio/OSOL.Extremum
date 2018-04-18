@@ -7,6 +7,7 @@ using Xunit;
 using OSOL.Extremum.Core.DotNet.Vectors;
 using OSOL.Extremum.Core.DotNet.Optimization;
 using OSOL.Extremum.Core.DotNet.Optimization.Nodes;
+using OSOL.Extremum.Core.DotNet.Optimization.Testing;
 using OSOL.Extremum.Core.DotNet.Random;
 using OSOL.Extremum.Core.DotNet.Random.Distributions;
 
@@ -40,7 +41,17 @@ namespace OSOL.Extremum.Core.DotNet.Tests
                     List<RealVector> alreadySampledPoints = state.GetParameter<List<RealVector>>(DummyRealOptimization.ParameterName);
                     if (state.GetParameter<bool>("generate"))
                     {
-                        RealVector newPoint = gorn.GetContinuousUniformVector(area);
+                        RealVector newPoint = null;
+                        if (alreadySampledPoints.Count > 0)
+                        {
+                            newPoint = alreadySampledPoints.First()
+                                .MoveBy(gorn.GetContinuousUniformVector(area.ToDictionary(kvp => kvp.Key, kvp => Tuple.Create(-1.0, 1.0))))
+                                .Constrain(area);
+                        }
+                        else
+                        {
+                            newPoint = gorn.GetContinuousUniformVector(area);
+                        }
                         alreadySampledPoints.Add(newPoint);
                         state.SetParameter<List<RealVector>>(name: DummyRealOptimization.ParameterName, value: alreadySampledPoints.OrderBy(_ => _.GetPerformance(f)).Take(9).ToList());
                     }
@@ -65,14 +76,14 @@ namespace OSOL.Extremum.Core.DotNet.Tests
                 }
             }
 
-            public static Algorithm<RealVector, double, RealVector> CreateAlgorithm()
+            public static Algorithm<RealVector, double, RealVector> CreateAlgorithm(int maxIteration, double maxTime)
             {
                 var nodes = new GeneralNode<RealVector, double, RealVector>[]
                 {
                     new SetParametersNode<RealVector, double, RealVector>(nodeId: 0, parameters: new Dictionary<string, object> {{"generate", true}}),
                     new SampleNode(nodeId: 1),
-                    new TerminationViaMaxIterations<RealVector, double, RealVector>(nodeId: 2, maxIteration: 250),
-                    new TerminationViaMaxTime<RealVector, double, RealVector>(nodeId: 3, maxTime: 2.5),
+                    new TerminationViaMaxIterations<RealVector, double, RealVector>(nodeId: 2, maxIteration: maxIteration),
+                    new TerminationViaMaxTime<RealVector, double, RealVector>(nodeId: 3, maxTime: maxTime),
                     new SelectBest(nodeId: 4),
                 };
                 var transitionMatrix = new Tuple<int, int?, int>[]
@@ -159,15 +170,20 @@ namespace OSOL.Extremum.Core.DotNet.Tests
             }
         }
 
-        private static Algorithm<RealVector, double, RealVector> toolReal = DummyRealOptimization.CreateAlgorithm();
+        private static Algorithm<RealVector, double, RealVector> toolReal = DummyRealOptimization.CreateAlgorithm(250, 2.5);
         private static Algorithm<IntervalVector, Interval, IntervalVector> toolInterval = DummyIntervalOptimization.CreateAlgorithm();
+        
         private static Func<Dictionary<string, double>, double> fReal = v => Math.Abs(v["x"]);
         private static Func<Dictionary<string, Interval>, Interval> fInterval = v => v["x"].Abs();
+        
         private static Area area = new Dictionary<string, Tuple<double, double>>
         {
             {"x", Tuple.Create(-10.0, 10.0)}
         };
         private static double eps = 1e-3;
+
+        private static RealTester testerReal = new RealTester();
+        private static IntervalTester testerInterval = new IntervalTester();
 
         [Fact]
         static void TestTerminationViaMaxIterations()
@@ -195,7 +211,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         static void TestRealOptimization()
         {
             var result = toolReal.Work(fReal, area);
-            Assert.True(Math.Abs(result["x"]) < eps);
+            Assert.True(testerReal.Check(DummyRealOptimization.CreateAlgorithm(250, 2.5), DummyRealOptimization.CreateAlgorithm(500, 5.0)));
             
             bool madeJson = false;
             try
@@ -214,7 +230,7 @@ namespace OSOL.Extremum.Core.DotNet.Tests
         static void TestIntervalOptimization()
         {
             var result = toolInterval.Work(fInterval, area);
-            Assert.True(Math.Abs(result["x"].MiddlePoint) < eps);
+            Assert.True(testerInterval.Check(toolInterval));
             
             bool madeJson = false;
             try
