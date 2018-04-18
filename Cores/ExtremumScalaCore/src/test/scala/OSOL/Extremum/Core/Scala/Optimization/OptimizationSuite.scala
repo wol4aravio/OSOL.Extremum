@@ -26,7 +26,6 @@ class OptimizationSuite extends FunSuite {
           val newPoint: RealVector = alreadySampledPoints.headOption.getOrElse(RealVector(GoRN.getContinuousUniform(area)))
             .moveBy(GoRN.getContinuousUniform(area.mapValues { case _ => (-1.0, 1.0)}))
             .constrain(area)
-          val sadasd = (newPoint +: alreadySampledPoints).sortBy(_.getPerformance(f)).take(9).map(x => (x, x.getPerformance(f)))
           state.setParameter(parameterName, (newPoint +: alreadySampledPoints).sortBy(_.getPerformance(f)).take(9))
         }
       }
