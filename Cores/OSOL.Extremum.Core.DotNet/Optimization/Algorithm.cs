@@ -33,6 +33,12 @@ namespace OSOL.Extremum.Core.DotNet.Optimization
             CurrentNode = Nodes.First();
         }
 
+        public void Reset()
+        {
+            this.State = new State<TBase, TFuncType, TV>();
+            this.CurrentNode = null;
+        }
+
         public TV Work(Func<Dictionary<string, TFuncType>, TFuncType> f, Area area)
         {
             Initialize(f, area);
