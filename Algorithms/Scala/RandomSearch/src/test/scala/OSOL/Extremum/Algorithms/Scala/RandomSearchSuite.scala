@@ -1,6 +1,6 @@
-package OSOL.Extremum.Core.Scala.Optimization
+package OSOL.Extremum.Algorithms.Scala
 
-import OSOL.Extremum.Core.Scala.Optimization.Testing.RealTester
+import OSOL.Extremum.Cores.JVM.Optimization.Testing.RealTester
 import org.scalatest.FunSuite
 
 class RandomSearchSuite extends FunSuite {

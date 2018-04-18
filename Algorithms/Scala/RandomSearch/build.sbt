@@ -1,4 +1,4 @@
-name := "RandomSearch"
+name := "OSOL.Extremum.Algorithms.Scala.RandomSearch"
 
 version := "0.0.3"
 
@@ -10,4 +10,4 @@ resolvers ++= Seq(
   "sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
   "sonatype releases" at "https://oss.sonatype.org/content/repositories/releases")
 
-libraryDependencies += "com.github.wol4aravio" %% "OSOL.Extremum.ScalaCore" % "0.0.3-SNAPSHOT"
+libraryDependencies += "com.github.wol4aravio" %% "OSOL.Extremum.Cores.JVM" % "0.0.3-SNAPSHOT"

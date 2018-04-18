@@ -54,16 +54,16 @@ jobs:
 
 
 
-    # - stage: algorithms
-    #   language: scala
-    #   scala: 2.12.5
-    #   before_script:
-    #     - cd OptimizationAlgorithms/Scala/RandomSearch
-    #   script:
-    #     - sbt clean coverage test coverageReport
-    #   after_success:
-    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-    #     - mvn clean deploy --settings settings.xml
+    - stage: algorithms
+      language: scala
+      scala: 2.12.5
+      before_script:
+        - cd Algorithms/Scala/RandomSearch
+      script:
+        - sbt clean coverage test coverageReport
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - mvn clean deploy --settings settings.xml
 
     # - stage: algorithms
     #   language: csharp

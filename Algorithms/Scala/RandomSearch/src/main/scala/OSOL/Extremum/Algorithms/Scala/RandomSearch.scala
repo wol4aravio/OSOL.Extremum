@@ -1,9 +1,10 @@
-package OSOL.Extremum.Core.Scala.Optimization
+package OSOL.Extremum.Algorithms.Scala
 
-import OSOL.Extremum.Core.Scala.Optimization.Nodes.{GeneralNode, SetParametersNode, TerminationViaMaxTime}
-import OSOL.Extremum.Core.Scala.Random.GoRN
-import OSOL.Extremum.Core.Scala.Vectors.RealVector
-import OSOL.Extremum.Core.Scala.Vectors.RealVector.Converters._
+import OSOL.Extremum.Cores.JVM.Optimization._
+import OSOL.Extremum.Cores.JVM.Optimization.Nodes.{GeneralNode, SetParametersNode, TerminationViaMaxTime}
+import OSOL.Extremum.Cores.JVM.Random.GoRN
+import OSOL.Extremum.Cores.JVM.Vectors.RealVector
+import OSOL.Extremum.Cores.JVM.Vectors.RealVector.Converters._
 
 object RandomSearch {
 
