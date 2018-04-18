@@ -55,7 +55,7 @@ namespace OSOL.Extremum.Core.DotNet.CodeFeatures.FunctionParser
             {
                 using (StreamReader reader = process.StandardOutput)
                 {
-                    string result = reader.ReadToEnd().Replace('\'', '\"');
+                    string result = reader.ReadToEnd().Replace('\'', '\"').Replace("u\"", "\"");
                     
                     Directory.Delete(rootFolder, true);
                     return JObject.Parse(result);
