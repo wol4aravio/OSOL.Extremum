@@ -20,6 +20,7 @@ abstract class Tester[Base, FuncType, V <: Optimizable[Base, FuncType]](testFunc
         var success = false
         val resultsPerAlgorithm = algorithms.takeWhile { a => {
           val resultsPerAttempt = (1 to attempts).takeWhile { _ =>
+            a.reset()
             val r = a.work(f, area).toBasicForm()
             success = Lp_norm(r, RealVector(sol)) < tolerance
             !success
