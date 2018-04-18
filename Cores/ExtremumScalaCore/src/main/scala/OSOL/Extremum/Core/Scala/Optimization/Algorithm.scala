@@ -22,6 +22,12 @@ final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]]
   /** Holds current [[OSOL.Extremum.Core.Scala.Optimization.Nodes.GeneralNode Node]] */
   private var currentNode: GeneralNode[Base, FuncType, V] = null
 
+  /** Resets current algorithm */
+  def reset(): Unit = {
+    state = new State()
+    currentNode = null
+  }
+
   /** Initialization phase
     *
     * @param f target function
