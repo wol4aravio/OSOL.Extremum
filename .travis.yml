@@ -65,20 +65,20 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - mvn clean deploy --settings settings.xml
 
-    # - stage: algorithms
-    #   language: csharp
-    #   mono: none
-    #   dotnet: 2.0.0
-    #   before_script:
-    #     - cd OptimizationAlgorithms/CSharp/RandomSearch
-    #   script:
-    #     - dotnet restore
-    #     - dotnet build -c Debug
-    #     - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Core.DotNet*.dll
-    #     - dotnet test -c Debug --no-build
-    #     - dotnet minicover opencoverreport
-    #     - dotnet minicover uninstrument
-    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-    #   after_success:
-    #     - dotnet pack -c Release --include-source --output nuget
-    #     - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+    - stage: algorithms
+      language: csharp
+      mono: none
+      dotnet: 2.0.0
+      before_script:
+        - cd Algorithms/CSharp/RandomSearch
+      script:
+        - dotnet restore
+        - dotnet build -c Debug
+        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Algorithms.CSharp.RandomSearch.dll
+        - dotnet test -c Debug --no-build
+        - dotnet minicover opencoverreport
+        - dotnet minicover uninstrument
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+      after_success:
+        - dotnet pack -c Release --include-source --output nuget
+        - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
