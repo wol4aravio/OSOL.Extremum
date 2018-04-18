@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
-using OSOL.Extremum.Core.DotNet.Vectors;
-using OSOL.Extremum.Core.DotNet.Optimization.Nodes;
-using OSOL.Extremum.Core.DotNet.Random;
-using OSOL.Extremum.Core.DotNet.Random.Distributions;
+using OSOL.Extremum.Cores.DotNet.Optimization;
+using OSOL.Extremum.Cores.DotNet.Vectors;
+using OSOL.Extremum.Cores.DotNet.Optimization.Nodes;
+using OSOL.Extremum.Cores.DotNet.Random;
+using OSOL.Extremum.Cores.DotNet.Random.Distributions;
 
-namespace OSOL.Extremum.Core.DotNet.Optimization
+namespace OSOL.Extremum.Algorithms.CSharp
 {
     
     using Area = Dictionary<string, Tuple<double, double>>;

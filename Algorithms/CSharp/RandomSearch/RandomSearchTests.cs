@@ -1,9 +1,9 @@
-﻿using OSOL.Extremum.Core.DotNet.Vectors;
-using OSOL.Extremum.Core.DotNet.Optimization;
-using OSOL.Extremum.Core.DotNet.Optimization.Testing;
+﻿using OSOL.Extremum.Cores.DotNet.Vectors;
+using OSOL.Extremum.Cores.DotNet.Optimization;
+using OSOL.Extremum.Cores.DotNet.Optimization.Testing;
 using Xunit;
 
-namespace OSOL.Extremum.Core.DotNet.Tests
+namespace OSOL.Extremum.Algorithms.CSharp
 {
     public static class RandomSearchTests
     {
