@@ -25,7 +25,7 @@ jobs:
       sudo: required
       before_script:
         - sudo pip install -r PyTools/requirements.txt
-        - cd Cores/ExtremumScalaCore
+        - cd Cores/JVM
       script:
         - sbt clean coverage test coverageReport
       after_success:
@@ -39,11 +39,11 @@ jobs:
       sudo: required
       before_script:
         - sudo pip install -r PyTools/requirements.txt
-        - cd Cores/OSOL.Extremum.Core.DotNet
+        - cd Cores/DotNet
       script:
         - dotnet restore
         - dotnet build -c Debug
-        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Core.DotNet*.dll
+        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Cores.DotNet.dll
         - dotnet test -c Debug --no-build
         - dotnet minicover opencoverreport
         - dotnet minicover uninstrument
@@ -58,7 +58,7 @@ jobs:
       language: scala
       scala: 2.12.5
       before_script:
-        - cd OptimizationAlgorithms/Scala/RandomSearch
+        - cd Algorithms/Scala/RandomSearch
       script:
         - sbt clean coverage test coverageReport
       after_success:
@@ -70,11 +70,11 @@ jobs:
       mono: none
       dotnet: 2.0.0
       before_script:
-        - cd OptimizationAlgorithms/CSharp/RandomSearch
+        - cd Algorithms/CSharp/RandomSearch
       script:
         - dotnet restore
         - dotnet build -c Debug
-        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Core.DotNet*.dll
+        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Algorithms.CSharp.RandomSearch.dll
         - dotnet test -c Debug --no-build
         - dotnet minicover opencoverreport
         - dotnet minicover uninstrument

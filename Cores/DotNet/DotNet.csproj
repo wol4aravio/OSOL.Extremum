@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <PackageVersion>0.0.3</PackageVersion>
+    <Authors>Valentin Panovskiy</Authors>
+    <AssemblyName>OSOL.Extremum.Cores.DotNet</AssemblyName>
+    <RootNamespace>OSOL.Extremum.Cores.DotNet</RootNamespace>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+    <DotNetCliToolReference Include="MiniCover" Version="2.0.0-ci-20180329054201" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Arithmetics" />
+    <Folder Include="CodeFeatures" />
+    <Folder Include="Random" />
+    <Folder Include="Tests" />
+    <Folder Include="Vectors" />
+    <Folder Include="Vectors" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="../../PyTools/**/*.py" LinkBase="Resources" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
