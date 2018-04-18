@@ -14,7 +14,7 @@ abstract class Tester[Base, FuncType, V <: Optimizable[Base, FuncType]](testFunc
     keys.map(k => math.pow(math.abs(v1(k) - v2(k)), p)).sum
   }
 
-  def apply(algorithms: Seq[Algorithm[Base, FuncType, V]]): Boolean = {
+  def apply(algorithms: Algorithm[Base, FuncType, V]*): Boolean = {
     val resultsPerFunction = testFunctions.zip(areas).zip(solutions)
       .map { case ((f, area), sol) => {
         var success = false
