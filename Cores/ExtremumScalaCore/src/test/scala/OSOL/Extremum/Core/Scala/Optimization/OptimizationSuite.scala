@@ -1,13 +1,11 @@
 package OSOL.Extremum.Core.Scala.Optimization
 
-import java.io.{BufferedWriter, FileWriter}
-
 import OSOL.Extremum.Core.Scala.Optimization.Exceptions.ParameterAlreadyExistsException
 import OSOL.Extremum.Core.Scala.Optimization.Nodes.{GeneralNode, SetParametersNode, TerminationViaMaxIterations, TerminationViaMaxTime}
 import OSOL.Extremum.Core.Scala.Random.GoRN
 import OSOL.Extremum.Core.Scala.Arithmetics.Interval
+import OSOL.Extremum.Core.Scala.Optimization.Testing.{IntervalTester, RealTester}
 import OSOL.Extremum.Core.Scala.Vectors.{IntervalVector, RealVector}
-import OSOL.Extremum.Core.Scala.Vectors.RealVector.Converters._
 import org.scalatest.FunSuite
 
 class OptimizationSuite extends FunSuite {
@@ -25,8 +23,11 @@ class OptimizationSuite extends FunSuite {
       override def process(f: Map[String, Double] => Double, area: Area, state: State[RealVector, Double, RealVector]): Unit = {
         val alreadySampledPoints = state.getParameter[Seq[RealVector]](parameterName)
         if (state.getParameter[Boolean]("generate")) {
-          val newPoint: RealVector = GoRN.getContinuousUniform(area)
-          state.setParameter(parameterName, newPoint +: alreadySampledPoints.sortBy(_.getPerformance(f)).take(9))
+          val newPoint: RealVector = alreadySampledPoints.headOption.getOrElse(RealVector(GoRN.getContinuousUniform(area)))
+            .moveBy(GoRN.getContinuousUniform(area.mapValues { case _ => (-1.0, 1.0)}))
+            .constrain(area)
+          val sadasd = (newPoint +: alreadySampledPoints).sortBy(_.getPerformance(f)).take(9).map(x => (x, x.getPerformance(f)))
+          state.setParameter(parameterName, (newPoint +: alreadySampledPoints).sortBy(_.getPerformance(f)).take(9))
         }
       }
 
@@ -42,12 +43,12 @@ class OptimizationSuite extends FunSuite {
 
     }
 
-    def apply(): Algorithm[RealVector, Double, RealVector] = {
+    def apply(maxIteration: Int, maxTime: Double): Algorithm[RealVector, Double, RealVector] = {
       val nodes = Seq(
         new SetParametersNode[RealVector, Double, RealVector](nodeId = 0, parameters = Map("generate" -> true)),
         new SampleNode(nodeId = 1),
-        new TerminationViaMaxIterations[RealVector, Double, RealVector](nodeId = 2, maxIteration = 250),
-        new TerminationViaMaxTime[RealVector, Double, RealVector](nodeId = 3, maxTime = 2.5),
+        new TerminationViaMaxIterations[RealVector, Double, RealVector](nodeId = 2, maxIteration = maxIteration),
+        new TerminationViaMaxTime[RealVector, Double, RealVector](nodeId = 3, maxTime = maxTime),
         new SelectBest(nodeId = 4)
       )
       val transitionMatrix = Seq(
@@ -111,12 +112,15 @@ class OptimizationSuite extends FunSuite {
 
   }
 
-  val toolReal: Algorithm[RealVector, Double, RealVector] = DummyRealOptimization()
+  val toolReal: Algorithm[RealVector, Double, RealVector] = DummyRealOptimization(250, 2.5)
   val toolInterval: Algorithm[IntervalVector, Interval, IntervalVector] = DummyIntervalOptimization()
+
   val fReal: Map[String, Double] => Double = (v: Map[String, Double]) => math.abs(v("x"))
   val fInterval: Map[String, Interval] => Interval = (v: Map[String, Interval]) => v("x").abs()
   val area: Area = Map("x" -> (-10.0, 10.0))
-  val eps = 1e-3
+
+  val testerReal = new RealTester
+  val testerInterval = new IntervalTester
 
   test("TerminationViaMaxIterations") {
     val node = new TerminationViaMaxIterations[RealVector, Double, RealVector](nodeId = 1, maxIteration = 250)
@@ -136,13 +140,13 @@ class OptimizationSuite extends FunSuite {
   test("Test #1") {
     val result = toolReal.work(fReal, area)
     assert(try { val json = toolReal.serializeState(); true} catch { case _: Exception => false })
-    assert(math.abs(result("x")) < eps)
+    assert(testerReal(DummyRealOptimization(250, 2.5), DummyRealOptimization(500, 5.0)))
   }
 
   test("Test #2") {
     val result = toolInterval.work(fInterval, area)
     assert(try { val json = toolInterval.serializeState(); true} catch { case _: Exception => false })
-    assert(math.abs(result("x").middlePoint) < eps)
+    assert(testerInterval(toolInterval))
   }
 
 }
