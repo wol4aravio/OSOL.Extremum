@@ -39,7 +39,7 @@ jobs:
       sudo: required
       before_script:
         - sudo pip install -r PyTools/requirements.txt
-        - cd Cores/OSOL.Extremum.Core.DotNet
+        - cd Cores/DotNet
       script:
         - dotnet restore
         - dotnet build -c Debug
