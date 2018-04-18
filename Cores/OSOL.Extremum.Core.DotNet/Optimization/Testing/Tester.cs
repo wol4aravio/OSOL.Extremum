@@ -28,7 +28,7 @@ namespace OSOL.Extremum.Core.DotNet.Optimization.Testing
 
         public bool Check(params Algorithm<TBase, TFuncType, TV>[] algorithms)
         {
-            bool[] resultsPerFunction = new bool[] {};
+            bool[] resultsPerFunction = new bool[TestFunctions.Length];
             for (int id = 0; id < TestFunctions.Length; ++id)
             {
                 var f = TestFunctions[id];

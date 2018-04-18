@@ -23,11 +23,11 @@ namespace OSOL.Extremum.Core.DotNet.Optimization.Testing
             Dictionary<string, double> s1 = vars_1.ToDictionary(k => k, k => 0.0);
             
             Func<Dictionary<string, Interval >, Interval> f2 = v => v["x"].Power(2.0) + v["y"].Power(2.0);
-            Dictionary<string, Tuple<double, double>> a2 = vars_1.ToDictionary(k => k, k => Tuple.Create(-10.0, 10.0));
+            Dictionary<string, Tuple<double, double>> a2 = vars_2.ToDictionary(k => k, k => Tuple.Create(-10.0, 10.0));
             Dictionary<string, double> s2 = vars_2.ToDictionary(k => k, k => 0.0);
             
             Func<Dictionary<string, Interval >, Interval> f3 = v => v["x"].Power(2.0) + v["y"].Power(2.0) + v["z"].Power(2.0);
-            Dictionary<string, Tuple<double, double>> a3 = vars_1.ToDictionary(k => k, k => Tuple.Create(-10.0, 10.0));
+            Dictionary<string, Tuple<double, double>> a3 = vars_3.ToDictionary(k => k, k => Tuple.Create(-10.0, 10.0));
             Dictionary<string, double> s3 = vars_3.ToDictionary(k => k, k => 0.0);
 
             this.TestFunctions = new[] {f1, f2, f3};
