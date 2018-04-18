@@ -30,7 +30,7 @@ object RealTester {
   val a2: Area = vars_2.map(k => (k, (-10.0, 10.0))).toMap
   val s2: Map[String, Double] = vars_2.map(k => (k, 0.0)).toMap
 
-  val f3: Map[String, Double] => Double = (v: Map[String, Double]) => math.pow(v("x"), 2.0) + math.pow(v("z"), 2.0) + math.pow(v("z"), 2.0)
+  val f3: Map[String, Double] => Double = (v: Map[String, Double]) => math.pow(v("x"), 2.0) + math.pow(v("y"), 2.0) + math.pow(v("z"), 2.0)
   val a3: Area = vars_3.map(k => (k, (-10.0, 10.0))).toMap
   val s3: Map[String, Double] = vars_3.map(k => (k, 0.0)).toMap
 
