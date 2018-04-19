@@ -18,4 +18,7 @@
   <ItemGroup>
     <Compile Include="RandomSearch.fs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="RandomSearchTests.fs" />
+  </ItemGroup>
 </Project>

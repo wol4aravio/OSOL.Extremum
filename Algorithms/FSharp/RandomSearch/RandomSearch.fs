@@ -69,7 +69,7 @@ module RandomSearch =
         override this.Process(f: Func<Dictionary<string, double>, double>, area: Dictionary<string, double * double>, state: State<RealVector, double, RealVector>) =
             state.result <- state.GetParameter<RealVector>(CurrentPointName)
         
-    let createFixedStepRandomSearch (radius: double) (maxTime: double) =
+    let CreateFixedStepRandomSearch (radius: double) (maxTime: double) =
         let FixedStep_nodes: GeneralNode<RealVector, double, RealVector>[] = 
             [|
                 new SetParametersNode<RealVector, double, RealVector>(nodeId = 0, parameters = [|(RadiusParameterName, radius :> obj)|].ToDictionary ((fun kvp -> fst kvp), (fun kvp -> snd kvp)))
