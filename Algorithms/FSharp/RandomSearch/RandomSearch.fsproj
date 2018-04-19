@@ -4,8 +4,8 @@
     <IsPackable>true</IsPackable>
     <PackageVersion>0.0.3</PackageVersion>
     <Authors>Valentin Panovskiy</Authors>
-    <AssemblyName>OSOL.Extremum.Algorithms.CSharp.RandomSearch</AssemblyName>
-    <RootNamespace>OSOL.Extremum.Algorithms.CSharp</RootNamespace>
+    <AssemblyName>OSOL.Extremum.Algorithms.FSharp.RandomSearch</AssemblyName>
+    <RootNamespace>OSOL.Extremum.Algorithms.FSharp</RootNamespace>
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
@@ -14,5 +14,9 @@
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
     <DotNetCliToolReference Include="MiniCover" Version="2.0.0-ci-20180329054201" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="RandomSearch.fs" />
+    <Compile Include="Tests\RandomSearchTests.fs" />
   </ItemGroup>
 </Project>
