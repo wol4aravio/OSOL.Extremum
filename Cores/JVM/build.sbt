@@ -1,6 +1,6 @@
 name := "OSOL.Extremum.Cores.JVM"
 
-version := "0.0.3"
+version := "0.0.4"
 
 scalaVersion := "2.12.5"
 
