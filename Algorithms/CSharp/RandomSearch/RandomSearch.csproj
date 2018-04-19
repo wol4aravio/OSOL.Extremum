@@ -1,18 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>netcoreapp2.0</TargetFramework>
-        <IsPackable>true</IsPackable>
-        <PackageVersion>0.0.3</PackageVersion>
-        <Authors>Valentin Panovskiy</Authors>
-        <AssemblyName>OSOL.Extremum.Algorithms.CSharp.RandomSearch</AssemblyName>
-        <RootNamespace>OSOL.Extremum.Algorithms.CSharp</RootNamespace>
-        <OutputType>Library</OutputType>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
-        <PackageReference Include="OSOL.Extremum.Cores.DotNet" Version="0.0.3" />
-        <PackageReference Include="xunit" Version="2.3.1" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
-        <DotNetCliToolReference Include="MiniCover" Version="2.0.0-ci-20180329054201" />
-    </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <PackageVersion>0.0.3</PackageVersion>
+    <Authors>Valentin Panovskiy</Authors>
+    <AssemblyName>OSOL.Extremum.Algorithms.CSharp.RandomSearch</AssemblyName>
+    <RootNamespace>OSOL.Extremum.Algorithms.CSharp</RootNamespace>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="OSOL.Extremum.Cores.DotNet" Version="0.0.3" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+    <DotNetCliToolReference Include="MiniCover" Version="2.0.0-ci-20180329054201" />
+  </ItemGroup>
 </Project>
