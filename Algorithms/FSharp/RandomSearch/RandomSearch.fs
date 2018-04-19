@@ -59,3 +59,12 @@ type RandomSearch =
                 state.SetParameter(RandomSearch.CurrentPointEfficiencyName, newPointEfficiency)
             ()
 
+    type SetBestNode = 
+        inherit GeneralNode<RealVector, double, RealVector> 
+        
+        new (nodeId: int) as this = { } then this.NodeId <- nodeId
+        
+        override this.Initialize(f: Func<Dictionary<string, double>, double>, area: Dictionary<string, double * double>, state: State<RealVector, double, RealVector>) = ()
+        
+        override this.Process(f: Func<Dictionary<string, double>, double>, area: Dictionary<string, double * double>, state: State<RealVector, double, RealVector>) =
+            state.result <- state.GetParameter<RealVector>(RandomSearch.CurrentPointName)
