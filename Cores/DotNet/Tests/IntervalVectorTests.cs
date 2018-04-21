@@ -208,6 +208,15 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
             Assert.Equal(v1.GetPerformance(f), 1.0);
             Assert.Equal(((IntervalVector)(v1 * 2.0)).GetPerformance(f), 2.0);
         }
+        
+        [Fact]
+        public static void TestUnion()
+        {
+            IntervalVector p1 = new Dictionary<string, Interval> {{"x", 1.0}};
+            IntervalVector p2 = new Dictionary<string, Interval> {{"y", new Interval(2.0, 3.0)}};
+            IntervalVector p3 = new Dictionary<string, Interval> {{"z", new Interval(3.0, 5.0)}};
+            Assert.True((IntervalVector)p1.Union(p2, p3) == v1);
+        }
 
         [Fact]
         public static void TestToDoubleValuedVector()

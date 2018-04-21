@@ -91,5 +91,25 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
 
         public abstract Dictionary<string, TBase> MultiplyImputeMissingKeys(VectorObject<TBase> that);
 
+        public Dictionary<string, TBase> Union(params VectorObject<TBase>[] vectors)
+        {
+            var allVectors = new List<Dictionary<string, TBase>>();
+            var allKeys = new List<string>();
+            allVectors.Add(this.Elements);
+            allKeys.AddRange(this.Keys);
+            foreach (var v in vectors)
+            {
+                allVectors.Add(v.Elements);
+                foreach (var k in v.Keys)
+                {
+                    if (!allKeys.Contains(k))
+                    {
+                        allKeys.Add(k);
+                    }
+                }
+            }
+            return allKeys.ToDictionary(k => k, k => allVectors.Find(_ => _.ContainsKey(k))[k]);
+        }
+
     }
 }
