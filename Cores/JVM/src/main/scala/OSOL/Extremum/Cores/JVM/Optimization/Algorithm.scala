@@ -1,7 +1,6 @@
 package OSOL.Extremum.Cores.JVM.Optimization
 
 import OSOL.Extremum.Cores.JVM.Optimization.Nodes.GeneralNode
-import OSOL.Extremum.Cores.JVM.Optimization.Nodes.GeneralNode
 import spray.json.JsValue
 
 /** Algorithm that is constructed on steps (aka nodes) and transition matrix

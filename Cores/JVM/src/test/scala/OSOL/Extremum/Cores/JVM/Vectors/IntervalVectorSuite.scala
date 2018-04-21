@@ -97,6 +97,14 @@ class IntervalVectorSuite extends FunSuite {
     assert(right == (Map("x" -> Interval(1.0), "y" -> Interval(2.5, 3.0), "z" -> Interval(3.0, 5.0)) |> IntervalVector.apply))
   }
 
+  test("Union") {
+    val p1: IntervalVector = Map("x" -> Interval(1.0))
+    val p2: IntervalVector = Map("y" -> Interval(2.0, 3.0))
+    val p3: IntervalVector = Map("z" -> Interval(3.0, 5.0))
+    assert(p1.union(p2, p3) == v1)
+  }
+
+
   test("JSON") {
     assert(v1.convertToJson.convertTo[IntervalVector] == v1)
     assert(v2.convertToJson.convertTo[IntervalVector] == v2)

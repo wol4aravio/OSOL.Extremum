@@ -88,6 +88,13 @@ class RealVectorSuite extends FunSuite {
     assert(v1.toBasicForm()("z") == 3.0)
   }
 
+  test("Union") {
+    val p1: RealVector = Map("x" -> 1.0)
+    val p2: RealVector = Map("y" -> 2.0)
+    val p3: RealVector = Map("z" -> 3.0)
+    assert(p1.union(p2, p3) == v1)
+  }
+
   test("JSON") {
     assert(v1.convertToJson.convertTo[RealVector] == v1)
     assert(v2.convertToJson.convertTo[RealVector] == v2)

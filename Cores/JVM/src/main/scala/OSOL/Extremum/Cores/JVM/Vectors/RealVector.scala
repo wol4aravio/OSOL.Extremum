@@ -62,6 +62,11 @@ class RealVector private (override val elements: Map[String, Double])
 
   final override def toBasicForm(): VectorObject[Double] = this
 
+  final override def union(that: VectorObject[Double]): VectorObject[Double] = {
+    val keys = this.keys ++ that.keys
+    keys.map(k => (k, if (this.elements.contains(k)) this(k) else that(k)))
+  }
+
   import RealVector.RealVectorJsonFormat._
   final override def convertToJson(): JsValue = this.toJson
 
