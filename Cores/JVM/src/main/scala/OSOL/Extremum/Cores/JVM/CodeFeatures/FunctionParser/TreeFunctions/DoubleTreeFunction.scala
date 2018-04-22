@@ -6,6 +6,7 @@ import OSOL.Extremum.Cores.JVM.Vectors.RealVector
 
 class DoubleTreeFunction(t: Tree[Double]) {
   def apply(v: RealVector): Double = t.calculate(v)
+  def apply(vectors: RealVector*): Double = t.calculate(vectors.head.union(vectors.tail:_*))
 }
 
 object DoubleTreeFunction {
