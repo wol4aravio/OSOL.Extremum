@@ -129,8 +129,8 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         public static void TestUnion()
         {
             RealVector p1 = new Dictionary<string, double> {{"x", 1.0}};
-            RealVector p2 = new Dictionary<string, double> {{"y", 2.0}};
-            RealVector p3 = new Dictionary<string, double> {{"z", 3.0}};
+            var p2 = new Dictionary<string, double> {{"y", 2.0}};
+            var p3 = new Dictionary<string, double> {{"z", 3.0}};
             Assert.True((RealVector)p1.Union(p2, p3) == v1);
         }
 
