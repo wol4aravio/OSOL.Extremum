@@ -1,4 +1,5 @@
-﻿using OSOL.Extremum.Cores.DotNet.Arithmetics;
+﻿using System.Linq;
+using OSOL.Extremum.Cores.DotNet.Arithmetics;
 using OSOL.Extremum.Cores.DotNet.CodeFeatures.FunctionParser.Trees;
 using OSOL.Extremum.Cores.DotNet.Vectors;
 
@@ -19,5 +20,8 @@ namespace OSOL.Extremum.Cores.DotNet.CodeFeatures.FunctionParser.TreeFunctions
         }
 
         public Interval Calculate(IntervalVector v) => Tree.Calculate(v);
+
+        public Interval Calculate(params IntervalVector[] vectors) => Tree.Calculate((IntervalVector)vectors.First().Union(vectors.Skip(1).ToArray()));
+
     }
 }
