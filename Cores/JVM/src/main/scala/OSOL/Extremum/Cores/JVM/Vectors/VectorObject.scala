@@ -148,7 +148,8 @@ abstract class VectorObject[Base] (val elements: Map[String, Base]) {
   /** Same as [[OSOL.Extremum.Cores.JVM.Vectors.VectorObject#multiplyImputeMissingKeys multiplyImputeMissingKeys]] */
   final def ~*(that: VectorObject[Base]): VectorObject[Base] = this.multiplyImputeMissingKeys(that)
 
-  def union(that: VectorObject[Base]): VectorObject[Base]
+  def union(that: Map[String, Base]): VectorObject[Base]
+  final def union(that: VectorObject[Base]): VectorObject[Base] = this.union(that.elements)
   final def union(vectors: VectorObject[Base]*): VectorObject[Base] = vectors.foldLeft(this) { case (a, b) => a.union(b) }
 
 }
