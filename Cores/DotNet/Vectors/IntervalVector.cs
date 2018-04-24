@@ -42,26 +42,26 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
             }
         }
 
-        public sealed override Dictionary<string, Interval> Add(VectorObject<Interval> that) =>
-            this.ElementWiseOp(that, (x, y) => x + y);
+        public sealed override VectorObject<Interval> Add(VectorObject<Interval> that) =>
+            new IntervalVector(this.ElementWiseOp(that, (x, y) => x + y));
 
-        public sealed override Dictionary<string, Interval> AddImputeMissingKeys(VectorObject<Interval> that) =>
-            this.ElementWiseOpImputeMissingKeys(that, (x, y) => x + y, defaultValue: 0.0);
+        public sealed override VectorObject<Interval> AddImputeMissingKeys(VectorObject<Interval> that) =>
+            new IntervalVector(this.ElementWiseOpImputeMissingKeys(that, (x, y) => x + y, defaultValue: 0.0));
 
-        public sealed override Dictionary<string, Interval> Multiply(double coefficient) =>
-            this.Elements.ToDictionary(x => x.Key, x => coefficient * x.Value);
+        public sealed override VectorObject<Interval> Multiply(double coefficient) =>
+            new IntervalVector(this.Elements.ToDictionary(x => x.Key, x => coefficient * x.Value));
 
-        public sealed override Dictionary<string, Interval> Multiply(VectorObject<Interval> that) =>
-            this.ElementWiseOp(that, (x, y) => x * y);
+        public sealed override VectorObject<Interval> Multiply(VectorObject<Interval> that) =>
+            new IntervalVector(this.ElementWiseOp(that, (x, y) => x * y));
 
-        public sealed override Dictionary<string, Interval> MultiplyImputeMissingKeys(VectorObject<Interval> that) =>
-            this.ElementWiseOpImputeMissingKeys(that, (x, y) => x * y, defaultValue: 1.0);
+        public sealed override VectorObject<Interval> MultiplyImputeMissingKeys(VectorObject<Interval> that) =>
+            new IntervalVector(this.ElementWiseOpImputeMissingKeys(that, (x, y) => x * y, defaultValue: 1.0));
 
-        public sealed override Dictionary<string, Interval> Subtract(VectorObject<Interval> that) =>
-            this.ElementWiseOp(that, (x, y) => x - y);
+        public sealed override VectorObject<Interval> Subtract(VectorObject<Interval> that) =>
+            new IntervalVector(this.ElementWiseOp(that, (x, y) => x - y));
 
-        public sealed override Dictionary<string, Interval> SubtractImputeMissingKeys(VectorObject<Interval> that) =>
-            this.ElementWiseOpImputeMissingKeys(that, (x, y) => x - y, defaultValue: 0.0);
+        public sealed override VectorObject<Interval> SubtractImputeMissingKeys(VectorObject<Interval> that) =>
+            new IntervalVector(this.ElementWiseOpImputeMissingKeys(that, (x, y) => x - y, defaultValue: 0.0));
 
         public IntervalVector[] Split(double[] ratios, string key = null)
         {
@@ -86,7 +86,7 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
 
         public IntervalVector MoveBy(Dictionary<string, double> delta) =>
             this.AddImputeMissingKeys(
-                new IntervalVector(delta.ToDictionary(_ => _.Key, _ => new Interval(_.Value))));
+                new IntervalVector(delta.ToDictionary(_ => _.Key, _ => new Interval(_.Value)))).Elements;
 
         public IntervalVector Constrain(Dictionary<string, Tuple<double, double>> area)
         {
@@ -111,6 +111,19 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
 
         public VectorObject<double> ToBasicForm() =>
             new RealVector(this.Elements.ToDictionary(_ => _.Key, _ => _.Value.MiddlePoint));
+
+        public override VectorObject<Interval> Union(params Tuple<string, Interval>[] vectors)
+        {
+            var allKeys = new List<string>();
+            allKeys.AddRange(this.Keys);
+            allKeys.AddRange(vectors.Select(_ => _.Item1));
+            allKeys = allKeys.Distinct().ToList();
+            return new IntervalVector(allKeys.ToDictionary(k => k, k =>
+            {
+                var targetKey = vectors.Where(_ => _.Item1.Equals(k)).ToList();
+                return targetKey.Count == 0 ? this[k] : targetKey.First().Item2;
+            }));
+        }
 
         public JObject ConvertToJson()
         {

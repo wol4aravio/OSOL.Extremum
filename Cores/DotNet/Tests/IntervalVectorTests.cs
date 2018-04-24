@@ -54,7 +54,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestAdditionWithImputation()
         {
-            IntervalVector r1 = v1.AddImputeMissingKeys(v2);
+            IntervalVector r1 = (IntervalVector)v1.AddImputeMissingKeys(v2);
             IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 2.0}, 
@@ -67,7 +67,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestSubtraction()
         {
-            IntervalVector r1 = v1 - v1;
+            IntervalVector r1 = (IntervalVector)(v1 - v1);
             IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 0.0}, 
@@ -80,7 +80,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestSubtractionWithImputation()
         {
-            IntervalVector r1 = v1.SubtractImputeMissingKeys(v2);
+            IntervalVector r1 = (IntervalVector)v1.SubtractImputeMissingKeys(v2);
             IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 0.0}, 
@@ -94,7 +94,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestMultiplication()
         {
-            IntervalVector r1 = v1 * v1;
+            IntervalVector r1 = (IntervalVector)(v1 * v1);
             IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 1.0}, 
@@ -107,7 +107,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestMultiplicationWithImputation()
         {
-            IntervalVector r1 = v1.MultiplyImputeMissingKeys(v2);
+            IntervalVector r1 = (IntervalVector)v1.MultiplyImputeMissingKeys(v2);
             IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 1.0}, 

@@ -46,7 +46,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestAdditionWithImputation()
         {
-            RealVector r1 = v1.AddImputeMissingKeys(v3);
+            RealVector r1 = (RealVector)v1.AddImputeMissingKeys(v3);
             RealVector r2 = new Dictionary<string, double> {{"x", 0.0}, {"y", 2.0}, {"z", 0.0}};
             Assert.True(r1 == r2);
         }
@@ -61,7 +61,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestSubtractionWithImputation()
         {
-            RealVector r1 = v1.SubtractImputeMissingKeys(v3);
+            RealVector r1 = (RealVector)v1.SubtractImputeMissingKeys(v3);
             RealVector r2 = new Dictionary<string, double> {{"x", 2.0}, {"y", 2.0}, {"z", 6.0}};
             Assert.True(r1 == r2);
         }
@@ -78,7 +78,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestMultiplicationWithImputation()
         {
-            RealVector r1 = v1.MultiplyImputeMissingKeys(v3);
+            RealVector r1 = (RealVector)v1.MultiplyImputeMissingKeys(v3);
             RealVector r2 = new Dictionary<string, double> {{"x", -1.0}, {"y", 2.0}, {"z", -9.0}};
             Assert.True(r1 == r2);
         }
