@@ -124,6 +124,27 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
                 return targetKey.Count == 0 ? this[k] : targetKey.First().Item2;
             }));
         }
+        
+        public override Dictionary<string, double> DistanceFromArea(Dictionary<string, Tuple<double, double>> area)
+        {
+            return area.ToDictionary(kvp => kvp.Key, kvp =>
+            {
+                var min = kvp.Value.Item1;
+                var max = kvp.Value.Item2;
+
+                var i = this[kvp.Key];
+                Func<double, double> dist = v =>
+                {
+                    if (v < min) return min - v;
+                    else
+                    {
+                        if (v > max) return v - max;
+                        else return 0.0;
+                    }
+                };
+                return Math.Max(dist(i.LowerBound), dist(i.UpperBound));
+            });
+        }
 
         public JObject ConvertToJson()
         {

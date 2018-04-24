@@ -93,5 +93,7 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
 
         public abstract VectorObject<TBase> Union(params Tuple<string, TBase>[] vectors);
 
+        public abstract Dictionary<string, double> DistanceFromArea(Dictionary<string, Tuple<double, double>> area);
+
     }
 }

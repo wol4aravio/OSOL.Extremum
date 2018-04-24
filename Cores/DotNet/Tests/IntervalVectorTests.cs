@@ -217,6 +217,23 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
             var p3 = Tuple.Create("z", new Interval(3.0, 5.0));
             Assert.True((IntervalVector)p1.Union(p2, p3) == v1);
         }
+        
+        [Fact]
+        public static void TestDistanceFromArea()
+        {
+            var area = new Dictionary<string, Tuple<double, double>>()
+            {
+                {"x", Tuple.Create(double.NegativeInfinity, 0.0)},
+                {"y", Tuple.Create(double.NegativeInfinity, double.PositiveInfinity)},
+                {"z", Tuple.Create(2.5, 2.7)}
+            };
+            var distances = v1.DistanceFromArea(area);
+            var tol = 1e-9;
+            Assert.True(Math.Abs(distances["x"] - 1.0) < tol);
+            Assert.True(Math.Abs(distances["y"] - 0.0) < tol);
+            Assert.True(Math.Abs(distances["z"] - 2.3) < tol);
+        }
+
 
         [Fact]
         public static void TestToDoubleValuedVector()
