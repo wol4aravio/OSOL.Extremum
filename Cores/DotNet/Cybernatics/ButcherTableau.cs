@@ -24,7 +24,7 @@ namespace OSOL.Extremum.Cores.DotNet.Cybernatics
             this.C = c;
         }
 
-        public ButcherTableau GetEuler()
+        public static ButcherTableau GetEuler()
         {
             return new ButcherTableau
             (
@@ -34,7 +34,7 @@ namespace OSOL.Extremum.Cores.DotNet.Cybernatics
             );
         }
 
-        public ButcherTableau GetRK4()
+        public static ButcherTableau GetRK4()
         {
             return new ButcherTableau
             (
