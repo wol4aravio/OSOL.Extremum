@@ -81,9 +81,9 @@ class IntervalVector private (override val elements: Map[String, Interval])
     (left, right)
   }
 
-  final override def union(that: Map[String, Interval]): VectorObject[Interval] = {
-    val keys = this.keys ++ that.keys
-    keys.map(k => (k, if (this.elements.contains(k)) this(k) else that(k)))
+  final override def union(that: (String, Interval)): VectorObject[Interval] = {
+    val keys = this.keys + that._1
+    keys.map(k => (k, if (that._1.equals(k)) that._2 else this (k)))
   }
 
   import IntervalVector.IntervalVectorJsonFormat._

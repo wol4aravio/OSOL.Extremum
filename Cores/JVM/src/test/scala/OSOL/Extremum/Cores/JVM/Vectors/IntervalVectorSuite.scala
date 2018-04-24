@@ -99,8 +99,8 @@ class IntervalVectorSuite extends FunSuite {
 
   test("Union") {
     val p1: IntervalVector = Map("x" -> Interval(1.0))
-    val p2 = Map("y" -> Interval(2.0, 3.0))
-    val p3 = Map("z" -> Interval(3.0, 5.0))
+    val p2 = "y" -> Interval(2.0, 3.0)
+    val p3 = "z" -> Interval(3.0, 5.0)
     assert(p1.union(p2, p3) == v1)
   }
 

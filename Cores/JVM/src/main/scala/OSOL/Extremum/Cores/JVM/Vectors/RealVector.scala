@@ -2,7 +2,6 @@ package OSOL.Extremum.Cores.JVM.Vectors
 
 import RealVector.Converters._
 import OSOL.Extremum.Cores.JVM.CodeFeatures.Pipe
-import OSOL.Extremum.Cores.JVM.Optimization.Optimizable
 import OSOL.Extremum.Cores.JVM.Vectors.Exceptions.DifferentKeysException
 import OSOL.Extremum.Cores.JVM.Optimization.Optimizable
 import spray.json._
@@ -62,9 +61,9 @@ class RealVector private (override val elements: Map[String, Double])
 
   final override def toBasicForm(): VectorObject[Double] = this
 
-  final override def union(that: Map[String, Double]): VectorObject[Double] = {
-    val keys = this.keys ++ that.keys
-    keys.map(k => (k, if (that.elements.contains(k)) that(k) else this (k)))
+  final override def union(that: (String, Double)): VectorObject[Double] = {
+    val keys = this.keys + that._1
+    keys.map(k => (k, if (that._1.equals(k)) that._2 else this (k)))
   }
 
   import RealVector.RealVectorJsonFormat._
