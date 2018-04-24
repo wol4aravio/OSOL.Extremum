@@ -213,8 +213,8 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         public static void TestUnion()
         {
             IntervalVector p1 = new Dictionary<string, Interval> {{"x", 1.0}};
-            var p2 = new Dictionary<string, Interval> {{"y", new Interval(2.0, 3.0)}};
-            var p3 = new Dictionary<string, Interval> {{"z", new Interval(3.0, 5.0)}};
+            var p2 = Tuple.Create("y", new Interval(2.0, 3.0));
+            var p3 = Tuple.Create("z", new Interval(3.0, 5.0));
             Assert.True((IntervalVector)p1.Union(p2, p3) == v1);
         }
 
