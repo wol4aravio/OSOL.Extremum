@@ -2,11 +2,13 @@ package OSOL.Extremum.Cores.JVM.Cybernatics
 
 case class ButcherTableau(a: Map[(Int, Int), Double], b: Map[Int, Double], c: Map[Int, Double]) {
 
-  def aGet(i: Int, j: Int): Double = a.getOrElse((i, j), 0.0)
+  def numberOfParts = b.size
 
-  def bGet(i: Int): Double = b.getOrElse(i, 0.0)
+  def getA(i: Int, j: Int): Double = a.getOrElse((i, j), 0.0)
 
-  def cGet(i: Int): Double = c.getOrElse(i, 0.0)
+  def getB(i: Int): Double = b.getOrElse(i, 0.0)
+
+  def getC(i: Int): Double = c.getOrElse(i, 0.0)
 
 }
 
