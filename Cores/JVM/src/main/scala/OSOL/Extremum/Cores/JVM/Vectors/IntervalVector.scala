@@ -89,6 +89,20 @@ class IntervalVector private (override val elements: Map[String, Interval])
   import IntervalVector.IntervalVectorJsonFormat._
   final override def convertToJson(): JsValue = this.toJson
 
+  final override def distanceFromArea(area: Map[String, (Double, Double)]): Map[String, Double] = {
+    area.keySet.map { k =>
+      val (min, max) = area(k)
+      def distance(v: Double): Double = {
+        if (v < min) min - v
+        else {
+          if (v > max) v - max
+          else 0.0
+        }
+      }
+      (k, math.max(distance(this(k).lowerBound), distance(this(k).upperBound)))
+    }.toMap
+  }
+
 }
 
 /** Companion object for [[OSOL.Extremum.Cores.JVM.Vectors.IntervalVector IntervalVector]] class */

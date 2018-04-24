@@ -149,8 +149,9 @@ abstract class VectorObject[Base] (val elements: Map[String, Base]) {
   final def ~*(that: VectorObject[Base]): VectorObject[Base] = this.multiplyImputeMissingKeys(that)
 
   def union(that: Map[String, Base]): VectorObject[Base]
-  final def union(vectors: Map[String, Base]*): VectorObject[Base] = vectors.foldLeft(this) { case (a, b) => a.union(b) }
   final def union(that: VectorObject[Base]): VectorObject[Base] = this.union(that.elements)
   final def union(vectors: VectorObject[Base]*): VectorObject[Base] = vectors.foldLeft(this) { case (a, b) => a.union(b) }
+
+  def distanceFromArea(area: Map[String, (Double, Double)]): Map[String, Double]
 
 }

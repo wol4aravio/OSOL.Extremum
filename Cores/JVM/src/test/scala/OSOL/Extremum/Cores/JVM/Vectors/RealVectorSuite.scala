@@ -95,6 +95,15 @@ class RealVectorSuite extends FunSuite {
     assert(p1.union(p2, p3) == v1)
   }
 
+  test("Distance from Area") {
+    val area = Map("x" -> (Double.NegativeInfinity, 0.0), "y" -> (Double.NegativeInfinity, Double.PositiveInfinity), "z" -> (2.5, 2.7))
+    val distances = v1.distanceFromArea(area)
+    val tol = 1e-9
+    assert(math.abs(distances("x") - 1.0) < tol)
+    assert(math.abs(distances("y") - 0.0) < tol)
+    assert(math.abs(distances("z") - 0.3) < tol)
+  }
+
   test("JSON") {
     assert(v1.convertToJson.convertTo[RealVector] == v1)
     assert(v2.convertToJson.convertTo[RealVector] == v2)
