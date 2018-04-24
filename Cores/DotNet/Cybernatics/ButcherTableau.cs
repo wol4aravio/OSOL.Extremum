@@ -8,6 +8,11 @@ namespace OSOL.Extremum.Cores.DotNet.Cybernatics
         private Dictionary<Tuple<int, int>, double> A;
         private Dictionary<int, double> B, C;
 
+        public int numberOfParts
+        {
+            get => B.Count;
+        }
+
         public double GetA(int i, int j) => A.GetValueOrDefault(Tuple.Create(i, j), 0.0);
         public double GetB(int i) => B.GetValueOrDefault(i, 0.0);
         public double GetC(int i) => C.GetValueOrDefault(i, 0.0);
