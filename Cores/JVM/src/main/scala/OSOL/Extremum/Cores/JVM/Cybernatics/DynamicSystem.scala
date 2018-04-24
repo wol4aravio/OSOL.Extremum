@@ -26,12 +26,12 @@ abstract class DynamicSystem[Base](f: VectorObject[Base] => VectorObject[Base], 
         if (!stop) {
           val currentTime = _times.head
           val currentState = _states.head
-          val controls = u(currentState.union("t" -> doubleToBase(currentTime)))
-          val newState = prolong(currentTime, currentState, controls, eps)
+          val control = u(currentState.union("t" -> doubleToBase(currentTime)))
+          val newState = prolong(currentTime, currentState, control, eps)
           val newTime: Base = eps * stepId
-          val terminalConditionError = newState.union((controls.elements + ("t" -> newTime)).toSeq:_*).distanceFromArea(terminationConditions)
+          val terminalConditionError = newState.union((control.elements + ("t" -> newTime)).toSeq:_*).distanceFromArea(terminationConditions)
           stop = terminalConditionError.values.sum <= maxOverallError
-          (baseToDouble(newTime) +: _times, newState +: _states, controls +: _controls)
+          (baseToDouble(newTime) +: _times, newState +: _states, control +: _controls)
         }
         else (_times.reverse, _states.reverse, _controls.reverse)
     }
