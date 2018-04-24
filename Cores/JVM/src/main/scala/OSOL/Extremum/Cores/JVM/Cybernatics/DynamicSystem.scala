@@ -33,7 +33,7 @@ abstract class DynamicSystem[Base](f: VectorObject[Base] => VectorObject[Base], 
           stop = terminalConditionError.values.sum <= maxOverallError
           (baseToDouble(newTime) +: _times, newState +: _states, controls +: _controls)
         }
-        else (_times, _states, _controls)
+        else (_times.reverse, _states.reverse, _controls.reverse)
     }
     (times.reverse, states.reverse, controls.reverse)
   }
