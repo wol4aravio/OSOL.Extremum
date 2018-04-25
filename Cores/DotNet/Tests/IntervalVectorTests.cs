@@ -54,7 +54,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestAdditionWithImputation()
         {
-            IntervalVector r1 = v1.AddImputeMissingKeys(v2);
+            IntervalVector r1 = (IntervalVector)v1.AddImputeMissingKeys(v2);
             IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 2.0}, 
@@ -67,7 +67,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestSubtraction()
         {
-            IntervalVector r1 = v1 - v1;
+            IntervalVector r1 = (IntervalVector)(v1 - v1);
             IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 0.0}, 
@@ -80,7 +80,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestSubtractionWithImputation()
         {
-            IntervalVector r1 = v1.SubtractImputeMissingKeys(v2);
+            IntervalVector r1 = (IntervalVector)v1.SubtractImputeMissingKeys(v2);
             IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 0.0}, 
@@ -94,7 +94,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestMultiplication()
         {
-            IntervalVector r1 = v1 * v1;
+            IntervalVector r1 = (IntervalVector)(v1 * v1);
             IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 1.0}, 
@@ -107,7 +107,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestMultiplicationWithImputation()
         {
-            IntervalVector r1 = v1.MultiplyImputeMissingKeys(v2);
+            IntervalVector r1 = (IntervalVector)v1.MultiplyImputeMissingKeys(v2);
             IntervalVector r2 = new Dictionary<string, Interval>
             {
                 {"x", 1.0}, 
@@ -208,6 +208,32 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
             Assert.Equal(v1.GetPerformance(f), 1.0);
             Assert.Equal(((IntervalVector)(v1 * 2.0)).GetPerformance(f), 2.0);
         }
+        
+        [Fact]
+        public static void TestUnion()
+        {
+            IntervalVector p1 = new Dictionary<string, Interval> {{"x", 1.0}};
+            var p2 = Tuple.Create("y", new Interval(2.0, 3.0));
+            var p3 = Tuple.Create("z", new Interval(3.0, 5.0));
+            Assert.True((IntervalVector)p1.Union(p2, p3) == v1);
+        }
+        
+        [Fact]
+        public static void TestDistanceFromArea()
+        {
+            var area = new Dictionary<string, Tuple<double, double>>()
+            {
+                {"x", Tuple.Create(double.NegativeInfinity, 0.0)},
+                {"y", Tuple.Create(double.NegativeInfinity, double.PositiveInfinity)},
+                {"z", Tuple.Create(2.5, 2.7)}
+            };
+            var distances = v1.DistanceFromArea(area);
+            var tol = 1e-9;
+            Assert.True(Math.Abs(distances["x"] - 1.0) < tol);
+            Assert.True(Math.Abs(distances["y"] - 0.0) < tol);
+            Assert.True(Math.Abs(distances["z"] - 2.3) < tol);
+        }
+
 
         [Fact]
         public static void TestToDoubleValuedVector()

@@ -2,7 +2,6 @@ package OSOL.Extremum.Cores.JVM.Vectors
 
 import RealVector.Converters._
 import OSOL.Extremum.Cores.JVM.CodeFeatures.Pipe
-import OSOL.Extremum.Cores.JVM.Optimization.Optimizable
 import OSOL.Extremum.Cores.JVM.Vectors.Exceptions.DifferentKeysException
 import OSOL.Extremum.Cores.JVM.Optimization.Optimizable
 import spray.json._
@@ -18,7 +17,7 @@ class RealVector private (override val elements: Map[String, Double])
     val keys_1 = this.keys
     val keys_2 = that.keys
     if (keys_1 != keys_2) throw new DifferentKeysException(keys_1, keys_2)
-    else keys_1.forall(k => this(k) == that(k))
+    else keys_1.forall(k => this (k) == that(k))
   }
 
   final override def add(that: VectorObject[Double]): RealVector =
@@ -62,8 +61,26 @@ class RealVector private (override val elements: Map[String, Double])
 
   final override def toBasicForm(): VectorObject[Double] = this
 
+  final override def union(that: (String, Double)): VectorObject[Double] = {
+    val keys = this.keys + that._1
+    keys.map(k => (k, if (that._1.equals(k)) that._2 else this (k)))
+  }
+
   import RealVector.RealVectorJsonFormat._
+
   final override def convertToJson(): JsValue = this.toJson
+
+  final override def distanceFromArea(area: Map[String, (Double, Double)]): Map[String, Double] = {
+    area.keySet.map { k =>
+      val (min, max) = area(k)
+      val v = this(k)
+      (k, if (v < min) min - v
+      else {
+        if (v > max) v - max
+        else 0.0
+      })
+    }.toMap
+  }
 
 }
 

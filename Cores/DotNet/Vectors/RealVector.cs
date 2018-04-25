@@ -42,28 +42,28 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
             }
         }
 
-        public sealed override Dictionary<string, double> Add(VectorObject<double> that) =>
-            this.ElementWiseOp(that, (x, y) => x + y);
+        public sealed override VectorObject<double> Add(VectorObject<double> that) =>
+            new RealVector(this.ElementWiseOp(that, (x, y) => x + y));
 
-        public sealed override Dictionary<string, double> AddImputeMissingKeys(VectorObject<double> that) =>
-            this.ElementWiseOpImputeMissingKeys(that, (x, y) => x + y, defaultValue: 0.0);
+        public sealed override VectorObject<double> AddImputeMissingKeys(VectorObject<double> that) =>
+            new RealVector(this.ElementWiseOpImputeMissingKeys(that, (x, y) => x + y, defaultValue: 0.0));
 
-        public sealed override Dictionary<string, double> Multiply(double coefficient) =>
-            this.Elements.ToDictionary(x => x.Key, x => coefficient * x.Value);
+        public sealed override VectorObject<double> Multiply(double coefficient) =>
+            new RealVector(this.Elements.ToDictionary(x => x.Key, x => coefficient * x.Value));
 
-        public sealed override Dictionary<string, double> Multiply(VectorObject<double> that) =>
-            this.ElementWiseOp(that, (x, y) => x * y);
+        public sealed override VectorObject<double> Multiply(VectorObject<double> that) =>
+            new RealVector(this.ElementWiseOp(that, (x, y) => x * y));
 
-        public sealed override Dictionary<string, double> MultiplyImputeMissingKeys(VectorObject<double> that) =>
-            this.ElementWiseOpImputeMissingKeys(that, (x, y) => x * y, defaultValue: 1.0);
+        public sealed override VectorObject<double> MultiplyImputeMissingKeys(VectorObject<double> that) =>
+            new RealVector(this.ElementWiseOpImputeMissingKeys(that, (x, y) => x * y, defaultValue: 1.0));
 
-        public sealed override Dictionary<string, double> Subtract(VectorObject<double> that) =>
-            this.ElementWiseOp(that, (x, y) => x - y);
+        public sealed override VectorObject<double> Subtract(VectorObject<double> that) =>
+            new RealVector(this.ElementWiseOp(that, (x, y) => x - y));
 
-        public sealed override Dictionary<string, double> SubtractImputeMissingKeys(VectorObject<double> that) =>
-            this.ElementWiseOpImputeMissingKeys(that, (x, y) => x - y, defaultValue: 0.0);
+        public sealed override VectorObject<double> SubtractImputeMissingKeys(VectorObject<double> that) =>
+            new RealVector(this.ElementWiseOpImputeMissingKeys(that, (x, y) => x - y, defaultValue: 0.0));
 
-        public RealVector MoveBy(Dictionary<string, double> delta) => this.AddImputeMissingKeys(new RealVector(delta));
+        public RealVector MoveBy(Dictionary<string, double> delta) => this.AddImputeMissingKeys(new RealVector(delta)).Elements;
 
         public RealVector Constrain(Dictionary<string, Tuple<double, double>> area)
         {
@@ -100,6 +100,36 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
         public double GetPerformance(Func<Dictionary<string, double>, double> f) => f(this.Elements);
 
         public VectorObject<double> ToBasicForm() => this;
+
+        public override VectorObject<double> Union(params Tuple<string, double>[] vectors)
+        {
+            var allKeys = new List<string>();
+            allKeys.AddRange(this.Keys);
+            allKeys.AddRange(vectors.Select(_ => _.Item1));
+            allKeys = allKeys.Distinct().ToList();
+            return new RealVector(allKeys.ToDictionary(k => k, k =>
+            {
+                var targetKey = vectors.Where(_ => _.Item1.Equals(k)).ToList();
+                return targetKey.Count == 0 ? this[k] : targetKey.First().Item2;
+            }));
+        }
+
+        public override Dictionary<string, double> DistanceFromArea(Dictionary<string, Tuple<double, double>> area)
+        {
+            return area.ToDictionary(kvp => kvp.Key, kvp =>
+            {
+                var min = kvp.Value.Item1;
+                var max = kvp.Value.Item2;
+
+                var v = this[kvp.Key];
+                if (v < min) return min - v;
+                else
+                {
+                    if (v > max) return v - max;
+                    else return 0.0;
+                }
+            });
+        }
 
         public JObject ConvertToJson()
         {

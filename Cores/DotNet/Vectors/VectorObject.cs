@@ -6,7 +6,7 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
 {
     public abstract class VectorObject<TBase>
     {
-        public Dictionary<string, TBase> Elements;
+        public Dictionary<String, TBase> Elements;
 
         public IEnumerable<string> Keys => this.Elements.Keys;
 
@@ -31,7 +31,7 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
         public override string ToString() =>
             string.Join(separator: "\n", values: Elements.Select(x => $"{x.Key} -> {x.Value.ToString()}"));
 
-        public Dictionary<string, TBase> ElementWiseOp(VectorObject<TBase> that, Func<TBase, TBase, TBase> op)
+        public Dictionary<String, TBase> ElementWiseOp(VectorObject<TBase> that, Func<TBase, TBase, TBase> op)
         {
             string[] keys_1 = this.Keys.ToArray();
             string[] keys_2 = that.Keys.ToArray();
@@ -45,7 +45,7 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
             }
         }
 
-        public Dictionary<string, TBase> ElementWiseOpImputeMissingKeys(VectorObject<TBase> that,
+        public Dictionary<String, TBase> ElementWiseOpImputeMissingKeys(VectorObject<TBase> that,
             Func<TBase, TBase, TBase> op, TBase defaultValue)
         {
             List<string> mergedKeys = new List<string>(this.Keys);
@@ -64,32 +64,36 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
         public static bool operator ==(VectorObject<TBase> a, VectorObject<TBase> b) => a.EqualsTo(b);
         public static bool operator !=(VectorObject<TBase> a, VectorObject<TBase> b) => !(a == b);
 
-        public abstract Dictionary<string, TBase> Add(VectorObject<TBase> that);
-        public static Dictionary<string, TBase> operator +(VectorObject<TBase> a, VectorObject<TBase> b) => a.Add(b);
+        public abstract VectorObject<TBase> Add(VectorObject<TBase> that);
+        public static VectorObject<TBase> operator +(VectorObject<TBase> a, VectorObject<TBase> b) => a.Add(b);
 
-        public abstract Dictionary<string, TBase> AddImputeMissingKeys(VectorObject<TBase> that);
+        public abstract VectorObject<TBase> AddImputeMissingKeys(VectorObject<TBase> that);
 
-        public abstract Dictionary<string, TBase> Multiply(double coefficient);
+        public abstract VectorObject<TBase> Multiply(double coefficient);
 
-        public static Dictionary<string, TBase> operator *(VectorObject<TBase> a, double coefficient) =>
+        public static VectorObject<TBase> operator *(VectorObject<TBase> a, double coefficient) =>
             a.Multiply(coefficient);
 
-        private Dictionary<string, TBase> Neg() => Multiply(coefficient: -1.0);
-        public static Dictionary<string, TBase> operator -(VectorObject<TBase> a) => a.Neg();
+        private VectorObject<TBase> Neg() => Multiply(coefficient: -1.0);
+        public static VectorObject<TBase> operator -(VectorObject<TBase> a) => a.Neg();
 
-        public abstract Dictionary<string, TBase> Subtract(VectorObject<TBase> that);
+        public abstract VectorObject<TBase> Subtract(VectorObject<TBase> that);
 
-        public static Dictionary<string, TBase> operator -(VectorObject<TBase> a, VectorObject<TBase> b) =>
+        public static VectorObject<TBase> operator -(VectorObject<TBase> a, VectorObject<TBase> b) =>
             a.Subtract(b);
 
-        public abstract Dictionary<string, TBase> SubtractImputeMissingKeys(VectorObject<TBase> that);
+        public abstract VectorObject<TBase> SubtractImputeMissingKeys(VectorObject<TBase> that);
 
-        public abstract Dictionary<string, TBase> Multiply(VectorObject<TBase> that);
+        public abstract VectorObject<TBase> Multiply(VectorObject<TBase> that);
 
-        public static Dictionary<string, TBase> operator *(VectorObject<TBase> a, VectorObject<TBase> b) =>
+        public static VectorObject<TBase> operator *(VectorObject<TBase> a, VectorObject<TBase> b) =>
             a.Multiply(b);
 
-        public abstract Dictionary<string, TBase> MultiplyImputeMissingKeys(VectorObject<TBase> that);
+        public abstract VectorObject<TBase> MultiplyImputeMissingKeys(VectorObject<TBase> that);
+
+        public abstract VectorObject<TBase> Union(params Tuple<string, TBase>[] vectors);
+
+        public abstract Dictionary<string, double> DistanceFromArea(Dictionary<string, Tuple<double, double>> area);
 
     }
 }

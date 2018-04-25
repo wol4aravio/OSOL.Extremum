@@ -46,7 +46,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestAdditionWithImputation()
         {
-            RealVector r1 = v1.AddImputeMissingKeys(v3);
+            RealVector r1 = (RealVector)v1.AddImputeMissingKeys(v3);
             RealVector r2 = new Dictionary<string, double> {{"x", 0.0}, {"y", 2.0}, {"z", 0.0}};
             Assert.True(r1 == r2);
         }
@@ -61,7 +61,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestSubtractionWithImputation()
         {
-            RealVector r1 = v1.SubtractImputeMissingKeys(v3);
+            RealVector r1 = (RealVector)v1.SubtractImputeMissingKeys(v3);
             RealVector r2 = new Dictionary<string, double> {{"x", 2.0}, {"y", 2.0}, {"z", 6.0}};
             Assert.True(r1 == r2);
         }
@@ -78,7 +78,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestMultiplicationWithImputation()
         {
-            RealVector r1 = v1.MultiplyImputeMissingKeys(v3);
+            RealVector r1 = (RealVector)v1.MultiplyImputeMissingKeys(v3);
             RealVector r2 = new Dictionary<string, double> {{"x", -1.0}, {"y", 2.0}, {"z", -9.0}};
             Assert.True(r1 == r2);
         }
@@ -123,6 +123,31 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
             Assert.Equal(v1.ToBasicForm()["x"], 1.0);
             Assert.Equal(v1.ToBasicForm()["y"], 2.0);
             Assert.Equal(v1.ToBasicForm()["z"], 3.0);
+        }
+
+        [Fact]
+        public static void TestUnion()
+        {
+            RealVector p1 = new Dictionary<string, double> {{"x", 1.0}};
+            var p2 = Tuple.Create("y", 2.0);
+            var p3 = Tuple.Create("z", 3.0);
+            Assert.True((RealVector)p1.Union(p2, p3) == v1);
+        }
+
+        [Fact]
+        public static void TestDistanceFromArea()
+        {
+            var area = new Dictionary<string, Tuple<double, double>>()
+            {
+                {"x", Tuple.Create(double.NegativeInfinity, 0.0)},
+                {"y", Tuple.Create(double.NegativeInfinity, double.PositiveInfinity)},
+                {"z", Tuple.Create(2.5, 2.7)}
+            };
+            var distances = v1.DistanceFromArea(area);
+            var tol = 1e-9;
+            Assert.True(Math.Abs(distances["x"] - 1.0) < tol);
+            Assert.True(Math.Abs(distances["y"] - 0.0) < tol);
+            Assert.True(Math.Abs(distances["z"] - 0.3) < tol);
         }
 
         [Fact]

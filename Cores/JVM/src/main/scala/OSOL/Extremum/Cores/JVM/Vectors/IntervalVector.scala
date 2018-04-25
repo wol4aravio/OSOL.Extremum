@@ -81,8 +81,27 @@ class IntervalVector private (override val elements: Map[String, Interval])
     (left, right)
   }
 
+  final override def union(that: (String, Interval)): VectorObject[Interval] = {
+    val keys = this.keys + that._1
+    keys.map(k => (k, if (that._1.equals(k)) that._2 else this (k)))
+  }
+
   import IntervalVector.IntervalVectorJsonFormat._
   final override def convertToJson(): JsValue = this.toJson
+
+  final override def distanceFromArea(area: Map[String, (Double, Double)]): Map[String, Double] = {
+    area.keySet.map { k =>
+      val (min, max) = area(k)
+      def distance(v: Double): Double = {
+        if (v < min) min - v
+        else {
+          if (v > max) v - max
+          else 0.0
+        }
+      }
+      (k, math.max(distance(this(k).lowerBound), distance(this(k).upperBound)))
+    }.toMap
+  }
 
 }
 

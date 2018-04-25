@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <IsPackable>true</IsPackable>
-    <PackageVersion>0.0.3</PackageVersion>
+    <PackageVersion>0.0.4</PackageVersion>
     <Authors>Valentin Panovskiy</Authors>
     <AssemblyName>OSOL.Extremum.Cores.DotNet</AssemblyName>
     <RootNamespace>OSOL.Extremum.Cores.DotNet</RootNamespace>
@@ -18,9 +18,10 @@
   <ItemGroup>
     <Folder Include="Arithmetics" />
     <Folder Include="CodeFeatures" />
+    <Folder Include="Cybernatics" />
+    <Folder Include="Optimization" />
     <Folder Include="Random" />
     <Folder Include="Tests" />
-    <Folder Include="Vectors" />
     <Folder Include="Vectors" />
   </ItemGroup>
   <ItemGroup>

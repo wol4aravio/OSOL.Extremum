@@ -148,4 +148,9 @@ abstract class VectorObject[Base] (val elements: Map[String, Base]) {
   /** Same as [[OSOL.Extremum.Cores.JVM.Vectors.VectorObject#multiplyImputeMissingKeys multiplyImputeMissingKeys]] */
   final def ~*(that: VectorObject[Base]): VectorObject[Base] = this.multiplyImputeMissingKeys(that)
 
+  def union(that: (String, Base)): VectorObject[Base]
+  def union(vectors: (String, Base)*): VectorObject[Base] = vectors.foldLeft(this) { case (a, b) => a.union(b) }
+
+  def distanceFromArea(area: Map[String, (Double, Double)]): Map[String, Double]
+
 }
