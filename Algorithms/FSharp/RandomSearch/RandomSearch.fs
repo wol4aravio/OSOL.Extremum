@@ -25,8 +25,8 @@ module RandomSearch =
         let r = normallyDistributed.Elements.Values
                 |> Seq.map (fun x -> x * x)
                 |> Seq.sum
-                
-        new RealVector(currentPoint + new RealVector(normallyDistributed * (GoRN.GetContinuousUniform(-1.0, 1.0) / r)))
+        
+        ((currentPoint + normallyDistributed * (GoRN.GetContinuousUniform(-1.0, 1.0) / r)).Elements |> RealVector.op_Implicit).Constrain area
         
     type GenerateInitialPointNode = 
         inherit GeneralNode<RealVector, double, RealVector> 
