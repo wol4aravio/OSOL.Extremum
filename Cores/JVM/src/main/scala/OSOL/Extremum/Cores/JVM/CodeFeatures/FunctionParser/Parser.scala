@@ -46,7 +46,8 @@ object Parser {
           case JsString("cos") => new TreeD.CosTree(argsTrees(0))
           case JsString("exp") => new TreeD.ExpTree(argsTrees(0))
           case JsString("abs") => new TreeD.AbsTree(argsTrees(0))
-          case JsString("ln") => new TreeD.LnTree(argsTrees(0))
+          case JsString("ln") => new TreeD.LogTree(argsTrees(0))
+          case JsString("log") => new TreeD.LogTree(argsTrees(0))
           case JsString("sqrt") => new TreeD.SqrtTree(argsTrees(0))
           case _ => throw new UnsupportedOperation(s"Unsupported func: $func")
         }
@@ -95,7 +96,8 @@ object Parser {
           case JsString("cos") => new TreeI.CosTree(argsTrees(0))
           case JsString("exp") => new TreeI.ExpTree(argsTrees(0))
           case JsString("abs") => new TreeI.AbsTree(argsTrees(0))
-          case JsString("ln") => new TreeI.LnTree(argsTrees(0))
+          case JsString("ln") => new TreeI.LogTree(argsTrees(0))
+          case JsString("log") => new TreeI.LogTree(argsTrees(0))
           case JsString("sqrt") => new TreeI.SqrtTree(argsTrees(0))
           case _ => throw new UnsupportedOperation(s"Unsupported func: $func")
         }

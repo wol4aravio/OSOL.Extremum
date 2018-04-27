@@ -26,7 +26,7 @@ object TreeD {
 
   class AbsTree(subTree: Tree[Double]) extends UnaryOpTree[Double](subTree, x => math.abs(x))
 
-  class LnTree(subTree: Tree[Double]) extends UnaryOpTree[Double](subTree, x => math.log(x))
+  class LogTree(subTree: Tree[Double]) extends UnaryOpTree[Double](subTree, x => math.log(x))
 
   class SqrtTree(subTree: Tree[Double]) extends UnaryOpTree[Double](subTree, x => math.sqrt(x))
 

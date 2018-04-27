@@ -27,7 +27,7 @@ object TreeI {
 
   class AbsTree(subTree: Tree[Interval]) extends UnaryOpTree[Interval](subTree, x => x.abs())
 
-  class LnTree(subTree: Tree[Interval]) extends UnaryOpTree[Interval](subTree, x => x.ln())
+  class LogTree(subTree: Tree[Interval]) extends UnaryOpTree[Interval](subTree, x => x.log())
 
   class SqrtTree(subTree: Tree[Interval]) extends UnaryOpTree[Interval](subTree, x => x.sqrt())
 

@@ -134,13 +134,13 @@ class IntervalSuite extends FunSuite {
   }
 
   test("Unary Operators: Ln") {
-    assert(i1.ln() ~ Interval(Double.NegativeInfinity, math.log(2.0)))
-    assert(i2.ln() ~ Interval(Double.NegativeInfinity, math.log(3.0)))
-    assert(i3.ln() ~ Interval(math.log(1.0), math.log(2.0)))
-    assert(i4.ln() ~ Interval(math.log(5.0), math.log(5.1)))
-    intercept[BadAreaOperationException] { i5.ln() }
-    assert(i6.ln() ~ Interval(Double.NegativeInfinity, Double.NegativeInfinity))
-    assert(i7.ln() ~ Interval(Double.NegativeInfinity, math.log(3.0)))
+    assert(i1.log() ~ Interval(Double.NegativeInfinity, math.log(2.0)))
+    assert(i2.log() ~ Interval(Double.NegativeInfinity, math.log(3.0)))
+    assert(i3.log() ~ Interval(math.log(1.0), math.log(2.0)))
+    assert(i4.log() ~ Interval(math.log(5.0), math.log(5.1)))
+    intercept[BadAreaOperationException] { i5.log() }
+    intercept[BadAreaOperationException] { i6.log() }
+    assert(i7.log() ~ Interval(Double.NegativeInfinity, math.log(3.0)))
   }
 
   test("Conversion: From Double") {

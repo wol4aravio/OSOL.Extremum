@@ -205,10 +205,10 @@ class Interval private (val lowerBound: Double, val upperBound: Double) {
     *
     * @return natural logarithm value
     */
-  final def ln(): Interval = {
-    if (upperBound < 0.0) throw new BadAreaOperationException(opName = "ln", this)
+  final def log(): Interval = {
+    if (upperBound <= 0.0) throw new BadAreaOperationException(opName = "ln", this)
     else {
-      if (lowerBound < 0.0) Interval(Double.NegativeInfinity, math.log(upperBound))
+      if (lowerBound <= 0.0) Interval(Double.NegativeInfinity, math.log(upperBound))
       else Interval(math.log(lowerBound), math.log(upperBound))
     }
   }
