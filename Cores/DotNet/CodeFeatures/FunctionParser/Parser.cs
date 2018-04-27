@@ -104,7 +104,8 @@ namespace OSOL.Extremum.Cores.DotNet.CodeFeatures.FunctionParser
                         case "cos": return new TreeD.CosTree(argsTrees);
                         case "exp": return new TreeD.ExpTree(argsTrees);
                         case "abs": return new TreeD.AbsTree(argsTrees);
-                        case "ln": return new TreeD.LnTree(argsTrees);
+                        case "ln": return new TreeD.LogTree(argsTrees);
+                        case "log": return new TreeD.LogTree(argsTrees);
                         case "sqrt": return new TreeD.SqrtTree(argsTrees);
                         default: throw new UnsupportedOperation();
                     }
@@ -157,7 +158,8 @@ namespace OSOL.Extremum.Cores.DotNet.CodeFeatures.FunctionParser
                         case "cos": return new TreeI.CosTree(argsTrees);
                         case "exp": return new TreeI.ExpTree(argsTrees);
                         case "abs": return new TreeI.AbsTree(argsTrees);
-                        case "ln": return new TreeI.LnTree(argsTrees);
+                        case "ln": return new TreeI.LogTree(argsTrees);
+                        case "log": return new TreeI.LogTree(argsTrees);
                         case "sqrt": return new TreeI.SqrtTree(argsTrees);
                         default: throw new UnsupportedOperation();
                     }

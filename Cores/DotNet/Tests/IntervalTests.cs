@@ -165,7 +165,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
             Assert.True((i3.Ln()).ApproximatelyEqualsTo(new Interval(Math.Log(1.0), Math.Log(2.0))));
             Assert.True((i4.Ln()).ApproximatelyEqualsTo(new Interval(Math.Log(5.0), Math.Log(5.1))));
             Assert.Throws<IntervalExceptions.BadAreaOperationException>(() => i5.Ln());
-            Assert.True((i6.Ln()).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, double.NegativeInfinity)));
+            Assert.Throws<IntervalExceptions.BadAreaOperationException>(() => i6.Ln());
             Assert.True((i7.Ln()).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, Math.Log(3.0))));
         }
 

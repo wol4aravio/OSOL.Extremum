@@ -100,9 +100,9 @@ namespace OSOL.Extremum.Cores.DotNet.CodeFeatures.FunctionParser.Trees
             }
         }
 
-        public class LnTree : UnaryOpTree<double>
+        public class LogTree : UnaryOpTree<double>
         {
-            public LnTree(Tree<double> subTree)
+            public LogTree(Tree<double> subTree)
             {
                 this.SubTree = subTree;
                 this.Op = Math.Log;

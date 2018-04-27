@@ -102,9 +102,9 @@ namespace OSOL.Extremum.Cores.DotNet.CodeFeatures.FunctionParser.Trees
             }
         }
 
-        public class LnTree : UnaryOpTree<Interval>
+        public class LogTree : UnaryOpTree<Interval>
         {
-            public LnTree(Tree<Interval> subTree)
+            public LogTree(Tree<Interval> subTree)
             {
                 this.SubTree = subTree;
                 this.Op = x => x.Ln();

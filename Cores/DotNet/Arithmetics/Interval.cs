@@ -280,13 +280,13 @@ namespace OSOL.Extremum.Cores.DotNet.Arithmetics
 
         public Interval Ln()
         {
-            if (this.UpperBound < 0)
+            if (this.UpperBound <= 0)
             {
                 throw new IntervalExceptions.BadAreaOperationException(opName: "Ln", interval: this);
             }
             else
             {
-                if (this.LowerBound < 0)
+                if (this.LowerBound <= 0)
                 {
                     return new Interval(double.NegativeInfinity, Math.Log(this.UpperBound));
                 }
