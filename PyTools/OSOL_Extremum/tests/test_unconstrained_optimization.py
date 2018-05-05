@@ -1,13 +1,13 @@
 import os
 from math import fabs
 
-from OSOL_Extremum.computational_core.unconstrained_optimization import *
+from OSOL_Extremum.computational_core.computational_core import *
 
 file_writer = open('temp.json', 'w')
-file_writer.writelines(
-    """
+file_writer.writelines("""
 {
-	"f": "x ** 2 + y ** 2 + z ** 2",
+	"task_type": "unconstrained_optimization",
+	"f": "1 * x ** 2 + 2 * y ** 2 + 3 * z ** 2",
 	"vars": ["x", "y", "z"],
 	"differentiable": true,
 	"area": [
@@ -20,11 +20,10 @@ file_writer.writelines(
 		{ "name": "y", "value": 0.0 },
 		{ "name": "z", "value": 0.0 }
 	]
-}
-    """)
+}""")
 file_writer.close()
 
-task = UnconstrainedOptimization.from_json('temp.json')
+core = ComputationalCore.from_json('temp.json')
 
 tol = 1e-7
 
@@ -34,22 +33,22 @@ def almost_equal(v1, v2):
 
 
 def test_calculation():
-    assert almost_equal(task.f(1, 2, 3), 14.0)
-    assert almost_equal(task.f(-1, -2, -3), 14.0)
-    assert almost_equal(task.f(2, 2, 2), 12.0)
+    assert almost_equal(core.request('f', {'x': 1, 'y': 2, 'z': 3}), 36.0)
+    assert almost_equal(core.request('f', {'x': -1, 'y': -2, 'z': -3}), 36.0)
+    assert almost_equal(core.request('f', {'x': 2, 'y': 2, 'z': 2}), 24.0)
 
 
 def test_derivatives():
-    assert almost_equal(task.df['x'](3, 2, 3), 6.0)
-    assert almost_equal(task.df['y'](1, -2, 3), -4.0)
-    assert almost_equal(task.df['z'](1, 2, 11), 22.0)
+    assert almost_equal(core.request('df_x', {'x': 3, 'y': 2, 'z': 3}), 6.0)
+    assert almost_equal(core.request('df_y', {'x': 1, 'y': -2, 'z': 3}), -8.0)
+    assert almost_equal(core.request('df_z', {'x': 1, 'y': 2, 'z': 11}), 66.0)
 
 
 def test_gradient():
-    grad = task.df['grad'](3, -2, 11)
+    grad = core.request('df_grad', {'z': 11, 'x': 3, 'y': -2})
     assert almost_equal(grad[0], 6.0)
-    assert almost_equal(grad[1], -4.0)
-    assert almost_equal(grad[2], 22.0)
+    assert almost_equal(grad[1], -8.0)
+    assert almost_equal(grad[2], 66.0)
 
 
 os.remove('temp.json')
