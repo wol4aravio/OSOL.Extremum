@@ -68,16 +68,12 @@ class Interval:
         else:
             return Interval(-math.inf, math.inf)
 
-    def pow(self, other):
-        if not (other.width == 0.0):
-            raise(Exception('[a; b] ^ [c; d] for (d - c) > 0'))
-        else:
-            power_index = int(other.middle_point)
-            values = [math.pow(self.lower_bound, power_index), math.pow(self.upper_bound, power_index)]
-            if power_index % 2 == 0 and power_index > 0:
-                values.append(0.0)
-            values = sorted(values)
-            return Interval(values[0], values[-1])
+    def __pow__(self, power, modulo=None):
+        values = [math.pow(self.lower_bound, power), math.pow(self.upper_bound, power)]
+        if power % 2 == 0 and self.lower_bound * self.upper_bound < 0:
+            values.append(0.0)
+        values = sorted(values)
+        return Interval(values[0], values[-1])
 
     def abs(self):
         values = [math.fabs(self.lower_bound), math.fabs(self.upper_bound)]

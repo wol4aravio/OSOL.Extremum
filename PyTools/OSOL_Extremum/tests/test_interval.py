@@ -59,9 +59,9 @@ def test_division():
 
 
 def test_power():
-    assert pow(i1, Interval.from_value(2.0)).approximately_equals_to(Interval(0.0, 4.0))
-    assert pow(i2, Interval.from_value(3.0)).approximately_equals_to(Interval(-64.0, 27.0))
-    assert pow(i5, Interval.from_value(0.0)).approximately_equals_to(Interval(1.0, 1.0))
+    assert (i1 ** 2.0).approximately_equals_to(Interval(0.0, 4.0))
+    assert (i2 ** 3.0).approximately_equals_to(Interval(-64.0, 27.0))
+    assert (i5 ** 0.0).approximately_equals_to(Interval(1.0, 1.0))
 
 
 def test_negate():

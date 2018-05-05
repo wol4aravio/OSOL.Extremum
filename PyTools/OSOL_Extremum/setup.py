@@ -27,10 +27,8 @@ setup(
 
     packages=find_packages(),
 
-    # List run-time dependencies here.  These will be installed by pip when
-    # your project is installed. For an analysis of "install_requires" vs pip's
-    # requirements files see:
-    # https://packaging.python.org/en/latest/requirements.html
     install_requires=["ast2json==0.2.1",
-                      "numpy==1.13.1"]
+                      "numpy==1.13.1",
+                      "sympy==1.1.1",
+                      "flask==0.12.2"]
 )
