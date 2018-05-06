@@ -9,7 +9,10 @@ from OSOL_Extremum.arithmetics.interval import Interval
 @pytest.fixture
 def app():
     app = create_app()
-    core_tuner(app, core_path='../../Tasks/Dummy/Dummy_3.json')
+    try:
+        core_tuner(app, core_path='../../Tasks/Dummy/Dummy_3.json')
+    except FileNotFoundError:
+        core_tuner(app, core_path='../../../Tasks/Dummy/Dummy_3.json')
     return app
 
 @pytest.fixture

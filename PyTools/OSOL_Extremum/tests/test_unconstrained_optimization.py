@@ -4,7 +4,10 @@ from OSOL_Extremum.computational_core.computational_core import *
 from OSOL_Extremum.arithmetics.interval import Interval
 
 
-core = ComputationalCore.from_json('../../Tasks/Dummy/Dummy_3.json')
+try:
+    core = ComputationalCore.from_json('../../Tasks/Dummy/Dummy_3.json')
+except FileNotFoundError:
+    core = ComputationalCore.from_json('../../../Tasks/Dummy/Dummy_3.json')
 
 tol = 1e-7
 
