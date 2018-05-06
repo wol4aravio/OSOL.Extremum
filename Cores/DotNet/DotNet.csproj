@@ -18,7 +18,6 @@
   <ItemGroup>
     <Folder Include="Arithmetics" />
     <Folder Include="CodeFeatures" />
-    <Folder Include="Cybernatics" />
     <Folder Include="Optimization" />
     <Folder Include="Random" />
     <Folder Include="Tests" />
