@@ -17,7 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Arithmetics" />
-    <Folder Include="CodeFeatures" />
     <Folder Include="Optimization" />
     <Folder Include="Random" />
     <Folder Include="Tests" />
