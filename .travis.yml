@@ -11,92 +11,92 @@ jobs:
       language: python
       python: "3.6"
       before_script:
-        - cd PyTools
-        - pip install -r requirements.txt
-        - pip install pytest pytest-cov
+        - cd PyTools/OSOL_Extremum
+        - python setup.py install
+        - pip install pytest pytest-cov pytest-flask
       script:
-        - pytest --cov=./ --ignore=./apps/*
+        - pytest --cov=./
       after_success:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
-    - stage: cores
-      language: scala
-      scala: 2.12.5
-      sudo: required
-      before_script:
-        - sudo pip install -r PyTools/requirements.txt
-        - cd Cores/JVM
-      script:
-        - sbt clean coverage test coverageReport
-      after_success:
-        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-        - mvn clean deploy --settings settings.xml
+    # - stage: cores
+    #   language: scala
+    #   scala: 2.12.5
+    #   sudo: required
+    #   before_script:
+    #     - sudo pip install -r PyTools/requirements.txt
+    #     - cd Cores/JVM
+    #   script:
+    #     - sbt clean coverage test coverageReport
+    #   after_success:
+    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+    #     - mvn clean deploy --settings settings.xml
 
-    - stage: cores
-      language: csharp
-      mono: none
-      dotnet: 2.0.0
-      sudo: required
-      before_script:
-        - sudo pip install -r PyTools/requirements.txt
-        - cd Cores/DotNet
-      script:
-        - dotnet restore
-        - dotnet build -c Debug
-        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Cores.DotNet.dll
-        - dotnet test -c Debug --no-build
-        - dotnet minicover opencoverreport
-        - dotnet minicover uninstrument
-        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-      after_success:
-        - dotnet pack -c Release --include-source --output nuget
-        - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+    # - stage: cores
+    #   language: csharp
+    #   mono: none
+    #   dotnet: 2.0.0
+    #   sudo: required
+    #   before_script:
+    #     - sudo pip install -r PyTools/requirements.txt
+    #     - cd Cores/DotNet
+    #   script:
+    #     - dotnet restore
+    #     - dotnet build -c Debug
+    #     - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Cores.DotNet.dll
+    #     - dotnet test -c Debug --no-build
+    #     - dotnet minicover opencoverreport
+    #     - dotnet minicover uninstrument
+    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+    #   after_success:
+    #     - dotnet pack -c Release --include-source --output nuget
+    #     - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
 
 
-    - stage: algorithms
-      language: scala
-      scala: 2.12.5
-      before_script:
-        - cd Algorithms/Scala/RandomSearch
-      script:
-        - sbt clean coverage test coverageReport
-      after_success:
-        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-        - mvn clean deploy --settings settings.xml
+    # - stage: algorithms
+    #   language: scala
+    #   scala: 2.12.5
+    #   before_script:
+    #     - cd Algorithms/Scala/RandomSearch
+    #   script:
+    #     - sbt clean coverage test coverageReport
+    #   after_success:
+    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+    #     - mvn clean deploy --settings settings.xml
 
-    - stage: algorithms
-      language: csharp
-      mono: none
-      dotnet: 2.0.0
-      before_script:
-        - cd Algorithms/CSharp/RandomSearch
-      script:
-        - dotnet restore
-        - dotnet build -c Debug
-        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Algorithms.CSharp.RandomSearch.dll --sources ./
-        - dotnet test -c Debug --no-build
-        - dotnet minicover opencoverreport
-        - dotnet minicover uninstrument
-        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-      after_success:
-        - dotnet pack -c Release --include-source --output nuget
-        - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+    # - stage: algorithms
+    #   language: csharp
+    #   mono: none
+    #   dotnet: 2.0.0
+    #   before_script:
+    #     - cd Algorithms/CSharp/RandomSearch
+    #   script:
+    #     - dotnet restore
+    #     - dotnet build -c Debug
+    #     - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Algorithms.CSharp.RandomSearch.dll --sources ./
+    #     - dotnet test -c Debug --no-build
+    #     - dotnet minicover opencoverreport
+    #     - dotnet minicover uninstrument
+    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+    #   after_success:
+    #     - dotnet pack -c Release --include-source --output nuget
+    #     - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
-    - stage: algorithms
-      language: csharp
-      mono: none
-      dotnet: 2.0.0
-      before_script:
-        - cd Algorithms/FSharp/RandomSearch
-      script:
-        - dotnet restore
-        - dotnet build -c Debug
-        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Algorithms.FSharp.RandomSearch.dll --sources ./
-        - dotnet test -c Debug --no-build
-        - dotnet minicover opencoverreport
-        - dotnet minicover uninstrument
-        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-      after_success:
-        - dotnet pack -c Release --include-source --output nuget
-        - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+    # - stage: algorithms
+    #   language: csharp
+    #   mono: none
+    #   dotnet: 2.0.0
+    #   before_script:
+    #     - cd Algorithms/FSharp/RandomSearch
+    #   script:
+    #     - dotnet restore
+    #     - dotnet build -c Debug
+    #     - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Algorithms.FSharp.RandomSearch.dll --sources ./
+    #     - dotnet test -c Debug --no-build
+    #     - dotnet minicover opencoverreport
+    #     - dotnet minicover uninstrument
+    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+    #   after_success:
+    #     - dotnet pack -c Release --include-source --output nuget
+    #     - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json

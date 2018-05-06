@@ -1,0 +1,14 @@
+{
+	"task_type": "unconstrained_optimization",
+	"f": "1 * x ** 2 + 2 * y ** 2",
+	"vars": ["x", "y"],
+	"differentiable": true,
+	"area": [
+		{ "name": "x", "min": -10.0, "max": 10.0 },
+		{ "name": "y", "min": -10.0, "max": 10.0 }
+	],
+	"solution": [
+		{ "name": "x", "value": 0.0 },
+		{ "name": "y", "value": 0.0 }
+	]
+}
