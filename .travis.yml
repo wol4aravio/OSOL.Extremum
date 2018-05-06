@@ -13,7 +13,7 @@ jobs:
       before_script:
         - cd PyTools/OSOL_Extremum
         - python setup.py install
-        - pip install pytest pytest-cov
+        - pip install pytest pytest-cov pytest-flask
       script:
         - pytest --cov=./
       after_success:
