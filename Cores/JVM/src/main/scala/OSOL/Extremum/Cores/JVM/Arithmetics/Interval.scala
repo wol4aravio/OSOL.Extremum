@@ -346,12 +346,12 @@ object Interval {
   implicit object IntervalJsonFormat extends RootJsonFormat[Interval] {
     def write(i: Interval) = JsObject(
       "Interval" -> JsObject(
-        "lowerBound" -> JsNumber(i.lowerBound),
-        "upperBound" -> JsNumber(i.upperBound)))
+        "lower_bound" -> JsNumber(i.lowerBound),
+        "upper_bound" -> JsNumber(i.upperBound)))
 
     def read(json: JsValue): Interval =
       json.asJsObject.getFields("Interval") match {
-        case Seq(interval) => interval.asJsObject.getFields("lowerBound", "upperBound") match {
+        case Seq(interval) => interval.asJsObject.getFields("lower_bound", "upper_bound") match {
           case Seq(JsNumber(lowerBound), JsNumber(upperBound)) =>
             Interval(lowerBound.toDouble, upperBound.toDouble)
           case _ => throw DeserializationException("No necessary fields")
