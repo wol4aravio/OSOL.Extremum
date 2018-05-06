@@ -3,5 +3,6 @@ omit =
     setup.py
     __init__.py
     **/__init__.py
+    **/__main__.py
     **/*_app.py
     tests/*

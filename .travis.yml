@@ -12,6 +12,7 @@ jobs:
       language: python
       python: "3.6"
       before_script:
+        - echo $TASKS_LOC
         - cd PyTools/OSOL_Extremum
         - python setup.py install
         - pip install pytest pytest-cov pytest-flask
