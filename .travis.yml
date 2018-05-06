@@ -26,6 +26,8 @@ jobs:
       python: "3.6"
       sudo: required
       before_script:
+        - sudo apt-get update
+        - sudo apt-get install python3.6
         - cd PyTools
         - sudo python OSOL_Extremum/setup.py install
         - cd ../Cores/JVM
