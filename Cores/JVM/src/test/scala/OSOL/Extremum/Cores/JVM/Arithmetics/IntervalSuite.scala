@@ -179,7 +179,7 @@ class IntervalSuite extends FunSuite {
     intercept[DeserializationException]
       { i1.toJson.prettyPrint.replace("Interval", "Intervall").parseJson.convertTo[Interval] }
     intercept[DeserializationException]
-      { i1.toJson.prettyPrint.replace("lowerBound", "a").replace("upperBound", "b").parseJson.convertTo[Interval] }
+      { i1.toJson.prettyPrint.replace("lower_bound", "a").replace("upper_bound", "b").parseJson.convertTo[Interval] }
   }
 
 }

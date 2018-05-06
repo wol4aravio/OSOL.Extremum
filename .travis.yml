@@ -23,6 +23,7 @@ jobs:
     - stage: cores
       language: scala
       scala: 2.12.5
+      python: "3.6"
       sudo: required
       before_script:
         - cd PyTools
