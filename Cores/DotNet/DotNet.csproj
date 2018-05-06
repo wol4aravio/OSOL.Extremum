@@ -23,7 +23,4 @@
     <Folder Include="Tests" />
     <Folder Include="Vectors" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="../../PyTools/**/*.py" LinkBase="Resources" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
 </Project>
