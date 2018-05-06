@@ -25,7 +25,7 @@ setup(
 
     keywords="",
 
-    packages=find_packages(),
+    packages=find_packages(exclude=["tests"]),
 
     install_requires=["ast2json==0.2.1",
                       "numpy==1.13.1",
