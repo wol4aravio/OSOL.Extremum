@@ -14,6 +14,10 @@ class Interval(dict):
         return cls(value, value)
 
     @classmethod
+    def from_dict(cls, dict_data):
+        return cls(**dict_data)
+
+    @classmethod
     def from_json(cls, json_data):
         return cls(**json.loads(json_data))
 
