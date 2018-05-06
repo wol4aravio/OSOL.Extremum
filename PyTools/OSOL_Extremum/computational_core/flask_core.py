@@ -30,4 +30,4 @@ def create_app():
 if __name__ == "__main__":
     core_app = create_app()
     core_tuner(core_app)
-    core_app.run()
+    core_app.run(port=core_app.running_port)
