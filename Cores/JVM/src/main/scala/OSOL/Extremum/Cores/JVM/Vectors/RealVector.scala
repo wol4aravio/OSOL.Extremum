@@ -1,7 +1,7 @@
 package OSOL.Extremum.Cores.JVM.Vectors
 
 import RealVector.Converters._
-import OSOL.Extremum.Cores.JVM.CodeFeatures.Pipe
+import OSOL.Extremum.Cores.JVM.Pipe
 import OSOL.Extremum.Cores.JVM.Vectors.Exceptions.DifferentKeysException
 import OSOL.Extremum.Cores.JVM.Optimization.Optimizable
 import spray.json._

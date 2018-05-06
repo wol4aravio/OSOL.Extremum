@@ -1,9 +1,9 @@
-package OSOL.Extremum.Cores.JVM
+package OSOL.Extremum.Cores
 
 import java.io.{File, PrintWriter}
 
 /** Set of code tools */
-package object CodeFeatures {
+package object JVM {
 
   /** Pipeline from Haskell */
   implicit class Pipe[I](val x: I) {

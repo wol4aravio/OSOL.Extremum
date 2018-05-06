@@ -2,7 +2,7 @@ package OSOL.Extremum.Cores.JVM.Vectors
 
 import OSOL.Extremum.Cores.JVM.Arithmetics.Interval
 import IntervalVector.Converters._
-import OSOL.Extremum.Cores.JVM.CodeFeatures.Pipe
+import OSOL.Extremum.Cores.JVM.Pipe
 import OSOL.Extremum.Cores.JVM.Optimization.Optimizable
 import OSOL.Extremum.Cores.JVM.Vectors.Exceptions.DifferentKeysException
 import OSOL.Extremum.Cores.JVM.Optimization.Optimizable

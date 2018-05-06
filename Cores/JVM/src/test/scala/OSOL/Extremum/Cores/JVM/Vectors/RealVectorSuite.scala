@@ -5,7 +5,7 @@ import spray.json._
 
 import OSOL.Extremum.Cores.JVM.Vectors.RealVector.Converters._
 import OSOL.Extremum.Cores.JVM.Vectors.Exceptions._
-import OSOL.Extremum.Cores.JVM.CodeFeatures.Pipe
+import OSOL.Extremum.Cores.JVM.Pipe
 
 class RealVectorSuite extends FunSuite {
 

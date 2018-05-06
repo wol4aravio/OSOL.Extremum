@@ -4,7 +4,7 @@ import OSOL.Extremum.Cores.JVM.Arithmetics.Interval
 import org.scalatest.FunSuite
 import OSOL.Extremum.Cores.JVM.Vectors.IntervalVector.Converters._
 import OSOL.Extremum.Cores.JVM.Vectors.Exceptions._
-import OSOL.Extremum.Cores.JVM.CodeFeatures.Pipe
+import OSOL.Extremum.Cores.JVM.Pipe
 import spray.json._
 
 class IntervalVectorSuite extends FunSuite {
