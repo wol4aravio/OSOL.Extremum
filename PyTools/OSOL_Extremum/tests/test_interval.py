@@ -33,24 +33,32 @@ def test_approximate_equality():
 
 
 def test_addition():
+    assert (i1 + 2).approximately_equals_to(Interval(1.0, 4.0))
+    assert (2.0 + i1).approximately_equals_to(Interval(1.0, 4.0))
     assert (i1 + i2).approximately_equals_to(Interval(-5.0, 5.0))
     assert (i2 + i3).approximately_equals_to(Interval(-3.0, 5.0))
     assert (i5 + i4).approximately_equals_to(Interval(-1.0, 0.1))
 
 
 def test_subtraction():
+    assert (i1 - 1).approximately_equals_to(Interval(-2.0, 1.0))
+    assert (1.0 - i1).approximately_equals_to(Interval(-1.0, 2.0))
     assert (i1 - i2).approximately_equals_to(Interval(-4.0, 6.0))
     assert (i2 - i3).approximately_equals_to(Interval(-6.0, 2.0))
     assert (i5 - i4).approximately_equals_to(Interval(-11.1, -10.0))
 
 
 def test_multiplication():
+    assert (i1 * (-1)).approximately_equals_to(Interval(-2.0, 1.0))
+    assert ((-1.0) * i1).approximately_equals_to(Interval(-2.0, 1.0))
     assert (i1 * i2).approximately_equals_to(Interval(-8.0, 6.0))
     assert (i2 * i3).approximately_equals_to(Interval(-8.0, 6.0))
     assert (i5 * i4).approximately_equals_to(Interval(-30.6, -25.0))
 
 
 def test_division():
+    assert (i1 / 2).approximately_equals_to(Interval(-0.5, 1.0))
+    assert (2.0 / i1).approximately_equals_to(Interval(-math.inf, math.inf))
     assert (i1 / i2).approximately_equals_to(Interval(-math.inf, math.inf))
     assert (i2 / i3).approximately_equals_to(Interval(-4.0, 3.0))
     assert (i1 / i5).approximately_equals_to(Interval(-0.4, 0.2))

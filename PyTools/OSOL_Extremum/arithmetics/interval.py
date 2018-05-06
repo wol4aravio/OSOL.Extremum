@@ -1,15 +1,21 @@
 import math
+import json
 
 
-class Interval:
+class Interval(dict):
 
     def __init__(self, lower_bound, upper_bound):
         self.lower_bound = lower_bound
         self.upper_bound = upper_bound
+        dict.__init__(self, [('lower_bound', lower_bound), ('upper_bound', upper_bound)])
 
     @classmethod
     def from_value(cls, value):
         return cls(value, value)
+
+    @classmethod
+    def from_json(cls, json_data):
+        return cls(**json.loads(json_data))
 
     def __str__(self):
         return '[{0}; {1}]'.format(self.lower_bound, self.upper_bound)
@@ -44,29 +50,53 @@ class Interval:
         return Interval(-self.upper_bound, -self.lower_bound)
 
     def __add__(self, other):
-        return Interval(self.lower_bound + other.lower_bound, self.upper_bound + other.upper_bound)
+        if type(other) == Interval:
+            return Interval(self.lower_bound + other.lower_bound, self.upper_bound + other.upper_bound)
+        else:
+            return self + Interval.from_value(other)
+
+    def __radd__(self, other):
+        return self + other
 
     def __sub__(self, other):
-        return Interval(self.lower_bound - other.upper_bound, self.upper_bound - other.lower_bound)
+        if type(other) == Interval:
+            return Interval(self.lower_bound - other.upper_bound, self.upper_bound - other.lower_bound)
+        else:
+            return self - Interval.from_value(other)
+
+    def __rsub__(self, other):
+        return Interval.from_value(other) - self
 
     def __mul__(self, other):
-        products = [
-            self.lower_bound * other.lower_bound,
-            self.lower_bound * other.upper_bound,
-            self.upper_bound * other.lower_bound,
-            self.upper_bound * other.upper_bound
-        ]
-        return Interval(min(products), max(products))
+        if type(other) == Interval:
+            products = [
+                self.lower_bound * other.lower_bound,
+                self.lower_bound * other.upper_bound,
+                self.upper_bound * other.lower_bound,
+                self.upper_bound * other.upper_bound
+            ]
+            return Interval(min(products), max(products))
+        else:
+            return self * Interval.from_value(other)
+
+    def __rmul__(self, other):
+        return self * other
 
     def __truediv__(self, other):
-        if other.lower_bound > 0 or other.upper_bound < 0:
-            return self * Interval(1.0 / other.upper_bound, 1.0 / other.lower_bound)
-        elif other.lower_bound == 0.0:
-            return self * Interval(1.0 / other.upper_bound, math.inf)
-        elif other.upper_bound == 0.0:
-            return self * Interval(-math.inf, 1.0 / other.lower_bound)
+        if type(other) == Interval:
+            if other.lower_bound > 0 or other.upper_bound < 0:
+                return self * Interval(1.0 / other.upper_bound, 1.0 / other.lower_bound)
+            elif other.lower_bound == 0.0:
+                return self * Interval(1.0 / other.upper_bound, math.inf)
+            elif other.upper_bound == 0.0:
+                return self * Interval(-math.inf, 1.0 / other.lower_bound)
+            else:
+                return Interval(-math.inf, math.inf)
         else:
-            return Interval(-math.inf, math.inf)
+            return self / Interval.from_value(other)
+
+    def __rtruediv__(self, other):
+        return Interval.from_value(other) / self
 
     def __pow__(self, power, modulo=None):
         values = [math.pow(self.lower_bound, power), math.pow(self.upper_bound, power)]
