@@ -6,13 +6,10 @@ from OSOL_Extremum.computational_core.core_tuner import core_tuner
 from OSOL_Extremum.arithmetics.interval import Interval
 
 
-import os
-print(os.listdir('../../..'))
-
 @pytest.fixture
 def app():
     app = create_app()
-    core_tuner(app, core_path='../../../Tasks/Dummy/Dummy_3.json')
+    core_tuner(app, core_path='../../Tasks/Dummy/Dummy_3.json')
     return app
 
 @pytest.fixture
