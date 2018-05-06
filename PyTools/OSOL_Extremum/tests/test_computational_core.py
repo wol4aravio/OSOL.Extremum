@@ -1,8 +1,7 @@
 import pytest
 import json
 
-from OSOL_Extremum.computational_core.flask_core import create_app
-from OSOL_Extremum.computational_core.core_tuner import core_tuner
+from OSOL_Extremum.computational_core.tools import *
 from OSOL_Extremum.arithmetics.interval import Interval
 
 

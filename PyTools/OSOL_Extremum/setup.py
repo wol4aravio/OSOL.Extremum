@@ -30,5 +30,11 @@ setup(
     install_requires=["ast2json==0.2.1",
                       "numpy==1.13.1",
                       "sympy==1.1.1",
-                      "flask==0.12.2"]
+                      "flask==0.12.2"],
+
+    # scripts=['OSOL_Extremum/computational_core/run_core.py']
+
+    entry_points={
+        'console_scripts': ['run_core=OSOL_Extremum.computational_core.__main__:main']
+    }
 )
