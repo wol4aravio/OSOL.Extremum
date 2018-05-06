@@ -1,5 +1,5 @@
 import pytest
-import json
+import os
 
 from OSOL_Extremum.computational_core.tools import *
 from OSOL_Extremum.arithmetics.interval import Interval
@@ -8,10 +8,7 @@ from OSOL_Extremum.arithmetics.interval import Interval
 @pytest.fixture
 def app():
     app = create_app()
-    try:
-        core_tuner(app, core_path='../../Tasks/Dummy/Dummy_3.json')
-    except FileNotFoundError:
-        core_tuner(app, core_path='../../../Tasks/Dummy/Dummy_3.json')
+    core_tuner(app, core_path='{}/Dummy/Dummy_3.json'.format(os.environ.get('TASKS_LOC')))
     return app
 
 @pytest.fixture

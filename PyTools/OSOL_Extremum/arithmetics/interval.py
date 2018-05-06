@@ -7,7 +7,7 @@ class Interval(dict):
     def __init__(self, lower_bound, upper_bound):
         self.lower_bound = lower_bound
         self.upper_bound = upper_bound
-        dict.__init__(self, [('lower_bound', lower_bound), ('upper_bound', upper_bound)])
+        dict.__init__(self, {'Interval': {'lower_bound': lower_bound, 'upper_bound': upper_bound}})
 
     @classmethod
     def from_value(cls, value):
@@ -15,11 +15,11 @@ class Interval(dict):
 
     @classmethod
     def from_dict(cls, dict_data):
-        return cls(**dict_data)
+        return cls(**dict_data['Interval'])
 
     @classmethod
     def from_json(cls, json_data):
-        return cls(**json.loads(json_data))
+        return cls(**json.loads(json_data)['Interval'])
 
     def __str__(self):
         return '[{0}; {1}]'.format(self.lower_bound, self.upper_bound)

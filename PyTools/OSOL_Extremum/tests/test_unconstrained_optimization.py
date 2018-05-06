@@ -1,13 +1,11 @@
 from math import fabs
+import os
 
 from OSOL_Extremum.computational_core.computational_core import *
 from OSOL_Extremum.arithmetics.interval import Interval
 
 
-try:
-    core = ComputationalCore.from_json('../../Tasks/Dummy/Dummy_3.json')
-except FileNotFoundError:
-    core = ComputationalCore.from_json('../../../Tasks/Dummy/Dummy_3.json')
+core = ComputationalCore.from_json('{}/Dummy/Dummy_3.json'.format(os.environ.get('TASKS_LOC')))
 
 tol = 1e-7
 
