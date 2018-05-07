@@ -9,18 +9,18 @@ env:
 
 jobs:
   include:
-    # - stage: preliminaries
-    #   language: python
-    #   python: "3.6"
-    #   before_script:
-    #     - cd PyTools
-    #     - python -m pip install -e OSOL_Extremum
-    #     - pip install pytest pytest-cov pytest-flask
-    #     - cd OSOL_Extremum
-    #   script:
-    #     - pytest --cov=./
-    #   after_success:
-    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+    - stage: preliminaries
+      language: python
+      python: "3.6"
+      before_script:
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - pip install pytest pytest-cov pytest-flask
+        - cd OSOL_Extremum
+      script:
+        - pytest --cov=./
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
     - stage: cores
       language: scala
@@ -37,14 +37,12 @@ jobs:
         - source activate test-environment
         - cd PyTools
         - python OSOL_Extremum/setup.py install
-        # - python -m pip install -e PyTools/OSOL_Extremum
-        - run_core --core ${TASKS_LOC}/Dummy/Dummy_3.json --port 5000
-      #   - cd ../Cores/JVM
-      # script:
-      #   - sbt clean coverage test coverageReport
-      # after_success:
-      #   - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-      #   - mvn clean deploy --settings settings.xml
+        - cd ../Cores/JVM
+      script:
+        - sbt clean coverage test coverageReport
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - mvn clean deploy --settings settings.xml
 
     # - stage: cores
     #   language: csharp
