@@ -12,29 +12,28 @@ jobs:
       language: python
       python: "3.6"
       before_script:
-        - cd PyTools/OSOL_Extremum
-        - python setup.py install
+        - cd PyTools
+        - python -m pip install -e OSOL_Extremum
         - pip install pytest pytest-cov pytest-flask
+        - cd OSOL_Extremum
       script:
         - pytest --cov=./
       after_success:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
-    - stage: cores
-      language: scala
-      scala: 2.12.5
-      sudo: required
-      dist: trusty
-      python: 3.6
-      before_script:
-        - cd PyTools
-        - python -m pip install -e OSOL_Extremum
-        - cd ../Cores/JVM
-      script:
-        - sbt clean coverage test coverageReport
-      after_success:
-        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-        - mvn clean deploy --settings settings.xml
+    # - stage: cores
+    #   language: scala
+    #   scala: 2.12.5
+    #   sudo: required
+    #   before_script:
+    #     - cd PyTools
+    #     - python -m pip install -e OSOL_Extremum
+    #     - cd ../Cores/JVM
+    #   script:
+    #     - sbt clean coverage test coverageReport
+    #   after_success:
+    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+    #     - mvn clean deploy --settings settings.xml
 
     # - stage: cores
     #   language: csharp
