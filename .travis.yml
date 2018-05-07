@@ -35,14 +35,16 @@ jobs:
         - conda update -q conda
         - conda create -q -n test-environment python=$PYTHON_VER
         - source activate test-environment
-        # - python -m pip install -e PyTools/OSOL_Extremum
-        - python PyTools/OSOL_Extremum/setup.py install
-        - cd Cores/JVM
-      script:
-        - sbt clean coverage test coverageReport
-      after_success:
-        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-        - mvn clean deploy --settings settings.xml
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - python -m pip install -e PyTools/OSOL_Extremum
+        - run_core --core ${TASKS_LOC}/Dummy/Dummy_3.json --port 5000
+      #   - cd ../Cores/JVM
+      # script:
+      #   - sbt clean coverage test coverageReport
+      # after_success:
+      #   - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+      #   - mvn clean deploy --settings settings.xml
 
     # - stage: cores
     #   language: csharp
