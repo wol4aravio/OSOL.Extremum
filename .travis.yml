@@ -37,7 +37,7 @@ jobs:
         - source activate test-environment
         - cd PyTools
         - python OSOL_Extremum/setup.py install
-        - python -m pip install -e PyTools/OSOL_Extremum
+        # - python -m pip install -e PyTools/OSOL_Extremum
         - run_core --core ${TASKS_LOC}/Dummy/Dummy_3.json --port 5000
       #   - cd ../Cores/JVM
       # script:
