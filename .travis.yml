@@ -25,6 +25,7 @@ jobs:
       scala: 2.12.5
       sudo: required
       dist: trusty
+      python: 3.6
       before_script:
         - cd PyTools
         - python -m pip install -e OSOL_Extremum
