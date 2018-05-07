@@ -9,18 +9,18 @@ env:
 
 jobs:
   include:
-    - stage: preliminaries
-      language: python
-      python: "3.6"
-      before_script:
-        - cd PyTools
-        - python -m pip install -e OSOL_Extremum
-        - pip install pytest pytest-cov pytest-flask
-        - cd OSOL_Extremum
-      script:
-        - pytest --cov=./
-      after_success:
-        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+    # - stage: preliminaries
+    #   language: python
+    #   python: "3.6"
+    #   before_script:
+    #     - cd PyTools
+    #     - python -m pip install -e OSOL_Extremum
+    #     - pip install pytest pytest-cov pytest-flask
+    #     - cd OSOL_Extremum
+    #   script:
+    #     - pytest --cov=./
+    #   after_success:
+    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
     - stage: cores
       language: scala
