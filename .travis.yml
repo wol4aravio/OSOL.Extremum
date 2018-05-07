@@ -24,10 +24,10 @@ jobs:
       language: scala
       scala: 2.12.5
       sudo: required
+      dist: trusty
       before_script:
         - cd PyTools
-        - source ~/virtualenv/python3.6/bin/activate
-        - sudo python OSOL_Extremum/setup.py install
+        - python -m pip install -e OSOL_Extremum
         - cd ../Cores/JVM
       script:
         - sbt clean coverage test coverageReport

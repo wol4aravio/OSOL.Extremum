@@ -27,6 +27,8 @@ setup(
 
     packages=find_packages(exclude=["tests"]),
 
+    python_requires=">=3.6",
+
     install_requires=["ast2json==0.2.1",
                       "numpy==1.13.1",
                       "sympy==1.1.1",
