@@ -11,6 +11,7 @@ def main():
                       type=str)
     parser.add_option("-P", "--port",
                       help="Running port",
+                      type=int,
                       default=5000)
 
     options, _ = parser.parse_args()
