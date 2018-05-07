@@ -22,10 +22,10 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
     - stage: cores
-      language: scala
+      language: python
+      python: "3.6"
       scala: 2.12.5
       sudo: required
-      python: "3.6"
       before_script:
         - cd PyTools
         - python -m pip install -e OSOL_Extremum
