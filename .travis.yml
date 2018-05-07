@@ -23,11 +23,15 @@ jobs:
     - stage: cores
       language: scala
       scala: 2.12.5
-      python: "3.6"
+      addons:
+        apt:
+          packages:
+            - "python3"
+            - "python3-pip"
       sudo: required
       before_script:
         - cd PyTools
-        - sudo pip install setuptools
+        - sudo pip3 install setuptools
         - sudo python3 OSOL_Extremum/setup.py install
         - cd ../Cores/JVM
       script:
