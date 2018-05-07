@@ -11,8 +11,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
     public class RemoteFunctionsTests
     {
         
-//        public static string TASKS_LOC = Environment.GetEnvironmentVariable("TASKS_LOC");
-        public static string TASKS_LOC = "/Users/wol4aravio/Wol4araVio/Projects/OSOL.Extremum/Tasks";
+        public static string TASKS_LOC = Environment.GetEnvironmentVariable("TASKS_LOC");
         
         [Fact]
         public static void TestRealRemoteFunction()
