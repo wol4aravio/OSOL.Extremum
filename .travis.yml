@@ -64,7 +64,7 @@ jobs:
       script:
         - dotnet restore
         - dotnet build -c Debug
-        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Cores.DotNet.dll
+        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Cores.DotNet.dll --exclude-sources Tests/
         - dotnet test -c Debug --no-build
         - dotnet minicover opencoverreport
         - dotnet minicover uninstrument
