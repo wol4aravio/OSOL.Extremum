@@ -35,9 +35,9 @@ jobs:
         - conda update -q conda
         - conda create -q -n test-environment python=$PYTHON_VER
         - source activate test-environment
-        - cd PyTools
-        - python -m pip install -e OSOL_Extremum
-        - cd ../Cores/JVM
+        # - python -m pip install -e PyTools/OSOL_Extremum
+        - python PyTools/OSOL_Extremum/setup.py install
+        - cd Cores/JVM
       script:
         - sbt clean coverage test coverageReport
       after_success:
