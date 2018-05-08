@@ -6,10 +6,6 @@ import OSOL.Extremum.Cores.JVM.Vectors.Exceptions.DifferentKeysException
 import OSOL.Extremum.Cores.JVM.Optimization.Optimizable
 import spray.json._
 
-/** Ordinary numerical vector
-  *
-  * @param elements values which form VectorObject (key-value pairs)
-  */
 class RealVector private (override val elements: Map[String, Double])
   extends VectorObject[Double](elements) with Optimizable[RealVector, Double] {
 
@@ -67,7 +63,6 @@ class RealVector private (override val elements: Map[String, Double])
   }
 
   import RealVector.RealVectorJsonFormat._
-
   final override def convertToJson(): JsValue = this.toJson
 
   final override def distanceFromArea(area: Map[String, (Double, Double)]): Map[String, Double] = {
@@ -84,43 +79,20 @@ class RealVector private (override val elements: Map[String, Double])
 
 }
 
-/** Companion object for [[OSOL.Extremum.Cores.JVM.Vectors.RealVector RealVector]] class */
 object RealVector {
 
-  /** Implicit converters for [[OSOL.Extremum.Cores.JVM.Vectors.RealVector RealVector]] */
   object Converters {
 
-    /** Converts `Iterable[(String, Double)]` to [[OSOL.Extremum.Cores.JVM.Vectors.RealVector RealVector]]
-      *
-      * @param v `(key, value)` pairs
-      * @return [[OSOL.Extremum.Cores.JVM.Vectors.RealVector RealVector]]
-      */
     implicit def Iterable_to_RealVector(v: Iterable[(String, Double)]): RealVector = RealVector(v)
 
-    /** Converts `VectorObject[Double]` to [[OSOL.Extremum.Cores.JVM.Vectors.RealVector RealVector]]
-      *
-      * @param v `VectorObject[Double]`
-      * @return [[OSOL.Extremum.Cores.JVM.Vectors.RealVector RealVector]]
-      */
     implicit def VectorObject_to_RealVector(v: VectorObject[Double]): RealVector = RealVector(v.elements)
 
   }
 
-  /** Create object from `(key, value)` pairs
-    *
-    * @param keyValuePairs target `(key, value)` pairs
-    * @return vector composed of `keyValuePairs`
-    */
   final def apply(keyValuePairs: (String, Double)*): RealVector = new RealVector(keyValuePairs.toMap)
 
-  /** Create object from `(key, value)` pairs
-    *
-    * @param keyValuePairs target `(key, value)` pairs
-    * @return vector composed of `keyValuePairs`
-    */
   final def apply(keyValuePairs: Iterable[(String, Double)]): RealVector = RealVector(keyValuePairs.toSeq: _*)
 
-  /** Json Serialization for RealVector */
   implicit object RealVectorJsonFormat extends RootJsonFormat[RealVector] {
     def write(v: RealVector) = JsObject(
       "RealVector" -> JsObject(
