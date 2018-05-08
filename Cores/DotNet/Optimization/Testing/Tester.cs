@@ -33,7 +33,6 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization.Testing
             for (int id = 0; id < TestFunctions.Length; ++id)
             {
                 var f = TestFunctions[id];
-                f.Initialize();
                 var area = Areas[id];
                 var sol = Solutions[id];
                 bool success = false;
@@ -43,11 +42,12 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization.Testing
                     for (int attempt = 0; attempt < Attempts && !success; ++attempt)
                     {
                         algorithm.Reset();
+                        f.Initialize();
                         var r = algorithm.Work(f.Calculate, area).ToBasicForm();
+                        f.Terminate();
                         success = Lp_norm(r, new RealVector(sol)) < Tolerance;
                     }
                 }
-                f.Terminate();
                 resultsPerFunction[id] = success;
             }
 

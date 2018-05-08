@@ -39,7 +39,7 @@ jobs:
         - python OSOL_Extremum/setup.py install
         - cd ../Cores/JVM
       script:
-        - travis_wait sbt clean coverage test coverageReport
+        - sbt clean coverage test coverageReport
       after_success:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - mvn clean deploy --settings settings.xml
