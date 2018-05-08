@@ -8,7 +8,7 @@ from OSOL_Extremum.arithmetics.interval import Interval
 @pytest.fixture
 def app():
     app = create_app()
-    app.core = ComputationalCore.from_json('{}/Dummy/Dummy_3.json'.format(os.environ.get('TASKS_LOC')))
+    app.core = ComputationalCore.from_json('{}/Dummy/Dummy_3.json'.format(os.environ.get('OSOL_EXTREMUM_TASKS_LOC')))
     return app
 
 
