@@ -11,12 +11,13 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
     public class RemoteFunctionsTests
     {
         
-        public static string TASKS_LOC = Environment.GetEnvironmentVariable("TASKS_LOC");
+        public static string TASKS_LOC = Environment.GetEnvironmentVariable("OSOL_EXTREMUM_TASKS_LOC");
         
         [Fact]
         public static void TestRealRemoteFunction()
         {
             var f = new RealRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_3.json", port: 5000, field: "f");
+            f.Initialize();
             var result = f.Calculate(new Dictionary<string, double>()
             {
                 {"x", 1.0}, 
@@ -32,6 +33,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         public static void TestIntervalRemoteFunction()
         {
             var f = new IntervalRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_3.json", port: 5000, field: "f");
+            f.Initialize();
             var result = f.Calculate(new Dictionary<string, Interval>()
             {
                 {"x", new Interval(1, 2)},

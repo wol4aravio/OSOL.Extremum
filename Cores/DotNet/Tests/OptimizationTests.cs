@@ -45,7 +45,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
                         if (alreadySampledPoints.Count > 0)
                         {
                             newPoint = alreadySampledPoints.First()
-                                .MoveBy(gorn.GetContinuousUniformVector(area.ToDictionary(kvp => kvp.Key, kvp => Tuple.Create(-1.0, 1.0))))
+                                .MoveBy(gorn.GetContinuousUniformVector(area.ToDictionary(kvp => kvp.Key, kvp => Tuple.Create(-0.1, 0.1))))
                                 .Constrain(area);
                         }
                         else
@@ -211,7 +211,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         static void TestRealOptimization()
         {
             var result = toolReal.Work(fReal, area);
-            Assert.True(testerReal.Check(DummyRealOptimization.CreateAlgorithm(250, 2.5), DummyRealOptimization.CreateAlgorithm(500, 5.0)));
+            Assert.True(testerReal.Check(DummyRealOptimization.CreateAlgorithm(100, 120.0), DummyRealOptimization.CreateAlgorithm(250, 300.0)));
             
             bool madeJson = false;
             try
