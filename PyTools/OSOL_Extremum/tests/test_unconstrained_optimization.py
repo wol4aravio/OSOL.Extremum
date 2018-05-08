@@ -5,7 +5,7 @@ from OSOL_Extremum.computational_core.computational_core import *
 from OSOL_Extremum.arithmetics.interval import Interval
 
 
-core = ComputationalCore.from_json('{}/Dummy/Dummy_3.json'.format(os.environ.get('TASKS_LOC')))
+core = ComputationalCore.from_json('{}/Dummy/Dummy_3.json'.format(os.environ.get('OSOL_EXTREMUM_TASKS_LOC')))
 
 tol = 1e-7
 
