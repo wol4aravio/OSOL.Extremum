@@ -1,11 +1,12 @@
 package OSOL.Extremum.Cores.JVM.Optimization.Testing
 
+import OSOL.Extremum.Cores.JVM.Optimization.RemoteFunctions.RemoteFunction
 import OSOL.Extremum.Cores.JVM.Optimization.{Algorithm, Area, Optimizable}
 import OSOL.Extremum.Cores.JVM.Vectors.{RealVector, VectorObject}
 import OSOL.Extremum.Cores.JVM.Optimization.{Algorithm, Optimizable}
 import OSOL.Extremum.Cores.JVM.Vectors.VectorObject
 
-abstract class Tester[Base, FuncType, V <: Optimizable[Base, FuncType]](testFunctions: Seq[Map[String, FuncType] => FuncType],
+abstract class Tester[Base, FuncType, V <: Optimizable[Base, FuncType]](testFunctions: Seq[RemoteFunction[FuncType]],
                                                                         areas: Seq[Area],
                                                                         solutions: Seq[Map[String, Double]],
                                                                         tolerance: Double,
@@ -19,17 +20,19 @@ abstract class Tester[Base, FuncType, V <: Optimizable[Base, FuncType]](testFunc
   def apply(algorithms: Algorithm[Base, FuncType, V]*): Boolean = {
     val resultsPerFunction = testFunctions.zip(areas).zip(solutions)
       .map { case ((f, area), sol) => {
+        f.initialize()
         var success = false
         val resultsPerAlgorithm = algorithms.takeWhile { a => {
           val resultsPerAttempt = (1 to attempts).takeWhile { _ =>
             a.reset()
-            val r = a.work(f, area).toBasicForm()
+            val r = a.work(f.apply, area).toBasicForm()
             success = Lp_norm(r, RealVector(sol)) < tolerance
             !success
           }
           !success
         }
         }
+        f.terminate()
         success
       }
       }

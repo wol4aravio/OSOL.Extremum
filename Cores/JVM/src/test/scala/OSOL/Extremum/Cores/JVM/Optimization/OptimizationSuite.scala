@@ -25,7 +25,7 @@ class OptimizationSuite extends FunSuite {
         val alreadySampledPoints = state.getParameter[Seq[RealVector]](parameterName)
         if (state.getParameter[Boolean]("generate")) {
           val newPoint: RealVector = alreadySampledPoints.headOption.getOrElse(RealVector(GoRN.getContinuousUniform(area)))
-            .moveBy(GoRN.getContinuousUniform(area.mapValues { case _ => (-1.0, 1.0)}))
+            .moveBy(GoRN.getContinuousUniform(area.mapValues { case _ => (-0.1, 0.1)}))
             .constrain(area)
           state.setParameter(parameterName, (newPoint +: alreadySampledPoints).sortBy(_.getPerformance(f)).take(9))
         }
@@ -140,7 +140,7 @@ class OptimizationSuite extends FunSuite {
   test("Test #1") {
     val result = toolReal.work(fReal, area)
     assert(try { val json = toolReal.serializeState(); true} catch { case _: Exception => false })
-    assert(testerReal(DummyRealOptimization(250, 2.5), DummyRealOptimization(500, 5.0)))
+    assert(testerReal(DummyRealOptimization(100, 60.0), DummyRealOptimization(250, 150.0)))
   }
 
   test("Test #2") {
