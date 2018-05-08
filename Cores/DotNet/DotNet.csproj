@@ -19,7 +19,6 @@
     <Folder Include="Arithmetics" />
     <Folder Include="Optimization" />
     <Folder Include="Random" />
-    <Folder Include="Tests" />
     <Folder Include="Vectors" />
   </ItemGroup>
 </Project>
