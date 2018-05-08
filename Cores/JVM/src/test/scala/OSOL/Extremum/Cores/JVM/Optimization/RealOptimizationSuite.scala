@@ -68,7 +68,6 @@ class RealOptimizationSuite extends FunSuite {
 
   test("Dummy Test") {
     assert(testerReal(DummyRealOptimization(100, 60.0), DummyRealOptimization(250, 150.0)))
-    Thread.sleep(5000)
   }
 
 }

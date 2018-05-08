@@ -15,7 +15,6 @@ class RealRemoteFunctionsSuite extends FunSuite {
     f.terminate()
 
     assert(result == 36.0)
-    Thread.sleep(5000)
 
   }
 
