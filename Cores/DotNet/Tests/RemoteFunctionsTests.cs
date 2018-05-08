@@ -16,7 +16,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestRealRemoteFunction()
         {
-            var f = new RealRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_3.json", port: 5010, field: "f");
+            var f = new RealRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_3.json", port: 10010, field: "f");
             f.Initialize();
             var result = f.Calculate(new Dictionary<string, double>()
             {
@@ -32,7 +32,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         [Fact]
         public static void TestIntervalRemoteFunction()
         {
-            var f = new IntervalRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_3.json", port: 5020, field: "f");
+            var f = new IntervalRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_3.json", port: 10020, field: "f");
             f.Initialize();
             var result = f.Calculate(new Dictionary<string, Interval>()
             {
