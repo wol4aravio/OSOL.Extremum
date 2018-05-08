@@ -16,6 +16,7 @@ abstract class RemoteFunction[FuncType](val json: String, val port: Int, val fie
 
   def terminate(): Unit = {
     server_process.destroy()
+    Thread.sleep(5000)
   }
 
 }
