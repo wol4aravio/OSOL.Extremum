@@ -27,6 +27,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
             f.Terminate();
             
             Assert.Equal(result, 36.0);
+            System.Threading.Thread.Sleep(5000);
         }
         
         [Fact]
@@ -43,6 +44,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
             f.Terminate();
             
             Assert.True(result.EqualsTo(new Interval(36, 70)));
+            System.Threading.Thread.Sleep(5000);
         }
     }
 }

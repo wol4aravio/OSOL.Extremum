@@ -15,8 +15,9 @@ class RemoteFunctionsSuite extends FunSuite {
     f.terminate()
 
     assert(result == 36.0)
-
+    Thread.sleep(5000)
   }
+
 
   test("Dummy Interval f") {
 
@@ -26,7 +27,7 @@ class RemoteFunctionsSuite extends FunSuite {
     f.terminate()
 
     assert(result equalsTo Interval(36.0, 70.0))
-
+    Thread.sleep(5000)
   }
 
 }
