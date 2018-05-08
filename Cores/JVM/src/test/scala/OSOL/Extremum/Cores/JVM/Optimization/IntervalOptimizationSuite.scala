@@ -63,6 +63,7 @@ class IntervalOptimizationSuite extends FunSuite {
 
   test("Dummy Test") {
     assert(testerInterval(toolInterval))
+    Thread.sleep(5000)
   }
 
 }

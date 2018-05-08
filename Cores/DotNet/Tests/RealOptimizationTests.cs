@@ -106,6 +106,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         static void TestRealOptimization()
         {
             Assert.True(testerReal.Check(DummyRealOptimization.CreateAlgorithm(100, 120.0), DummyRealOptimization.CreateAlgorithm(250, 300.0)));
+            System.Threading.Thread.Sleep(5000);
         }
 
     }

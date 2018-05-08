@@ -95,6 +95,7 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         static void TestIntervalOptimization()
         {
             Assert.True(testerInterval.Check(toolInterval));
+            System.Threading.Thread.Sleep(5000);
         }
     }
 }
