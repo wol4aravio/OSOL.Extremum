@@ -224,7 +224,6 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
                 madeJson = false;
             }
             Assert.True(madeJson);
-            System.Threading.Thread.Sleep(5000);
         }
         
         [Fact]
@@ -244,7 +243,6 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
                 madeJson = false;
             }
             Assert.True(madeJson);
-            System.Threading.Thread.Sleep(5000);
         }
     }
 }
