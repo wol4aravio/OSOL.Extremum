@@ -42,7 +42,6 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization.RemoteFunctions
         public void Terminate()
         {
             ServerProcess.Kill();
-            System.Threading.Thread.Sleep(5000);
         }
     }
 }

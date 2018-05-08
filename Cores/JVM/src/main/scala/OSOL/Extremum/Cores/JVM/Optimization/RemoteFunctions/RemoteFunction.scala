@@ -27,7 +27,6 @@ abstract class RemoteFunction[FuncType](val json: String, val port: Int, val fie
     catch {
       case _: Exception => Runtime.getRuntime.exec(s"taskkill /F /PID $pid")
     }
-    Thread.sleep(5000)
   }
 
 }
