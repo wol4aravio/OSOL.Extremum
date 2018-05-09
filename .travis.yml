@@ -29,6 +29,8 @@ jobs:
       scala: 2.12.5
       sudo: required
       before_script:
+        - sudo echo "1" >/proc/sys/net/ipv4/tcp_tw_reuse
+        - sudo echo "1" >/proc/sys/net/ipv4/tcp_tw_recycle
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
         - export PATH="$HOME/miniconda/bin:$PATH"
@@ -41,7 +43,7 @@ jobs:
         - python OSOL_Extremum/setup.py install
         - cd ../Cores/JVM
       script:
-        - sbt clean coverage test coverageReport
+        - travis_wait 30 sbt clean coverage test coverageReport
       after_success:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - mvn clean deploy --settings settings.xml
@@ -51,6 +53,8 @@ jobs:
       dotnet: 2.0.0
       sudo: required
       before_script:
+        - sudo echo "1" >/proc/sys/net/ipv4/tcp_tw_reuse
+        - sudo echo "1" >/proc/sys/net/ipv4/tcp_tw_recycle
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
         - export PATH="$HOME/miniconda/bin:$PATH"
@@ -66,7 +70,7 @@ jobs:
         - dotnet restore
         - dotnet build -c Debug
         - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Cores.DotNet.dll
-        - dotnet test -c Debug --no-build
+        - travis_wait 30 dotnet test -c Debug --no-build
         - dotnet minicover opencoverreport
         - dotnet minicover uninstrument
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
@@ -76,26 +80,26 @@ jobs:
 
 
 
-    - stage: algorithms
-      language: scala
-      scala: 2.12.5
-      before_script:
-        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-        - bash miniconda.sh -b -p $HOME/miniconda
-        - export PATH="$HOME/miniconda/bin:$PATH"
-        - hash -r
-        - conda config --set always_yes yes --set changeps1 no
-        - conda update -q conda
-        - conda create -q -n test-environment python=$PYTHON_VER
-        - source activate test-environment
-        - cd PyTools
-        - python OSOL_Extremum/setup.py install
-        - cd ../Algorithms/Scala/RandomSearch
-      script:
-        - sbt clean coverage test coverageReport
-      after_success:
-        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-        - mvn clean deploy --settings settings.xml
+    # - stage: algorithms
+    #   language: scala
+    #   scala: 2.12.5
+    #   before_script:
+    #     - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    #     - bash miniconda.sh -b -p $HOME/miniconda
+    #     - export PATH="$HOME/miniconda/bin:$PATH"
+    #     - hash -r
+    #     - conda config --set always_yes yes --set changeps1 no
+    #     - conda update -q conda
+    #     - conda create -q -n test-environment python=$PYTHON_VER
+    #     - source activate test-environment
+    #     - cd PyTools
+    #     - python OSOL_Extremum/setup.py install
+    #     - cd ../Algorithms/Scala/RandomSearch
+    #   script:
+    #     - sbt clean coverage test coverageReport
+    #   after_success:
+    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+    #     - mvn clean deploy --settings settings.xml
 
     # - stage: algorithms
     #   language: csharp
