@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Cache;
@@ -9,9 +8,6 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization.RemoteFunctions
 {
     public abstract class RemoteFunction<TFuncType>
     {
-
-        public static int INIT_TIME = Convert.ToInt32(Environment.GetEnvironmentVariable("OSOL_EXTREMUM_SERVER_INIT_TIME"));
-        
         public string Json;
         public int Port;
         public string Field;
@@ -38,7 +34,7 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization.RemoteFunctions
         public void Initialize()
         {
             ServerProcess = Process.Start(ScriptConfig);
-            System.Threading.Thread.Sleep(INIT_TIME * 1000);
+            System.Threading.Thread.Sleep(5000);
         }
 
         public abstract TFuncType Calculate(Dictionary<string, TFuncType> values);
