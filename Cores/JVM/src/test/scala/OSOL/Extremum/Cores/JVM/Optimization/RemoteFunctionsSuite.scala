@@ -9,7 +9,7 @@ class RemoteFunctionsSuite extends FunSuite {
 
   test("Dummy Real f") {
 
-    val f = new RealRemoteFunction(json = s"${sys.env("OSOL_EXTREMUM_TASKS_LOC")}/Dummy/Dummy_3.json", port = 1000, field = "f")
+    val f = new RealRemoteFunction(json = s"${sys.env("OSOL_EXTREMUM_TASKS_LOC")}/Dummy/Dummy_3.json", port = 5000, field = "f")
     f.initialize()
     val result = f(Map("x" -> 1.0, "y" -> 2.0, "z" -> 3.0))
     f.terminate()
