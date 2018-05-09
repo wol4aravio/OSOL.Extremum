@@ -115,8 +115,8 @@ class OptimizationSuite extends FunSuite {
   val toolReal: Algorithm[RealVector, Double, RealVector] = DummyRealOptimization(250, 2.5)
   val toolInterval: Algorithm[IntervalVector, Interval, IntervalVector] = DummyIntervalOptimization()
 
-  val fReal: Map[String, Double] => Double = (v: Map[String, Double]) => math.abs(v("x"))
-  val fInterval: Map[String, Interval] => Interval = (v: Map[String, Interval]) => v("x").abs()
+  val fReal: Map[String, Double] => Double = (v: Map[String, Double]) => v("x")
+  val fInterval: Map[String, Interval] => Interval = (v: Map[String, Interval]) => v("x")
   val area: Area = Map("x" -> (-10.0, 10.0))
 
   val testerReal = new RealTester

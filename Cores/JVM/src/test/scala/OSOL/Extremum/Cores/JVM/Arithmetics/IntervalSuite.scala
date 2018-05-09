@@ -85,62 +85,10 @@ class IntervalSuite extends FunSuite {
     assert((i5 / i7) ~ Interval(Double.NegativeInfinity, -5.0 / 3.0))
   }
 
-  test("Binary Arithmetic Operations: \"^\"") {
-    assert((i1 ** 2.0) ~ Interval(0.0, 4.0))
-    assert((i2 ^ 3.0) ~ Interval(-64.0, 27.0))
-    assert((i5 ** 0.0) ~ Interval(1.0, 1.0))
-  }
-
   test("Unary Operators: Neg") {
     assert((-i1) ~ Interval(-2.0, 1.0))
     assert((-i5) ~ Interval(5.0, 6.0))
     assert((-i6) ~ Interval(0.0, 2.0))
-  }
-
-  test("Unary Operators: Sin") {
-    assert(i1.sin() ~ Interval(math.sin(-1.0), 1.0))
-    assert(i2.sin() ~ Interval(-1.0, 1.0))
-    assert(i3.sin() ~ Interval(math.sin(1.0), 1.0))
-    assert(i6.sin() ~ Interval(-1.0, 0.0))
-  }
-
-  test("Unary Operators: Cos") {
-    assert(i1.cos() ~ Interval(math.cos(2.0), 1.0))
-    assert(i2.cos() ~ Interval(-1.0, 1.0))
-    assert(i3.cos() ~ Interval(math.cos(2.0), math.cos(1.0)))
-    assert(i6.cos() ~ Interval(math.cos(-2.0), 1.0))
-  }
-
-  test("Unary Operators: Abs") {
-    assert(i1.abs() ~ Interval(0.0, 2.0))
-    assert(i2.abs() ~ Interval(0.0, 4.0))
-    assert(i3.abs() ~ Interval(1.0, 2.0))
-    assert(i4.abs() ~ Interval(5.0, 5.1))
-    assert(i5.abs() ~ Interval(5.0, 6.0))
-    assert(i6.abs() ~ Interval(0.0, 2.0))
-    assert(i7.abs() ~ Interval(0.0, 3.0))
-  }
-
-  test("Unary Operators: Exp") {
-    assert(i1.exp() ~ Interval(math.exp(-1.0), math.exp(2.0)))
-    assert(i2.exp() ~ Interval(math.exp(-4.0), math.exp(3.0)))
-    assert(i3.exp() ~ Interval(math.exp(1.0), math.exp(2.0)))
-  }
-
-  test("Unary Operators: Sqrt") {
-    assert(i1.sqrt() ~ Interval(0.0, math.sqrt(2.0)))
-    assert(i3.sqrt() ~ Interval(math.sqrt(1.0), math.sqrt(2.0)))
-    intercept[BadAreaOperationException] { i5.sqrt() }
-  }
-
-  test("Unary Operators: Ln") {
-    assert(i1.log() ~ Interval(Double.NegativeInfinity, math.log(2.0)))
-    assert(i2.log() ~ Interval(Double.NegativeInfinity, math.log(3.0)))
-    assert(i3.log() ~ Interval(math.log(1.0), math.log(2.0)))
-    assert(i4.log() ~ Interval(math.log(5.0), math.log(5.1)))
-    intercept[BadAreaOperationException] { i5.log() }
-    intercept[BadAreaOperationException] { i6.log() }
-    assert(i7.log() ~ Interval(Double.NegativeInfinity, math.log(3.0)))
   }
 
   test("Conversion: From Double") {
