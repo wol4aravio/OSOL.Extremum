@@ -29,7 +29,7 @@ module RandomSearch =
         let shift = (normallyDistributed * (GoRN.GetContinuousUniform(-1.0, 1.0) / r)).Elements |> RealVector.op_Implicit
         
                 
-        (currentPoint + shift).Elements |> RealVector.op_Implicit
+        ((currentPoint + shift).Elements |> RealVector.op_Implicit).Constrain(area)
         
     type GenerateInitialPointNode = 
         inherit GeneralNode<RealVector, double, RealVector> 
