@@ -173,8 +173,8 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         private static Algorithm<RealVector, double, RealVector> toolReal = DummyRealOptimization.CreateAlgorithm(250, 2.5);
         private static Algorithm<IntervalVector, Interval, IntervalVector> toolInterval = DummyIntervalOptimization.CreateAlgorithm();
         
-        private static Func<Dictionary<string, double>, double> fReal = v => Math.Abs(v["x"]);
-        private static Func<Dictionary<string, Interval>, Interval> fInterval = v => v["x"].Abs();
+        private static Func<Dictionary<string, double>, double> fReal = v => v["x"];
+        private static Func<Dictionary<string, Interval>, Interval> fInterval = v => v["x"];
         
         private static Area area = new Dictionary<string, Tuple<double, double>>
         {

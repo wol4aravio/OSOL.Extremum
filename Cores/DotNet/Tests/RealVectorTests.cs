@@ -110,14 +110,6 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         }
 
         [Fact]
-        public static void TestGetPerformance()
-        {
-            Func<Dictionary<string, double>, double> f = v => v["x"] + v["y"] + v["z"];
-            Assert.Equal(v1.GetPerformance(f), 6.0);
-            Assert.Equal(((RealVector)(v1 * 2.0)).GetPerformance(f), 12.0);
-        }
-
-        [Fact]
         public static void TestToDoubleValuedVector()
         {
             Assert.Equal(v1.ToBasicForm()["x"], 1.0);
