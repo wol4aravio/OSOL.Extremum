@@ -140,13 +140,22 @@ class OptimizationSuite extends FunSuite {
   test("Test #1") {
     val result = toolReal.work(fReal, area)
     assert(try { val json = toolReal.serializeState(); true} catch { case _: Exception => false })
-    assert(testerReal(DummyRealOptimization(100, 60.0), DummyRealOptimization(250, 150.0)))
+    val check = () => assert(testerReal(DummyRealOptimization(100, 60.0), DummyRealOptimization(250, 150.0)))
+    try {  check() }
+    catch {
+      case _: Exception => check()
+    }
   }
 
   test("Test #2") {
     val result = toolInterval.work(fInterval, area)
     assert(try { val json = toolInterval.serializeState(); true} catch { case _: Exception => false })
-    assert(testerInterval(toolInterval))
+    val check = () => assert(testerInterval(toolInterval))
+    try {  check() }
+    catch {
+      case _: Exception => check()
+    }
+
   }
 
 }
