@@ -34,7 +34,7 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization.RemoteFunctions
         public void Initialize()
         {
             ServerProcess = Process.Start(ScriptConfig);
-            System.Threading.Thread.Sleep(10 * 1000);
+            System.Threading.Thread.Sleep(5000);
         }
 
         public abstract TFuncType Calculate(Dictionary<string, TFuncType> values);

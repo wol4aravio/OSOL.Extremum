@@ -9,7 +9,7 @@ abstract class RemoteFunction[FuncType](val json: String, val port: Int, val fie
 
   def initialize(): Unit = {
     server_process = process_specs.run()
-    Thread.sleep(10 * 1000)
+    Thread.sleep(5000)
   }
 
   def apply(values: Map[String, FuncType]): FuncType
