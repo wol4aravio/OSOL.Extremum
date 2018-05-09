@@ -9,7 +9,7 @@ abstract class RemoteFunction[FuncType](val json: String, val port: Int, val fie
 
   def initialize(): Unit = {
     server_process = process_specs.run()
-    Thread.sleep(5000)
+    Thread.sleep(RemoteFunction.INIT_TIME * 1000)
   }
 
   def apply(values: Map[String, FuncType]): FuncType
@@ -17,5 +17,11 @@ abstract class RemoteFunction[FuncType](val json: String, val port: Int, val fie
   def terminate(): Unit = {
     server_process.destroy()
   }
+
+}
+
+object RemoteFunction {
+
+  val INIT_TIME = sys.env("OSOL_EXTREMUM_SERVER_INIT_TIME").toInt
 
 }
