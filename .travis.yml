@@ -27,6 +27,9 @@ jobs:
       scala: 2.12.5
       sudo: required
       before_script:
+        - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+            sudo sh -c 'echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6';
+          fi
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
         - export PATH="$HOME/miniconda/bin:$PATH"
@@ -49,6 +52,9 @@ jobs:
       dotnet: 2.0.0
       sudo: required
       before_script:
+        - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+            sudo sh -c 'echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6';
+          fi
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
         - export PATH="$HOME/miniconda/bin:$PATH"
