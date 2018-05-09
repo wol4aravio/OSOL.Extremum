@@ -93,9 +93,9 @@ jobs:
         - cd ../Algorithms/Scala/RandomSearch
       script:
         - travis_wait 30 sbt clean coverage test coverageReport
-      # after_success:
-      #   - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-      #   - mvn clean deploy --settings settings.xml
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - mvn clean deploy --settings settings.xml
 
     - stage: algorithms
       language: csharp
@@ -120,9 +120,9 @@ jobs:
         - dotnet minicover opencoverreport
         - dotnet minicover uninstrument
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-      # after_success:
-      #   - dotnet pack -c Release --include-source --output nuget
-      #   - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+      after_success:
+        - dotnet pack -c Release --include-source --output nuget
+        - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
     - stage: algorithms
       language: csharp
@@ -147,6 +147,6 @@ jobs:
         - dotnet minicover opencoverreport
         - dotnet minicover uninstrument
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-      # after_success:
-      #   - dotnet pack -c Release --include-source --output nuget
-      #   - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+      after_success:
+        - dotnet pack -c Release --include-source --output nuget
+        - dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
