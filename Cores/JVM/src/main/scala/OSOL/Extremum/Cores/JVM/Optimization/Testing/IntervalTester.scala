@@ -26,15 +26,15 @@ object IntervalTester {
 
   val TASKS_LOC = sys.env("OSOL_EXTREMUM_TASKS_LOC")
 
-  val f1: IntervalRemoteFunction = new IntervalRemoteFunction(json = s"${TASKS_LOC}/Dummy/Dummy_1.json", port = 10021, field = "f")
+  val f1: IntervalRemoteFunction = new IntervalRemoteFunction(json = s"${TASKS_LOC}/Dummy/Dummy_1.json", port = 10001, field = "f")
   val a1: Area = vars_1.map(k => (k, (-10.0, 10.0))).toMap
   val s1: Map[String, Double] = vars_1.map(k => (k, 0.0)).toMap
 
-  val f2: IntervalRemoteFunction = new IntervalRemoteFunction(json = s"${TASKS_LOC}/Dummy/Dummy_2.json", port = 10022, field = "f")
+  val f2: IntervalRemoteFunction = new IntervalRemoteFunction(json = s"${TASKS_LOC}/Dummy/Dummy_2.json", port = 10002, field = "f")
   val a2: Area = vars_2.map(k => (k, (-10.0, 10.0))).toMap
   val s2: Map[String, Double] = vars_2.map(k => (k, 0.0)).toMap
 
-  val f3: IntervalRemoteFunction = new IntervalRemoteFunction(json = s"${TASKS_LOC}/Dummy/Dummy_3.json", port = 10023, field = "f")
+  val f3: IntervalRemoteFunction = new IntervalRemoteFunction(json = s"${TASKS_LOC}/Dummy/Dummy_3.json", port = 10003, field = "f")
   val a3: Area = vars_3.map(k => (k, (-10.0, 10.0))).toMap
   val s3: Map[String, Double] = vars_3.map(k => (k, 0.0)).toMap
 
