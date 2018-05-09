@@ -20,15 +20,15 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization.Testing
             var vars_2 = new[] {"x", "y"};
             var vars_3 = new[] {"x", "y", "z"};
             
-            RemoteFunction<double> f1 = new RealRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_1.json", port: 11111, field: "f");
+            RemoteFunction<double> f1 = new RealRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_1.json", port: 10011, field: "f");
             Dictionary<string, Tuple<double, double>> a1 = vars_1.ToDictionary(k => k, k => Tuple.Create(-10.0, 10.0));
             Dictionary<string, double> s1 = vars_1.ToDictionary(k => k, k => 0.0);
             
-            RemoteFunction<double> f2 = new RealRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_2.json", port: 11112, field: "f");
+            RemoteFunction<double> f2 = new RealRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_2.json", port: 10012, field: "f");
             Dictionary<string, Tuple<double, double>> a2 = vars_2.ToDictionary(k => k, k => Tuple.Create(-10.0, 10.0));
             Dictionary<string, double> s2 = vars_2.ToDictionary(k => k, k => 0.0);
             
-            RemoteFunction<double> f3 = new RealRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_3.json", port: 11113, field: "f");
+            RemoteFunction<double> f3 = new RealRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_3.json", port: 10013, field: "f");
             Dictionary<string, Tuple<double, double>> a3 = vars_3.ToDictionary(k => k, k => Tuple.Create(-10.0, 10.0));
             Dictionary<string, double> s3 = vars_3.ToDictionary(k => k, k => 0.0);
 
