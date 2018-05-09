@@ -29,6 +29,14 @@ jobs:
       scala: 2.12.5
       sudo: required
       before_script:
+        - sudo ufw allow 5000
+        - sudo ufw allow 5001
+        - sudo ufw allow 5002
+        - sudo ufw allow 5003
+        - sudo ufw allow 10000
+        - sudo ufw allow 10001
+        - sudo ufw allow 10002
+        - sudo ufw allow 10003
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
         - export PATH="$HOME/miniconda/bin:$PATH"
@@ -80,6 +88,14 @@ jobs:
       language: scala
       scala: 2.12.5
       before_script:
+        - sudo ufw allow 5000
+        - sudo ufw allow 5001
+        - sudo ufw allow 5002
+        - sudo ufw allow 5003
+        - sudo ufw allow 10000
+        - sudo ufw allow 10001
+        - sudo ufw allow 10002
+        - sudo ufw allow 10003
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
         - export PATH="$HOME/miniconda/bin:$PATH"
