@@ -99,7 +99,6 @@ jobs:
 
     - stage: algorithms
       language: csharp
-      mono: none
       dotnet: 2.0.0
       before_script:
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
@@ -127,7 +126,6 @@ jobs:
 
     - stage: algorithms
       language: csharp
-      mono: none
       dotnet: 2.0.0
       before_script:
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
