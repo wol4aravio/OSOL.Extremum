@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <IsPackable>true</IsPackable>
-    <PackageVersion>0.0.4</PackageVersion>
+    <PackageVersion>0.0.5</PackageVersion>
     <Authors>Valentin Panovskiy</Authors>
     <AssemblyName>OSOL.Extremum.Cores.DotNet</AssemblyName>
     <RootNamespace>OSOL.Extremum.Cores.DotNet</RootNamespace>
