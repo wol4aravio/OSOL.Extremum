@@ -8,7 +8,6 @@ class IntervalRemoteFunction(override val json: String, override val port: Int, 
   extends RemoteFunction[Interval](json, port, field) {
 
   final override def apply(values: Map[String, Interval]): Interval = {
-
     val request = Http(s"http://localhost:${this.port}/process_request")
       .param("field", this.field)
       .param("scope", "interval")
