@@ -23,8 +23,10 @@ namespace OSOL.Extremum.Algorithms.CSharp
         {
             RealVector normallyDistributed = gorn.GetNormalVector(area.ToDictionary(kvp => kvp.Key, kvp => Tuple.Create(0.0, 1.0)));
             var r = Math.Sqrt(normallyDistributed.Elements.Values.Select(v => v * v).Sum());
-            RealVector generatedPoint = (currentPoint + (normallyDistributed * (gorn.GetContinuousUniform(-1.0, 1.0) / r))).Elements;
-            
+
+            RealVector shift = (normallyDistributed * (gorn.GetContinuousUniform(-1.0, 1.0) / r)).Elements;
+            RealVector generatedPoint = (currentPoint + shift).Elements;
+
             return generatedPoint.Constrain(area);
         }
 

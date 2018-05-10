@@ -200,14 +200,6 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
             };
             Assert.True(r1 == r2);
         }
-
-        [Fact]
-        public static void TestGetPerformance()
-        {
-            Func<Dictionary<string, Interval>, Interval> f = v => v["x"] - v["y"] + v["z"];
-            Assert.Equal(v1.GetPerformance(f), 1.0);
-            Assert.Equal(((IntervalVector)(v1 * 2.0)).GetPerformance(f), 2.0);
-        }
         
         [Fact]
         public static void TestUnion()

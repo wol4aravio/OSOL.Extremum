@@ -1,5 +1,0 @@
-[run]
-omit = 
-     apps/*
-     **/__init__.py
-     **/test_*.py

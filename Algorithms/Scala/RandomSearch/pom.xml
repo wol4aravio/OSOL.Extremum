@@ -4,7 +4,7 @@
 
     <groupId>com.github.wol4aravio</groupId>
     <artifactId>OSOL.Extremum.Algorithms.Scala.RandomSearch_2.12</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>OSOL.Extremum.Algorithms.Scala.RandomSearch</name>
     <description>Open-Source Optimization Library - Extremum. Random Search</description>
@@ -59,7 +59,7 @@
         <dependency>
             <groupId>com.github.wol4aravio</groupId>
             <artifactId>OSOL.Extremum.Cores.JVM_2.12</artifactId>
-            <version>0.0.4-SNAPSHOT</version>
+            <version>0.0.5-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

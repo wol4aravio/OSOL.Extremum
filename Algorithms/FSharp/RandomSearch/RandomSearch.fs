@@ -26,9 +26,11 @@ module RandomSearch =
                 |> Seq.map (fun x -> x * x)
                 |> Seq.sum
         
-        let newPoint = (currentPoint + normallyDistributed * (GoRN.GetContinuousUniform(-1.0, 1.0) / r)).Elements |> RealVector.op_Implicit
-        let constrainedPoint = newPoint.Constrain <| area
-        constrainedPoint
+        let shift = (normallyDistributed * (GoRN.GetContinuousUniform(-1.0, 1.0) / r)).Elements |> RealVector.op_Implicit
+                
+        let newPoint = ((currentPoint + shift).Elements |> RealVector.op_Implicit).Constrain(area)
+        
+        newPoint
         
     type GenerateInitialPointNode = 
         inherit GeneralNode<RealVector, double, RealVector> 
