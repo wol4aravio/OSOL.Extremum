@@ -5,7 +5,7 @@ import spray.json._
 
 import OSOL.Extremum.Cores.JVM.Vectors.RealVector.Converters._
 import OSOL.Extremum.Cores.JVM.Vectors.Exceptions._
-import OSOL.Extremum.Cores.JVM.CodeFeatures.Pipe
+import OSOL.Extremum.Cores.JVM.Pipe
 
 class RealVectorSuite extends FunSuite {
 
@@ -74,12 +74,6 @@ class RealVectorSuite extends FunSuite {
       .constrain("x" -> (-1.0, 0.0))
       .constrain(Seq("y" -> (3.0, 10.0)))
       .constrain("z" -> (-5.0, 5.0)) == (Map("x" -> 0.0, "y" -> 3.0, "z" -> 3.0) |> RealVector.apply))
-  }
-
-  test("Get Performance") {
-    val f: Map[String, Double] => Double = v => v("x") + v("y") + v("z")
-    assert(v1.getPerformance(f) == 6.0)
-    assert((v1 * 2.0).getPerformance(f) == 12.0)
   }
 
   test("To Double Valued Vector") {

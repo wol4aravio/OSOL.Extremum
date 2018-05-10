@@ -2,16 +2,12 @@ package OSOL.Extremum.Cores.JVM.Vectors
 
 import OSOL.Extremum.Cores.JVM.Arithmetics.Interval
 import IntervalVector.Converters._
-import OSOL.Extremum.Cores.JVM.CodeFeatures.Pipe
+import OSOL.Extremum.Cores.JVM.Pipe
 import OSOL.Extremum.Cores.JVM.Optimization.Optimizable
 import OSOL.Extremum.Cores.JVM.Vectors.Exceptions.DifferentKeysException
 import OSOL.Extremum.Cores.JVM.Optimization.Optimizable
 import spray.json._
 
-/** Interval valued vector
-  *
-  * @param elements values which form VectorObject (key-value pairs)
-  */
 class IntervalVector private (override val elements: Map[String, Interval])
   extends VectorObject[Interval](elements) with Optimizable[IntervalVector, Interval] {
 
@@ -105,42 +101,19 @@ class IntervalVector private (override val elements: Map[String, Interval])
 
 }
 
-/** Companion object for [[OSOL.Extremum.Cores.JVM.Vectors.IntervalVector IntervalVector]] class */
 object IntervalVector {
 
-  /** Implicit converters for [[OSOL.Extremum.Cores.JVM.Vectors.IntervalVector IntervalVector]] */
   object Converters {
 
-    /** Converts `Iterable[(String, Interval)]` to [[OSOL.Extremum.Cores.JVM.Vectors.IntervalVector IntervalVector]]
-      *
-      * @param v `(key, value)` pairs
-      * @return [[OSOL.Extremum.Cores.JVM.Vectors.IntervalVector IntervalVector]]
-      */
     implicit def Iterable_to_IntervalVector(v: Iterable[(String, Interval)]): IntervalVector = IntervalVector(v)
 
-    /** Converts `VectorObject[Double]` to [[OSOL.Extremum.Cores.JVM.Vectors.IntervalVector IntervalVector]]
-      *
-      * @param v `VectorObject[Double]`
-      * @return [[OSOL.Extremum.Cores.JVM.Vectors.IntervalVector IntervalVector]]
-      */
     implicit def VectorObject_to_IntervalVector(v: VectorObject[Interval]): IntervalVector = IntervalVector(v.elements)
 
   }
 
-  /** Create object from `(key, value)` pairs
-    *
-    * @param keyValuePairs target `(key, value)` pairs
-    * @return vector composed of `keyValuePairs`
-    */
   final def apply(keyValuePairs: (String, Interval)*): IntervalVector = new IntervalVector(keyValuePairs.toMap)
-  /** Create object from `(key, value)` pairs
-    *
-    * @param keyValuePairs target `(key, value)` pairs
-    * @return vector composed of `keyValuePairs`
-    */
   final def apply(keyValuePairs: Iterable[(String, Interval)]): IntervalVector = IntervalVector(keyValuePairs.toSeq:_*)
 
-  /** Json Serialization for IntervalVector */
   implicit object IntervalVectorJsonFormat extends RootJsonFormat[IntervalVector] {
     def write(v: IntervalVector) = JsObject(
       "IntervalVector" -> JsObject(

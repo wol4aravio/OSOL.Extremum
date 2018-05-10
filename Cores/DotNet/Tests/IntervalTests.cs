@@ -93,15 +93,6 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
             Assert.True((i3 / i6).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, -0.5)));
             Assert.True((i5 / i7).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, -5.0 / 3.0)));
         }
-        
-        [Fact]
-        static void TestPower()
-        {
-            Assert.True((i1.Power(2.0)).ApproximatelyEqualsTo(new Interval(0.0, 4.0)));
-            Assert.True((i2.Power(3.0)).ApproximatelyEqualsTo(new Interval(-64.0, 27.0)));
-            Assert.True((i5.Power(0.0)).ApproximatelyEqualsTo(new Interval(1.0, 1.0)));
-            Assert.Throws<IntervalExceptions.UnknownOperationException>(() => i1.Power(new Interval(-1.0, 1.0)));
-        }
 
         [Fact]
         static void TestNeg()
@@ -109,64 +100,6 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
             Assert.True((-i1).ApproximatelyEqualsTo(new Interval(-2.0, 1.0)));
             Assert.True((-i5).ApproximatelyEqualsTo(new Interval(5.0, 6.0)));
             Assert.True((-i6).ApproximatelyEqualsTo(new Interval(0.0, 2.0)));
-        }
-
-        [Fact]
-        static void TestSin()
-        {
-            Assert.True((i1.Sin()).ApproximatelyEqualsTo(new Interval(Math.Sin(-1.0), 1.0)));
-            Assert.True((i2.Sin()).ApproximatelyEqualsTo(new Interval(-1.0, 1.0)));
-            Assert.True((i3.Sin()).ApproximatelyEqualsTo(new Interval(Math.Sin(1.0), 1.0)));
-            Assert.True((i6.Sin()).ApproximatelyEqualsTo(new Interval(-1.0, 0.0)));
-        }
-
-        [Fact]
-        static void TestCos()
-        {
-            Assert.True((i1.Cos()).ApproximatelyEqualsTo(new Interval(Math.Cos(2.0), 1.0)));
-            Assert.True((i2.Cos()).ApproximatelyEqualsTo(new Interval(-1.0, 1.0)));
-            Assert.True((i3.Cos()).ApproximatelyEqualsTo(new Interval(Math.Cos(2.0), Math.Cos(1.0))));
-            Assert.True((i6.Cos()).ApproximatelyEqualsTo(new Interval(Math.Cos(-2.0), 1.0)));
-        }
-
-        [Fact]
-        static void TestAbs()
-        {
-            Assert.True((i1.Abs()).ApproximatelyEqualsTo(new Interval(0.0, 2.0)));
-            Assert.True((i2.Abs()).ApproximatelyEqualsTo(new Interval(0.0, 4.0)));
-            Assert.True((i3.Abs()).ApproximatelyEqualsTo(new Interval(1.0, 2.0)));
-            Assert.True((i4.Abs()).ApproximatelyEqualsTo(new Interval(5.0, 5.1)));
-            Assert.True((i5.Abs()).ApproximatelyEqualsTo(new Interval(5.0, 6.0)));
-            Assert.True((i6.Abs()).ApproximatelyEqualsTo(new Interval(0.0, 2.0)));
-            Assert.True((i7.Abs()).ApproximatelyEqualsTo(new Interval(0.0, 3.0)));
-        }
-        
-        [Fact]
-        static void TestExp()
-        {
-            Assert.True((i1.Exp()).ApproximatelyEqualsTo(new Interval(Math.Exp(-1.0), Math.Exp(2.0))));
-            Assert.True((i2.Exp()).ApproximatelyEqualsTo(new Interval(Math.Exp(-4.0), Math.Exp(3.0))));
-            Assert.True((i3.Exp()).ApproximatelyEqualsTo(new Interval(Math.Exp(1.0), Math.Exp(2.0))));
-        }
-
-        [Fact]
-        static void TestSqrt()
-        {
-            Assert.True(i1.Sqrt().ApproximatelyEqualsTo(new Interval(0.0, Math.Sqrt(2.0))));
-            Assert.True(i3.Sqrt().ApproximatelyEqualsTo(new Interval(Math.Sqrt(1.0), Math.Sqrt(2.0))));
-            Assert.Throws<IntervalExceptions.BadAreaOperationException>(() => i5.Sqrt());
-        }
-        
-        [Fact]
-        static void TestLn()
-        {
-            Assert.True((i1.Ln()).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, Math.Log(2.0))));
-            Assert.True((i2.Ln()).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, Math.Log(3.0))));
-            Assert.True((i3.Ln()).ApproximatelyEqualsTo(new Interval(Math.Log(1.0), Math.Log(2.0))));
-            Assert.True((i4.Ln()).ApproximatelyEqualsTo(new Interval(Math.Log(5.0), Math.Log(5.1))));
-            Assert.Throws<IntervalExceptions.BadAreaOperationException>(() => i5.Ln());
-            Assert.Throws<IntervalExceptions.BadAreaOperationException>(() => i6.Ln());
-            Assert.True((i7.Ln()).ApproximatelyEqualsTo(new Interval(double.NegativeInfinity, Math.Log(3.0))));
         }
 
         [Fact]

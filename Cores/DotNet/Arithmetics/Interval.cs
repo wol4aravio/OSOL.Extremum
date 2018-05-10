@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Sockets;
-using System.Reflection.Metadata.Ecma335;
 using Newtonsoft.Json.Linq;
 
 namespace OSOL.Extremum.Cores.DotNet.Arithmetics
@@ -23,8 +21,8 @@ namespace OSOL.Extremum.Cores.DotNet.Arithmetics
 
         public Interval(JObject json)
         {
-            this.LowerBound = json["Interval"]["lowerBound"].Value<double>();
-            this.UpperBound = json["Interval"]["upperBound"].Value<double>();
+            this.LowerBound = json["Interval"]["lower_bound"].Value<double>();
+            this.UpperBound = json["Interval"]["upper_bound"].Value<double>();
         }
 
         public Interval(double lowerBound, double upperBound)
@@ -122,181 +120,6 @@ namespace OSOL.Extremum.Cores.DotNet.Arithmetics
 
         public static Interval operator /(Interval a, Interval b) => a.Divide(b);
 
-        public Interval Power(Interval that)
-        {
-            if (that.Width > 0)
-            {
-                throw new IntervalExceptions.UnknownOperationException("[a; b] ^ [c; d] for (d - c) > 0");
-            }
-            else
-            {
-                int powerIndex = (int) that.MiddlePoint;
-                double v1 = Math.Pow(this.LowerBound, powerIndex);
-                double v2 = Math.Pow(this.UpperBound, powerIndex);
-                if (powerIndex % 2 == 1)
-                {
-                    return new Interval(v1, v2);
-                }
-                else
-                {
-                    if (this.LowerBound * this.UpperBound < 0)
-                    {
-                        return new Interval(0.0, Math.Max(v1, v2));
-                    }
-                    else
-                    {
-                        return this.LowerBound >= 0 ? new Interval(v1, v2) : new Interval(v2, v1);
-                    }
-                }
-            }
-        }
-
-        public Interval Abs()
-        {
-            double v1 = Math.Abs(this.LowerBound);
-            double v2 = Math.Abs(this.UpperBound);
-            if (this.LowerBound * this.UpperBound < 0)
-            {
-                return new Interval(0.0, Math.Max(v1, v2));
-            }
-            else
-            {
-                return this.LowerBound >= 0 ? new Interval(v1, v2) : new Interval(v2, v1);
-            }
-        }
-
-        public Interval Sin()
-        {
-            if (this.Width > Math.PI * 2.0)
-            {
-                return new Interval(-1, 1);
-            }
-
-            double val, k, r_l = Math.Sin(this.LowerBound), r_u = Math.Sin(this.UpperBound);
-            if (r_u < r_l)
-            {
-                k = r_l;
-                r_l = r_u;
-                r_u = k;
-            }
-
-            k = (int) (this.LowerBound / (Math.PI / 2.0));
-            val = k * (Math.PI / 2.0);
-            while (val < this.LowerBound)
-            {
-                ++k;
-                val = k * (Math.PI / 2.0);
-            }
-
-            for (; val <= this.UpperBound; ++k, val = k * (Math.PI / 2.0))
-            {
-                if (r_l == -1 && r_u == 1)
-                {
-                    break;
-                }
-                else
-                {
-                    if (Math.Sin(val) == -1)
-                    {
-                        r_l = -1;
-                        continue;
-                    }
-
-                    if (Math.Sin(val) == 1)
-                    {
-                        r_u = 1;
-                        continue;
-                    }
-                }
-            }
-
-            return new Interval(r_l, r_u);
-        }
-
-        public Interval Cos()
-        {
-            if (this.Width > Math.PI * 2.0)
-            {
-                return new Interval(-1, 1);
-            }
-
-            double val, k, r_l = Math.Cos(this.LowerBound), r_u = Math.Cos(this.UpperBound);
-            if (r_u < r_l)
-            {
-                k = r_l;
-                r_l = r_u;
-                r_u = k;
-            }
-
-            k = (int) (this.LowerBound / (Math.PI / 2.0));
-            val = k * (Math.PI / 2.0);
-            while (val < this.LowerBound)
-            {
-                ++k;
-                val = k * (Math.PI / 2.0);
-            }
-
-            for (; val <= this.UpperBound; ++k, val = k * (Math.PI / 2.0))
-            {
-                if (r_l == -1 && r_u == 1)
-                    break;
-                else
-                {
-                    switch (Math.Cos(val))
-                    {
-                        case -1:
-                            r_l = -1;
-                            continue;
-                        case 1:
-                            r_u = 1;
-                            continue;
-                    }
-                }
-            }
-
-            return new Interval(r_l, r_u);
-        }
-
-        public Interval Exp() => new Interval(Math.Exp(this.LowerBound), Math.Exp(this.UpperBound));
-
-        public Interval Sqrt()
-        {
-            if (this.UpperBound < 0)
-            {
-                throw new IntervalExceptions.BadAreaOperationException(opName: "Ln", interval: this);
-            }
-            else
-            {
-                if (this.LowerBound < 0)
-                {
-                    return new Interval(0.0, Math.Sqrt(this.UpperBound));
-                }
-                else
-                {
-                    return new Interval(Math.Sqrt(this.LowerBound), Math.Sqrt(this.UpperBound));
-                }
-            }
-        }
-
-        public Interval Ln()
-        {
-            if (this.UpperBound <= 0)
-            {
-                throw new IntervalExceptions.BadAreaOperationException(opName: "Ln", interval: this);
-            }
-            else
-            {
-                if (this.LowerBound <= 0)
-                {
-                    return new Interval(double.NegativeInfinity, Math.Log(this.UpperBound));
-                }
-                else
-                {
-                    return new Interval(Math.Log(this.LowerBound), Math.Log(this.UpperBound));
-                }
-            }
-        }
-
         public Interval MoveBy(double delta) => this.Add(delta);
 
         public Interval Constrain(double min, double max)
@@ -346,8 +169,8 @@ namespace OSOL.Extremum.Cores.DotNet.Arithmetics
         {
             JObject json = new JObject();
             JObject interval = new JObject();
-            interval["lowerBound"] = this.LowerBound;
-            interval["upperBound"] = this.UpperBound;
+            interval["lower_bound"] = this.LowerBound;
+            interval["upper_bound"] = this.UpperBound;
             json["Interval"] = interval;
             return json;
         }
