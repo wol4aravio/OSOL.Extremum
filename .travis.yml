@@ -43,8 +43,8 @@ jobs:
       script:
         - travis_wait 30 sbt clean coverage test coverageReport
       after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - test $TRAVIS_BRANCH = "master" &&
-          bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN &&
           mvn clean deploy --settings settings.xml
 
     - stage: cores
@@ -71,8 +71,8 @@ jobs:
         - dotnet minicover opencoverreport
         - dotnet minicover uninstrument
       after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - test $TRAVIS_BRANCH = "master" && 
-          bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN &&
           dotnet pack -c Release --include-source --output nuget &&
           dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
@@ -96,8 +96,8 @@ jobs:
       script:
         - travis_wait 30 sbt clean coverage test coverageReport
       after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - test $TRAVIS_BRANCH = "master" &&
-          bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN &&
           mvn clean deploy --settings settings.xml
 
     - stage: algorithms
@@ -123,10 +123,11 @@ jobs:
         - dotnet minicover opencoverreport
         - dotnet minicover uninstrument
       after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - test $TRAVIS_BRANCH = "master" && 
-          bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN &&
           dotnet pack -c Release --include-source --output nuget &&
           dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+
 
     - stage: algorithms
       language: csharp
@@ -151,7 +152,7 @@ jobs:
         - dotnet minicover opencoverreport
         - dotnet minicover uninstrument
       after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - test $TRAVIS_BRANCH = "master" && 
-          bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN &&
           dotnet pack -c Release --include-source --output nuget &&
           dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
