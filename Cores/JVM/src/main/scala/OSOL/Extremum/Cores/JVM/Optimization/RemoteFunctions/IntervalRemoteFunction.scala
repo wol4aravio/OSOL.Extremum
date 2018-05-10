@@ -15,10 +15,6 @@ class IntervalRemoteFunction(override val json: String, override val port: Int, 
       .params(values.map { case (k, v) => (k, v.toJson.toString()) })
 
     request.asString.body.parseJson.convertTo[Interval]
-
-//    val url = s"http://localhost:${this.port}/process_request?field=${this.field}&scope=interval" + values.map { case (k, v) => s"&$k=${v.toJson}"}.mkString("")
-//    val response = scala.io.Source.fromURL(url).mkString.parseJson
-//    response.convertTo[Interval]
   }
 
 }
