@@ -9,7 +9,10 @@ import OSOL.Extremum.Cores.JVM.Vectors.RealVector.Converters.*;
 
 import scala.Tuple2;
 import scala.collection.immutable.Map;
+import scala.collection.JavaConverters;
+
 import java.lang.*;
+import java.util.*;
 
 public class RandomSearch {
 
@@ -20,13 +23,16 @@ public class RandomSearch {
     private RealVector generateRandomInSphere(RealVector currentPoint, Double radius, Map<String, Tuple2<Double, Double>> area)
     {
         RealVector normallyDistributed = GoRN.getNormal(area.mapValues(_ -> Tuple2.apply(0.0, 1.0)));
-        Double r = normallyDistributed.elements().values().map(v -> v.doubleValue() * v);
-    }
+        int dim = currentPoint.elements().size();
+        List<Double> values = JavaConverters.seqAsJavaList(normallyDistributed.elements().values().toSeq());
 
-//    private def generateRandomInSphere(currentPoint: RealVector, radius: Double, area: Area): RealVector = {
-//        val normallyDistributed = GoRN.getNormal(area.mapValues(_ => (0.0, 1.0)))
-//        val r = math.sqrt(normallyDistributed.values.map(v => v * v).sum)
-//        (currentPoint + normallyDistributed * (GoRN.getContinuousUniform(-1.0, 1.0) / r)).constrain(area)
-//    }
+        double r = 0.0;
+        for(Double v: values)
+            r += v.doubleValue() * v;
+
+        Double moveCoefficient = (GoRN.getContinuousUniform(-1.0, 1.0) / r);
+
+        return (currentPoint.add(normallyDistributed.multiply(moveCoefficient))).constrain(area);
+    }
 
 }
