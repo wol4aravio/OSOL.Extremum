@@ -1,8 +1,7 @@
 package OSOL.Extremum.Cores.JVM.Optimization.Testing
 
 import OSOL.Extremum.Cores.JVM.Arithmetics.Interval
-import OSOL.Extremum.Cores.JVM.Arithmetics.Interval.Converters._
-import OSOL.Extremum.Cores.JVM.Optimization.Area
+import OSOL.Extremum.Cores.JVM.Optimization._
 import OSOL.Extremum.Cores.JVM.Optimization.RemoteFunctions.IntervalRemoteFunction
 import OSOL.Extremum.Cores.JVM.Vectors.IntervalVector
 
@@ -28,15 +27,15 @@ object IntervalTester {
 
   val f1: IntervalRemoteFunction = new IntervalRemoteFunction(json = s"${TASKS_LOC}/Dummy/Dummy_1.json", port = 10001, field = "f")
   val a1: Area = vars_1.map(k => (k, (-10.0, 10.0))).toMap
-  val s1: Map[String, Double] = vars_1.map(k => (k, 0.0)).toMap
+  val s1: Map[String, java.lang.Double] = vars_1.map(k => (k, new java.lang.Double(0.0))).toMap
 
   val f2: IntervalRemoteFunction = new IntervalRemoteFunction(json = s"${TASKS_LOC}/Dummy/Dummy_2.json", port = 10002, field = "f")
   val a2: Area = vars_2.map(k => (k, (-10.0, 10.0))).toMap
-  val s2: Map[String, Double] = vars_2.map(k => (k, 0.0)).toMap
+  val s2: Map[String, java.lang.Double] = vars_2.map(k => (k, new java.lang.Double(0.0))).toMap
 
   val f3: IntervalRemoteFunction = new IntervalRemoteFunction(json = s"${TASKS_LOC}/Dummy/Dummy_3.json", port = 10003, field = "f")
   val a3: Area = vars_3.map(k => (k, (-10.0, 10.0))).toMap
-  val s3: Map[String, Double] = vars_3.map(k => (k, 0.0)).toMap
+  val s3: Map[String, java.lang.Double] = vars_3.map(k => (k, new java.lang.Double(0.0))).toMap
 
 
   val f = Seq(f1, f2, f3)

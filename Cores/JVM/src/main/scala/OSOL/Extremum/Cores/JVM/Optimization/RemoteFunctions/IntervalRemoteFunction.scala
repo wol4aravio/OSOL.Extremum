@@ -4,7 +4,7 @@ import spray.json._
 import OSOL.Extremum.Cores.JVM.Arithmetics.Interval
 import scalaj.http.Http
 
-class IntervalRemoteFunction(override val json: String, override val port: Int, override val field: String)
+class IntervalRemoteFunction(override val json: String, override val port: java.lang.Integer, override val field: String)
   extends RemoteFunction[Interval](json, port, field) {
 
   final override def apply(values: Map[String, Interval]): Interval = {

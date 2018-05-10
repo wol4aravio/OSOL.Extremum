@@ -11,11 +11,11 @@ import spray.json._
 class IntervalVector private (override val elements: Map[String, Interval])
   extends VectorObject[Interval](elements) with Optimizable[IntervalVector, Interval] {
 
-  final def equalsTo(that: VectorObject[Interval]): Boolean = {
+  final def equalsTo(that: VectorObject[Interval]): java.lang.Boolean = {
     val keys_1 = this.keys
     val keys_2 = that.keys
     if (keys_1 != keys_2) throw new DifferentKeysException(keys_1, keys_2)
-    else keys_1.forall(k => this(k) == that(k))
+    else keys_1.forall(k => this(k).approximatelyEqualsTo(that(k), maxError = 1e-9))
   }
 
   final override def add(that: VectorObject[Interval]): IntervalVector =
@@ -30,17 +30,17 @@ class IntervalVector private (override val elements: Map[String, Interval])
   final override def multiplyImputeMissingKeys(that: VectorObject[Interval]): IntervalVector =
     this.elementWiseOpImputeMissingKeys(that, (a, b) => a * b, Interval(1.0))
 
-  final override def multiply(coefficient: Double): IntervalVector =
+  final override def multiply(coefficient: java.lang.Double): IntervalVector =
     this.keys.map(k => (k, Interval(coefficient, coefficient) * this (k))) |> IntervalVector.apply
 
-  final override def moveBy(delta: (String, Double)*): IntervalVector = {
-    val deltaWithImputedValues = (delta ++ this.keys.diff(delta.map(_._1).toSet).map(k => (k, 0.0)))
+  final override def moveBy(delta: (String, java.lang.Double)*): IntervalVector = {
+    val deltaWithImputedValues = (delta ++ this.keys.diff(delta.map(_._1).toSet).map(k => (k, new java.lang.Double(0.0))))
       .map { case (k, v) => (k, Interval(v))}
     this.add(deltaWithImputedValues |> IntervalVector.apply)
   }
 
-  final override def constrain(area: (String, (Double, Double))*): IntervalVector = {
-    def constrainValue(value: Double, restrictingArea: (Double, Double)): Double = {
+  final override def constrain(area: (String, (java.lang.Double, java.lang.Double))*): IntervalVector = {
+    def constrainValue(value: java.lang.Double, restrictingArea: (java.lang.Double, java.lang.Double)): java.lang.Double = {
       val (min, max) = restrictingArea
       if (value > max) max
       else {
@@ -59,11 +59,11 @@ class IntervalVector private (override val elements: Map[String, Interval])
     constrainedVector
   }
 
-  final override def getPerformance(f: Map[String, Interval] => Interval): Double = f(this.elements).lowerBound
+  final override def getPerformance(f: Map[String, Interval] => Interval): java.lang.Double = f(this.elements).lowerBound
 
-  final override def toBasicForm(): VectorObject[Double] = RealVector(this.elements.mapValues(_.middlePoint))
+  final override def toBasicForm(): VectorObject[java.lang.Double] = RealVector(this.elements.mapValues(_.middlePoint))
 
-  final def split(ratios: Seq[Double], key: Option[String] = None): Seq[IntervalVector] = {
+  final def split(ratios: Seq[java.lang.Double], key: Option[String] = None): Seq[IntervalVector] = {
     val splitKey =
       if (key.isDefined) key.get
       else elements.minBy { case (k, v) => -v.width }._1
@@ -85,10 +85,10 @@ class IntervalVector private (override val elements: Map[String, Interval])
   import IntervalVector.IntervalVectorJsonFormat._
   final override def convertToJson(): JsValue = this.toJson
 
-  final override def distanceFromArea(area: Map[String, (Double, Double)]): Map[String, Double] = {
+  final override def distanceFromArea(area: Map[String, (java.lang.Double, java.lang.Double)]): Map[String, java.lang.Double] = {
     area.keySet.map { k =>
       val (min, max) = area(k)
-      def distance(v: Double): Double = {
+      def distance(v: java.lang.Double): java.lang.Double = {
         if (v < min) min - v
         else {
           if (v > max) v - max
@@ -96,7 +96,7 @@ class IntervalVector private (override val elements: Map[String, Interval])
         }
       }
       (k, math.max(distance(this(k).lowerBound), distance(this(k).upperBound)))
-    }.toMap
+    }.toMap.mapValues(new java.lang.Double(_))
   }
 
 }

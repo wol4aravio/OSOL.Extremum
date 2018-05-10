@@ -56,7 +56,7 @@ class IntervalSuite extends FunSuite {
 
   test("Approximate Equality") {
     assert(i1 ~ (i1 + 1e-7))
-    assert(!(Interval(Double.NegativeInfinity, 0.0) ~ Interval(Double.NegativeInfinity, Double.NaN)))
+    assert(!(Interval(java.lang.Double.NEGATIVE_INFINITY, 0.0) ~ Interval(java.lang.Double.NEGATIVE_INFINITY, java.lang.Double.NaN)))
   }
 
   test("Binary Arithmetic Operations: \"+\"") {
@@ -78,11 +78,11 @@ class IntervalSuite extends FunSuite {
   }
 
   test("Binary Arithmetic Operations: \"/\"") {
-    assert((i1 / i2) ~ Interval(Double.NegativeInfinity, Double.PositiveInfinity))
+    assert((i1 / i2) ~ Interval(java.lang.Double.NEGATIVE_INFINITY, java.lang.Double.POSITIVE_INFINITY))
     assert((i2 / i3) ~ Interval(-4.0, 3.0))
     assert((i1 / i5) ~ Interval(-0.4, 0.2))
-    assert((i3 / i6) ~ Interval(Double.NegativeInfinity, -0.5))
-    assert((i5 / i7) ~ Interval(Double.NegativeInfinity, -5.0 / 3.0))
+    assert((i3 / i6) ~ Interval(java.lang.Double.NEGATIVE_INFINITY, -0.5))
+    assert((i5 / i7) ~ Interval(java.lang.Double.NEGATIVE_INFINITY, -5.0 / 3.0))
   }
 
   test("Unary Operators: Neg") {
@@ -91,7 +91,7 @@ class IntervalSuite extends FunSuite {
     assert((-i6) ~ Interval(0.0, 2.0))
   }
 
-  test("Conversion: From Double") {
+  test("Conversion: From java.lang.Double") {
     assert(Interval(1.0, 1.0) ~ 1.0)
   }
 
@@ -117,7 +117,7 @@ class IntervalSuite extends FunSuite {
   test("Splitting") {
     assert(i1.bisect()._1 ~ Interval(-1.0, 0.5))
     assert(i1.bisect()._2 ~ Interval(0.5, 2.0))
-    assert(i1.split(Seq(1, 2)).zip(Seq(Interval(-1.0, 0.0), Interval(0.0, 2.0))).forall { case (a, b) => a ~ b })
+    assert(i1.split(Seq(1.0, 2.0)).zip(Seq(Interval(-1.0, 0.0), Interval(0.0, 2.0))).forall { case (a, b) => a ~ b })
   }
 
   test("JSON") {
