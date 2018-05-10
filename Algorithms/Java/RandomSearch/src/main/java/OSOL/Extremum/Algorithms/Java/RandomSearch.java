@@ -17,11 +17,9 @@ public class RandomSearch {
     private String currentPointEfficiencyName = "currentPointEfficiency";
     private String radiusParameterName = "r";
 
-    private RealVector generateRandomInSphere(RealVector currentPoint, Double radius, Map<String, Tuple2<Double, Double>> area)
+    private RealVector generateRandomInSphere(RealVector currentPoint, Double radius, Map<String, Tuple2<Object, Object>> area)
     {
-        Interval i = Interval.apply(1, 2);
-        i.s
-        RealVector normallyDistributed = GoRN.getNormal(area)
+        RealVector normallyDistributed = RealVector.Converters.Iterable_to_RealVector(GoRN.getNormal(area));
     }
 
 //    private def generateRandomInSphere(currentPoint: RealVector, radius: Double, area: Area): RealVector = {
