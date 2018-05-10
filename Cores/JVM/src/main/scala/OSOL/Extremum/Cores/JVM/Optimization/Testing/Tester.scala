@@ -20,19 +20,19 @@ abstract class Tester[Base, FuncType, V <: Optimizable[Base, FuncType]](testFunc
   def apply(algorithms: Algorithm[Base, FuncType, V]*): Boolean = {
     val resultsPerFunction = testFunctions.zip(areas).zip(solutions)
       .map { case ((f, area), sol) => {
+        f.initialize()
         var success = false
         val resultsPerAlgorithm = algorithms.takeWhile { a => {
           val resultsPerAttempt = (1 to attempts).takeWhile { _ =>
             a.reset()
-            f.initialize()
             val r = a.work(f.apply, area).toBasicForm()
-            f.terminate()
             success = Lp_norm(r, RealVector(sol)) < tolerance
             !success
           }
           !success
         }
         }
+        f.terminate()
         success
       }
       }
