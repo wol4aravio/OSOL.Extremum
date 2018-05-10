@@ -9,7 +9,7 @@ import OSOL.Extremum.Cores.JVM.Vectors.RealVector.Converters.*;
 
 import scala.Tuple2;
 import scala.collection.immutable.Map;
-import scala.Double;
+import java.lang.*;
 
 public class RandomSearch {
 
@@ -17,9 +17,10 @@ public class RandomSearch {
     private String currentPointEfficiencyName = "currentPointEfficiency";
     private String radiusParameterName = "r";
 
-    private RealVector generateRandomInSphere(RealVector currentPoint, Double radius, Map<String, Tuple2<Object, Object>> area)
+    private RealVector generateRandomInSphere(RealVector currentPoint, Double radius, Map<String, Tuple2<Double, Double>> area)
     {
-        RealVector normallyDistributed = RealVector.Converters.Iterable_to_RealVector(GoRN.getNormal(area));
+        RealVector normallyDistributed = GoRN.getNormal(area.mapValues(_ -> Tuple2.apply(0.0, 1.0)));
+        Double r = normallyDistributed.elements().values().map(v -> v.doubleValue() * v);
     }
 
 //    private def generateRandomInSphere(currentPoint: RealVector, radius: Double, area: Area): RealVector = {
