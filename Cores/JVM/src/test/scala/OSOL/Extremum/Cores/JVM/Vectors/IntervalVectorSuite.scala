@@ -63,14 +63,14 @@ class IntervalVectorSuite extends FunSuite {
   }
 
   test("Move by") {
-    assert(v1.moveBy("x" -> -1.0).moveBy(Seq("z" -> -3.0, "y" -> -2.0)) == (Map("x" -> Interval(0.0), "y" -> Interval(0.0, 1.0), "z" -> Interval(0.0, 2.0)) |> IntervalVector.apply))
+    assert(v1.moveByScala("x" -> -1.0).moveByScala(Seq("z" -> -3.0, "y" -> -2.0)) == (Map("x" -> Interval(0.0), "y" -> Interval(0.0, 1.0), "z" -> Interval(0.0, 2.0)) |> IntervalVector.apply))
   }
 
   test("Constraining") {
     assert(v1
-      .constrain("x" -> (-1.0, 0.0))
-      .constrain(Seq("y" -> (3.0, 10.0)))
-      .constrain("z" -> (-5.0, 4.0)) == (Map("x" -> Interval(0.0), "y" -> Interval(3.0), "z" -> Interval(3.0, 4.0)) |> IntervalVector.apply))
+      .constrainScala("x" -> (-1.0, 0.0))
+      .constrainScala(Seq("y" -> (3.0, 10.0)))
+      .constrainScala("z" -> (-5.0, 4.0)) == (Map("x" -> Interval(0.0), "y" -> Interval(3.0), "z" -> Interval(3.0, 4.0)) |> IntervalVector.apply))
   }
 
   test("To Double Valued Vector") {
@@ -99,8 +99,8 @@ class IntervalVectorSuite extends FunSuite {
   }
 
   test("Distance from Area") {
-    val area = Map("x" -> (Double.NegativeInfinity, 0.0), "y" -> (Double.NegativeInfinity, Double.PositiveInfinity), "z" -> (2.5, 2.7))
-    val distances = v1.distanceFromArea(area)
+    val area = Map("x" -> (java.lang.Double.NEGATIVE_INFINITY, 0.0), "y" -> (java.lang.Double.NEGATIVE_INFINITY, java.lang.Double.POSITIVE_INFINITY), "z" -> (2.5, 2.7))
+    val distances = v1.distanceFromAreaScala(area)
     val tol = 1e-9
     assert(math.abs(distances("x") - 1.0) < tol)
     assert(math.abs(distances("y") - 0.0) < tol)

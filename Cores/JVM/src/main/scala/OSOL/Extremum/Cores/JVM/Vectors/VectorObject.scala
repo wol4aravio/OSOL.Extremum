@@ -30,8 +30,8 @@ abstract class VectorObject[Base] (val elements: Map[String, Base]) {
     mergedKeys.map(k => (k, op(this(k, default), that(k, default))))
   }
 
-  def equalsTo(that: VectorObject[Base]): Boolean
-  final def ==(that: VectorObject[Base]): Boolean = this.equalsTo(that)
+  def equalsTo(that: VectorObject[Base]): java.lang.Boolean
+  final def ==(that: VectorObject[Base]): java.lang.Boolean = this.equalsTo(that)
 
   def add(that: VectorObject[Base]): VectorObject[Base]
   final def +(that: VectorObject[Base]): VectorObject[Base] = this.add(that)
@@ -39,13 +39,13 @@ abstract class VectorObject[Base] (val elements: Map[String, Base]) {
   def addImputeMissingKeys(that: VectorObject[Base]): VectorObject[Base]
   final def ~+(that: VectorObject[Base]): VectorObject[Base] = this.addImputeMissingKeys(that)
 
-  def multiply(coefficient: Double): VectorObject[Base]
-  final def *(coefficient: Double): VectorObject[Base] = this.multiply(coefficient)
+  def multiply(coefficient: java.lang.Double): VectorObject[Base]
+  final def *(coefficient: java.lang.Double): VectorObject[Base] = this.multiply(coefficient)
 
-  final def neg(): VectorObject[Base] = this.multiply(-1)
+  final def neg(): VectorObject[Base] = this.multiply(-1.0)
   final def unary_-(): VectorObject[Base] = this.neg()
 
-  final def subtract(that: VectorObject[Base]): VectorObject[Base] = this.add(that.multiply(-1))
+  final def subtract(that: VectorObject[Base]): VectorObject[Base] = this.add(that.multiply(-1.0))
   final def -(that: VectorObject[Base]): VectorObject[Base] = this.subtract(that)
 
   final def subtractImputeMissingKeys(that: VectorObject[Base]): VectorObject[Base] = this.addImputeMissingKeys(that.neg())
@@ -60,6 +60,9 @@ abstract class VectorObject[Base] (val elements: Map[String, Base]) {
   def union(that: (String, Base)): VectorObject[Base]
   def union(vectors: (String, Base)*): VectorObject[Base] = vectors.foldLeft(this) { case (a, b) => a.union(b) }
 
-  def distanceFromArea(area: Map[String, (Double, Double)]): Map[String, Double]
+  def distanceFromArea(area: Map[String, (java.lang.Double, java.lang.Double)]): Map[String, java.lang.Double]
+  final def distanceFromAreaScala(area: Map[String, (Double, Double)]): Map[String, Double] =
+    this.distanceFromArea(area.mapValues { case (a, b) => (new java.lang.Double(a), new java.lang.Double(b)) })
+    .mapValues(_.doubleValue())
 
 }

@@ -10,13 +10,13 @@ object GoRN
 
   private val core = new scala.util.Random()
 
-  def resetCore(seed: Long): Unit = core.setSeed(seed)
+  def resetCore(seed: java.lang.Long): Unit = core.setSeed(seed)
 
-  override def getDiscreteUniform(min: Int, max: Int): Int = min + core.nextInt(max - min + 1)
+  override def getDiscreteUniform(min: java.lang.Integer, max: java.lang.Integer): java.lang.Integer = min + core.nextInt(max - min + 1)
 
-  override def getContinuousUniform(min: Double, max: Double): Double = min + core.nextDouble() * (max - min)
+  override def getContinuousUniform(min: java.lang.Double, max: java.lang.Double): java.lang.Double = min + core.nextDouble() * (max - min)
 
-  override def getNormal(mu: Double, sigma: Double): Double = {
+  override def getNormal(mu: java.lang.Double, sigma: java.lang.Double): java.lang.Double = {
 
     var x = getContinuousUniform(-1.0, 1.0)
     var y = getContinuousUniform(-1.0, 1.0)
@@ -33,10 +33,10 @@ object GoRN
 
   }
 
-  def getFromSeries[T](data: Seq[T], n: Int, withReturn: Boolean): Seq[T] =
+  def getFromSeries[T](data: Seq[T], n: java.lang.Integer, withReturn: java.lang.Boolean): Seq[T] =
     withReturn match {
-      case true => Seq.fill(n)(getDiscreteUniform(0, data.size - 1)).map(x => data(x))
-      case false => data.map(x => (x, getContinuousUniform(0.0, 1.0))).sortBy(_._2).map(_._1).take(n)
+      case java.lang.Boolean.TRUE => Seq.fill(n)(getDiscreteUniform(0, data.size - 1)).map(x => data(x))
+      case java.lang.Boolean.FALSE => data.map(x => (x, getContinuousUniform(0.0, 1.0))).sortBy(_._2).map(_._1).take(n)
     }
 
 }
