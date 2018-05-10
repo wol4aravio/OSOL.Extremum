@@ -8,16 +8,16 @@ import OSOL.Extremum.Cores.JVM.Vectors.VectorObject
 
 abstract class Tester[Base, FuncType, V <: Optimizable[Base, FuncType]](testFunctions: Seq[RemoteFunction[FuncType]],
                                                                         areas: Seq[Area],
-                                                                        solutions: Seq[Map[String, Double]],
-                                                                        tolerance: Double,
-                                                                        attempts: Int) {
+                                                                        solutions: Seq[Map[String, java.lang.Double]],
+                                                                        tolerance: java.lang.Double,
+                                                                        attempts: java.lang.Integer) {
 
-  def Lp_norm(v1: VectorObject[Double], v2: VectorObject[Double], p: Int = 2): Double = {
+  def Lp_norm(v1: VectorObject[java.lang.Double], v2: VectorObject[java.lang.Double], p: java.lang.Integer = 2): java.lang.Double = {
     val keys = v1.keys ++ v2.keys
-    keys.map(k => math.pow(math.abs(v1(k) - v2(k)), p)).sum
+    keys.map(k => math.pow(math.abs(v1(k) - v2(k)), p.doubleValue())).sum
   }
 
-  def apply(algorithms: Algorithm[Base, FuncType, V]*): Boolean = {
+  def apply(algorithms: Algorithm[Base, FuncType, V]*): java.lang.Boolean = {
     val resultsPerFunction = testFunctions.zip(areas).zip(solutions)
       .map { case ((f, area), sol) => {
         var success = false

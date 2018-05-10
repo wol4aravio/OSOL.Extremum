@@ -4,7 +4,7 @@ import OSOL.Extremum.Cores.JVM.Optimization.Nodes.GeneralNode
 import spray.json.JsValue
 
 final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]]
-(nodes: Seq[GeneralNode[Base, FuncType, V]], transitionMatrix: Seq[(Int, Option[Int], Int)]) {
+(nodes: Seq[GeneralNode[Base, FuncType, V]], transitionMatrix: Seq[(java.lang.Integer, Option[java.lang.Integer], java.lang.Integer)]) {
 
   private var state: State[Base, FuncType, V] = new State()
 

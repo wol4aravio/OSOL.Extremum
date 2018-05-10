@@ -3,21 +3,21 @@ package OSOL.Extremum.Cores.JVM.Arithmetics
 import Interval.Exceptions._
 import spray.json._
 
-class Interval private (val lowerBound: Double, val upperBound: Double) {
+class Interval private (val lowerBound: java.lang.Double, val upperBound: java.lang.Double) {
 
-  final lazy val middlePoint: Double = 0.5 * (lowerBound + upperBound)
-  final lazy val width: Double = upperBound - lowerBound
-  final lazy val radius: Double = width / 2.0
+  final lazy val middlePoint: java.lang.Double = 0.5 * (lowerBound + upperBound)
+  final lazy val width: java.lang.Double = upperBound - lowerBound
+  final lazy val radius: java.lang.Double = width / 2.0
 
   final override def toString: String = s"[$lowerBound; $upperBound]"
 
-  final def equalsTo(that: Interval): Boolean =
+  final def equalsTo(that: Interval): java.lang.Boolean =
     this.lowerBound == that.lowerBound && this.upperBound == that.upperBound
 
-  final def ==(that: Interval): Boolean = this.equalsTo(that)
+  final def ==(that: Interval): java.lang.Boolean = this.equalsTo(that)
 
-  final def approximatelyEqualsTo(that: Interval, maxError:Double): Boolean = {
-    def getDifference(a: Double, b: Double): Double = {
+  final def approximatelyEqualsTo(that: Interval, maxError:java.lang.Double): java.lang.Boolean = {
+    def getDifference(a: java.lang.Double, b: java.lang.Double): java.lang.Double = {
       val delta = math.abs(a - b)
       if (delta.isNaN) {
         if (a == b) 0.0
@@ -30,7 +30,7 @@ class Interval private (val lowerBound: Double, val upperBound: Double) {
     errorLeft + errorRight <= maxError
   }
 
-  final def ~(that: Interval, maxError: Double = 1e-5): Boolean = this.approximatelyEqualsTo(that, maxError)
+  final def ~(that: Interval, maxError: java.lang.Double = 1e-5): java.lang.Boolean = this.approximatelyEqualsTo(that, maxError)
 
   final def neg(): Interval =
     Interval(-upperBound, -lowerBound)
@@ -58,17 +58,17 @@ class Interval private (val lowerBound: Double, val upperBound: Double) {
   final def div(that: Interval): Interval = {
     that match {
       case _ if that.lowerBound > 0.0 || that.upperBound < 0.0 => this.mul(Interval(1.0 / that.upperBound, 1.0 / that.lowerBound))
-      case _ if that.lowerBound == 0.0 => this.mul(Interval(1.0 / that.upperBound, Double.PositiveInfinity))
-      case _ if that.upperBound == 0.0 => this.mul(Interval(Double.NegativeInfinity, 1 / that.lowerBound))
-      case _ => Interval(Double.NegativeInfinity, Double.PositiveInfinity)
+      case _ if that.lowerBound == 0.0 => this.mul(Interval(1.0 / that.upperBound, java.lang.Double.POSITIVE_INFINITY))
+      case _ if that.upperBound == 0.0 => this.mul(Interval(java.lang.Double.NEGATIVE_INFINITY, 1 / that.lowerBound))
+      case _ => Interval(java.lang.Double.NEGATIVE_INFINITY, java.lang.Double.POSITIVE_INFINITY)
     }
   }
   final def /(that: Interval): Interval = this.div(that)
 
-  final def moveBy(delta: Double): Interval = this.add(Interval(delta))
+  final def moveBy(delta: java.lang.Double): Interval = this.add(Interval(delta))
 
-  final def constrain(min: Double, max: Double): Interval = {
-    def check(value: Double) =
+  final def constrain(min: java.lang.Double, max: java.lang.Double): Interval = {
+    def check(value: java.lang.Double) =
       if (value < min) min
       else {
         if (value > max) max
@@ -77,8 +77,8 @@ class Interval private (val lowerBound: Double, val upperBound: Double) {
     Interval(check(lowerBound), check(upperBound))
   }
 
-  def split(ratios: Seq[Double]): Seq[Interval] = {
-    val sum = ratios.sum
+  def split(ratios: Seq[java.lang.Double]): Seq[Interval] = {
+    val sum = ratios.map(_.doubleValue()).sum
     ratios.tail.foldLeft(Seq(Interval(this.lowerBound, this.lowerBound + ratios.head * this.width / sum))) {
       case (result, r) => {
         val lastInterval = result.head
@@ -89,7 +89,7 @@ class Interval private (val lowerBound: Double, val upperBound: Double) {
   }
 
   def bisect(): (Interval, Interval) = {
-    val Seq(first, second) = split(ratios = Seq(1, 1))
+    val Seq(first, second) = split(ratios = Seq(1.0, 1.0))
     (first, second)
   }
 
@@ -99,21 +99,23 @@ object Interval {
 
   import Converters._
 
-  var minWidth: Double = 1e-5
+  var minWidth: java.lang.Double = 1e-5
 
-  final def apply(lowerBound: Double, upperBound: Double): Interval = {
+  final def apply(lowerBound: java.lang.Double, upperBound: java.lang.Double): Interval = {
     if (lowerBound > upperBound) throw new MinMaxFailureException(lowerBound, upperBound)
     else {
-      if (upperBound - lowerBound < minWidth) Interval(0.5 * (lowerBound + upperBound))
+      if (upperBound.doubleValue() - lowerBound < minWidth) Interval(0.5 * (lowerBound.doubleValue() + upperBound))
       else new Interval(lowerBound, upperBound)
     }
   }
 
-  final def apply(value: Double): Interval = value
+  final def apply(value: java.lang.Double): Interval = value
 
   object Converters {
 
-    implicit def fromDouble(value: Double): Interval = new Interval(value, value)
+    implicit def fromDoubleScala(value: Double): Interval = new Interval(value, value)
+
+    implicit def fromDouble(value: java.lang.Double): Interval = new Interval(value, value)
 
     implicit def fromString(value: String): Interval = {
       val split = value.drop(1).dropRight(1).split(";")
@@ -121,13 +123,15 @@ object Interval {
       else fromDouble(value.toDouble)
     }
 
-    implicit def fromPair(pair: (Double, Double)): Interval = Interval(pair._1, pair._2)
+    implicit def fromPairScala(pair: (Double, Double)): Interval = Interval(pair._1, pair._2)
+
+    implicit def fromPair(pair: (java.lang.Double, java.lang.Double)): Interval = Interval(pair._1, pair._2)
 
   }
 
   object Exceptions {
 
-    class MinMaxFailureException(min: Double, max: Double) extends Exception
+    class MinMaxFailureException(min: java.lang.Double, max: java.lang.Double) extends Exception
 
     class UnknownOperationException(opName: String) extends Exception
 

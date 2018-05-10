@@ -38,7 +38,7 @@ class RealVectorSuite extends FunSuite {
   }
 
   test("Addition with Imputation") {
-    assert(v1 ~+ v3 == (Map("x" -> 0.0, "y" -> 2.0, "z" -> 0.0) |> RealVector.apply))
+    assert(v1 ~+ v3 == (Map("x" -> 0.0, "y" -> 2.0, "z" -> 0.0) |> RealVector.Converters.ScalaIterableToRealVector))
   }
 
   test("Subtraction") {
@@ -47,7 +47,7 @@ class RealVectorSuite extends FunSuite {
   }
 
   test("Subtraction with Imputation") {
-    assert(v1 ~- v3 == (Map("x" -> 2.0, "y" -> 2.0, "z" -> 6.0) |> RealVector.apply))
+    assert(v1 ~- v3 == (Map("x" -> 2.0, "y" -> 2.0, "z" -> 6.0) |> RealVector.Converters.ScalaIterableToRealVector))
   }
 
   test("Multiplication") {
@@ -58,7 +58,7 @@ class RealVectorSuite extends FunSuite {
   }
 
   test("Multiplication with Imputation") {
-    assert(v1 ~* v3 == (Map("x" -> -1.0, "y" -> 2.0, "z" -> -9.0) |> RealVector.apply))
+    assert(v1 ~* v3 == (Map("x" -> -1.0, "y" -> 2.0, "z" -> -9.0) |> RealVector.Converters.ScalaIterableToRealVector))
   }
 
   test("Multiply by coefficient") {
@@ -66,17 +66,17 @@ class RealVectorSuite extends FunSuite {
   }
 
   test("Move by") {
-    assert(v1.moveBy("x" -> -1.0).moveBy(Seq("z" -> -3.0, "y" -> -2.0)) == z)
+    assert(v1.moveByScala("x" -> -1.0).moveByScala(Seq("z" -> -3.0, "y" -> -2.0)) == z)
   }
 
   test("Constraining") {
     assert(v1
-      .constrain("x" -> (-1.0, 0.0))
-      .constrain(Seq("y" -> (3.0, 10.0)))
-      .constrain("z" -> (-5.0, 5.0)) == (Map("x" -> 0.0, "y" -> 3.0, "z" -> 3.0) |> RealVector.apply))
+      .constrainScala("x" -> (-1.0, 0.0))
+      .constrainScala(Seq("y" -> (3.0, 10.0)))
+      .constrainScala("z" -> (-5.0, 5.0)) == (Map("x" -> 0.0, "y" -> 3.0, "z" -> 3.0) |> RealVector.Converters.ScalaIterableToRealVector))
   }
 
-  test("To Double Valued Vector") {
+  test("To java.lang.Double Valued Vector") {
     assert(v1.toBasicForm()("x") == 1.0)
     assert(v1.toBasicForm()("y") == 2.0)
     assert(v1.toBasicForm()("z") == 3.0)
@@ -84,14 +84,14 @@ class RealVectorSuite extends FunSuite {
 
   test("Union") {
     val p1: RealVector = Map("x" -> 1.0)
-    val p2 = "y" -> 2.0
-    val p3 = "z" -> 3.0
+    val p2 = "y" -> new java.lang.Double(2.0)
+    val p3 = "z" -> new java.lang.Double(3.0)
     assert(p1.union(p2, p3) == v1)
   }
 
   test("Distance from Area") {
-    val area = Map("x" -> (Double.NegativeInfinity, 0.0), "y" -> (Double.NegativeInfinity, Double.PositiveInfinity), "z" -> (2.5, 2.7))
-    val distances = v1.distanceFromArea(area)
+    val area = Map("x" -> (java.lang.Double.NEGATIVE_INFINITY, 0.0), "y" -> (java.lang.Double.NEGATIVE_INFINITY, java.lang.Double.POSITIVE_INFINITY), "z" -> (2.5, 2.7))
+    val distances = v1.distanceFromAreaScala(area)
     val tol = 1e-9
     assert(math.abs(distances("x") - 1.0) < tol)
     assert(math.abs(distances("y") - 0.0) < tol)

@@ -4,12 +4,12 @@ import OSOL.Extremum.Cores.JVM.Optimization._
 import OSOL.Extremum.Cores.JVM.Optimization.Exceptions._
 
 class TerminationViaMaxTime[Base, FuncType, V <: Optimizable[Base, FuncType]]
-(override val nodeId: Int, val maxTime: Double, parameterName: String = "startTime")
+(override val nodeId: java.lang.Integer, val maxTime: java.lang.Double, parameterName: String = "startTime")
   extends GeneralNode[Base, FuncType, V ](nodeId) {
 
   final override def initialize(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Unit = {
     try {
-      val _ = state.getParameter[Long](parameterName)
+      val _ = state.getParameter[java.lang.Long](parameterName)
       throw new ParameterAlreadyExistsException(parameterName)
     }
     catch {
@@ -20,8 +20,8 @@ class TerminationViaMaxTime[Base, FuncType, V <: Optimizable[Base, FuncType]]
 
   final override def process(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Unit = { }
 
-  final override def getCurrentCondition(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Option[Int] = {
-    if (1e-9 * (System.nanoTime() - state.getParameter[Long](parameterName)) > maxTime) Some(1)
+  final override def getCurrentCondition(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Option[java.lang.Integer] = {
+    if (1e-9 * (System.nanoTime() - state.getParameter[java.lang.Long](parameterName)) > maxTime) Some(1)
     else Some(0)
   }
 

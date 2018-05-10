@@ -17,7 +17,7 @@ class RandomSuite extends FunSuite {
   }
 
   implicit class OverloadedMap[T](val v: Map[T, Double]) {
-    def ~(that: OverloadedMap[T]): Double = {
+    def ~(that: OverloadedMap[T]): java.lang.Double = {
       val keys = (this.v.keys ++ that.v.keys).toSeq.distinct
       keys
         .map { key =>
@@ -27,7 +27,6 @@ class RandomSuite extends FunSuite {
         }.sum / keys.length
     }
   }
-
 
   GoRN.resetCore(seed)
 
@@ -58,7 +57,7 @@ class RandomSuite extends FunSuite {
     val idealProb_x = Map(0 -> 0.5, 1 -> 0.5)
     val idealProb_y = Map(0 -> 1.0 / 3.0, 1 -> 1.0 / 3.0, 2 -> 1.0 / 3.0)
 
-    val samples = (1 to N).map(_ => GoRN.getDiscreteUniform(Map("x" -> (0, 1), "y" -> (0, 2))))
+    val samples = (1 to N).map(_ => GoRN.getDiscreteUniformScala(Map("x" -> (0, 1), "y" -> (0, 2))))
     val calculatedProb_x = getProbability(samples.map(_("x")), (x: Int) => x)
     val calculatedProb_y = getProbability(samples.map(_("y")), (x: Int) => x)
 
@@ -70,7 +69,7 @@ class RandomSuite extends FunSuite {
     val idealProb_x = (1 to 4).map((_, 0.25)).toMap
     val idealProb_y = (1 to 10).map((_, 0.1)).toMap
 
-    val samples = (1 to N).map(_ => GoRN.getContinuousUniform(Map("x" -> (0.0, 4.0), "y" -> (0.0, 10.0))))
+    val samples = (1 to N).map(_ => GoRN.getContinuousUniformScala(Map("x" -> (0.0, 4.0), "y" -> (0.0, 10.0))))
     val f = (x: Double) => math.ceil(x).toInt
     val calculatedProb_x = getProbability(samples.map(_("x")), f)
     val calculatedProb_y = getProbability(samples.map(_("y")), f)
@@ -88,9 +87,9 @@ class RandomSuite extends FunSuite {
     val result = (1 to maxAttempts).foldLeft(false) { case (success, _) =>
       if (success) success
       else {
-        val samples = (1 to 3 * N).map(_ => GoRN.getNormal(Map("x" -> (mu_x, sigma_x), "y" -> (mu_y, sigma_y))))
-        val (muEst_x, sigmaEst_x) = (Statistics.getMean(samples.map(_ ("x"))), Statistics.getUnbiasedSigma(samples.map(_ ("x"))))
-        val (muEst_y, sigmaEst_y) = (Statistics.getMean(samples.map(_ ("y"))), Statistics.getUnbiasedSigma(samples.map(_ ("y"))))
+        val samples = (1 to 3 * N).map(_ => GoRN.getNormalScala(Map("x" -> (mu_x, sigma_x), "y" -> (mu_y, sigma_y))))
+        val (muEst_x, sigmaEst_x) = (Statistics.getMeanScala(samples.map(_ ("x"))), Statistics.getUnbiasedSigmaScala(samples.map(_ ("x"))))
+        val (muEst_y, sigmaEst_y) = (Statistics.getMeanScala(samples.map(_ ("y"))), Statistics.getUnbiasedSigmaScala(samples.map(_ ("y"))))
 
         val success_MuX = math.abs(mu_x - muEst_x) < eps
         val successSigmaX = math.abs(sigma_x - sigmaEst_x) < eps
