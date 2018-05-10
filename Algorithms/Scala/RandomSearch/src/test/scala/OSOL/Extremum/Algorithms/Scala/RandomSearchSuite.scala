@@ -11,12 +11,15 @@ class RandomSearchSuite extends FunSuite {
   test("Warm Up")
   {
     val tester = new RealTester
-    val result = tester(
-      RandomSearch.createFixedStepRandomSearch(radius = 1.0 * r, maxTime = 1 * oneMin),
-      RandomSearch.createFixedStepRandomSearch(radius = 0.5 * r, maxTime = 2 * oneMin),
-      RandomSearch.createFixedStepRandomSearch(radius = 0.1 * r, maxTime = 5 * oneMin))
-
-    assert(true)
+    try {
+      val result = tester(
+        RandomSearch.createFixedStepRandomSearch(radius = 1.0 * r, maxTime = 1 * oneMin),
+        RandomSearch.createFixedStepRandomSearch(radius = 0.5 * r, maxTime = 2 * oneMin),
+        RandomSearch.createFixedStepRandomSearch(radius = 0.1 * r, maxTime = 5 * oneMin))
+    }
+    finally {
+      assert(true)
+    }
   }
 
   test("Test Random Search")
