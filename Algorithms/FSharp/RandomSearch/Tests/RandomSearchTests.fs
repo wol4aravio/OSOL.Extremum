@@ -7,12 +7,13 @@ open OSOL.Extremum.Cores.DotNet.Optimization.Testing
 open Xunit
 
 module RandomSearchTests = 
-
-    let r: double = 1.0;
-    let oneMin: double = 60.0;
     
     [<Fact>]
     let TestRandomSearch() =
+    
+        let r: double = 1.0;
+        let oneMin: double = 60.0;
+
         let tester = new RealTester()
         let configs = 
             [|
