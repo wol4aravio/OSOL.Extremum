@@ -72,6 +72,18 @@
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>2.4</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.7</version>
+                    <configuration>
+                        <formats>
+                            <format>html</format>
+                            <format>xml</format>
+                        </formats>
+                        <check />
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
 
