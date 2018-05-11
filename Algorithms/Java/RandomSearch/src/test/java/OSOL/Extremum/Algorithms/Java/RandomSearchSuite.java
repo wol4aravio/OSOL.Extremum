@@ -1,6 +1,7 @@
 package OSOL.Extremum.Algorithms.Java;
 
 import OSOL.Extremum.Cores.JVM.Optimization.Algorithm;
+import OSOL.Extremum.Cores.JVM.Optimization.RemoteFunctions.RealRemoteFunction;
 import OSOL.Extremum.Cores.JVM.Optimization.Testing.RealTester;
 import OSOL.Extremum.Cores.JVM.Vectors.RealVector;
 
@@ -8,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
-import scala.collection.JavaConverters;
 
+import scala.collection.JavaConverters;
 
 public class RandomSearchSuite {
 
