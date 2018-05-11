@@ -10,7 +10,7 @@ class RealRemoteFunction(override val json: String, override val port: java.lang
       .param("field", this.field)
       .params(values.map { case (k, v) => (k, v.toString) })
 
-    request.asString.body.toDouble
+    java.lang.Double.parseDouble(request.asString.body)
   }
 
 }
