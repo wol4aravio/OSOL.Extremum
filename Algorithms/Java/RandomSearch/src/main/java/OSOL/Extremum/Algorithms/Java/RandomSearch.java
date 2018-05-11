@@ -23,12 +23,12 @@ public class RandomSearch {
     private static String radiusParameterName = "r";
 
     private static RealVector generateRandomInSphere(RealVector currentPoint, Double radius, Map<String, Tuple2<Double, Double>> area) {
-        RealVector normallyDistributed = RealVector.Converters.IterableToRealVector(GoRN.getNormal(area.mapValues(a -> Tuple2.apply(0.0, 1.0))));
+        RealVector normallyDistributed = RealVector.Converters$.MODULE$.IterableToRealVector(GoRN.getNormal(area.mapValues(a -> Tuple2.apply(0.0, 1.0))));
         List<Double> values = JavaConverters.seqAsJavaList(normallyDistributed.elements().values().toSeq());
 
         double r = 0.0;
         for (Double v : values)
-            r += v.doubleValue() * v;
+            r += v * v;
 
         Double moveCoefficient = (GoRN.getContinuousUniform(-1.0, 1.0) / r);
 
@@ -38,7 +38,7 @@ public class RandomSearch {
     public static final class GenerateInitialPointNode extends GeneralNode<RealVector, Double, RealVector> {
         @Override
         public void initialize(Function1<Map<String, Double>, Double> f, Map<String, Tuple2<Double, Double>> area, State<RealVector, Double, RealVector> state) {
-            RealVector initialPoint = RealVector.Converters.IterableToRealVector(GoRN.getContinuousUniform(area));
+            RealVector initialPoint = RealVector.Converters$.MODULE$.IterableToRealVector(GoRN.getContinuousUniform(area));
             state.setParameter(currentPointName, initialPoint);
             state.setParameter(currentPointEfficiencyName, initialPoint.getPerformance(f));
         }
