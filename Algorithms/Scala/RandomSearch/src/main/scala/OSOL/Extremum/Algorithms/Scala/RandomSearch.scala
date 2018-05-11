@@ -15,7 +15,7 @@ object RandomSearch {
   private def generateRandomInSphere(currentPoint: RealVector, radius: Double, area: Area): RealVector = {
     val normallyDistributed = GoRN.getNormal(area.mapValues(_ => (0.0, 1.0)))
     val r = math.sqrt(normallyDistributed.values.map(v => v * v).sum)
-    (currentPoint + normallyDistributed * (GoRN.getContinuousUniform(-1.0, 1.0) / r)).constrain(area)
+    (currentPoint + normallyDistributed * (GoRN.getContinuousUniform(0.0, radius) / r)).constrain(area)
   }
 
   private final class GenerateInitialPointNode(override val nodeId: java.lang.Integer) extends GeneralNode[RealVector, java.lang.Double, RealVector](nodeId) {

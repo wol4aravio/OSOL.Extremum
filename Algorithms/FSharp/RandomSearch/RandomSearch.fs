@@ -26,7 +26,7 @@ module RandomSearch =
                 |> Seq.map (fun x -> x * x)
                 |> Seq.sum
         
-        let shift = (normallyDistributed * (GoRN.GetContinuousUniform(-1.0, 1.0) / r)).Elements |> RealVector.op_Implicit
+        let shift = (normallyDistributed * (GoRN.GetContinuousUniform(0.0, radius) / r)).Elements |> RealVector.op_Implicit
                 
         let newPoint = ((currentPoint + shift).Elements |> RealVector.op_Implicit).Constrain(area)
         
