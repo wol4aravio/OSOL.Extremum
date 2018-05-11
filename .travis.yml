@@ -81,6 +81,7 @@ jobs:
     - stage: algorithms
       language: scala
       scala: 2.12.5
+      sudo: required
       before_script:
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
@@ -103,6 +104,7 @@ jobs:
     - stage: algorithms
       language: csharp
       dotnet: 2.0.0
+      sudo: required
       before_script:
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
@@ -128,10 +130,10 @@ jobs:
           dotnet pack -c Release --include-source --output nuget &&
           dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
-
     - stage: algorithms
       language: csharp
       dotnet: 2.0.0
+      sudo: required
       before_script:
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
@@ -156,3 +158,31 @@ jobs:
         - test $TRAVIS_BRANCH = "master" && 
           dotnet pack -c Release --include-source --output nuget &&
           dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+
+    - stage: algorithms
+      language: java
+      sudo: required
+      addons:
+        apt:
+          packages:
+            - oracle-java8-installer
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Algorithms/Java/RandomSearch
+      script:
+        - mvn clean install -DskipTests=true
+        - travis_wait 30 mvn cobertura:cobertura
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - test $TRAVIS_BRANCH = "master" &&
+          mvn clean deploy --settings settings.xml
+
