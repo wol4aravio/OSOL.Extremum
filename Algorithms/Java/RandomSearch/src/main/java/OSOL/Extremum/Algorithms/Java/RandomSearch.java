@@ -24,7 +24,6 @@ public class RandomSearch {
 
     private static RealVector generateRandomInSphere(RealVector currentPoint, Double radius, Map<String, Tuple2<Double, Double>> area) {
         RealVector normallyDistributed = RealVector.Converters.IterableToRealVector(GoRN.getNormal(area.mapValues(a -> Tuple2.apply(0.0, 1.0))));
-        int dim = currentPoint.elements().size();
         List<Double> values = JavaConverters.seqAsJavaList(normallyDistributed.elements().values().toSeq());
 
         double r = 0.0;
