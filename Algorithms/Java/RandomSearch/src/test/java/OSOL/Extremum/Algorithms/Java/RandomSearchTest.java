@@ -12,13 +12,13 @@ import java.util.*;
 
 import scala.collection.JavaConverters;
 
-public class RandomSearchSuite {
+public class RandomSearchTest {
 
     double r = 1.0;
     double oneMin = 60.0;
 
     @Test
-    void TestRandomSearch()
+    void testRandomSearch()
     {
         RealTester tester = new RealTester();
         List<Algorithm<RealVector, Double, RealVector>> configsToTest = new ArrayList<>();
