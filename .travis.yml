@@ -10,6 +10,8 @@ env:
 jobs:
   include:
     - stage: preliminaries
+      env:
+        - JOB_NAME="Builing python tools"
       language: python
       python: "3.6"
       before_script:
@@ -25,6 +27,8 @@ jobs:
 
 
     - stage: cores
+      env:
+        - JOB_NAME="Builing JVM core"
       language: scala
       scala: 2.12.5
       sudo: required
@@ -48,6 +52,8 @@ jobs:
           mvn clean deploy --settings settings.xml
 
     - stage: cores
+      env:
+        - JOB_NAME="Builing .Net core"
       language: csharp
       dotnet: 2.0.0
       sudo: required
@@ -79,6 +85,8 @@ jobs:
 
 
     - stage: algorithms
+      env:
+        - JOB_NAME="Builing Scala Random Search"
       language: scala
       scala: 2.12.5
       sudo: required
@@ -102,6 +110,8 @@ jobs:
           mvn clean deploy --settings settings.xml
 
     - stage: algorithms
+      env:
+        - JOB_NAME="Builing C# Random Search"
       language: csharp
       dotnet: 2.0.0
       sudo: required
@@ -131,6 +141,8 @@ jobs:
           dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
     - stage: algorithms
+      env:
+        - JOB_NAME="Builing F# Random Search"
       language: csharp
       dotnet: 2.0.0
       sudo: required
@@ -160,6 +172,8 @@ jobs:
           dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
     - stage: algorithms
+      env:
+        - JOB_NAME="Builing Java Random Search"
       language: java
       jdk:
         - oraclejdk8
