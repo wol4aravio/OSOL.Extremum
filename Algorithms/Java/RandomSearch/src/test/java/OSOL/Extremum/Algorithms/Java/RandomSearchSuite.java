@@ -26,6 +26,5 @@ public class RandomSearchSuite {
         configsToTest.add(RandomSearch.createFixedStepRandomSearch(0.1 * r, 5 * oneMin));
 
         assertTrue(tester.apply(JavaConverters.iterableAsScalaIterable(configsToTest).toSeq()));
-
     }
 }
