@@ -30,9 +30,10 @@ public class RandomSearch {
         for (Double v : values)
             r += v * v;
 
-        Double moveCoefficient = (GoRN.getContinuousUniform(-1.0, 1.0) / r);
+        Double moveCoefficient = (GoRN.getContinuousUniform(0.0, radius) / r);
 
-        return (currentPoint.add(normallyDistributed.multiply(moveCoefficient))).constrain(area);
+        return (RealVector)currentPoint.add(normallyDistributed.multiply(moveCoefficient)).constrain(area);
+
     }
 
     public static final class GenerateInitialPointNode extends GeneralNode<RealVector, Double, RealVector> {
