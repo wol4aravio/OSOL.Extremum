@@ -8,4 +8,4 @@ libraryDependencies += "io.spray" %%  "spray-json" % "1.3.3"
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.5"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 
-libraryDependencies += "org.scalaj" %% "scalaj-http" % "2.4.0"
+libraryDependencies += "com.github.kevinsawicki" % "http-request" % "6.0"
