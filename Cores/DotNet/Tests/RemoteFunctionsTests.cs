@@ -12,21 +12,28 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
     {
         
         public static string TASKS_LOC = Environment.GetEnvironmentVariable("OSOL_EXTREMUM_TASKS_LOC");
+        public static int N = 1000;
         
         [Fact]
         public static void TestRealRemoteFunction()
         {
             var f = new RealRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_3.json", port: 5000, field: "f");
             f.Initialize();
-            var result = f.Calculate(new Dictionary<string, double>()
+            List<double> results = new List<double>();
+            for (int i = 0; i < N; ++i)
             {
-                {"x", 1.0}, 
-                {"y", 2.0}, 
-                {"z", 3.0}
-            });
+                var result = f.Calculate(new Dictionary<string, double>()
+                {
+                    {"x", 1.0},
+                    {"y", 2.0},
+                    {"z", 3.0}
+                });
+                results.Add(result);
+            }
+
             f.Terminate();
             
-            Assert.Equal(result, 36.0);
+            Assert.True(results.TrueForAll(_ => _ == 36.0));
         }
         
         [Fact]
@@ -34,15 +41,21 @@ namespace OSOL.Extremum.Cores.DotNet.Tests
         {
             var f = new IntervalRemoteFunction(json: $"{TASKS_LOC}/Dummy/Dummy_3.json", port: 10000, field: "f");
             f.Initialize();
-            var result = f.Calculate(new Dictionary<string, Interval>()
+            List<Interval> results = new List<Interval>();
+            for (int i = 0; i < N; ++i)
             {
-                {"x", new Interval(1, 2)},
-                {"y", new Interval(2, 3)}, 
-                {"z", new Interval(3, 4)}
-            });
+                var result = f.Calculate(new Dictionary<string, Interval>()
+                {
+                    {"x", new Interval(1, 2)},
+                    {"y", new Interval(2, 3)},
+                    {"z", new Interval(3, 4)}
+                });
+                results.Add(result);
+            }
+
             f.Terminate();
             
-            Assert.True(result.EqualsTo(new Interval(36, 70)));
+            Assert.True(results.TrueForAll(_ => _.EqualsTo(new Interval(36, 70))));
         }
     }
 }
