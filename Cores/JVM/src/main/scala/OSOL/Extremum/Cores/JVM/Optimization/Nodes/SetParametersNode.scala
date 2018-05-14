@@ -5,7 +5,7 @@ import OSOL.Extremum.Cores.JVM.Optimization.Exceptions._
 import OSOL.Extremum.Cores.JVM.Optimization.{Optimizable, State}
 
 class SetParametersNode[Base, FuncType, V <: Optimizable[Base, FuncType]]
-(override val nodeId: Int, val parameters: Map[String, Any])
+(override val nodeId: java.lang.Integer, val parameters: Map[String, Any])
   extends GeneralNode[Base, FuncType, V ](nodeId) {
 
   final override def initialize(f: Map[String, FuncType] => FuncType, area: Area, state: State[Base, FuncType, V]): Unit = {

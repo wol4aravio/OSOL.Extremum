@@ -1,16 +1,16 @@
 package OSOL.Extremum.Cores.JVM.Optimization.RemoteFunctions
 
-import scalaj.http.Http
+import com.github.kevinsawicki.http.HttpRequest
+import scala.collection.JavaConverters
 
-class RealRemoteFunction(override val json: String, override val port: Int, override val field: String)
-  extends RemoteFunction[Double](json, port, field) {
+class RealRemoteFunction(override val json: String, override val port: java.lang.Integer, override val field: String)
+  extends RemoteFunction[java.lang.Double](json, port, field) {
 
-  final override def apply(values: Map[String, Double]): Double = {
-    val request = Http(s"http://localhost:${this.port}/process_request")
-      .param("field", this.field)
-      .params(values.map { case (k, v) => (k, v.toString) })
+  final override def apply(values: Map[String, java.lang.Double]): java.lang.Double = {
+    val params = Map("field" -> this.field) ++ values.map { case (k, v) => (k, v.toString) }
+    val request = HttpRequest.get(s"http://localhost:${this.port}/process_request", JavaConverters.mapAsJavaMap(params), true)
 
-    request.asString.body.toDouble
+    java.lang.Double.parseDouble(request.body())
   }
 
 }

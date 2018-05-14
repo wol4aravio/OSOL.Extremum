@@ -5,11 +5,14 @@ env:
     - secure: "ovxoZQAhCQIeHY+pYZAJUv+QabcXWM4BjRxFP7pMctKVEUF3Pa0ajEfiP7XPfLiwZyGVIhitHxpYxgt9n7RVFtanhXan9RWe0gjN5enyDFiJBnlXxZwmLAIzJeV8CpLCKyNBg2XU7eKqMFjNI/MnVOgGsO/5WOz/5vhLH/Z13QkoIZm0BeGrW8a1lAOs0/jmpPs9nhmcfGncxQR1NyIGayo+Fj5ZMfs2COL6wibSMzSKpT0OngjQy47QHxHZ3Q3oRuMH0o9f0x6+/jE+5NCfvsO5kBclK69SL6sn7QjO4IsJdSjY1kTjeRco3y1wlhbx4xKDf+7C8jqu+y9gTAvxhLlbYuCxJTqO6aDHeoYY52j9c/DVkQORmgqwJ0XrY1XmQDWAFMeUy8Js44M3LjJc0bsS3JxY4s58bCHasiDojSq7g1Jnzj9psvJviRTzZYb5dcgpmQE8ckjDkw4X9Ljcz6vb8q0pIACMeE2F1GIMyuX4yHhnTmWkOfkeMlUEmVqbzCNe9la2kyKEe1QUjvQhpa99rVygLVmmRKjfdrHe84oObdygCfNC0NSq+iPkJ6Y7MfbHiLYsI9Mkw9Sw5AsxYaxw4D+8SpphTmcrOzw47VvLIEfvui6JB55I23hM88NfmbH8LtQovv0gmGXFBdg6SVZnsJ3+eLfulhackYVN/hI="
     - secure: "FswcxXtYBvEnH36CLLHwfGnc8gtZMHnIMJSs4SCycJc+4aMh3lnrB+KxlSQSg+xBu5BjVCTxn7wQPSgK4U1XbvdrGqKREmpBYMwg2rNmOCZcOtowVm0qR+7doUoXFoAE7dAwe7WT0zbFXEVW4jzapKiu6p3TBIWLvizmPufsgLyKgnujWocoynN17aBDoWSXfXbXwH+ptr1KBGuAD+fB8eVJbB6Muyjv/eXHLXIY/inMGPGjnwpFHv9Soja3SC2oPx9ZRZIAHYCAg6p2XH2UkkaiZ1ASV/L81kQ14Rdbr2lklaj9b/XwEQKdCkGxYi03UjPCnT7ze/FMKYW0v3i5FHDfa3agmTm8Af86VYWosBWLW6KACiD2ru6AJ6Tj1GqMC8+ubTbfK1ItUCw62GA5SH/wY8G0Tez5Y4cm9ijQQNIeDTH/MEDlxL5cGX8uqd5Wa27LnNwTgoHgl8yBC31gCblI4Y5W7Y8eUNNwH9e1rdViH1cvCP+OmbDMA/xKH/atZkB52j5H4toWpdVPYPvaZBOjgZ0ShUKH0ImixfHID4CudXbGPSCZtWFJ/5//SkKYrXmdjE5z00R0TV+clE/Q7vw26/Muj49HrZ2g7pVfN1v+Kbw3RZ4fD5WH+/hblRNmnIRXnx8i05lfXnyviQLUDfCa3kgqJITRbl/lC/ghJJc="
     - OSOL_EXTREMUM_TASKS_LOC=${TRAVIS_BUILD_DIR}/Tasks
+    - OSOL_EXTREMUM_CONFIGS_LOC=${TRAVIS_BUILD_DIR}/Configs
     - PYTHON_VER=3.6.2
 
 jobs:
   include:
     - stage: preliminaries
+      env:
+        - JOB_NAME="Building python tools"
       language: python
       python: "3.6"
       before_script:
@@ -25,6 +28,8 @@ jobs:
 
 
     - stage: cores
+      env:
+        - JOB_NAME="Building JVM core"
       language: scala
       scala: 2.12.5
       sudo: required
@@ -48,6 +53,8 @@ jobs:
           mvn clean deploy --settings settings.xml
 
     - stage: cores
+      env:
+        - JOB_NAME="Building .Net core"
       language: csharp
       dotnet: 2.0.0
       sudo: required
@@ -79,8 +86,11 @@ jobs:
 
 
     - stage: algorithms
+      env:
+        - JOB_NAME="Building Scala Random Search"
       language: scala
       scala: 2.12.5
+      sudo: required
       before_script:
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
@@ -101,8 +111,11 @@ jobs:
           mvn clean deploy --settings settings.xml
 
     - stage: algorithms
+      env:
+        - JOB_NAME="Building C# Random Search"
       language: csharp
       dotnet: 2.0.0
+      sudo: required
       before_script:
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
@@ -128,10 +141,12 @@ jobs:
           dotnet pack -c Release --include-source --output nuget &&
           dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
-
     - stage: algorithms
+      env:
+        - JOB_NAME="Building F# Random Search"
       language: csharp
       dotnet: 2.0.0
+      sudo: required
       before_script:
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
@@ -156,3 +171,94 @@ jobs:
         - test $TRAVIS_BRANCH = "master" && 
           dotnet pack -c Release --include-source --output nuget &&
           dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+
+    - stage: algorithms
+      env:
+        - JOB_NAME="Building Java Random Search"
+      language: java
+      jdk: oraclejdk8
+      sudo: required
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Algorithms/Java/RandomSearch
+      script:
+        - mvn clean install -DskipTests=true
+        - travis_wait 30 mvn cobertura:cobertura
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - test $TRAVIS_BRANCH = "master" &&
+          mvn clean deploy --settings settings.xml
+
+
+
+    - stage: apps
+      env:
+        - JOB_NAME="Testing JVM Runner"
+        - TEST_TOL=1e-3
+      language: scala
+      scala: 2.12.5
+      sudo: required
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Apps/JVM/Runner
+      script:
+        - sbt assembly
+        - echo $'import os\nimport math\n\ndef square(x):\n\treturn x * x\n\nf = open(\'result.csv\', \'r\')\nvalues=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=float(os.environ.get(\'TEST_TOL\'))\nerror = math.sqrt(sum(list(map(square, values))))\nif error > tol:\n\traise Exception()' > test.py
+        - echo 'Testing Scala RandomSearch'
+        - java -jar ./target/scala-2.12/OSOL.Extremum.Apps.JVM.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Scala/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - python test.py
+        - rm result.csv
+        - echo 'Testing Java RandomSearch'
+        - java -jar ./target/scala-2.12/OSOL.Extremum.Apps.JVM.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Java/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - python test.py
+        - rm result.csv
+
+    - stage: apps
+      env:
+        - JOB_NAME="Testing DotNet Runner"
+        - TEST_TOL=1e-3
+      language: csharp
+      dotnet: 2.0.0
+      sudo: required
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Apps/DotNet/Runner
+      script:
+        - dotnet publish -c Release -o runner
+        - cd runner
+        - echo $'import os\nimport math\n\ndef square(x):\n\treturn x * x\n\nf = open(\'result.csv\', \'r\')\nvalues=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=float(os.environ.get(\'TEST_TOL\'))\nerror = math.sqrt(sum(list(map(square, values))))\nif error > tol:\n\traise Exception()' > test.py
+        - echo 'Testing CSharp RandomSearch'
+        - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/CSharp/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - python test.py
+        - rm result.csv
+        - echo 'Testing FSharp RandomSearch'
+        - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/FSharp/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - python test.py
+        - rm result.csv

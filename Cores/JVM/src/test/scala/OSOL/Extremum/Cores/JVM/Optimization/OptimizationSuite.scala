@@ -15,15 +15,15 @@ class OptimizationSuite extends FunSuite {
 
     val parameterName = "samples"
 
-    final class SampleNode(override val nodeId: Int) extends GeneralNode[RealVector, Double, RealVector](nodeId) {
+    final class SampleNode(override val nodeId: java.lang.Integer) extends GeneralNode[RealVector, java.lang.Double, RealVector](nodeId) {
 
-      override def initialize(f: Map[String, Double] => Double, area: Area, state: State[RealVector, Double, RealVector]): Unit = {
+      override def initialize(f: Map[String, java.lang.Double] => java.lang.Double, area: Area, state: State[RealVector, java.lang.Double, RealVector]): Unit = {
         state.setParameter(parameterName, Seq.empty[RealVector])
       }
 
-      override def process(f: Map[String, Double] => Double, area: Area, state: State[RealVector, Double, RealVector]): Unit = {
+      override def process(f: Map[String, java.lang.Double] => java.lang.Double, area: Area, state: State[RealVector, java.lang.Double, RealVector]): Unit = {
         val alreadySampledPoints = state.getParameter[Seq[RealVector]](parameterName)
-        if (state.getParameter[Boolean]("generate")) {
+        if (state.getParameter[java.lang.Boolean]("generate")) {
           val newPoint: RealVector = alreadySampledPoints.headOption.getOrElse(RealVector(GoRN.getContinuousUniform(area)))
             .moveBy(GoRN.getContinuousUniform(area.mapValues { case _ => (-0.1, 0.1)}))
             .constrain(area)
@@ -33,25 +33,26 @@ class OptimizationSuite extends FunSuite {
 
     }
 
-    final class SelectBest(override val nodeId: Int) extends GeneralNode[RealVector, Double, RealVector](nodeId) {
+    final class SelectBest(override val nodeId: java.lang.Integer) extends GeneralNode[RealVector, java.lang.Double, RealVector](nodeId) {
 
-      override def initialize(f: Map[String, Double] => Double, area: Area, state: State[RealVector, Double, RealVector]): Unit = { }
+      override def initialize(f: Map[String, java.lang.Double] => java.lang.Double, area: Area, state: State[RealVector, java.lang.Double, RealVector]): Unit = { }
 
-      override def process(f: Map[String, Double] => Double, area: Area, state: State[RealVector, Double, RealVector]): Unit = {
+      override def process(f: Map[String, java.lang.Double] => java.lang.Double, area: Area, state: State[RealVector, java.lang.Double, RealVector]): Unit = {
         state.result = Some(state.getParameter[Seq[RealVector]](parameterName).minBy(_.getPerformance(f)))
       }
 
     }
 
-    def apply(maxIteration: Int, maxTime: Double): Algorithm[RealVector, Double, RealVector] = {
+    def apply(maxIteration: java.lang.Integer, maxTime: java.lang.Double): Algorithm[RealVector, java.lang.Double, RealVector] = {
       val nodes = Seq(
-        new SetParametersNode[RealVector, Double, RealVector](nodeId = 0, parameters = Map("generate" -> true)),
+        new SetParametersNode[RealVector, java.lang.Double, RealVector](nodeId = 0, parameters = Map("generate" -> true)),
         new SampleNode(nodeId = 1),
-        new TerminationViaMaxIterations[RealVector, Double, RealVector](nodeId = 2, maxIteration = maxIteration),
-        new TerminationViaMaxTime[RealVector, Double, RealVector](nodeId = 3, maxTime = maxTime),
+        new TerminationViaMaxIterations[RealVector, java.lang.Double, RealVector](nodeId = 2, maxIteration = maxIteration),
+        new TerminationViaMaxTime[RealVector, java.lang.Double, RealVector](nodeId = 3, maxTime = maxTime),
         new SelectBest(nodeId = 4)
       )
-      val transitionMatrix = Seq(
+
+      val transitionMatrix: Seq[(java.lang.Integer, Option[java.lang.Integer], java.lang.Integer)] = Seq(
         (0, None, 1),
         (1, None, 2),
         (2, Some(0), 1),
@@ -59,7 +60,7 @@ class OptimizationSuite extends FunSuite {
         (3, Some(0), 1),
         (3, Some(1), 4)
       )
-      new Algorithm[RealVector, Double, RealVector](nodes, transitionMatrix)
+      new Algorithm[RealVector, java.lang.Double, RealVector](nodes, transitionMatrix)
     }
 
   }
@@ -68,7 +69,7 @@ class OptimizationSuite extends FunSuite {
 
     val parameterName = "sample"
 
-    final class SplitNode(override val nodeId: Int) extends GeneralNode[IntervalVector, Interval, IntervalVector](nodeId) {
+    final class SplitNode(override val nodeId: java.lang.Integer) extends GeneralNode[IntervalVector, Interval, IntervalVector](nodeId) {
 
       override def initialize(f: Map[String, Interval] => Interval, area: Area, state: State[IntervalVector, Interval, IntervalVector]): Unit = {
         state.setParameter(parameterName, IntervalVector(area.mapValues { case (a, b) => Interval(a, b)}))
@@ -83,7 +84,7 @@ class OptimizationSuite extends FunSuite {
 
     }
 
-    final class SelectBest(override val nodeId: Int) extends GeneralNode[IntervalVector, Interval, IntervalVector](nodeId) {
+    final class SelectBest(override val nodeId: java.lang.Integer) extends GeneralNode[IntervalVector, Interval, IntervalVector](nodeId) {
 
       override def initialize(f: Map[String, Interval] => Interval, area: Area, state: State[IntervalVector, Interval, IntervalVector]): Unit = { }
 
@@ -100,7 +101,8 @@ class OptimizationSuite extends FunSuite {
         new TerminationViaMaxTime[IntervalVector, Interval, IntervalVector](nodeId = 2, maxTime = 2.5),
         new SelectBest(nodeId = 3)
       )
-      val transitionMatrix = Seq(
+
+      val transitionMatrix: Seq[(java.lang.Integer, Option[java.lang.Integer], java.lang.Integer)] = Seq(
         (0, None, 1),
         (1, Some(0), 0),
         (1, Some(1), 2),
@@ -112,10 +114,10 @@ class OptimizationSuite extends FunSuite {
 
   }
 
-  val toolReal: Algorithm[RealVector, Double, RealVector] = DummyRealOptimization(250, 2.5)
+  val toolReal: Algorithm[RealVector, java.lang.Double, RealVector] = DummyRealOptimization(250, 2.5)
   val toolInterval: Algorithm[IntervalVector, Interval, IntervalVector] = DummyIntervalOptimization()
 
-  val fReal: Map[String, Double] => Double = (v: Map[String, Double]) => v("x")
+  val fReal: Map[String, java.lang.Double] => java.lang.Double = (v: Map[String, java.lang.Double]) => v("x")
   val fInterval: Map[String, Interval] => Interval = (v: Map[String, Interval]) => v("x")
   val area: Area = Map("x" -> (-10.0, 10.0))
 
@@ -123,8 +125,8 @@ class OptimizationSuite extends FunSuite {
   val testerInterval = new IntervalTester
 
   test("TerminationViaMaxIterations") {
-    val node = new TerminationViaMaxIterations[RealVector, Double, RealVector](nodeId = 1, maxIteration = 250)
-    val state: State[RealVector, Double, RealVector] = new State[RealVector, Double, RealVector]()
+    val node = new TerminationViaMaxIterations[RealVector, java.lang.Double, RealVector](nodeId = 1, maxIteration = 250)
+    val state: State[RealVector, java.lang.Double, RealVector] = new State[RealVector, java.lang.Double, RealVector]()
 
     node.initialize(fReal, area, state)
     intercept[ParameterAlreadyExistsException] { node.initialize(fReal, area, state) }
