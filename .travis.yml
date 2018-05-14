@@ -222,5 +222,5 @@ jobs:
         - dotnet publish -c Release -o runner
         - cd runner
         - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/CSharp/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
-        - echo $'import math\n\nf = open(\'result.csv\', \'r\')\nv=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=1e-33\nerror = math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])\nprint(int(error > tol))' > test.py
+        - echo $'import math\n\nf = open(\'result.csv\', \'r\')\nv=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=1e-33\nerror = math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])\nif error > tol:\n\traise Exception()' > test.py
         - python test.py
