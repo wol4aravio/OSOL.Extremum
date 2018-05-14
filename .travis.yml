@@ -221,14 +221,13 @@ jobs:
         - cd ../Apps/JVM/Runner
       script:
         - sbt assembly
-        - cd target/scala-2.12/
         - echo $'import os\nimport math\n\ndef square(x):\n\treturn x * x\n\nf = open(\'result.csv\', \'r\')\nvalues=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=float(os.environ.get(\'TEST_TOL\'))\nerror = math.sqrt(sum(list(map(square, values))))\nif error > tol:\n\traise Exception()' > test.py
         - echo 'Testing Scala RandomSearch'
-        - java -jar OSOL.Extremum.Apps.Java.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Scala/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - java -jar ./target/scala-2.12/OSOL.Extremum.Apps.JVM.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Scala/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
         - python test.py
         - rm result.csv
         - echo 'Testing Java RandomSearch'
-        - java -jar OSOL.Extremum.Apps.Java.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Java/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - java -jar ./target/scala-2.12/OSOL.Extremum.Apps.JVM.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Java/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
         - python test.py
         - rm result.csv
 
