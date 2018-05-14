@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
+        <PackageVersion>0.1.0</PackageVersion>
+        <Authors>Valentin Panovskiy</Authors>
+        <AssemblyName>OSOL.Extremum.Apps.DotNet.Runner</AssemblyName>
+        <RootNamespace>OSOL.Extremum.Apps.DotNet</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="CommandLineParser" Version="2.2.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+        <PackageReference Include="OSOL.Extremum.Algorithms.CSharp.RandomSearch" Version="0.0.5" />
+        <PackageReference Include="OSOL.Extremum.Algorithms.FSharp.RandomSearch" Version="0.0.5" />
+        <PackageReference Include="OSOL.Extremum.Cores.DotNet" Version="0.0.5" />
+    </ItemGroup>
+</Project>
