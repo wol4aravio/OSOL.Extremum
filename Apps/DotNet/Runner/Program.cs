@@ -61,6 +61,27 @@ namespace OSOL.Extremum.Apps.DotNet
                 }
                 return;
             }
+
+            if (string.Equals(language, "FSharp") && (string.Equals(name, "RS") || string.Equals(name, "RandomSearch")))
+            {
+                var radius = algConfig["radius"].Value<double>();
+                var maxTime = algConfig["maxTime"].Value<double>();
+                var algorithm = Algorithms.FSharp.RandomSearch.CreateFixedStepRandomSearch(radius, maxTime);
+                
+                var f = new RealRemoteFunction(opts.TaskConfig, opts.Port, opts.Field);
+                f.Initialize();
+                var result = algorithm.Work(x => f.Calculate(x), area);
+                f.Terminate();
+
+                using (StreamWriter sw = new StreamWriter(opts.ResultFile))
+                using (JsonWriter writer = new JsonTextWriter(sw){ Formatting = Formatting.Indented })
+                {
+                    result.ConvertToJson().WriteTo(writer);
+                }
+                return;
+            }
+
+            
             throw new Exception("Unsupported Algorithm");
         }
         
