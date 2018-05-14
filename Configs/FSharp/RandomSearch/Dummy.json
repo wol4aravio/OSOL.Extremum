@@ -1,0 +1,6 @@
+{
+	"language": "FSharp",
+	"algorithm": "RS",
+	"radius": 1.0,
+	"maxTime": 60.0	
+}
