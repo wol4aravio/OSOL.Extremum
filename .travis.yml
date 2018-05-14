@@ -222,7 +222,7 @@ jobs:
       script:
         - dotnet publish -c Release -o runner
         - cd runner
-        - echo $'import math\n\nf = open(\'result.csv\', \'r\')\nvalues=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=${TEST_TOL}\nerror = math.sqrt(sum(list(map(lambda v: v * v, values))))\nif error > tol:\n\traise Exception()' > test.py
+        - echo $'import math\n\nf = open(\'result.csv\', \'r\')\nvalues=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=${TEST_TOL}\nerror = math.sqrt(sum(list(map(lambda v\: v * v, values))))\nif error > tol:\n\traise Exception()' > test.py
         - echo 'Testing CSharp RandomSearch'
         - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/CSharp/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
         - python test.py
