@@ -203,6 +203,7 @@ jobs:
     - stage: apps
       env:
         - JOB_NAME="Testing DotNet Runner"
+        - TEST_TOL=1e-3
       language: csharp
       dotnet: 2.0.0
       sudo: required
@@ -221,6 +222,11 @@ jobs:
       script:
         - dotnet publish -c Release -o runner
         - cd runner
+        - echo $'import math\n\nf = open(\'result.csv\', \'r\')\nvalues=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=${TEST_TOL}\nerror = math.sqrt(sum(list(map(lambda v: v * v, values))))\nif error > tol:\n\traise Exception()' > test.py
+        - echo 'Testing CSharp RandomSearch'
         - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/CSharp/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
-        - echo $'import math\n\nf = open(\'result.csv\', \'r\')\nv=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=1e-33\nerror = math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])\nif error > tol:\n\traise Exception()' > test.py
+        - python test.py
+        - rm result.csv
+        - echo 'Testing FSharp RandomSearch'
+        - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/FSharp/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
         - python test.py
