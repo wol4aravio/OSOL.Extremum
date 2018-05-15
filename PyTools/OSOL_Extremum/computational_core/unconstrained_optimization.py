@@ -1,5 +1,3 @@
-import json
-
 from sympy import symbols, lambdify, diff
 from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
