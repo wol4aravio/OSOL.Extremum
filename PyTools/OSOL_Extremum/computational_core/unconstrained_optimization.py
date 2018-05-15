@@ -29,8 +29,7 @@ class UnconstrainedOptimization:
         return self._df[d_name](*args)
 
     @classmethod
-    def from_json(cls, json_data):
-        data = json.loads(json_data)
+    def from_dict(cls, data):
         if 'differentiable' in data:
             first_derivative = data['differentiable']
         else:

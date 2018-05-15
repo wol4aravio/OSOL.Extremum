@@ -16,7 +16,7 @@ class ComputationalCore:
         with open(json_file) as json_data:
             task_info = json.load(json_data)
             if task_info['task_type'] == 'unconstrained_optimization':
-                task = UnconstrainedOptimization.from_json(json.dumps(task_info))
+                task = UnconstrainedOptimization.from_dict(task_info)
                 operations = {'f': task.f}
                 if hasattr(task, '_df'):
                     for k in task._df.keys():
