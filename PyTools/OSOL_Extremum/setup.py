@@ -30,6 +30,7 @@ setup(
     install_requires=["ast2json==0.2.1",
                       "numpy==1.13.1",
                       "sympy==1.1.1",
+                      "sklearn==0.19.0",
                       "flask==0.12.2"],
 
     entry_points={
