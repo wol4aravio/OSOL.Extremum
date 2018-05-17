@@ -13,13 +13,13 @@ def rmse(x, y):
 def test_1():
     tol = 1e-3
 
-    ds = DynamicSystem(sampling_type='Euler', sampling_eps=1e-3, sampling_max_steps=1000,
+    ds = DynamicSystem(sampling_type='Euler', sampling_eps=1e-3, sampling_max_steps=1000000,
                        f={'x': '2*t'}, state_vars=['x'], initial_conditions={'x': 0},
                        controllers={}, control_vars=[], control_bounds={},
                        aux={}, etc_vars=[],
                        integral_criterion='0', terminal_criterion='0',
-                       terminal_constraints=[], phase_constraints=[])
-    times = np.linspace(0.0, ds.sampling_eps * ds.sampling_max_steps, ds.sampling_max_steps + 1)
+                       terminal_constraints=[{'equation': 't - 1.0', 'max_error': 1e-5, 'penalty': 1e+5, 'norm': 'L2'}], phase_constraints=[])
+    times = np.linspace(0.0, 1.0, 1000 + 1)
     x_ideal = times * times
 
     _, x, _ = ds.simulate({})
@@ -41,7 +41,7 @@ def test_1():
 def test_2():
     tol = 1e-3
 
-    ds = DynamicSystem(sampling_type='Euler', sampling_eps=1e-3, sampling_max_steps=10000,
+    ds = DynamicSystem(sampling_type='RK4', sampling_eps=1e-3, sampling_max_steps=10000,
                        f={'x': 'cos(t)'}, state_vars=['x'], initial_conditions={'x': 0},
                        controllers={}, control_vars=[], control_bounds={},
                        aux={}, etc_vars=[],
@@ -49,20 +49,6 @@ def test_2():
                        terminal_constraints=[], phase_constraints=[])
     times = np.linspace(0.0, ds.sampling_eps * ds.sampling_max_steps, ds.sampling_max_steps + 1)
     x_ideal = np.sin(times)
-
-    _, x, _ = ds.simulate({})
-    x_real_Euler = list(map(lambda v: v['x'], x))
-
-    ds.initial_conditions = {'x': Interval.from_value(0.0)}
-    _, x, _ = ds.simulate({})
-    x_interval_Euler = list(map(lambda v: v['x'].middle_point, x))
-
-    error_real_Euler = rmse(x_real_Euler, x_ideal)
-    error_interval_Euler = rmse(x_interval_Euler, x_ideal)
-
-    ds.sampling_type = 'RK4'
-    ds.prolong = ds.prolong_RK4
-    ds.initial_conditions = {'x': 0.0}
 
     _, x, _ = ds.simulate({})
     x_real_RK4 = list(map(lambda v: v['x'], x))
@@ -73,6 +59,20 @@ def test_2():
 
     error_real_RK4 = rmse(x_real_RK4, x_ideal)
     error_interval_RK4 = rmse(x_interval_RK4, x_ideal)
+
+    ds.sampling_type = 'Euler'
+    ds.prolong = ds.prolong_Euler
+    ds.initial_conditions = {'x': 0.0}
+
+    _, x, _ = ds.simulate({})
+    x_real_Euler = list(map(lambda v: v['x'], x))
+
+    ds.initial_conditions = {'x': Interval.from_value(0.0)}
+    _, x, _ = ds.simulate({})
+    x_interval_Euler = list(map(lambda v: v['x'].middle_point, x))
+
+    error_real_Euler = rmse(x_real_Euler, x_ideal)
+    error_interval_Euler = rmse(x_interval_Euler, x_ideal)
 
     assert error_real_Euler < tol
     assert error_interval_Euler < tol

@@ -51,11 +51,19 @@ class DynamicSystem:
 
         self.terminal_constraints = terminal_constraints
         for i in range(len(self.terminal_constraints)):
-            self.terminal_constraints[i]['equation'] = lambdify(self.sym_vars, self.terminal_constraints[i]['equation'], np)
+            self.terminal_constraints[i]['equation'] = lambdify(self.sym_vars[:(len(self.sym_vars) - len(self.etc_vars) - len(self.control_vars))], parse_expr(self.terminal_constraints[i]['equation']), np)
 
         self.phase_constraints = phase_constraints
-        for i in range(len(self.terminal_constraints)):
-            self.phase_constraints[i]['equation'] = lambdify(self.sym_vars, self.phase_constraints[i]['equation'], np)
+        for i in range(len(self.phase_constraints)):
+            self.phase_constraints[i]['equation'] = lambdify(self.sym_vars[:(len(self.sym_vars) - len(self.etc_vars) - len(self.control_vars))], parse_expr(self.phase_constraints[i]['equation']), np)
+
+
+    @staticmethod
+    def measure_error(v):
+        if isinstance(v, Interval):
+            return v.abs().upper_bound
+        else:
+            return np.abs(v)
 
 
     @classmethod
@@ -189,4 +197,19 @@ class DynamicSystem:
             times.append(t + eps)
             states.append(x_next)
             controls.append(u)
+            if len(self.terminal_constraints) != 0:
+                stop = True
+                for constraint in self.terminal_constraints:
+                    eq = constraint['equation']
+                    max_error = constraint['max_error']
+                    penalty = constraint['penalty']
+                    norm = constraint['norm']
+
+                    values = [times[-1]] + list(x_next.values())
+                    error = DynamicSystem.measure_error(eq(*values))
+                    if error > max_error:
+                        stop = False
+                        break
+                if stop:
+                    break
         return times, states, controls
