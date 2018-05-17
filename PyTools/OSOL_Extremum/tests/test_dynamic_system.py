@@ -134,30 +134,3 @@ def test_3():
     assert np.abs(error_real_RK4 - error_interval_RK4 < tol * tol)
     assert error_real_RK4 < error_real_Euler
     assert error_interval_RK4 < error_interval_Euler
-
-
-
-
-
-
-
-# import json
-#
-# c = DynamicSystem.from_dict(json.load(open('/Users/wol4aravio/Wol4araVio/Projects/OSOL.Extremum/Tasks/Dummy/Dummy_Control.json')))
-# t, x, u = c.simulate(params={'a': -1, 'b': 2})
-#
-# u = np.array(list(map(lambda v: v['u'], u)))
-# x1 = np.array(list(map(lambda v: v['x1'], x)))
-# x2 = np.array(list(map(lambda v: v['x2'], x)))
-#
-# tt = np.linspace(0, 1, 100 + 1)
-# uu = -np.exp(tt) + 2 * np.exp(-tt)
-# xx1 = np.exp(tt) + np.exp(-tt) - tt * np.exp(tt) / 2.0 - tt * np.exp(-tt)
-# xx2 = 0.5 * np.exp(tt) - 2.0 * np.exp(-tt) + tt * np.exp(-tt) - 0.5 * tt * np.exp(tt)
-#
-# import numpy.linalg as la
-#
-# error_t = la.norm(np.array(t) - tt)
-# error_u = la.norm(u - uu[:-1])
-# error_x1 = la.norm(x1 - xx1)
-# error_x2 = la.norm(x2 - xx2)
