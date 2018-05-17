@@ -1,5 +1,5 @@
-from cybernatics.dynamic_system import DynamicSystem
-from arithmetics.interval import Interval
+from OSOL_Extremum.cybernatics.dynamic_system import DynamicSystem
+from OSOL_Extremum.arithmetics.interval import Interval
 
 import numpy as np
 import sklearn.metrics.regression as RM
