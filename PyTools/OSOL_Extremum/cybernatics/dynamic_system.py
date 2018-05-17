@@ -15,16 +15,27 @@ class DynamicSystem:
                  aux, etc_vars,
                  integral_criterion, terminal_criterion,
                  terminal_constraints, phase_constraints):
-        self.f = f
         self.state_vars = state_vars
-        self.initial_conditions = initial_conditions
-        self.controllers = controllers
         self.control_vars = control_vars
-        self.control_bounds = control_bounds
-        self.aux = aux
         self.etc_vars = etc_vars
         self.vars_str = ['t'] + self.state_vars + self.control_vars + self.etc_vars
         self.sym_vars = list(map(symbols, self.vars_str))
+
+        self.initial_conditions = initial_conditions
+
+        self.controllers = controllers
+        self.control_bounds = control_bounds
+
+        self.f = f
+        for v in self.state_vars:
+            self.f[v] = lambdify(self.sym_vars, parse_expr(self.f[v]), np)
+
+        self.aux = aux
+        counter = 0
+        for v in self.etc_vars:
+            self.aux[v] = lambdify(self.sym_vars[:(len(self.sym_vars) - (len(self.etc_vars) - counter))], parse_expr(self.aux[v]), np)
+            counter += 1
+
         self.sampling_type = sampling_type
         self.sampling_eps = sampling_eps
         self.sampling_max_steps = sampling_max_steps
@@ -34,62 +45,79 @@ class DynamicSystem:
             self.prolong = self.prolong_RK4
         else:
             raise Exception('Unknown sampling_type: {}'.format(sampling_type))
-        self.integral_criterion = integral_criterion
-        self.terminal_criterion = terminal_criterion
+
+        self.integral_criterion = lambdify(self.sym_vars, parse_expr(integral_criterion), np)
+        self.terminal_criterion = lambdify(self.sym_vars, parse_expr(terminal_criterion), np)
+
         self.terminal_constraints = terminal_constraints
+        for i in range(len(self.terminal_constraints)):
+            self.terminal_constraints[i]['equation'] = lambdify(self.sym_vars, self.terminal_constraints[i]['equation'], np)
+
         self.phase_constraints = phase_constraints
+        for i in range(len(self.terminal_constraints)):
+            self.phase_constraints[i]['equation'] = lambdify(self.sym_vars, self.phase_constraints[i]['equation'], np)
+
 
     @classmethod
     def from_dict(cls, data):
+
         sampling_type = data['sampling_type']
         sampling_eps = data['sampling_eps']
         sampling_max_steps = data['sampling_max_steps']
+
         state_vars = []
         for d in data['ode']:
             state_vars.append(d['component'])
+
         control_vars = []
         for d in data['controllers']:
             control_vars.append(d['name'])
+
         etc_vars = []
         for d in data['auxiliary']:
             etc_vars.append(d['component'])
-        vars_str = ['t'] + state_vars + control_vars + etc_vars
-        sym_vars = list(map(symbols, vars_str))
+
         f = dict()
         for d in data['ode']:
-            f[d['component']] = lambdify(sym_vars, parse_expr(d['equation']), np)
+            f[d['component']] = d['equation']
+
         initial_conditions = dict()
         for d in data['initial_conditions']:
             initial_conditions[d['name']] = d['value']
+
         controllers = dict()
         for d in data['controllers']:
             controllers[d['name']] = create_controller_from_dict(d)
+
         control_bounds = dict()
         for d in data['control_bounds']:
             control_bounds[d['name']] = (d['min'], d['max'])
+
         aux = dict()
-        counter = 0
         for d in data['auxiliary']:
-            aux[d['component']] = lambdify(sym_vars[:(len(sym_vars) - (len(etc_vars) - counter))], parse_expr(d['equation']), np)
-            counter += 1
-        integral_criterion = lambdify(sym_vars, parse_expr(data['efficiency']['integral']), np)
-        terminal_criterion = lambdify(sym_vars, parse_expr(data['efficiency']['terminal']), np)
+            aux[d['component']] = d['equation']
+
+        integral_criterion = data['efficiency']['integral']
+        terminal_criterion = data['efficiency']['terminal']
+
         terminal_constraints = []
         for d in data['constraints']['terminal']:
             constraint = dict()
-            constraint['equation'] = lambdify(sym_vars, parse_expr(d['equation']), np)
+            constraint['equation'] = d['equation']
             constraint['max_error'] = d['max_error']
             constraint['penalty'] = d['penalty']
             constraint['norm'] = d['norm']
             terminal_constraints.append(constraint)
+
         phase_constraints = []
         for d in data['constraints']['terminal']:
             constraint = dict()
-            constraint['equation'] = lambdify(sym_vars, parse_expr(d['equation']), np)
+            constraint['equation'] = d['equation']
             constraint['max_error'] = d['max_error']
             constraint['penalty'] = d['penalty']
             constraint['norm'] = d['norm']
             phase_constraints.append(constraint)
+
         return cls(sampling_type, sampling_eps, sampling_max_steps,
                    f, state_vars, initial_conditions,
                    controllers, control_vars, control_bounds,
@@ -120,21 +148,21 @@ class DynamicSystem:
 
         x_new = dict([(v, x[v] + 0.5 * eps * k1[v]) for v in self.state_vars])
         a_new = self.get_aux(t + 0.5 * eps, x_new, u)
-        values = [t] + list(x_new.values()) + list(u.values()) + list(a_new.values())
+        values = [t + 0.5 * eps] + list(x_new.values()) + list(u.values()) + list(a_new.values())
         k2 = {}
         for v, eq in self.f.items():
             k2[v] = eq(*values)
 
         x_new = dict([(v, x[v] + 0.5 * eps * k2[v]) for v in self.state_vars])
         a_new = self.get_aux(t + 0.5 * eps, x_new, u)
-        values = [t] + list(x_new.values()) + list(u.values()) + list(a_new.values())
+        values = [t + 0.5 * eps] + list(x_new.values()) + list(u.values()) + list(a_new.values())
         k3 = {}
         for v, eq in self.f.items():
             k3[v] = eq(*values)
 
         x_new = dict([(v, x[v] + eps * k3[v]) for v in self.state_vars])
         a_new = self.get_aux(t + eps, x_new, u)
-        values = [t] + list(x_new.values()) + list(u.values()) + list(a_new.values())
+        values = [t + eps] + list(x_new.values()) + list(u.values()) + list(a_new.values())
         k4 = {}
         for v, eq in self.f.items():
             k4[v] = eq(*values)
