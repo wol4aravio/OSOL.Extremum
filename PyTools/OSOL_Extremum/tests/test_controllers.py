@@ -15,7 +15,7 @@ def test_PWC():
     random.shuffle(params)
     controls = dict(params)
 
-    controller = PiecewiseConstantController('u', switch_points, None)
+    controller = create_controller_from_dict({'type': 'piecewise_constant', 'name': 'u', 'switch_points': switch_points })
     controller.set_parameters(controls)
 
     assert sim(controller.get_control(0, x=None), ('u', 0))
@@ -32,7 +32,7 @@ def test_PWL():
     random.shuffle(params)
     controls = dict(params)
 
-    controller = PiecewiseLinearController('u', switch_points, None)
+    controller = create_controller_from_dict({'type': 'piecewise_linear', 'name': 'u', 'switch_points': switch_points })
     controller.set_parameters(controls)
 
     assert sim(controller.get_control(0, x=None), ('u', 0))
@@ -50,7 +50,7 @@ def test_Explicit():
     vars = ['t', 'x']
     param_names = ['a', 'b']
 
-    controller = ExplicitController('u', formula, vars, param_names)
+    controller = create_controller_from_dict({'type': 'explicit', 'name': 'u', 'formula': formula, 'vars': vars, 'param_names': param_names })
     controller.set_parameters({'a': 1, 'b': 1, 'c': 0})
 
     assert sim(controller.get_control(0, x={'x': 1, 'y': 77.7}), ('u', real(a=1, b=1, t=0, x=1)))
