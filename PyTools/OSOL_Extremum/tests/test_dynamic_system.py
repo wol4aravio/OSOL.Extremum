@@ -67,7 +67,7 @@ def test_2():
     _, x, _ = ds.simulate({})
     x_real_RK4 = list(map(lambda v: v['x'], x))
 
-    ds.initial_conditions = {'x': Interval(0.0, 0.1)}
+    ds.initial_conditions = {'x': Interval.from_value(0.0)}
     _, x, _ = ds.simulate({})
     x_interval_RK4 = list(map(lambda v: v['x'].middle_point, x))
 
