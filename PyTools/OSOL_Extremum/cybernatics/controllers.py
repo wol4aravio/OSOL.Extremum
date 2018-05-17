@@ -85,7 +85,7 @@ def create_controller_from_dict(data):
             controls = None
         return PiecewiseLinearController(data['name'], switch_points, controls)
     elif data['type'] == 'explicit':
-        return ExplicitController(data['control_name'], data['formula'], data['vars'], data['param_names'])
+        return ExplicitController(data['name'], data['formula'], data['vars'], data['param_names'])
     else:
         raise Exception('Unsupported Controller')
 
