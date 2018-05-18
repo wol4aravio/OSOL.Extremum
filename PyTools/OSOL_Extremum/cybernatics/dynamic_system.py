@@ -6,6 +6,13 @@ from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
 
 
+def phase(x, penalty, norm):
+    if isinstance(x, Interval):
+        return Interval(phase(x.lower_bound, penalty, norm), phase(x.upper_bound, penalty, norm))
+    else:
+        return np.power(penalty * max(x, 0.0), norm)
+
+
 class DynamicSystem:
 
     def __init__(self,
@@ -15,20 +22,32 @@ class DynamicSystem:
                  aux, etc_vars,
                  integral_criterion, terminal_criterion,
                  terminal_constraints, phase_constraints):
-        self.state_vars = state_vars
+
+        self.state_vars = state_vars + ['I_integral'] + ['phase_{}'.format(i + 1) for i in range(len(phase_constraints))]
         self.control_vars = control_vars
         self.etc_vars = etc_vars
         self.vars_str = ['t'] + self.state_vars + self.control_vars + self.etc_vars
         self.sym_vars = list(map(symbols, self.vars_str))
 
+        self.integral_criterion = lambdify(self.sym_vars, parse_expr(integral_criterion), np)
+        self.terminal_criterion = lambdify(self.sym_vars[:(1 + len(self.state_vars))], parse_expr(terminal_criterion), np)
+
         self.initial_conditions = initial_conditions
+        self.initial_conditions['I_integral'] = 0.0
 
         self.controllers = controllers
         self.control_bounds = control_bounds
 
         self.f = f
         for v in self.state_vars:
-            self.f[v] = lambdify(self.sym_vars, parse_expr(self.f[v]), np)
+            if v != 'I_integral' and not v.startswith('phase_'):
+                self.f[v] = lambdify(self.sym_vars, parse_expr(self.f[v]), np)
+        self.f['I_integral'] = self.integral_criterion
+
+        self.phase_constraints = phase_constraints
+        for i in range(len(self.phase_constraints)):
+            self.f['phase_{}'.format(i + 1)] = lambdify(self.sym_vars, parse_expr('phase({0}, {1}, {2})'.format(self.phase_constraints[i]['equation'], self.phase_constraints[i]['penalty'], float(self.phase_constraints[i]['norm'][1:]))), [np, {'phase': phase}])
+            self.initial_conditions['phase_{}'.format(i + 1)] = 0.0
 
         self.aux = aux
         counter = 0
@@ -46,16 +65,9 @@ class DynamicSystem:
         else:
             raise Exception('Unknown sampling_type: {}'.format(sampling_type))
 
-        self.integral_criterion = lambdify(self.sym_vars, parse_expr(integral_criterion), np)
-        self.terminal_criterion = lambdify(self.sym_vars, parse_expr(terminal_criterion), np)
-
         self.terminal_constraints = terminal_constraints
         for i in range(len(self.terminal_constraints)):
             self.terminal_constraints[i]['equation'] = lambdify(self.sym_vars[:(len(self.sym_vars) - len(self.etc_vars) - len(self.control_vars))], parse_expr(self.terminal_constraints[i]['equation']), np)
-
-        self.phase_constraints = phase_constraints
-        for i in range(len(self.phase_constraints)):
-            self.phase_constraints[i]['equation'] = lambdify(self.sym_vars[:(len(self.sym_vars) - len(self.etc_vars) - len(self.control_vars))], parse_expr(self.phase_constraints[i]['equation']), np)
 
 
     @staticmethod
@@ -64,6 +76,14 @@ class DynamicSystem:
             return v.abs().upper_bound
         else:
             return np.abs(v)
+
+    @staticmethod
+    def constrain(v, min_max):
+        if isinstance(v, Interval):
+            return Interval(DynamicSystem.constrain(v.lower_bound, min_max),
+                            DynamicSystem.constrain(v.upper_bound, min_max))
+        else:
+            return np.clip(v, min_max[0], min_max[1])
 
 
     @classmethod
@@ -118,10 +138,9 @@ class DynamicSystem:
             terminal_constraints.append(constraint)
 
         phase_constraints = []
-        for d in data['constraints']['terminal']:
+        for d in data['constraints']['phase']:
             constraint = dict()
             constraint['equation'] = d['equation']
-            constraint['max_error'] = d['max_error']
             constraint['penalty'] = d['penalty']
             constraint['norm'] = d['norm']
             phase_constraints.append(constraint)
@@ -188,16 +207,20 @@ class DynamicSystem:
         times = [0.0]
         states = [x0]
         controls = []
+        error_terminal_state = 0.0
         for step_id in range(1, max_steps + 1):
             t = times[-1]
             x = states[-1]
             u = dict([self.controllers[v].get_control(t, x) for v in self.control_vars])
+            for v in self.control_vars:
+                u[v] = DynamicSystem.constrain(u[v], self.control_bounds[v])
             a = self.get_aux(t, x, u)
             x_next = self.prolong(t, x, u, a, eps)
             times.append(t + eps)
             states.append(x_next)
             controls.append(u)
             if len(self.terminal_constraints) != 0:
+                error_terminal_state = 0.0
                 stop = True
                 for constraint in self.terminal_constraints:
                     eq = constraint['equation']
@@ -209,7 +232,11 @@ class DynamicSystem:
                     error = DynamicSystem.measure_error(eq(*values))
                     if error > max_error:
                         stop = False
-                        break
+                        error_terminal_state += np.power(penalty * error, float(norm[1:]))
                 if stop:
                     break
-        return times, states, controls
+        I_integral = states[-1]['I_integral']
+        I_terminal = self.terminal_criterion(*([times[-1]] + list(states[-1].values())))
+        phase_errors = [states[-1]['phase_{}'.format(i + 1)] for i in range(len(self.phase_constraints))]
+        states = [dict((k, v) for (k, v) in s.items() if k != 'I_integral' and not k.startswith('phase_')) for s in states]
+        return times, states, controls, I_integral, I_terminal, error_terminal_state, phase_errors
