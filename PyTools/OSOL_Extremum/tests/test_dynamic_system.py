@@ -4,6 +4,7 @@ from OSOL_Extremum.arithmetics.interval import Interval
 import numpy as np
 import sklearn.metrics.regression as RM
 import json
+import os
 
 
 def rmse(x, y):
@@ -144,7 +145,12 @@ def test_3():
 def test_4():
     tol = 3e-5
 
-    ds = DynamicSystem.from_dict(json.load(open('resources/cybernatics_1.json', 'r')))
+    resource_loc = os.environ.get('RESOURCE_LOC')
+    if resource_loc is None:
+        ds = DynamicSystem.from_dict(json.load(open('resources/cybernatics_1.json', 'r')))
+    else:
+        ds = DynamicSystem.from_dict(json.load(open('{}/resources/cybernatics_1.json'.format(resource_loc), 'r')))
+
     parameters = {
         'u1_0': 5,
         'u1_1': 6,

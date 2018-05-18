@@ -13,6 +13,7 @@ jobs:
     - stage: preliminaries
       env:
         - JOB_NAME="Building python tools"
+        - RESOURCE_LOC=${TRAVIS_BUILD_DIR}/PyTools/OSOL_Extremum/tests
       language: python
       python: "3.6"
       before_script:
