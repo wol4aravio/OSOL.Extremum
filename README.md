@@ -6,45 +6,54 @@
 Open-Source Optimization Library - Extremum
 
 # Contents
+* [Project background](#project-background)
+* [Project structure](#project-structure)
+* [Usage info](#usage-info)
+	* [Out-of-box usage](#out-of-box-usage)
+	* [Task preparation](#task-preparation)
+		* [Unconstrained optimization](#unconstrained-optimization)
+		* [Openloop control](#openloop-control)
+	* [Algorithm development](#algorithm-develoment)
+		* [JVM Core](#jvm-core)
+			* [Scala](#scala)
+			* [Java](#java)
+		* [.Net Core](#net-core)
+			* [C#](#c)
+			* [F#](#f)
 * [Implemented algorithms](#implemented-algorithms)
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
-* Articles about OSOL.Extremum projects
+	* [Table of algorithms](#table-of-algorithms)
+* [Articles about OSOL.Extremum projects](#articles-about-osolextremum-projects)
 
+# Project background
+
+# Project structure
+
+# Usage info
+
+## Out-of-box usage
+
+## Task preparation
+
+### Unconstrained optimization
+
+### Openloop control
+
+## Algorithm development
+
+### JVM CORE
+
+#### Scala
+
+#### Java
+
+### .Net Core
+
+#### C\#
+
+#### F\#
 
 # Implemented algorithms
-asd
-asd
-asd
+
+## Table of algorithms
 
 # Articles about OSOL.Extremum projects
