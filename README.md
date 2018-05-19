@@ -56,7 +56,15 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 #### F\#
 
 # Implemented algorithms
+<p align="justify">
+Current section will provide information about algorithms that are currently implemented in OSOL Extremum.
+</p>
 
 ## Table of algorithms
+
+| Name | Description | Scala | Java |  C#  |  F#  |
+| ---- | ----------- | :---: | :--: | :--: | :--: |
+| Random Search | [Random Search](https://en.wikipedia.org/wiki/Random_search) | + | + | + | + |
+
 
 # Articles about OSOL.Extremum projects
