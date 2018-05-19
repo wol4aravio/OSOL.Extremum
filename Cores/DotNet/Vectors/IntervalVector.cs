@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using OSOL.Extremum.Cores.DotNet.Arithmetics;
 using OSOL.Extremum.Cores.DotNet.Optimization;
+using OSOL.Extremum.Cores.DotNet.Random;
 
 namespace OSOL.Extremum.Cores.DotNet.Vectors
 {
@@ -65,7 +66,17 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
 
         public IntervalVector[] Split(double[] ratios, string key = null)
         {
-            string splitKey = key ?? this.Elements.OrderBy(_ => -_.Value.Width).First().Key;
+            string splitKey = key;
+            if (splitKey == null)
+            {
+                GoRN gorn = new GoRN();
+                double minWidth = this.Elements.OrderBy(_ => -_.Value.Width).First().Value.Width;
+                var smallestComponents = this.Elements
+                    .Where(kvp => Math.Abs(kvp.Value.Width - minWidth) < Interval.MinWidth)
+                    .Select(kvp => kvp.Key)
+                    .ToList();
+                splitKey = gorn.GetFromSeries(smallestComponents, 1, false).First();
+            }
             var splitComponents = this[splitKey].Split(ratios);
             return splitComponents
                 .Select(c =>
