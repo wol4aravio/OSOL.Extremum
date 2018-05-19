@@ -116,6 +116,9 @@ class Interval(dict):
         values = sorted(values)
         return Interval(values[0], values[-1])
 
+    def __abs__(self):
+        return self.abs()
+
     def sin(self):
         if self.width > 2.0 * math.pi:
             return Interval(-1.0, 1.0)
