@@ -6,3 +6,45 @@
 Open-Source Optimization Library - Extremum
 
 # Contents
+* [Implemented algorithms](#implemented-algorithms)
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+* Articles about OSOL.Extremum projects
+
+
+# Implemented algorithms
+asd
+asd
+asd
+
+# Articles about OSOL.Extremum projects
