@@ -2,6 +2,7 @@ from functools import partial
 import json
 
 from OSOL_Extremum.computational_core.unconstrained_optimization import *
+from OSOL_Extremum.computational_core.openloop_control import *
 
 
 class ComputationalCore:
@@ -22,6 +23,10 @@ class ComputationalCore:
                 if hasattr(task, '_df'):
                     for k in task._df.keys():
                         operations['df_{}'.format(k)] = partial(task.df, k)
-                else:
-                    raise Exception('Unsupported task type')
-                return cls(operations)
+            elif task_info['task_type'] == 'openloop_control':
+                task = OpenloopControl.from_dict(task_info)
+                operations = {'sim': task.sim}
+            else:
+                raise Exception('Unsupported task type')
+            return cls(operations)
+
