@@ -28,238 +28,238 @@ jobs:
 
 
 
-    # - stage: cores
-    #   env:
-    #     - JOB_NAME="Building JVM core"
-    #   language: scala
-    #   scala: 2.12.5
-    #   sudo: required
-    #   before_script:
-    #     - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-    #     - bash miniconda.sh -b -p $HOME/miniconda
-    #     - export PATH="$HOME/miniconda/bin:$PATH"
-    #     - hash -r
-    #     - conda config --set always_yes yes --set changeps1 no
-    #     - conda update -q conda
-    #     - conda create -q -n test-environment python=$PYTHON_VER
-    #     - source activate test-environment
-    #     - cd PyTools
-    #     - python OSOL_Extremum/setup.py install
-    #     - cd ../Cores/JVM
-    #   script:
-    #     - travis_wait 30 sbt clean coverage test coverageReport
-    #   after_success:
-    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-    #     - test $TRAVIS_BRANCH = "master" &&
-    #       mvn clean deploy --settings settings.xml
+    - stage: cores
+      env:
+        - JOB_NAME="Building JVM core"
+      language: scala
+      scala: 2.12.5
+      sudo: required
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Cores/JVM
+      script:
+        - travis_wait 30 sbt clean coverage test coverageReport
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - test $TRAVIS_BRANCH = "master" &&
+          mvn clean deploy --settings settings.xml
 
-    # - stage: cores
-    #   env:
-    #     - JOB_NAME="Building .Net core"
-    #   language: csharp
-    #   dotnet: 2.0.0
-    #   sudo: required
-    #   before_script:
-    #     - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-    #     - bash miniconda.sh -b -p $HOME/miniconda
-    #     - export PATH="$HOME/miniconda/bin:$PATH"
-    #     - hash -r
-    #     - conda config --set always_yes yes --set changeps1 no
-    #     - conda update -q conda
-    #     - conda create -q -n test-environment python=$PYTHON_VER
-    #     - source activate test-environment
-    #     - cd PyTools
-    #     - python OSOL_Extremum/setup.py install
-    #     - cd ../Cores/DotNet
-    #   script:
-    #     - dotnet restore
-    #     - dotnet build -c Debug
-    #     - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Cores.DotNet.dll
-    #     - travis_wait 30 dotnet test -c Debug --no-build
-    #     - dotnet minicover opencoverreport
-    #     - dotnet minicover uninstrument
-    #   after_success:
-    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-    #     - test $TRAVIS_BRANCH = "master" && 
-    #       dotnet pack -c Release --include-source --output nuget &&
-    #       dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
-
-
-
-    # - stage: algorithms
-    #   env:
-    #     - JOB_NAME="Building Scala Random Search"
-    #   language: scala
-    #   scala: 2.12.5
-    #   sudo: required
-    #   before_script:
-    #     - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-    #     - bash miniconda.sh -b -p $HOME/miniconda
-    #     - export PATH="$HOME/miniconda/bin:$PATH"
-    #     - hash -r
-    #     - conda config --set always_yes yes --set changeps1 no
-    #     - conda update -q conda
-    #     - conda create -q -n test-environment python=$PYTHON_VER
-    #     - source activate test-environment
-    #     - cd PyTools
-    #     - python OSOL_Extremum/setup.py install
-    #     - cd ../Algorithms/Scala/RandomSearch
-    #   script:
-    #     - travis_wait 30 sbt clean coverage test coverageReport
-    #   after_success:
-    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-    #     - test $TRAVIS_BRANCH = "master" &&
-    #       mvn clean deploy --settings settings.xml
-
-    # - stage: algorithms
-    #   env:
-    #     - JOB_NAME="Building C# Random Search"
-    #   language: csharp
-    #   dotnet: 2.0.0
-    #   sudo: required
-    #   before_script:
-    #     - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-    #     - bash miniconda.sh -b -p $HOME/miniconda
-    #     - export PATH="$HOME/miniconda/bin:$PATH"
-    #     - hash -r
-    #     - conda config --set always_yes yes --set changeps1 no
-    #     - conda update -q conda
-    #     - conda create -q -n test-environment python=$PYTHON_VER
-    #     - source activate test-environment
-    #     - cd PyTools
-    #     - python OSOL_Extremum/setup.py install
-    #     - cd ../Algorithms/CSharp/RandomSearch
-    #   script:
-    #     - dotnet restore
-    #     - dotnet build -c Debug
-    #     - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Algorithms.CSharp.RandomSearch.dll --sources ./
-    #     - travis_wait 30 dotnet test -c Debug --no-build
-    #     - dotnet minicover opencoverreport
-    #     - dotnet minicover uninstrument
-    #   after_success:
-    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-    #     - test $TRAVIS_BRANCH = "master" && 
-    #       dotnet pack -c Release --include-source --output nuget &&
-    #       dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
-
-    # - stage: algorithms
-    #   env:
-    #     - JOB_NAME="Building F# Random Search"
-    #   language: csharp
-    #   dotnet: 2.0.0
-    #   sudo: required
-    #   before_script:
-    #     - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-    #     - bash miniconda.sh -b -p $HOME/miniconda
-    #     - export PATH="$HOME/miniconda/bin:$PATH"
-    #     - hash -r
-    #     - conda config --set always_yes yes --set changeps1 no
-    #     - conda update -q conda
-    #     - conda create -q -n test-environment python=$PYTHON_VER
-    #     - source activate test-environment
-    #     - cd PyTools
-    #     - python OSOL_Extremum/setup.py install
-    #     - cd ../Algorithms/FSharp/RandomSearch
-    #   script:
-    #     - dotnet restore
-    #     - dotnet build -c Debug
-    #     - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Algorithms.FSharp.RandomSearch.dll --sources ./
-    #     - travis_wait 30 dotnet test -c Debug --no-build
-    #     - dotnet minicover opencoverreport
-    #     - dotnet minicover uninstrument
-    #   after_success:
-    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-    #     - test $TRAVIS_BRANCH = "master" && 
-    #       dotnet pack -c Release --include-source --output nuget &&
-    #       dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
-
-    # - stage: algorithms
-    #   env:
-    #     - JOB_NAME="Building Java Random Search"
-    #   language: java
-    #   jdk: oraclejdk8
-    #   sudo: required
-    #   before_script:
-    #     - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-    #     - bash miniconda.sh -b -p $HOME/miniconda
-    #     - export PATH="$HOME/miniconda/bin:$PATH"
-    #     - hash -r
-    #     - conda config --set always_yes yes --set changeps1 no
-    #     - conda update -q conda
-    #     - conda create -q -n test-environment python=$PYTHON_VER
-    #     - source activate test-environment
-    #     - cd PyTools
-    #     - python OSOL_Extremum/setup.py install
-    #     - cd ../Algorithms/Java/RandomSearch
-    #   script:
-    #     - mvn clean install -DskipTests=true
-    #     - travis_wait 30 mvn cobertura:cobertura
-    #   after_success:
-    #     - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-    #     - test $TRAVIS_BRANCH = "master" &&
-    #       mvn clean deploy --settings settings.xml
+    - stage: cores
+      env:
+        - JOB_NAME="Building .Net core"
+      language: csharp
+      dotnet: 2.0.0
+      sudo: required
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Cores/DotNet
+      script:
+        - dotnet restore
+        - dotnet build -c Debug
+        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Cores.DotNet.dll
+        - travis_wait 30 dotnet test -c Debug --no-build
+        - dotnet minicover opencoverreport
+        - dotnet minicover uninstrument
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - test $TRAVIS_BRANCH = "master" && 
+          dotnet pack -c Release --include-source --output nuget &&
+          dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
 
 
-    # - stage: apps
-    #   env:
-    #     - JOB_NAME="Testing JVM Runner"
-    #     - TEST_TOL=1e-3
-    #   language: scala
-    #   scala: 2.12.5
-    #   sudo: required
-    #   before_script:
-    #     - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-    #     - bash miniconda.sh -b -p $HOME/miniconda
-    #     - export PATH="$HOME/miniconda/bin:$PATH"
-    #     - hash -r
-    #     - conda config --set always_yes yes --set changeps1 no
-    #     - conda update -q conda
-    #     - conda create -q -n test-environment python=$PYTHON_VER
-    #     - source activate test-environment
-    #     - cd PyTools
-    #     - python OSOL_Extremum/setup.py install
-    #     - cd ../Apps/JVM/Runner
-    #   script:
-    #     - sbt assembly
-    #     - echo $'import os\nimport math\n\ndef square(x):\n\treturn x * x\n\nf = open(\'result.csv\', \'r\')\nvalues=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=float(os.environ.get(\'TEST_TOL\'))\nerror = math.sqrt(sum(list(map(square, values))))\nif error > tol:\n\traise Exception()' > test.py
-    #     - echo 'Testing Scala RandomSearch'
-    #     - java -jar ./target/scala-2.12/OSOL.Extremum.Apps.JVM.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Scala/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
-    #     - python test.py
-    #     - rm result.csv
-    #     - echo 'Testing Java RandomSearch'
-    #     - java -jar ./target/scala-2.12/OSOL.Extremum.Apps.JVM.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Java/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
-    #     - python test.py
-    #     - rm result.csv
+    - stage: algorithms
+      env:
+        - JOB_NAME="Building Scala Random Search"
+      language: scala
+      scala: 2.12.5
+      sudo: required
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Algorithms/Scala/RandomSearch
+      script:
+        - travis_wait 30 sbt clean coverage test coverageReport
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - test $TRAVIS_BRANCH = "master" &&
+          mvn clean deploy --settings settings.xml
 
-    # - stage: apps
-    #   env:
-    #     - JOB_NAME="Testing DotNet Runner"
-    #     - TEST_TOL=1e-3
-    #   language: csharp
-    #   dotnet: 2.0.0
-    #   sudo: required
-    #   before_script:
-    #     - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-    #     - bash miniconda.sh -b -p $HOME/miniconda
-    #     - export PATH="$HOME/miniconda/bin:$PATH"
-    #     - hash -r
-    #     - conda config --set always_yes yes --set changeps1 no
-    #     - conda update -q conda
-    #     - conda create -q -n test-environment python=$PYTHON_VER
-    #     - source activate test-environment
-    #     - cd PyTools
-    #     - python OSOL_Extremum/setup.py install
-    #     - cd ../Apps/DotNet/Runner
-    #   script:
-    #     - dotnet publish -c Release -o runner
-    #     - cd runner
-    #     - echo $'import os\nimport math\n\ndef square(x):\n\treturn x * x\n\nf = open(\'result.csv\', \'r\')\nvalues=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=float(os.environ.get(\'TEST_TOL\'))\nerror = math.sqrt(sum(list(map(square, values))))\nif error > tol:\n\traise Exception()' > test.py
-    #     - echo 'Testing CSharp RandomSearch'
-    #     - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/CSharp/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
-    #     - python test.py
-    #     - rm result.csv
-    #     - echo 'Testing FSharp RandomSearch'
-    #     - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/FSharp/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
-    #     - python test.py
-    #     - rm result.csv
+    - stage: algorithms
+      env:
+        - JOB_NAME="Building C# Random Search"
+      language: csharp
+      dotnet: 2.0.0
+      sudo: required
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Algorithms/CSharp/RandomSearch
+      script:
+        - dotnet restore
+        - dotnet build -c Debug
+        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Algorithms.CSharp.RandomSearch.dll --sources ./
+        - travis_wait 30 dotnet test -c Debug --no-build
+        - dotnet minicover opencoverreport
+        - dotnet minicover uninstrument
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - test $TRAVIS_BRANCH = "master" && 
+          dotnet pack -c Release --include-source --output nuget &&
+          dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+
+    - stage: algorithms
+      env:
+        - JOB_NAME="Building F# Random Search"
+      language: csharp
+      dotnet: 2.0.0
+      sudo: required
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Algorithms/FSharp/RandomSearch
+      script:
+        - dotnet restore
+        - dotnet build -c Debug
+        - dotnet minicover instrument --assemblies bin/**/**/OSOL.Extremum.Algorithms.FSharp.RandomSearch.dll --sources ./
+        - travis_wait 30 dotnet test -c Debug --no-build
+        - dotnet minicover opencoverreport
+        - dotnet minicover uninstrument
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - test $TRAVIS_BRANCH = "master" && 
+          dotnet pack -c Release --include-source --output nuget &&
+          dotnet nuget push ./nuget/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+
+    - stage: algorithms
+      env:
+        - JOB_NAME="Building Java Random Search"
+      language: java
+      jdk: oraclejdk8
+      sudo: required
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Algorithms/Java/RandomSearch
+      script:
+        - mvn clean install -DskipTests=true
+        - travis_wait 30 mvn cobertura:cobertura
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+        - test $TRAVIS_BRANCH = "master" &&
+          mvn clean deploy --settings settings.xml
+
+
+
+    - stage: apps
+      env:
+        - JOB_NAME="Testing JVM Runner"
+        - TEST_TOL=1e-3
+      language: scala
+      scala: 2.12.5
+      sudo: required
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Apps/JVM/Runner
+      script:
+        - sbt assembly
+        - echo $'import os\nimport math\n\ndef square(x):\n\treturn x * x\n\nf = open(\'result.csv\', \'r\')\nvalues=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=float(os.environ.get(\'TEST_TOL\'))\nerror = math.sqrt(sum(list(map(square, values))))\nif error > tol:\n\traise Exception()' > test.py
+        - echo 'Testing Scala RandomSearch'
+        - java -jar ./target/scala-2.12/OSOL.Extremum.Apps.JVM.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Scala/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - python test.py
+        - rm result.csv
+        - echo 'Testing Java RandomSearch'
+        - java -jar ./target/scala-2.12/OSOL.Extremum.Apps.JVM.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Java/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - python test.py
+        - rm result.csv
+
+    - stage: apps
+      env:
+        - JOB_NAME="Testing DotNet Runner"
+        - TEST_TOL=1e-3
+      language: csharp
+      dotnet: 2.0.0
+      sudo: required
+      before_script:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda create -q -n test-environment python=$PYTHON_VER
+        - source activate test-environment
+        - cd PyTools
+        - python OSOL_Extremum/setup.py install
+        - cd ../Apps/DotNet/Runner
+      script:
+        - dotnet publish -c Release -o runner
+        - cd runner
+        - echo $'import os\nimport math\n\ndef square(x):\n\treturn x * x\n\nf = open(\'result.csv\', \'r\')\nvalues=list(map(float, [x.strip() for x in f.readlines()][-1].split(\',\')))\nf.close()\ntol=float(os.environ.get(\'TEST_TOL\'))\nerror = math.sqrt(sum(list(map(square, values))))\nif error > tol:\n\traise Exception()' > test.py
+        - echo 'Testing CSharp RandomSearch'
+        - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/CSharp/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - python test.py
+        - rm result.csv
+        - echo 'Testing FSharp RandomSearch'
+        - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/FSharp/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - python test.py
+        - rm result.csv
