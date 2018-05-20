@@ -30,7 +30,6 @@ setup(
     install_requires=["ast2json==0.2.1",
                       "numpy==1.13.1",
                       "sympy==1.1.1",
-                      "scikit-learn==0.19.1",
                       "scipy==0.19.1",
                       "flask==0.12.2"],
 
