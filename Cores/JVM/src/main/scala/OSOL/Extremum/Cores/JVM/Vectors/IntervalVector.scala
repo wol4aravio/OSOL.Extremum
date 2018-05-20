@@ -6,6 +6,7 @@ import OSOL.Extremum.Cores.JVM.Pipe
 import OSOL.Extremum.Cores.JVM.Optimization.Optimizable
 import OSOL.Extremum.Cores.JVM.Vectors.Exceptions.DifferentKeysException
 import OSOL.Extremum.Cores.JVM.Optimization.Optimizable
+import OSOL.Extremum.Cores.JVM.Random.GoRN
 import spray.json._
 
 class IntervalVector private (override val elements: Map[String, Interval])
@@ -16,6 +17,14 @@ class IntervalVector private (override val elements: Map[String, Interval])
     val keys_2 = that.keys
     if (keys_1 != keys_2) throw new DifferentKeysException(keys_1, keys_2)
     else keys_1.forall(k => this(k).approximatelyEqualsTo(that(k), maxError = 1e-9))
+  }
+
+  final def getWidestComponent(): String = {
+    val minWidth = elements.minBy { case (k, v) => -v.width }._2.width
+    val smallestComponents = elements
+      .filter { case (_, v) => math.abs(v.width - minWidth) < Interval.minWidth }
+      .keys.toSeq
+    GoRN.getFromSeries(smallestComponents, 1, false).head
   }
 
   final override def add(that: VectorObject[Interval]): IntervalVector =
@@ -66,7 +75,7 @@ class IntervalVector private (override val elements: Map[String, Interval])
   final def split(ratios: Seq[java.lang.Double], key: Option[String] = None): Seq[IntervalVector] = {
     val splitKey =
       if (key.isDefined) key.get
-      else elements.minBy { case (k, v) => -v.width }._1
+      else this.getWidestComponent()
 
     val splitComponent = this(splitKey).split(ratios)
     splitComponent.map { i => IntervalVector(this.elements + (splitKey -> i))}
