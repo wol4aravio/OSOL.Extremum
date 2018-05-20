@@ -19,6 +19,14 @@ class IntervalVector private (override val elements: Map[String, Interval])
     else keys_1.forall(k => this(k).approximatelyEqualsTo(that(k), maxError = 1e-9))
   }
 
+  final def getWidestComponent(): String = {
+    val minWidth = elements.minBy { case (k, v) => -v.width }._2.width
+    val smallestComponents = elements
+      .filter { case (_, v) => math.abs(v.width - minWidth) < Interval.minWidth }
+      .keys.toSeq
+    GoRN.getFromSeries(smallestComponents, 1, false).head
+  }
+
   final override def add(that: VectorObject[Interval]): IntervalVector =
     this.elementWiseOp(that, (a, b) => a + b)
 
@@ -67,13 +75,7 @@ class IntervalVector private (override val elements: Map[String, Interval])
   final def split(ratios: Seq[java.lang.Double], key: Option[String] = None): Seq[IntervalVector] = {
     val splitKey =
       if (key.isDefined) key.get
-      else {
-        val minWidth = elements.minBy { case (k, v) => -v.width }._2.width
-        val smallestComponents = elements
-          .filter { case (_, v) => math.abs(v.width - minWidth) < Interval.minWidth }
-          .keys.toSeq
-        GoRN.getFromSeries(smallestComponents, 1, false).head
-      }
+      else this.getWidestComponent()
 
     val splitComponent = this(splitKey).split(ratios)
     splitComponent.map { i => IntervalVector(this.elements + (splitKey -> i))}
