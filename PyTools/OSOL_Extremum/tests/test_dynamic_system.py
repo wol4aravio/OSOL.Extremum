@@ -2,13 +2,14 @@ from OSOL_Extremum.cybernatics.dynamic_system import DynamicSystem
 from OSOL_Extremum.arithmetics.interval import Interval
 
 import numpy as np
-import sklearn.metrics.regression as RM
 import json
 import os
 
 
 def rmse(x, y):
-    return np.sqrt(RM.mean_squared_error(x, y))
+    X = np.array(x)
+    Y = np.array(y)
+    return np.sqrt(np.sum(np.square(X - Y)) / len(X))
 
 
 # simple ds: x' = 2*t
