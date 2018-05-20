@@ -2,11 +2,14 @@ package OSOL.Extremum.Apps.JVM
 
 import OSOL.Extremum.Algorithms
 import OSOL.Extremum.Cores.JVM.Optimization.Algorithm
-import OSOL.Extremum.Cores.JVM.Optimization.RemoteFunctions.RealRemoteFunction
-import OSOL.Extremum.Cores.JVM.Vectors.RealVector
+import OSOL.Extremum.Cores.JVM.Optimization.RemoteFunctions.{IntervalRemoteFunction, RealRemoteFunction}
+import OSOL.Extremum.Cores.JVM.Vectors.{IntervalVector, RealVector}
+import OSOL.Extremum.Cores.JVM.Vectors.RealVector.Converters._
 import org.rogach.scallop.ScallopConf
 import spray.json._
 import java.io._
+
+import OSOL.Extremum.Cores.JVM.Arithmetics.Interval
 
 object Runner extends App {
 
@@ -34,14 +37,37 @@ object Runner extends App {
     result
   }
 
-  def saveRealVectorResult(result: RealVector, conf: Conf): Unit = {
-    conf.output() match {
+  def runIntervalVectorAlgorithm(algorithm: Algorithm[IntervalVector, Interval, IntervalVector],
+                                 f: IntervalRemoteFunction,
+                                 area: Map[String, (java.lang.Double, java.lang.Double)]): IntervalVector = {
+    f.initialize()
+    val result = algorithm.work(x => f(x), area)
+    f.terminate()
+    result
+  }
+
+  def saveRealVectorResult(result: RealVector, output: String, file: String): Unit = {
+    output match {
       case "json" =>
-        val out = new FileWriter(s"${conf.result()}.json")
+        val out = new FileWriter(s"$file.json")
         out.write(result.convertToJson().prettyPrint)
         out.close()
       case "csv" =>
-        val out = new FileWriter(s"${conf.result()}.csv")
+        val out = new FileWriter(s"$file.csv")
+        out.write(result.elements.keys.mkString(",") + "\n")
+        out.write(result.elements.values.mkString(",") + "\n")
+        out.close()
+    }
+  }
+
+  def saveIntervalVectorResult(result: IntervalVector, output: String, file: String): Unit = {
+    output match {
+      case "json" =>
+        val out = new FileWriter(s"$file.json")
+        out.write(result.toJson.prettyPrint)
+        out.close()
+      case "csv" =>
+        val out = new FileWriter(s"$file.csv")
         out.write(result.elements.keys.mkString(",") + "\n")
         out.write(result.elements.values.mkString(",") + "\n")
         out.close()
@@ -71,7 +97,7 @@ object Runner extends App {
         val f = new RealRemoteFunction(conf.task(), conf.port(), conf.field())
         val result = runRealVectorAlgorithm(algorithm, f, area)
 
-        saveRealVectorResult(result, conf)
+        saveRealVectorResult(result, conf.output(), conf.result())
       }
       case ("Java", "RS") | ("Java", "RandomSearch") => {
         val Seq(JsNumber(radius), JsNumber(maxTime)) = algConfig.getFields("radius", "maxTime")
@@ -80,7 +106,22 @@ object Runner extends App {
         val f = new RealRemoteFunction(conf.task(), conf.port(), conf.field())
         val result = runRealVectorAlgorithm(algorithm, f, area)
 
-        saveRealVectorResult(result, conf)
+        saveRealVectorResult(result, conf.output(), conf.result())
+      }
+      case ("Scala", "ES") | ("Scala", "ExplosionSearch") => {
+        val Seq(JsNumber(maxBombs), JsArray(rMaxJson), JsNumber(maxTime)) = algConfig.getFields("maxBombs", "rMax", "maxTime")
+        val rMax = rMaxJson.map { case j =>
+          val Seq(JsString(name), JsNumber(value)) = j.asJsObject().getFields("name", "value")
+          (name, value.toDouble)
+        }.toMap[String, java.lang.Double]
+        val algorithm = Algorithms.Scala.ExplosionSearch.createExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble)
+
+        val f = new IntervalRemoteFunction(conf.task(), conf.port(), conf.field())
+        val result = runIntervalVectorAlgorithm(algorithm, f, area)
+
+        saveIntervalVectorResult(result, conf.output(), conf.result())
+        saveRealVectorResult(result.toBasicForm().elements, conf.output(), conf.result() + "_real")
+
       }
       case _ => throw new Exception("Unsupported Algorithm")
     }
