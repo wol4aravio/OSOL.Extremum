@@ -26,8 +26,8 @@ object ExplosionSearch {
       val shift_2 = GoRN.getContinuousUniformScala(p2)
       val selected_1 = area.keys.map(k => (k, shift_1(k)))
       val selected_2 = area.keys.map(k => (k, shift_2(k)))
-      val moved_1 = b1.moveByScala(selected_1)
-      val moved_2 = b2.moveByScala(selected_2)
+      val moved_1 = b1.moveByScala(selected_1).constrain(area)
+      val moved_2 = b2.moveByScala(selected_2).constrain(area)
       (Bomb(moved_1, moved_1.getPerformance(f)), Bomb(moved_2, moved_2.getPerformance(f)))
     }
 
