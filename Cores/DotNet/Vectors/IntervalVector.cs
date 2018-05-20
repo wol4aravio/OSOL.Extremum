@@ -43,6 +43,17 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
             }
         }
 
+        public String GetWidestComponent()
+        {
+            GoRN gorn = new GoRN();
+            double minWidth = this.Elements.OrderBy(_ => -_.Value.Width).First().Value.Width;
+            var smallestComponents = this.Elements
+                .Where(kvp => Math.Abs(kvp.Value.Width - minWidth) < Interval.MinWidth)
+                .Select(kvp => kvp.Key)
+                .ToList();
+            return gorn.GetFromSeries(smallestComponents, 1, false).First();
+        }
+
         public sealed override VectorObject<Interval> Add(VectorObject<Interval> that) =>
             new IntervalVector(this.ElementWiseOp(that, (x, y) => x + y));
 
@@ -66,17 +77,7 @@ namespace OSOL.Extremum.Cores.DotNet.Vectors
 
         public IntervalVector[] Split(double[] ratios, string key = null)
         {
-            string splitKey = key;
-            if (splitKey == null)
-            {
-                GoRN gorn = new GoRN();
-                double minWidth = this.Elements.OrderBy(_ => -_.Value.Width).First().Value.Width;
-                var smallestComponents = this.Elements
-                    .Where(kvp => Math.Abs(kvp.Value.Width - minWidth) < Interval.MinWidth)
-                    .Select(kvp => kvp.Key)
-                    .ToList();
-                splitKey = gorn.GetFromSeries(smallestComponents, 1, false).First();
-            }
+            string splitKey = key ?? this.GetWidestComponent();
             var splitComponents = this[splitKey].Split(ratios);
             return splitComponents
                 .Select(c =>
