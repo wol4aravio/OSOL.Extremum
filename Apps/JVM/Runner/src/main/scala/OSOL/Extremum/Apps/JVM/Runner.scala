@@ -112,8 +112,8 @@ object Runner extends App {
         val Seq(JsNumber(maxBombs), JsArray(rMaxJson), JsNumber(maxTime)) = algConfig.getFields("maxBombs", "rMax", "maxTime")
         val rMax = rMaxJson.map { case j =>
           val Seq(JsString(name), JsNumber(value)) = j.asJsObject().getFields("name", "value")
-          (name, value.toDouble)
-        }.toMap[String, java.lang.Double]
+          (name, new java.lang.Double(value.toDouble))
+        }.toMap
         val algorithm = Algorithms.Scala.ExplosionSearch.createExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble)
 
         val f = new IntervalRemoteFunction(conf.task(), conf.port(), conf.field())
