@@ -25,7 +25,10 @@ class ComputationalCore:
                         operations['df_{}'.format(k)] = partial(task.df, k)
             elif task_info['task_type'] == 'openloop_control':
                 task = OpenloopControl.from_dict(task_info)
-                operations = {'sim': task.sim}
+                operations = {
+                    'sim': task.sim,
+                    'sim_out': task.outer_sim
+                }
             else:
                 raise Exception('Unsupported task type')
             return cls(operations)
