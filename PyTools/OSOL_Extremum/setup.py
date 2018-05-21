@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="OSOL_Extremum",
-    version="0.0.5",
+    version="0.1.0",
 
     description="Computational Center for OSOL.Extremum Project",
 
