@@ -16,15 +16,20 @@ def create_app():
     def process_request():
         args = json.loads(json.dumps(request.args))
         field = args.pop('field')
-        scope = args.pop('scope', 'real')
-        if scope == 'interval':
-            for k in args.keys():
-                args[k] = Interval.from_json(args[k])
-        elif scope == 'real':
-            for k in args.keys():
-                args[k] = float(args[k])
-        else:
-            raise Exception('Unsupported scope: {}'.format(scope))
-        return json.dumps(app.core.request(field, args))
+        if field == 'f' or field == 'sim':
+            scope = args.pop('scope', 'real')
+            if scope == 'interval':
+                for k in args.keys():
+                    args[k] = Interval.from_json(args[k])
+            elif scope == 'real':
+                for k in args.keys():
+                    args[k] = float(args[k])
+            else:
+                raise Exception('Unsupported scope: {}'.format(scope))
+            return json.dumps(app.core.request(field, args))
+        elif field == 'sim_out':
+            json_file = args['json_file']
+            save_loc = args['save_loc']
+            return json.dumps(app.core.request(field, {'json_file': json_file, 'save_loc': save_loc}))
 
     return app
