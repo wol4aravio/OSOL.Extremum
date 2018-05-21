@@ -63,9 +63,9 @@ class OpenloopControl:
 
         if not os.path.exists(save_loc):
             os.makedirs(save_loc)
-            data_state.to_csv(save_loc + '/state.csv', index=False)
-            data_control.to_csv(save_loc + '/control.csv', index=False)
-            json.dump(criterion_info, open(save_loc + '/criterion.json', 'w'))
+        data_state.to_csv(save_loc + '/state.csv', index=False)
+        data_control.to_csv(save_loc + '/control.csv', index=False)
+        json.dump(criterion_info, open(save_loc + '/criterion.json', 'w'), indent=4)
 
         return True
 
