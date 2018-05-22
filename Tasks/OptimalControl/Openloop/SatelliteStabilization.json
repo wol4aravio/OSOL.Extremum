@@ -81,7 +81,10 @@
 	],
 	"auxiliary": [ ],
 	"efficiency": {
-		"integral": "(abs(u1) + abs(u2) + abs(u3)) + 0.00001 * ((u1 ** 2) + (u2 ** 2) + (u3 ** 2))",
+		"integral": [
+			"abs(u1) + abs(u2) + abs(u3)",
+			"0.001 * ((u1 ** 2) + (u2 ** 2) + (u3 ** 2))"
+		],
 		"terminal": "0"
 	},
 	"constraints": {
