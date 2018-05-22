@@ -48,10 +48,11 @@ class OpenloopControl:
             data_state[i, 1:] = [states[i][n] for n in cols_state[1:]]
         data_state = pd.DataFrame(data=data_state, columns=cols_state)
 
-        data_control = np.ndarray(shape=(len(controls), len(controls[0])))
-        cols_control = self.ds.control_vars
+        data_control = np.ndarray(shape=(1 + len(controls), len(controls[0])))
+        data_state[:, 0] = times[:-1]
+        cols_control = ['t'] + self.ds.control_vars
         for i in range(len(controls)):
-            data_control[i, :] = [controls[i][n] for n in self.ds.control_vars]
+            data_control[i, 1:] = [controls[i][n] for n in self.ds.control_vars]
         data_control = pd.DataFrame(data=data_control, columns=cols_control)
 
         criteria_info = {
