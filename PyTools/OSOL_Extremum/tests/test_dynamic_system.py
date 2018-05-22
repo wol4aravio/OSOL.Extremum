@@ -164,6 +164,7 @@ def test_4():
 
         'a': 5
     }
+
     t, x, u, I_integral_calc, I_terminal_calc, errors_terminal_state, phase_errors_calc = ds.simulate(parameters)
 
     t_calc = t

@@ -26,7 +26,7 @@ def client():
 def test_real(client):
 
     tol = 1e-3
-    I_integral_ideal = 54.2169282621542
+    I_integral_ideal = [0.77272105923056, 46.639683900497, 6.80452330242669]
     I_terminal_ideal = 8.99891199975
     phase_errors_ideal = [34784.1137839443, 5.62296778644782e-07, 0.0]
 
@@ -51,13 +51,13 @@ def test_real(client):
     error = json.loads(response.data)
 
     assert response.status_code == 200
-    assert math.fabs(error - (I_integral_ideal + I_terminal_ideal + sum(phase_errors_ideal))) < tol
+    assert math.fabs(error - (sum(I_integral_ideal) + I_terminal_ideal + sum(phase_errors_ideal))) < tol
 
 
 def test_interval(client):
 
     tol = 1e-3
-    I_integral_ideal = 54.2169282621542
+    I_integral_ideal = [0.77272105923056, 46.639683900497, 6.80452330242669]
     I_terminal_ideal = 8.99891199975
     phase_errors_ideal = [34784.1137839443, 5.62296778644782e-07, 0.0]
 
@@ -82,5 +82,5 @@ def test_interval(client):
     error = Interval.from_dict(json.loads(response.data)).middle_point
 
     assert response.status_code == 200
-    assert math.fabs(error - (I_integral_ideal + I_terminal_ideal + sum(phase_errors_ideal))) < tol
+    assert math.fabs(error - (sum(I_integral_ideal) + I_terminal_ideal + sum(phase_errors_ideal))) < tol
 
