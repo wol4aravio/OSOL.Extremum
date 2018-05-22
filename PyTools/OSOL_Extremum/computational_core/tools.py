@@ -16,7 +16,7 @@ def create_app():
     def process_request():
         args = json.loads(json.dumps(request.args))
         field = args.pop('field')
-        if field == 'f' or field == 'sim':
+        if field == 'f' or field == 'sim' or field == 'df_grad':
             scope = args.pop('scope', 'real')
             if scope == 'interval':
                 for k in args.keys():
