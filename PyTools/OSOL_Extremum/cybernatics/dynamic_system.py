@@ -208,7 +208,7 @@ class DynamicSystem:
         times = [0.0]
         states = [x0]
         controls = []
-        error_terminal_state = 0.0
+        errors_terminal_state = 0.0
         for step_id in range(1, max_steps + 1):
             t = times[-1]
             x = states[-1]
@@ -221,7 +221,7 @@ class DynamicSystem:
             states.append(x_next)
             controls.append(u)
             if len(self.terminal_constraints) != 0:
-                error_terminal_state = []
+                errors_terminal_state = []
                 stop = True
                 for constraint in self.terminal_constraints:
                     eq = constraint['equation']
@@ -233,13 +233,15 @@ class DynamicSystem:
                     error = DynamicSystem.measure_error(eq(*values))
                     if error > max_error:
                         stop = False
-                        error_terminal_state.append(np.power(penalty * error, float(norm[1:])))
+                        errors_terminal_state.append(np.power(penalty * error, float(norm[1:])))
                     else:
-                        error_terminal_state.append(0.0)
+                        errors_terminal_state.append(0.0)
                 if stop:
                     break
         I_integral = [states[-1]['I_integral_{}'.format(i + 1)] for i in range(len(self.integral_criteria))]
         I_terminal = self.terminal_criterion(*([times[-1]] + list(states[-1].values())))
+        if isinstance(I_terminal, np.ndarray):
+            I_terminal = I_terminal.tolist()
         phase_errors = [states[-1]['phase_{}'.format(i + 1)] for i in range(len(self.phase_constraints))]
         states = [dict((k, v) for (k, v) in s.items() if not k.startswith('I_integral_') and not k.startswith('phase_')) for s in states]
-        return times, states, controls, I_integral, I_terminal, error_terminal_state, phase_errors
+        return times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors

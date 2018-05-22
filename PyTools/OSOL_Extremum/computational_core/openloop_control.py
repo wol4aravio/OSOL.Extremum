@@ -13,7 +13,7 @@ class OpenloopControl:
 
     def sim(self, parameters):
         times, states, controls, I_integral, I_terminal, error_terminal_state, phase_errors = self.ds.simulate(parameters)
-        return I_integral + I_terminal + error_terminal_state + sum(phase_errors)
+        return sum(I_integral) + I_terminal + sum(error_terminal_state) + sum(phase_errors)
 
     @staticmethod
     def convert_real_vector(dict):
@@ -54,7 +54,7 @@ class OpenloopControl:
             data_control[i, :] = [controls[i][n] for n in self.ds.control_vars]
         data_control = pd.DataFrame(data=data_control, columns=cols_control)
 
-        criterion_info = {
+        criteria_info = {
             'I_integral': I_integral,
             'I_terminal': I_terminal,
             'errors_terminal_state': errors_terminal_state,
@@ -65,7 +65,7 @@ class OpenloopControl:
             os.makedirs(save_loc)
         data_state.to_csv(save_loc + '/state.csv', index=False)
         data_control.to_csv(save_loc + '/control.csv', index=False)
-        json.dump(criterion_info, open(save_loc + '/criterion.json', 'w'), indent=4)
+        json.dump(criteria_info, open(save_loc + '/criteria.json', 'w'), indent=4)
 
         return True
 
