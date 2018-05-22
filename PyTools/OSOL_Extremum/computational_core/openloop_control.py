@@ -39,10 +39,10 @@ class OpenloopControl:
             parameters = OpenloopControl.convert_interval_vector(j)
         else:
             raise Exception('Unsupported data')
-        times, states, controls, I_integral, I_terminal, error_terminal_state, phase_errors = self.ds.simulate(parameters)
+        times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors = self.ds.simulate(parameters)
 
         data_state = np.ndarray(shape=(len(times), 1 + len(states[0])))
-        cols_state = ['t'] + self.ds.state_vars[:(len(self.ds.state_vars) - 1 - len(self.ds.phase_constraints))]
+        cols_state = ['t'] + self.ds.state_vars[:(len(self.ds.state_vars) - len(self.ds.integral_criteria) - len(self.ds.phase_constraints))]
         data_state[:, 0] = times
         for i in range(len(states)):
             data_state[i, 1:] = [states[i][n] for n in cols_state[1:]]
@@ -57,7 +57,7 @@ class OpenloopControl:
         criterion_info = {
             'I_integral': I_integral,
             'I_terminal': I_terminal,
-            'error_terminal_state': error_terminal_state,
+            'errors_terminal_state': errors_terminal_state,
             'phase_errors': phase_errors
         }
 
