@@ -235,7 +235,7 @@ class DynamicSystem:
                         stop = False
                         errors_terminal_state.append(np.power(penalty * error, float(norm[1:])))
                     else:
-                        errors_terminal_state.append(0.0)
+                        errors_terminal_state.append(error)
                 if stop:
                     break
         I_integral = [states[-1]['I_integral_{}'.format(i + 1)] for i in range(len(self.integral_criteria))]
