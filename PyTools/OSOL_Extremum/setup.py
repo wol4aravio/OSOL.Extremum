@@ -31,6 +31,7 @@ setup(
                       "numpy==1.13.1",
                       "sympy==1.1.1",
                       "scipy==0.19.1",
+                      "pandas==0.20.3",
                       "flask==0.12.2"],
 
     entry_points={
