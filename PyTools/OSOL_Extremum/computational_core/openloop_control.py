@@ -56,6 +56,7 @@ class OpenloopControl:
         data_control = pd.DataFrame(data=data_control, columns=cols_control)
 
         criteria_info = {
+            'I_total': sum(I_integral) + I_terminal + sum(errors_terminal_state) + sum(phase_errors) + sum(controller_variance),
             'I_integral': I_integral,
             'I_terminal': I_terminal,
             'errors_terminal_state': errors_terminal_state,
