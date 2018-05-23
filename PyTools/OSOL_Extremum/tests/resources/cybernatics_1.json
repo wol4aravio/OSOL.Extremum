@@ -31,19 +31,22 @@
 		{
 			"name": "u1",
 			"type": "piecewise_constant",
-			"switch_points": [0, 1, 2]
+			"switch_points": [0, 1, 2],
+			"penalty": 2.0
 		},
 		{
 			"name": "u2",
 			"type": "piecewise_linear",
-			"switch_points": [0, 1, 2, 3]
+			"switch_points": [0, 1, 2, 3],
+			"penalty": 2.0
 		},
 		{
 			"name": "u3",
 			"type": "explicit",
 			"formula": "a",
 			"vars": [],
-			"param_names": ["a"]
+			"param_names": ["a"],
+			"penalty": 2.0
 		}
 	],
 	"control_bounds": [

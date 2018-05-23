@@ -244,4 +244,10 @@ class DynamicSystem:
             I_terminal = I_terminal.tolist()
         phase_errors = [states[-1]['phase_{}'.format(i + 1)] for i in range(len(self.phase_constraints))]
         states = [dict((k, v) for (k, v) in s.items() if not k.startswith('I_integral_') and not k.startswith('phase_')) for s in states]
-        return times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors
+        controller_variance = []
+        for c in self.controllers.values():
+            if c.penalty == 0.0:
+                controller_variance.append(0.0)
+            else:
+                controller_variance.append(c.penalty * c.get_measure_variance(times, states))
+        return times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance

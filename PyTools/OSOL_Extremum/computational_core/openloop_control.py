@@ -12,8 +12,8 @@ class OpenloopControl:
         self.ds = ds
 
     def sim(self, parameters):
-        times, states, controls, I_integral, I_terminal, error_terminal_state, phase_errors = self.ds.simulate(parameters)
-        return sum(I_integral) + I_terminal + sum(error_terminal_state) + sum(phase_errors)
+        times, states, controls, I_integral, I_terminal, error_terminal_state, phase_errors, controller_variance = self.ds.simulate(parameters)
+        return sum(I_integral) + I_terminal + sum(error_terminal_state) + sum(phase_errors) + sum(controller_variance)
 
     @staticmethod
     def convert_real_vector(dict):
@@ -39,7 +39,7 @@ class OpenloopControl:
             parameters = OpenloopControl.convert_interval_vector(j)
         else:
             raise Exception('Unsupported data')
-        times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors = self.ds.simulate(parameters)
+        times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance = self.ds.simulate(parameters)
 
         data_state = np.ndarray(shape=(len(times), 1 + len(states[0])))
         cols_state = ['t'] + self.ds.state_vars[:(len(self.ds.state_vars) - len(self.ds.integral_criteria) - len(self.ds.phase_constraints))]
@@ -59,7 +59,8 @@ class OpenloopControl:
             'I_integral': I_integral,
             'I_terminal': I_terminal,
             'errors_terminal_state': errors_terminal_state,
-            'phase_errors': phase_errors
+            'phase_errors': phase_errors,
+            'controller_variance': controller_variance
         }
 
         if not os.path.exists(save_loc):
