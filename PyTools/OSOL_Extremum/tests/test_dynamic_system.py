@@ -25,11 +25,11 @@ def test_1():
     times = np.linspace(0.0, 1.0, 1000 + 1)
     x_ideal = times * times
 
-    _, x, _, _, _, _, _ = ds.simulate({})
+    _, x, _, _, _, _, _, _ = ds.simulate({})
     x_real = list(map(lambda v: v['x'], x))
 
     ds.initial_conditions['x'] = Interval.from_value(0.0)
-    _, x, _, _, _, _, _ = ds.simulate({})
+    _, x, _, _, _, _, _, _ = ds.simulate({})
     x_interval = list(map(lambda v: v['x'].middle_point, x))
 
     error_real = rmse(x_real, x_ideal)
@@ -53,11 +53,11 @@ def test_2():
     times = np.linspace(0.0, ds.sampling_eps * ds.sampling_max_steps, ds.sampling_max_steps + 1)
     x_ideal = np.sin(times)
 
-    _, x, _, _, _, _, _ = ds.simulate({})
+    _, x, _, _, _, _, _, _ = ds.simulate({})
     x_real_RK4 = list(map(lambda v: v['x'], x))
 
     ds.initial_conditions['x'] = Interval.from_value(0.0)
-    _, x, _, _, _, _, _ = ds.simulate({})
+    _, x, _, _, _, _, _, _ = ds.simulate({})
     x_interval_RK4 = list(map(lambda v: v['x'].middle_point, x))
 
     error_real_RK4 = rmse(x_real_RK4, x_ideal)
@@ -67,11 +67,11 @@ def test_2():
     ds.prolong = ds.prolong_Euler
     ds.initial_conditions['x'] = 0.0
 
-    _, x, _, _, _, error_terminal_state, _ = ds.simulate({})
+    _, x, _, _, _, error_terminal_state, _, _ = ds.simulate({})
     x_real_Euler = list(map(lambda v: v['x'], x))
 
     ds.initial_conditions['x'] = Interval.from_value(0.0)
-    _, x, _, _, _, _, _ = ds.simulate({})
+    _, x, _, _, _, _, _, _ = ds.simulate({})
     x_interval_Euler = list(map(lambda v: v['x'].middle_point, x))
 
     error_real_Euler = rmse(x_real_Euler, x_ideal)
@@ -102,13 +102,13 @@ def test_3():
     x1_ideal = np.sin(times)
     x2_ideal = -np.cos(times)
 
-    _, x, _, _, _, _, _ = ds.simulate({})
+    _, x, _, _, _, _, _, _ = ds.simulate({})
     x1_real_Euler = list(map(lambda v: v['x1'], x))
     x2_real_Euler = list(map(lambda v: v['x2'], x))
 
     ds.initial_conditions['x1'] = Interval.from_value(0.0)
     ds.initial_conditions['x2'] = Interval.from_value(-1.0)
-    _, x, _, _, _, _, _ = ds.simulate({})
+    _, x, _, _, _, _, _, _ = ds.simulate({})
     x1_interval_Euler = list(map(lambda v: v['x1'].middle_point, x))
     x2_interval_Euler = list(map(lambda v: v['x2'].middle_point, x))
 
@@ -120,13 +120,13 @@ def test_3():
     ds.initial_conditions['x1'] = 0.0
     ds.initial_conditions['x2'] = -1.0
 
-    _, x, _, _, _, _, _ = ds.simulate({})
+    _, x, _, _, _, _, _, _ = ds.simulate({})
     x1_real_RK4 = list(map(lambda v: v['x1'], x))
     x2_real_RK4 = list(map(lambda v: v['x2'], x))
 
     ds.initial_conditions['x1'] = Interval.from_value(0.0)
     ds.initial_conditions['x2'] = Interval.from_value(-1.0)
-    _, x, _, _, _, _, _ = ds.simulate({})
+    _, x, _, _, _, _, _, _ = ds.simulate({})
     x1_interval_RK4 = list(map(lambda v: v['x1'].middle_point, x))
     x2_interval_RK4 = list(map(lambda v: v['x2'].middle_point, x))
 
@@ -165,7 +165,7 @@ def test_4():
         'a': 5
     }
 
-    t, x, u, I_integral_calc, I_terminal_calc, errors_terminal_state, phase_errors_calc = ds.simulate(parameters)
+    t, x, u, I_integral_calc, I_terminal_calc, errors_terminal_state, phase_errors_calc, controller_variance_calc = ds.simulate(parameters)
 
     t_calc = t
     x_calc = list(map(lambda v: v['x'], x))
@@ -181,6 +181,7 @@ def test_4():
     I_integral_ideal = [0.77272105923056, 46.639683900497, 6.80452330242669]
     I_terminal_ideal = 8.99891199975
     phase_errors_ideal = [34784.1137839443, 5.62296778644782e-07, 0.0]
+    controller_variance_ideal = [4.0, 0.0, 0.0]
 
     error_t = rmse(t_calc, t_ideal)
     error_x = rmse(x_calc, x_ideal)
@@ -201,3 +202,6 @@ def test_4():
     assert np.abs(phase_errors_calc[0] - phase_errors_ideal[0]) < tol
     assert np.abs(phase_errors_calc[1] - phase_errors_ideal[1]) < tol
     assert np.abs(phase_errors_calc[2] - phase_errors_ideal[2]) < tol
+    assert np.abs(controller_variance_calc[0] - controller_variance_ideal[0]) < tol
+    assert np.abs(controller_variance_calc[1] - controller_variance_ideal[1]) < tol
+    assert np.abs(controller_variance_calc[2] - controller_variance_ideal[2]) < tol
