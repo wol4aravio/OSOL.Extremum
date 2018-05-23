@@ -97,20 +97,20 @@
 			},
 			{
 				"equation": "p",
-				"max_error": 1e-2,
-				"penalty": 1e+3,
+				"max_error": 1e-1,
+				"penalty": 1e+2,
 				"norm": "L2"
 			},
 			{
 				"equation": "q",
-				"max_error": 1e-2,
-				"penalty": 1e+3,
+				"max_error": 1e-1,
+				"penalty": 1e+2,
 				"norm": "L2"
 			},
 			{
 				"equation": "r",
-				"max_error": 1e-2,
-				"penalty": 1e+3,
+				"max_error": 1e-1,
+				"penalty": 1e+2,
 				"norm": "L2"
 			}
 		],
