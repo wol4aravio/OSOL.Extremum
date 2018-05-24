@@ -18,21 +18,19 @@ setup(
         "Development Status :: Beta",
         "Intended Audience :: Developers",
         "Topic :: Scientific/Engineering :: Optimization :: Optimal Control",
-        "License :: MIT License",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
+        "License :: MIT License"
     ],
 
     keywords="",
 
     packages=find_packages(exclude=["tests"]),
 
-    install_requires=["ast2json==0.2.1",
-                      "numpy==1.13.1",
-                      "sympy==1.1.1",
-                      "scipy==0.19.1",
-                      "pandas==0.20.3",
-                      "flask==0.12.2"],
+    install_requires=["ast2json>=0.2.1",
+                      "numpy>=1.13.1",
+                      "sympy>=1.1.1",
+                      "scipy>=0.19.1",
+                      "pandas>=0.20.3",
+                      "flask>=0.12.2"],
 
     entry_points={
         'console_scripts': ['run_core=OSOL_Extremum.computational_core.__main__:main']
