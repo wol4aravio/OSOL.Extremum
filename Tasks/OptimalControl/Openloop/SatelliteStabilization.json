@@ -61,17 +61,20 @@
 		{
 			"name": "u1",
 			"type": "piecewise_linear",
-			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+			"penalty": 1e-3
 		},
 		{
 			"name": "u2",
 			"type": "piecewise_linear",
-			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+			"penalty": 1e-3
 		},
 		{
 			"name": "u3",
 			"type": "piecewise_linear",
-			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+			"penalty": 1e-3
 		}
 	],
 	"control_bounds": [
@@ -81,7 +84,10 @@
 	],
 	"auxiliary": [ ],
 	"efficiency": {
-		"integral": "(abs(u1) + abs(u2) + abs(u3)) + 0.00001 * ((u1 ** 2) + (u2 ** 2) + (u3 ** 2))",
+		"integral": [
+			"abs(u1) + abs(u2) + abs(u3)",
+			"0.001 * ((u1 ** 2) + (u2 ** 2) + (u3 ** 2))"
+		],
 		"terminal": "0"
 	},
 	"constraints": {
@@ -94,20 +100,20 @@
 			},
 			{
 				"equation": "p",
-				"max_error": 1e-2,
-				"penalty": 1e+3,
+				"max_error": 1e-1,
+				"penalty": 1e+2,
 				"norm": "L2"
 			},
 			{
 				"equation": "q",
-				"max_error": 1e-2,
-				"penalty": 1e+3,
+				"max_error": 1e-1,
+				"penalty": 1e+2,
 				"norm": "L2"
 			},
 			{
 				"equation": "r",
-				"max_error": 1e-2,
-				"penalty": 1e+3,
+				"max_error": 1e-1,
+				"penalty": 1e+2,
 				"norm": "L2"
 			}
 		],

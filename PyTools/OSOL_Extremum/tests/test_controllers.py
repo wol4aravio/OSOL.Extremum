@@ -56,3 +56,10 @@ def test_Explicit():
     assert sim(controller.get_control(0, x={'x': 1, 'y': 77.7}), ('u', real(a=1, b=1, t=0, x=1)))
     assert sim(controller.get_control(7.9, x={'x': 3.0, 'y': -3243.323}), ('u', real(a=1, b=1, t=7.9, x=3.0)))
     assert sim(controller.get_control(1.1, x={'x': -1.21, 'y': 2.1}), ('u', real(a=1, b=1, t=1.1, x=-1.21)))
+
+
+def test_measure_variance():
+    tol = 1e-7
+    t = [0.0, 1.0, 5.0, 6.0, 10.0]
+    c = [0.0, 1.0, 5.0, 4.0, 0.0]
+    assert math.fabs(piecewise_variance_measure(t, c) - 4.0) < tol
