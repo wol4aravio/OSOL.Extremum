@@ -17,9 +17,11 @@ core = ComputationalCore.from_json(resource_loc)
 def test_real():
 
     tol = 1e-3
-    I_integral_ideal = 54.2169282621542
+    I_integral_ideal = [0.77272105923056, 46.639683900497, 6.80452330242669]
     I_terminal_ideal = 8.99891199975
     phase_errors_ideal = [34784.1137839443, 5.62296778644782e-07, 0.0]
+    controller_variance_ideal = [4.0, 0.0, 0.0]
+    terminal_error = 1e-3
 
     parameters = {
         'u1_0': 5,
@@ -36,15 +38,17 @@ def test_real():
 
     error = core.request('sim', parameters)
 
-    assert math.fabs(error - (I_integral_ideal + I_terminal_ideal + sum(phase_errors_ideal))) < tol
+    assert math.fabs(error - (sum(I_integral_ideal) + I_terminal_ideal + terminal_error + sum(phase_errors_ideal) + sum(controller_variance_ideal))) < tol
 
 
 def test_interval():
 
     tol = 1e-3
-    I_integral_ideal = 54.2169282621542
+    I_integral_ideal = [0.77272105923056, 46.639683900497, 6.80452330242669]
     I_terminal_ideal = 8.99891199975
     phase_errors_ideal = [34784.1137839443, 5.62296778644782e-07, 0.0]
+    controller_variance_ideal = [4.0, 0.0, 0.0]
+    terminal_error = 1e-3
 
     parameters = {
         'u1_0': Interval.from_value(5),
@@ -61,4 +65,58 @@ def test_interval():
 
     error = core.request('sim', parameters).middle_point
 
-    assert math.fabs(error - (I_integral_ideal + I_terminal_ideal + sum(phase_errors_ideal))) < tol
+    assert math.fabs(error - (sum(I_integral_ideal) + I_terminal_ideal + terminal_error + sum(phase_errors_ideal) + sum(controller_variance_ideal))) < tol
+
+
+def test_outer():
+    parameters_json = {
+        'RealVector': {
+            'elements': [
+                {
+                    'key': 'u1_0',
+                    'value': 5
+                },
+                {
+                    'key': 'u1_1',
+                    'value': 6
+                },
+                {
+                    'key': 'u1_2',
+                    'value': 7
+                },
+
+                {
+                    'key': 'u2_0',
+                    'value': 2
+                },
+                {
+                    'key': 'u2_1',
+                    'value': 2
+                },
+                {
+                    'key': 'u2_2',
+                    'value': 2
+                },
+                {
+                    'key': 'u2_3',
+                    'value': 2
+                },
+
+                {
+                    'key': 'a',
+                    'value': 5
+                }
+            ]
+        }
+    }
+    os.makedirs('temp')
+    json.dump(parameters_json, open('temp/p.json', 'w'))
+    from_json = core.request('sim_out', {'json_file': 'temp/p.json', 'save_loc': 'test'})
+    os.remove('temp/p.json')
+    os.remove('test/state.csv')
+    os.remove('test/control.csv')
+    os.remove('test/criteria.json')
+    os.rmdir('temp')
+    os.rmdir('test')
+
+    assert from_json

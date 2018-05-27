@@ -1,0 +1,20 @@
+{
+	"language": "Scala",
+	"algorithm": "ES",
+	"maxBombs": 20,
+	"rMax": [
+		{
+			"name": "x",
+			"value": 1.0
+		},
+		{
+			"name": "y",
+			"value": 1.0
+		},
+		{
+			"name": "z",
+			"value": 1.0
+		}
+	],
+	"maxTime": 60.0	
+}

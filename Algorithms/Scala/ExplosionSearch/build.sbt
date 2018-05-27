@@ -1,4 +1,4 @@
-name := "OSOL.Extremum.Algorithms.Scala.RandomSearch"
+name := "OSOL.Extremum.Algorithms.Scala.ExplosionSearch"
 
 version := "0.0.5.1"
 

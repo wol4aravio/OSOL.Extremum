@@ -20,29 +20,30 @@ class DynamicSystem:
                  f, state_vars, initial_conditions,
                  controllers, control_vars, control_bounds,
                  aux, etc_vars,
-                 integral_criterion, terminal_criterion,
+                 integral_criteria, terminal_criterion,
                  terminal_constraints, phase_constraints):
 
-        self.state_vars = state_vars + ['I_integral'] + ['phase_{}'.format(i + 1) for i in range(len(phase_constraints))]
+        self.state_vars = state_vars + ['I_integral_{}'.format(i + 1) for i in range(len(integral_criteria))] + ['phase_{}'.format(i + 1) for i in range(len(phase_constraints))]
         self.control_vars = control_vars
         self.etc_vars = etc_vars
         self.vars_str = ['t'] + self.state_vars + self.control_vars + self.etc_vars
         self.sym_vars = list(map(symbols, self.vars_str))
 
-        self.integral_criterion = lambdify(self.sym_vars, parse_expr(integral_criterion), np)
+        self.integral_criteria = [lambdify(self.sym_vars, parse_expr(c), np) for c in integral_criteria]
         self.terminal_criterion = lambdify(self.sym_vars[:(1 + len(self.state_vars))], parse_expr(terminal_criterion), np)
 
         self.initial_conditions = initial_conditions
-        self.initial_conditions['I_integral'] = 0.0
 
         self.controllers = controllers
         self.control_bounds = control_bounds
 
         self.f = f
         for v in self.state_vars:
-            if v != 'I_integral' and not v.startswith('phase_'):
+            if not v.startswith('I_integral_') and not v.startswith('phase_'):
                 self.f[v] = lambdify(self.sym_vars, parse_expr(self.f[v]), np)
-        self.f['I_integral'] = self.integral_criterion
+        for i in range(len(integral_criteria)):
+            self.f['I_integral_{}'.format(i + 1)] = self.integral_criteria[i]
+            self.initial_conditions['I_integral_{}'.format(i + 1)] = 0.0
 
         self.phase_constraints = phase_constraints
         for i in range(len(self.phase_constraints)):
@@ -207,7 +208,7 @@ class DynamicSystem:
         times = [0.0]
         states = [x0]
         controls = []
-        error_terminal_state = 0.0
+        errors_terminal_state = 0.0
         for step_id in range(1, max_steps + 1):
             t = times[-1]
             x = states[-1]
@@ -220,7 +221,7 @@ class DynamicSystem:
             states.append(x_next)
             controls.append(u)
             if len(self.terminal_constraints) != 0:
-                error_terminal_state = 0.0
+                errors_terminal_state = []
                 stop = True
                 for constraint in self.terminal_constraints:
                     eq = constraint['equation']
@@ -232,11 +233,21 @@ class DynamicSystem:
                     error = DynamicSystem.measure_error(eq(*values))
                     if error > max_error:
                         stop = False
-                        error_terminal_state += np.power(penalty * error, float(norm[1:]))
+                        errors_terminal_state.append(np.power(penalty * error, float(norm[1:])))
+                    else:
+                        errors_terminal_state.append(error)
                 if stop:
                     break
-        I_integral = states[-1]['I_integral']
+        I_integral = [states[-1]['I_integral_{}'.format(i + 1)] for i in range(len(self.integral_criteria))]
         I_terminal = self.terminal_criterion(*([times[-1]] + list(states[-1].values())))
+        if isinstance(I_terminal, np.ndarray):
+            I_terminal = I_terminal.tolist()
         phase_errors = [states[-1]['phase_{}'.format(i + 1)] for i in range(len(self.phase_constraints))]
-        states = [dict((k, v) for (k, v) in s.items() if k != 'I_integral' and not k.startswith('phase_')) for s in states]
-        return times, states, controls, I_integral, I_terminal, error_terminal_state, phase_errors
+        states = [dict((k, v) for (k, v) in s.items() if not k.startswith('I_integral_') and not k.startswith('phase_')) for s in states]
+        controller_variance = []
+        for c in self.controllers.values():
+            if c.penalty == 0.0:
+                controller_variance.append(0.0)
+            else:
+                controller_variance.append(c.penalty * c.get_measure_variance(times, states))
+        return times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance
