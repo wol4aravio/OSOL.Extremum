@@ -96,7 +96,7 @@ object Runner extends App {
         val algorithm =
           if (conf.seed.isEmpty) Algorithms.Scala.RandomSearch.createFixedStepRandomSearch(radius.toDouble, maxTime.toDouble)
           else {
-            val seed = scala.io.Source.fromFile(conf.seed()).mkString("\n").toJson.convertTo[RealVector]
+            val seed = scala.io.Source.fromFile(conf.seed()).mkString("\n").parseJson.convertTo[RealVector]
             Algorithms.Scala.RandomSearch.createFixedStepRandomSearch(radius.toDouble, maxTime.toDouble, Some(seed))
           }
 
