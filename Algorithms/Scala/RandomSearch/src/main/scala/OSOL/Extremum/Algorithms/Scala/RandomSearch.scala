@@ -21,9 +21,17 @@ object RandomSearch {
   private final class GenerateInitialPointNode(override val nodeId: java.lang.Integer) extends GeneralNode[RealVector, java.lang.Double, RealVector](nodeId) {
 
     override def initialize(f: Map[String, java.lang.Double] => java.lang.Double, area: Area, state: State[RealVector, java.lang.Double, RealVector]): Unit = {
-      val initialPoint: RealVector = GoRN.getContinuousUniform(area)
-      state.setParameter(currentPointName, initialPoint)
-      state.setParameter(currentPointEfficiencyName, initialPoint.getPerformance(f))
+
+      val seed = state.getParameter[Option[RealVector]]("seed")
+      if (seed.isDefined) {
+        state.setParameter(currentPointName, seed.get)
+        state.setParameter(currentPointEfficiencyName, seed.get.getPerformance(f))
+      }
+      else {
+        val initialPoint: RealVector = GoRN.getContinuousUniform(area)
+        state.setParameter(currentPointName, initialPoint)
+        state.setParameter(currentPointEfficiencyName, initialPoint.getPerformance(f))
+      }
     }
 
     override def process(f: Map[String, java.lang.Double] => java.lang.Double, area: Area, state: State[RealVector, java.lang.Double, RealVector]): Unit = { }
@@ -60,9 +68,9 @@ object RandomSearch {
 
   }
 
-  def createFixedStepRandomSearch(radius: java.lang.Double, maxTime: java.lang.Double): Algorithm[RealVector, java.lang.Double, RealVector] = {
+  def createFixedStepRandomSearch(radius: java.lang.Double, maxTime: java.lang.Double, seed: Option[RealVector] = Option.empty): Algorithm[RealVector, java.lang.Double, RealVector] = {
     val FixedStep_nodes = Seq(
-      new SetParametersNode[RealVector, java.lang.Double, RealVector](nodeId = 0, parameters = Map(radiusParameterName -> radius)),
+      new SetParametersNode[RealVector, java.lang.Double, RealVector](nodeId = 0, parameters = Map(radiusParameterName -> radius, "seed" -> seed)),
       new GenerateInitialPointNode(nodeId = 1),
       new TerminationViaMaxTime[RealVector, java.lang.Double, RealVector](nodeId = 2, maxTime),
       new SampleNewPointNode_FixedStep(nodeId = 3),
