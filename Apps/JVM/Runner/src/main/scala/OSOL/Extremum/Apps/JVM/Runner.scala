@@ -120,7 +120,7 @@ object Runner extends App {
           val Seq(JsString(name), JsNumber(value)) = j.asJsObject().getFields("name", "value")
           (name, new java.lang.Double(value.toDouble))
         }.toMap
-        val algorithm = if conf.seed Algorithms.Scala.ExplosionSearch.createExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble)
+        val algorithm = Algorithms.Scala.ExplosionSearch.createExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble)
 
         val f = new IntervalRemoteFunction(conf.task(), conf.port(), conf.field())
         val result = runIntervalVectorAlgorithm(algorithm, f, area)
