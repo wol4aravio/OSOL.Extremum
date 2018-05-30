@@ -108,13 +108,13 @@ object Runner extends App {
 
         saveRealVectorResult(result, conf.output(), conf.result())
       }
-      case ("Scala", "ES") | ("Scala", "ExplosionSearch") => {
+      case ("Scala", "IES") | ("Scala", "IntervalExplosionSearch") => {
         val Seq(JsNumber(maxBombs), JsArray(rMaxJson), JsNumber(maxTime)) = algConfig.getFields("maxBombs", "rMax", "maxTime")
         val rMax = rMaxJson.map { case j =>
           val Seq(JsString(name), JsNumber(value)) = j.asJsObject().getFields("name", "value")
           (name, new java.lang.Double(value.toDouble))
         }.toMap
-        val algorithm = Algorithms.Scala.ExplosionSearch.createExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble)
+        val algorithm = Algorithms.Scala.IntervalExplosionSearch.createIntervalExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble)
 
         val f = new IntervalRemoteFunction(conf.task(), conf.port(), conf.field())
         val result = runIntervalVectorAlgorithm(algorithm, f, area)
