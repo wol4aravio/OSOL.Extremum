@@ -201,7 +201,7 @@ jobs:
 
     - stage: algorithms
       env:
-        - JOB_NAME="Building Scala Explosion Search"
+        - JOB_NAME="Building Scala Interval Explosion Search"
       language: scala
       scala: 2.12.5
       sudo: required
@@ -216,7 +216,7 @@ jobs:
         - source activate test-environment
         - cd PyTools
         - python OSOL_Extremum/setup.py install
-        - cd ../Algorithms/Scala/ExplosionSearch
+        - cd ../Algorithms/Scala/IntervalExplosionSearch
       script:
         - travis_wait 30 sbt clean coverage test coverageReport
       after_success:
