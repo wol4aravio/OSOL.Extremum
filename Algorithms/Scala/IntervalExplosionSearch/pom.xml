@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.wol4aravio</groupId>
-    <artifactId>OSOL.Extremum.Algorithms.Scala.ExplosionSearch_2.12</artifactId>
+    <artifactId>OSOL.Extremum.Algorithms.Scala.IntervalExplosionSearch_2.12</artifactId>
     <version>0.0.5.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>OSOL.Extremum.Algorithms.Scala.ExplosionSearch</name>
-    <description>Open-Source Optimization Library - Extremum. Explosion Search</description>
+    <name>OSOL.Extremum.Algorithms.Scala.IntervalExplosionSearch</name>
+    <description>Open-Source Optimization Library - Extremum. Interval Explosion Search</description>
     <url>https://github.com/wol4aravio/OSOL.Extremum</url>
 
     <licenses>

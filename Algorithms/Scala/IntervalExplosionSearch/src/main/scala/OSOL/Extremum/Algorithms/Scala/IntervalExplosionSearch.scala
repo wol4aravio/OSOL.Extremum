@@ -8,7 +8,7 @@ import OSOL.Extremum.Cores.JVM.Arithmetics.Interval
 import OSOL.Extremum.Cores.JVM.Vectors.IntervalVector
 import OSOL.Extremum.Cores.JVM.Vectors.IntervalVector.Converters._
 
-object ExplosionSearch {
+object IntervalExplosionSearch {
 
   private val maxBombsName = "maxBombs"
   private val maxPowerName = "maxPower"
@@ -121,7 +121,7 @@ object ExplosionSearch {
 
   }
 
-  def createExplosionSearch(maxBombs: java.lang.Integer, rMax: Map[String, java.lang.Double], maxTime: java.lang.Double): Algorithm[IntervalVector, Interval, IntervalVector] = {
+  def createIntervalExplosionSearch(maxBombs: java.lang.Integer, rMax: Map[String, java.lang.Double], maxTime: java.lang.Double): Algorithm[IntervalVector, Interval, IntervalVector] = {
     val ES_nodes = Seq(
       new SetParametersNode[IntervalVector, Interval, IntervalVector](nodeId = 0, parameters = Map(maxBombsName -> maxBombs, rMaxName -> rMax)),
       new GenerateInitialBombsNode(nodeId = 1),
