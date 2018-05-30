@@ -257,7 +257,7 @@ jobs:
         - python test.py
         - rm result.csv
         - echo 'Testing Scala ExplosionSearch'
-        - java -jar ./target/scala-2.12/OSOL.Extremum.Apps.JVM.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Scala/ExplosionSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - java -jar ./target/scala-2.12/OSOL.Extremum.Apps.JVM.Runner.jar --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/Scala/IntervalExplosionSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
         - rm result.csv
         - mv result_real.csv result.csv
         - python test.py
