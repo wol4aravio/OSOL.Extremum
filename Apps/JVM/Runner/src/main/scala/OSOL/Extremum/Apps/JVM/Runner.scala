@@ -20,6 +20,7 @@ object Runner extends App {
     val field = opt[String](required = true)
     val result = opt[String](required = true)
     val output = opt[String](default = Some("json"))
+    val seed = opt[String](default = None)
     verify()
   }
 
@@ -92,7 +93,12 @@ object Runner extends App {
     (language, algorithm) match {
       case ("Scala", "RS") | ("Scala", "RandomSearch") => {
         val Seq(JsNumber(radius), JsNumber(maxTime)) = algConfig.getFields("radius", "maxTime")
-        val algorithm = Algorithms.Scala.RandomSearch.createFixedStepRandomSearch(radius.toDouble, maxTime.toDouble)
+        val algorithm =
+          if (conf.seed.isEmpty) Algorithms.Scala.RandomSearch.createFixedStepRandomSearch(radius.toDouble, maxTime.toDouble)
+          else {
+            val seed = scala.io.Source.fromFile(conf.seed()).getLines().mkString("\n").parseJson.convertTo[RealVector]
+            Algorithms.Scala.RandomSearch.createFixedStepRandomSearch(radius.toDouble, maxTime.toDouble, Some(seed))
+          }
 
         val f = new RealRemoteFunction(conf.task(), conf.port(), conf.field())
         val result = runRealVectorAlgorithm(algorithm, f, area)

@@ -13,6 +13,6 @@ resolvers ++= Seq(
 libraryDependencies += "org.rogach" %% "scallop" % "3.1.1"
 
 libraryDependencies += "com.github.wol4aravio" %% "OSOL.Extremum.Cores.JVM" % "0.0.5.1-SNAPSHOT"
-libraryDependencies += "com.github.wol4aravio" %% "OSOL.Extremum.Algorithms.Scala.RandomSearch" % "0.0.5.1-SNAPSHOT"
+libraryDependencies += "com.github.wol4aravio" %% "OSOL.Extremum.Algorithms.Scala.RandomSearch" % "0.0.5.2-SNAPSHOT"
 libraryDependencies += "com.github.wol4aravio" %% "OSOL.Extremum.Algorithms.Scala.IntervalExplosionSearch" % "0.0.5.1-SNAPSHOT"
 libraryDependencies += "com.github.wol4aravio" % "OSOL.Extremum.Algorithms.Java.RandomSearch_1.8" % "0.0.5.1-SNAPSHOT"
