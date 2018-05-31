@@ -7,6 +7,7 @@ env:
     - OSOL_EXTREMUM_TASKS_LOC=${TRAVIS_BUILD_DIR}/Tasks
     - OSOL_EXTREMUM_CONFIGS_LOC=${TRAVIS_BUILD_DIR}/Configs
     - PYTHON_VER=3.6.2
+    - MAX_ATTEMPTS=5
 
 jobs:
   include:
@@ -47,7 +48,19 @@ jobs:
         - python OSOL_Extremum/setup.py install
         - cd ../Cores/JVM
       script:
-        - travis_wait 30 sbt clean coverage test coverageReport
+        - n=0
+          while true; do
+              travis_wait 30 sbt clean coverage test coverageReport && break || {
+                if [[ $n -lt $MAX_ATTEMPTS ]]; then
+                  ((n++))
+                  echo "Command failed. Attempt $n/$MAX_ATTEMPTS:"
+                  sleep $delay;
+                else
+                  fail "The command has failed after $n attempts."
+                fi
+              }
+            done
+        #travis_wait 30 sbt clean coverage test coverageReport
       after_success:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - test $TRAVIS_BRANCH = "master" &&
