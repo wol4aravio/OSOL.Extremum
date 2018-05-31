@@ -47,6 +47,7 @@ jobs:
         - python OSOL_Extremum/setup.py install
         - cd ../Cores/JVM
       script:
+        - export -f travis_jigger
         - export -f travis_wait
         - chmod +x retry.sh
         - ./retry.sh 'travis_wait 30 sbt clean coverage test coverageReport'
