@@ -48,7 +48,7 @@ jobs:
         - cd ../Cores/JVM
       script:
         - chmod +x retry.sh
-        - ./retry.sh travis_wait 30 sbt clean coverage test coverageReport
+        - ./retry.sh 'travis_wait 30 sbt clean coverage test coverageReport'
       after_success:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
         - test $TRAVIS_BRANCH = "master" &&
