@@ -48,18 +48,7 @@ jobs:
         - python OSOL_Extremum/setup.py install
         - cd ../Cores/JVM
       script:
-        - n=0
-          while true; do
-              travis_wait 30 sbt clean coverage test coverageReport && break || {
-                if [[ $n -lt $MAX_ATTEMPTS ]]; then
-                  ((n++))
-                  echo "Command failed. Attempt $n/$MAX_ATTEMPTS:"
-                  sleep $delay;
-                else
-                  fail "The command has failed after $n attempts."
-                fi
-              }
-            done
+        - for i in {1..$MAX_ATTEMPTS}; do travis_wait 30 sbt clean coverage test coverageReport && s=0 && break || s=$? && sleep 15; done; (exit $s)
         #travis_wait 30 sbt clean coverage test coverageReport
       after_success:
         - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
