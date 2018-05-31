@@ -24,6 +24,7 @@ Open-Source Optimization Library - Extremum
 	* [Table of algorithms](#table-of-algorithms)
 	* [Random Search](#random-search)
 	* [Interval Explosion Search](#interval-explosion-search)
+	* [Differential Evolution](#differential-evolution)
 * [Articles about OSOL.Extremum projects](#articles-about-osolextremum-projects)
 
 # Project background
@@ -68,10 +69,13 @@ Current section will provide information about algorithms that are currently imp
 | ---- | ----------- | :---: | :--: | :--: | :--: | :-----------------: |
 | Random Search | [Wiki](https://en.wikipedia.org/wiki/Random_search) | + | + | + | + | ??? |
 | Interval Explosion Search | [Trudy MAI](http://trudymai.ru/upload/iblock/b78/b783155b46dd299b9cecc91637821acc.pdf), [South Ural State University Bulletin](http://mmp.susu.ru/pdf/v9n3st5.pdf) | + | - | - | - | ??? |
+| Differential Evolution | no link | - | - | + | - | ??? |
 
 ## Random Search
 
 ## Interval Explosion Search
+
+## Differential Evolution
 
 
 # Articles about OSOL.Extremum projects
