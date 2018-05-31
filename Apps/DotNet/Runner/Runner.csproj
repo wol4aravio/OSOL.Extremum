@@ -10,8 +10,9 @@
     <ItemGroup>
         <PackageReference Include="CommandLineParser" Version="2.2.1" />
         <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+        <PackageReference Include="OSOL.Extremum.Cores.DotNet" Version="0.0.5.1" />
         <PackageReference Include="OSOL.Extremum.Algorithms.CSharp.RandomSearch" Version="0.0.5.1" />
         <PackageReference Include="OSOL.Extremum.Algorithms.FSharp.RandomSearch" Version="0.0.5.1" />
-        <PackageReference Include="OSOL.Extremum.Cores.DotNet" Version="0.0.5.1" />
+        <PackageReference Include="OSOL.Extremum.Algorithms.CSharp.DifferentialEvolution" Version="0.0.5.1" />
     </ItemGroup>
 </Project>
