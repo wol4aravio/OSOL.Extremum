@@ -325,3 +325,7 @@ jobs:
         - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/FSharp/RandomSearch/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
         - python test.py
         - rm result.csv
+        - echo 'Testing CSharp DifferentialEvolution'
+        - dotnet OSOL.Extremum.Apps.DotNet.Runner.dll --algorithm ${OSOL_EXTREMUM_CONFIGS_LOC}/CSharp/DifferentialEvolution/Dummy.json --task ${OSOL_EXTREMUM_TASKS_LOC}/Dummy/Dummy_3.json --port 5017 --field f --result result --output csv
+        - python test.py
+        - rm result.csv
