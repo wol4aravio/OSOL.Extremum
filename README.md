@@ -80,6 +80,12 @@ Current module contains code for optimization algorithms. Better description is 
 
 ## Apps
 
+Current module contains implementation of various apps built using this project. 
+
+List of apps:
+* Runner (JVM) - used to run [implemented algorithms](#implemented-algorithms) for JVM Core,
+* Runner (.Net) - used to run [implemented algorithms](#implemented-algorithms) for .Net Core,
+
 # Usage info
 
 ## Out-of-box usage
