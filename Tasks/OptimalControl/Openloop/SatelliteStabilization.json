@@ -62,19 +62,22 @@
 			"name": "u1",
 			"type": "piecewise_linear",
 			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-			"penalty": 1e-3
+			"penalty": 1e-3,
+			"variance_power": 2
 		},
 		{
 			"name": "u2",
 			"type": "piecewise_linear",
 			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-			"penalty": 1e-3
+			"penalty": 1e-3,
+			"variance_power": 2
 		},
 		{
 			"name": "u3",
 			"type": "piecewise_linear",
 			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-			"penalty": 1e-3
+			"penalty": 1e-3,
+			"variance_power": 2
 		}
 	],
 	"control_bounds": [
