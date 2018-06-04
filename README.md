@@ -158,7 +158,14 @@ IES is built using the following heuristics:
 * boxes with bad value of fitness function can move for longer distances,
 * boxes with good value of fitness functions should not move for long distances.
 
+** Under construction **
+
 ## Differential Evolution
+
+** Under construction **
 
 
 # Articles about OSOL.Extremum projects
+
+** Under construction **
+
