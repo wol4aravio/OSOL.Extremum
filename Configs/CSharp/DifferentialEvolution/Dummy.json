@@ -1,0 +1,8 @@
+{
+	"language": "CSharp",
+	"algorithm": "DE",
+	"populationSize": 10,
+	"weightingFactor": 0.5,
+	"crossoverRate": 0.75,
+	"maxTime": 60.0	
+}

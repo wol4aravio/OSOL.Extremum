@@ -108,7 +108,21 @@ namespace OSOL.Extremum.Apps.DotNet
                 return;
             }
 
-            
+            if (string.Equals(language, "CSharp") && (string.Equals(name, "DE") || string.Equals(name, "DifferentialEvolution")))
+            {
+                var populationSize = algConfig["populationSize"].Value<int>();
+                var weightingFactor = algConfig["weightingFactor"].Value<double>();
+                var crossoverRate = algConfig["crossoverRate"].Value<double>();
+                var maxTime = algConfig["maxTime"].Value<double>();
+                var algorithm = Algorithms.CSharp.DifferentialEvolution.CreateDifferentialEvolution(populationSize, weightingFactor, crossoverRate, maxTime);
+                
+                var f = new RealRemoteFunction(opts.TaskConfig, opts.Port, opts.Field);
+                var result = RunRealVectorAlgorithm(algorithm, f, area);
+                
+                SaveRealVectorResult(result, opts);
+                return;
+            }
+
             throw new Exception("Unsupported Algorithm");
         }
         

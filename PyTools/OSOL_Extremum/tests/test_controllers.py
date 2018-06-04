@@ -1,4 +1,5 @@
 import random
+import math
 
 from OSOL_Extremum.cybernatics.controllers import *
 
@@ -62,4 +63,4 @@ def test_measure_variance():
     tol = 1e-7
     t = [0.0, 1.0, 5.0, 6.0, 10.0]
     c = [0.0, 1.0, 5.0, 4.0, 0.0]
-    assert math.fabs(piecewise_variance_measure(t, c) - 4.0) < tol
+    assert math.fabs(piecewise_variance_measure(t, c, 1) - 4.0) < tol

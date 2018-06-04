@@ -1,6 +1,6 @@
 {
 	"language": "Scala",
-	"algorithm": "ES",
+	"algorithm": "IES",
 	"maxBombs": 20,
 	"rMax": [
 		{
