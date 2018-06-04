@@ -12,8 +12,8 @@ class OpenloopControl:
         self.ds = ds
 
     def sim(self, parameters):
-        times, states, controls, I_integral, I_terminal, error_terminal_state, phase_errors, controller_variance = self.ds.simulate(parameters)
-        return sum(I_integral) + I_terminal + sum(error_terminal_state) + sum(phase_errors) + sum(controller_variance)
+        times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance = self.ds.simulate(parameters)
+        return sum(I_integral) + I_terminal + sum(errors_terminal_state) + sum(phase_errors) + sum(controller_variance)
 
     @staticmethod
     def convert_real_vector(dict):
