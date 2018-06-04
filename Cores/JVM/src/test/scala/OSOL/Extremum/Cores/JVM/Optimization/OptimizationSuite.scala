@@ -1,5 +1,7 @@
 package OSOL.Extremum.Cores.JVM.Optimization
 
+import java.io.File
+
 import OSOL.Extremum.Cores.JVM.Optimization.Exceptions.ParameterAlreadyExistsException
 import OSOL.Extremum.Cores.JVM.Optimization.Nodes.{GeneralNode, SetParametersNode, TerminationViaMaxIterations, TerminationViaMaxTime}
 import OSOL.Extremum.Cores.JVM.Random.GoRN
@@ -140,15 +142,27 @@ class OptimizationSuite extends FunSuite {
   }
 
   test("Test #1") {
-    val result = toolReal.work(fReal, area)
+    val result = toolReal.work(fReal, area, logStates = Some("temp"))
+
     assert(try { val json = toolReal.serializeState(); true} catch { case _: Exception => false })
     assert(testerReal(DummyRealOptimization(100, 60.0), DummyRealOptimization(250, 150.0)))
+
+    val tempFolder = new File("temp")
+    assert(tempFolder.exists && tempFolder.isDirectory)
+    tempFolder.listFiles().foreach(_.delete())
+    tempFolder.delete()
   }
 
   test("Test #2") {
-    val result = toolInterval.work(fInterval, area)
+    val result = toolInterval.work(fInterval, area, logStates = Some("temp"))
+
     assert(try { val json = toolInterval.serializeState(); true} catch { case _: Exception => false })
     assert(testerInterval(toolInterval))
+
+    val tempFolder = new File("temp")
+    assert(tempFolder.exists && tempFolder.isDirectory)
+    tempFolder.listFiles().foreach(_.delete())
+    tempFolder.delete()
   }
 
 }

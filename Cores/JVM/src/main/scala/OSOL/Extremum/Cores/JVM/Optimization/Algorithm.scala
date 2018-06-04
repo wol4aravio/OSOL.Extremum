@@ -68,7 +68,7 @@ object Algorithm {
 
     def apply(state: State[Base, FuncType, V]): Unit ={
       if (logLocation.isDefined){
-        val printer = new FileWriter(s"$logLocation/$counter.json")
+        val printer = new FileWriter(s"${logLocation.get}/$counter.json")
         printer.write(state.toJson().prettyPrint)
         printer.close()
         counter += 1
