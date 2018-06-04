@@ -1,5 +1,7 @@
 package OSOL.Extremum.Cores.JVM.Optimization.Testing
 
+import java.io.File
+
 import OSOL.Extremum.Cores.JVM.Optimization.RemoteFunctions.RemoteFunction
 import OSOL.Extremum.Cores.JVM.Optimization.{Algorithm, Area, Optimizable}
 import OSOL.Extremum.Cores.JVM.Vectors.{RealVector, VectorObject}
@@ -25,8 +27,14 @@ abstract class Tester[Base, FuncType, V <: Optimizable[Base, FuncType]](testFunc
           val resultsPerAttempt = (1 to attempts).takeWhile { _ =>
             a.reset()
             f.initialize()
-            val r = a.work(f.apply, area).toBasicForm()
+            val r = a.work(f.apply, area, logStates = Some("temp")).toBasicForm()
             f.terminate()
+
+            val tempFolder = new File("temp")
+            if (!(tempFolder.exists && tempFolder.isDirectory)) throw new Exception("Logging failed")
+            tempFolder.listFiles().foreach(_.delete())
+            tempFolder.delete()
+
             success = Lp_norm(r, RealVector(sol)) < tolerance
             !success
           }
