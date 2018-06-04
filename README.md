@@ -74,6 +74,28 @@ Version history:
 
 ## PyTools
 
+Version history:
+* *Ver. № 0.1.0*
+	* supported tasks:
+		* unconstrained optimization,
+		* optimal openloop control,
+	* implementation of interval arithmetics,
+	* modelling of dynamic systems using Euler and Runge-Kutta discretization processes,
+	* supported types of controllers:
+		* piecewise-constant,
+		* piecewise-linear,
+		* explicit.
+
+**Planned Features**
+* new tasks:
+	* constrained optimization,
+	* optimal controls of trajectories bundle,
+	* optimal stochastic control,
+	* linear regression task,
+* incremental optimization,
+* chain optimization,
+* improved preformance.
+
 ## Algorithms
 
 Current module contains code for optimization algorithms. Better description is provided in the following section: [Implemented algorithms](#implemented-algorithms).
@@ -84,7 +106,7 @@ Current module contains implementation of various apps built using this project.
 
 List of apps:
 * Runner (JVM) - used to run [implemented algorithms](#implemented-algorithms) for JVM Core,
-* Runner (.Net) - used to run [implemented algorithms](#implemented-algorithms) for .Net Core,
+* Runner (.Net) - used to run [implemented algorithms](#implemented-algorithms) for .Net Core.
 
 # Usage info
 
