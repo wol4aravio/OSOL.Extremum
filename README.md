@@ -62,7 +62,7 @@ Version history:
 	* basic vector arithmetic,
 	* unified form of GoRN - generator of random numbers,
 	* automated testing of algorithm using dummy functions,
-	* support of interval vectors for interval optimization algorithms,
+	* support of interval vectors (boxes) for interval optimization algorithms,
 	* dummy examples how to create an algorithm using cores.
 
 **Planned Features**
@@ -92,6 +92,7 @@ Version history:
 	* optimal controls of trajectories bundle,
 	* optimal stochastic control,
 	* linear regression task,
+* visualization of algorithms,
 * incremental optimization,
 * chain optimization,
 * improved preformance.
@@ -152,6 +153,10 @@ Current section will provide information about algorithms that are currently imp
 RS in one of the simplest metaheuristic optimization algorithm. Its idea is to sample points near the current one (which is treated as an approximate solution). When point with better value of target function is found algorithms starts using it as the approximate solution and the whole procedure repeats until termination criterion is met.
 
 ## Interval Explosion Search
+
+IES is built using the following heuristics:
+* boxes with bad value of fitness function can move for longer distances,
+* boxes with good value of fitness functions should not move for long distances.
 
 ## Differential Evolution
 
