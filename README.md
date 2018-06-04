@@ -76,6 +76,8 @@ Version history:
 
 ## Algorithms
 
+Current module contains code for optimization algorithms. Better description is provided in the following section: [Implemented algorithms](#implemented-algorithms).
+
 ## Apps
 
 # Usage info
