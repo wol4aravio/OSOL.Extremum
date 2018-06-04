@@ -17,7 +17,6 @@ project/plugins/project/
 .idea
 .idea_modules
 .DS_Store
-*.mindnode
 
 # Rider-IDE specific
 # User-specific files
