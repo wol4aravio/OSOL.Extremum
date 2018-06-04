@@ -8,6 +8,10 @@ Open-Source Optimization Library - Extremum
 # Contents
 * [Project background](#project-background)
 * [Project structure](#project-structure)
+	* [Cores](#cores)
+	* [PyTools](#pytools)
+	* [Algorithms](#algorithms)
+	* [Apps](#apps)
 * [Usage info](#usage-info)
 	* [Out-of-box usage](#out-of-box-usage)
 	* [Task preparation](#task-preparation)
@@ -33,6 +37,46 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 </p>
 
 # Project structure
+
+OSOL.Extremum consists of four main parts:
+* Cores
+* PyTools
+* Algorithms
+* Apps
+
+Overall structure and inner connections are shown below:
+
+![Project Structure](Description/OSOL.Extremum.png?raw=true "Project Structure")
+
+Besides, there are several blocks which mostly play support role:
+* Configs - contains examples of algorithms' configuration files,
+* Tasks - contains examples of tasks' configuration files.
+
+## Cores
+
+Current module contains implementation of algorithmic cores (JVM, written in scala, and .Net, written in C#, versions). These cores provide basic functionality for algorithm development and further usage. 
+
+Version history:
+* *Ver. № 0.0.5.1*
+	* algorithms are described as a transition graph between nodes, which represent steps of optimization procedure,
+	* basic vector arithmetic,
+	* unified form of GoRN - generator of random numbers,
+	* automated testing of algorithm using dummy functions,
+	* support of interval vectors for interval optimization algorithms,
+	* dummy examples how to create an algorithm using cores.
+
+**Planned Features**
+* Logging nodes,
+* Automated testing on general benchmarks functions,
+* A/B testing of different algorithms,
+* "continue" mode.
+
+
+## PyTools
+
+## Algorithms
+
+## Apps
 
 # Usage info
 
