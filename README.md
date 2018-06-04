@@ -143,11 +143,13 @@ Current section will provide information about algorithms that are currently imp
 
 | Name | Description | Scala | Java |  C#  |  F#  | Supports seed value |
 | ---- | ----------- | :---: | :--: | :--: | :--: | :-----------------: |
-| Random Search | [Wiki](https://en.wikipedia.org/wiki/Random_search) | + | + | + | + | Scala |
-| Interval Explosion Search | [Trudy MAI](http://trudymai.ru/upload/iblock/b78/b783155b46dd299b9cecc91637821acc.pdf), [South Ural State University Bulletin](http://mmp.susu.ru/pdf/v9n3st5.pdf) | + | - | - | - |No |
-| Differential Evolution | no link | - | - | + | - | No |
+| Random Search (RS) | [Wiki](https://en.wikipedia.org/wiki/Random_search) | + | + | + | + | Scala |
+| Interval Explosion Search (IES) | [Trudy MAI](http://trudymai.ru/upload/iblock/b78/b783155b46dd299b9cecc91637821acc.pdf), [South Ural State University Bulletin](http://mmp.susu.ru/pdf/v9n3st5.pdf) | + | - | - | - |No |
+| Differential Evolution (DE) | no link | - | - | + | - | No |
 
 ## Random Search
+
+RS in one of the simplest metaheuristic optimization algorithm. Its idea is to sample points near the current one (which is treated as an approximate solution). When point with better value of target function is found algorithms starts using it as the approximate solution and the whole procedure repeats until termination criterion is met.
 
 ## Interval Explosion Search
 
