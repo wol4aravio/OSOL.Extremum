@@ -1,7 +1,6 @@
 from sympy import symbols, lambdify
 from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
-from OSOL_Extremum.arithmetics.interval import *
 
 
 def piecewise_variance_measure(switch_points, controls, Lp):
