@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace OSOL.Extremum.Cores.DotNet.Optimization
@@ -43,10 +44,13 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization
             }
         }
 
-        public JObject ConvertToJson()
+        public JObject ConvertToJson(List<Func<object, JObject>> writers = null)
         {
             var json = new JObject();
-            json["result"] = (this.result == null) ? new JObject("None") : this.result.ConvertToJson();
+            if (this.result == null)
+                json.Add(new JProperty("result", new JValue("None")));
+            else
+                json["result"] = this.result.ConvertToJson();
             var array = new JArray();
             foreach (var p in this.parameters)
             {
@@ -56,8 +60,11 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization
                     .Case((bool x) => temp[p.Key] = x)
                     .Case((double x) => temp[p.Key] = x)
                     .Case((int x) => temp[p.Key] = x)
+                    .Case((double[] x) => temp[p.Key] = new JArray(x))
+                    .Case((int[] x) => temp[p.Key] = new JArray(x))
                     .Case((DateTime x) => temp[p.Key] = x)
                     .Case((TV x) => temp[p.Key] = x.ConvertToJson())
+                    .Case((Dictionary<string, double> d) => temp[p.Key] = new JArray(d))
                     .Case((TV[] x) =>
                     {
                         var v = (IEnumerable<TV>) p.Value;
@@ -80,7 +87,33 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization
 
                         temp[p.Key] = tempArray;
                     })
-                    .Case((object x) => throw new Exception());
+                    .Case((object x) =>
+                    {
+                        if (writers != null)
+                        {
+                            var writerResults = writers.Select(w =>
+                            {
+                                try
+                                {
+                                    return w(x);
+                                }
+                                catch (Exception e)
+                                {
+                                    return null;
+                                }
+                            }).Where(_ => _ != null);
+                            if (writerResults.Count() != 0)
+                                temp[p.Key] = writerResults.First();
+                            else
+                            {
+                                throw new Exception();
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
+                    });
 
                 ts.Switch(p.Value);
 

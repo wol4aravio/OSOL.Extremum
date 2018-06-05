@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using OSOL.Extremum.Cores.DotNet.Optimization.RemoteFunctions;
 using OSOL.Extremum.Cores.DotNet.Vectors;
@@ -43,8 +44,15 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization.Testing
                     {
                         algorithm.Reset();
                         f.Initialize();
-                        var r = algorithm.Work(f.Calculate, area).ToBasicForm();
+                        var r = algorithm.Work(f.Calculate, area, "temp").ToBasicForm();
                         f.Terminate();
+
+                        var tempFolder = new DirectoryInfo("temp");
+                        if (!(tempFolder.Exists)) throw new Exception("Logging failed");
+                        foreach (FileInfo file in tempFolder.GetFiles()) file.Delete();
+                        foreach (DirectoryInfo sd in tempFolder.GetDirectories()) sd.Delete(true);
+                        tempFolder.Delete();
+                        
                         success = Lp_norm(r, new RealVector(sol)) < Tolerance;
                     }
                 }
