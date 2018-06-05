@@ -58,7 +58,6 @@ object Algorithm {
     def purgeFolder(file: File): Unit = {
       if (file.isDirectory) file.listFiles.foreach(purgeFolder)
       if (file.exists && !file.delete) throw new Exception(s"Unable to delete ${file.getAbsolutePath}")
-      file.delete()
     }
 
     def initialize(): Unit = {
