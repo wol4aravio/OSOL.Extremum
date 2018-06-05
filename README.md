@@ -56,6 +56,8 @@ Besides, there are several blocks which mostly play support role:
 Current module contains implementation of algorithmic cores (JVM, written in scala, and .Net, written in C#, versions). These cores provide basic functionality for algorithm development and further usage. 
 
 Version history:
+* *Ver. № 0.0.6.0*
+	* state logging feature
 * *Ver. № 0.0.5.1*
 	* algorithms are described as a transition graph between nodes, which represent steps of optimization procedure,
 	* basic vector arithmetic,
@@ -65,7 +67,6 @@ Version history:
 	* dummy examples how to create an algorithm using cores.
 
 **Planned Features**
-* Logging nodes,
 * Automated testing on general benchmarks functions,
 * A/B testing of different algorithms,
 * "continue" mode.
