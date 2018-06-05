@@ -33,15 +33,18 @@ namespace OSOL.Extremum.Apps.DotNet
             
             [Option('o', "output", Default = "json", HelpText = "Output form")]
             public string OutputForm { get; set; }
+            
+            [Option('l', "logStates", Default = "_none", HelpText = "Log states")]
+            public string LogStates { get; set; }
         }
 
         static RealVector RunRealVectorAlgorithm(
             Algorithm<RealVector, double, RealVector> algorithm, 
             RealRemoteFunction f, 
-            Dictionary<string, Tuple<double, double>> area)
+            Dictionary<string, Tuple<double, double>> area, string logStates)
         {
             f.Initialize();
-            var result = algorithm.Work(x => f.Calculate(x), area);
+            var result = algorithm.Work(x => f.Calculate(x), area, logStates);
             f.Terminate();
             return result;
         }
@@ -72,6 +75,9 @@ namespace OSOL.Extremum.Apps.DotNet
             var algConfig = JObject.Parse(File.ReadAllText(opts.AlgorithmConfig));
             var language = algConfig["language"].Value<string>();
             var name = algConfig["algorithm"].Value<string>();
+            var logStates = algConfig["logStates"].Value<string>();
+            if (string.Equals(logStates, "_none"))
+                logStates = null;
             
             var taskConfig = JObject.Parse(File.ReadAllText(opts.TaskConfig));
             var area = new Dictionary<string, Tuple<Double, Double>>();
@@ -89,7 +95,7 @@ namespace OSOL.Extremum.Apps.DotNet
                 var algorithm = Algorithms.CSharp.RandomSearch.CreateFixedStepRandomSearch(radius, maxTime);
                 
                 var f = new RealRemoteFunction(opts.TaskConfig, opts.Port, opts.Field);
-                var result = RunRealVectorAlgorithm(algorithm, f, area);
+                var result = RunRealVectorAlgorithm(algorithm, f, area, logStates);
                 
                 SaveRealVectorResult(result, opts);
                 return;
@@ -102,7 +108,7 @@ namespace OSOL.Extremum.Apps.DotNet
                 var algorithm = Algorithms.FSharp.RandomSearch.CreateFixedStepRandomSearch(radius, maxTime);
                 
                 var f = new RealRemoteFunction(opts.TaskConfig, opts.Port, opts.Field);
-                var result = RunRealVectorAlgorithm(algorithm, f, area);
+                var result = RunRealVectorAlgorithm(algorithm, f, area, logStates);
 
                 SaveRealVectorResult(result, opts);
                 return;
@@ -117,7 +123,7 @@ namespace OSOL.Extremum.Apps.DotNet
                 var algorithm = Algorithms.CSharp.DifferentialEvolution.CreateDifferentialEvolution(populationSize, weightingFactor, crossoverRate, maxTime);
                 
                 var f = new RealRemoteFunction(opts.TaskConfig, opts.Port, opts.Field);
-                var result = RunRealVectorAlgorithm(algorithm, f, area);
+                var result = RunRealVectorAlgorithm(algorithm, f, area, logStates);
                 
                 SaveRealVectorResult(result, opts);
                 return;
