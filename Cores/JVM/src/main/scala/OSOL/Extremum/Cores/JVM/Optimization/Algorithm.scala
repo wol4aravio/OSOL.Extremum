@@ -13,6 +13,8 @@ final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]]
 
   private var currentNode: GeneralNode[Base, FuncType, V] = null
 
+  var writers: Seq[Any => JsValue] = Seq.empty
+
   def reset(): Unit = {
     state = new State()
     currentNode = null
@@ -24,7 +26,7 @@ final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]]
   }
 
   def work(f: Map[String, FuncType] => FuncType, area: Area, logStates: Option[String] = None): V = {
-    val logger = new Optimization.Algorithm.Logger[Base, FuncType, V](logStates)
+    val logger = new Optimization.Algorithm.Logger[Base, FuncType, V](logStates, writers)
     logger.initialize()
 
     initialize(f, area)
@@ -43,13 +45,13 @@ final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]]
     state.result.get
   }
 
-  def serializeState(): JsValue = this.state.toJson()
+  def serializeState(): JsValue = this.state.toJson(writers)
 
 }
 
 object Algorithm {
 
-  case class Logger[Base, FuncType, V <: Optimizable[Base, FuncType]](logLocation: Option[String]) {
+  case class Logger[Base, FuncType, V <: Optimizable[Base, FuncType]](logLocation: Option[String], writers: Seq[Any => JsValue]) {
 
     var counter = 1
 
@@ -70,7 +72,7 @@ object Algorithm {
       if (logLocation.isDefined){
         state.setParameter("_nodeId", node.nodeId)
         val printer = new FileWriter(s"${logLocation.get}/$counter.json")
-        printer.write(state.toJson().prettyPrint)
+        printer.write(state.toJson(writers).prettyPrint)
         printer.close()
         counter += 1
       }
