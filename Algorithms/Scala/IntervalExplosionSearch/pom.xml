@@ -4,7 +4,7 @@
 
     <groupId>com.github.wol4aravio</groupId>
     <artifactId>OSOL.Extremum.Algorithms.Scala.IntervalExplosionSearch_2.12</artifactId>
-    <version>0.0.5.1-SNAPSHOT</version>
+    <version>0.0.6.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>OSOL.Extremum.Algorithms.Scala.IntervalExplosionSearch</name>
     <description>Open-Source Optimization Library - Extremum. Interval Explosion Search</description>
@@ -59,7 +59,7 @@
         <dependency>
             <groupId>com.github.wol4aravio</groupId>
             <artifactId>OSOL.Extremum.Cores.JVM_2.12</artifactId>
-            <version>0.0.5.1-SNAPSHOT</version>
+            <version>0.0.6.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
