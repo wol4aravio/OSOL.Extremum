@@ -28,18 +28,18 @@ final class Algorithm[Base, FuncType, V <: Optimizable[Base, FuncType]]
     logger.initialize()
 
     initialize(f, area)
-    logger(state)
+    logger(state, currentNode)
     var continue = true
     while (continue) {
       currentNode.process(f, area, state)
-      logger(state)
+      logger(state, currentNode)
       val currentConditionValue = currentNode.getCurrentCondition(f, area, state)
       val nextNode = transitionMatrix.find { case (currentId, condition, _) =>
         currentId == currentNode.nodeId && condition == currentConditionValue }
       if (nextNode.isDefined) { currentNode = nodes.find(_.nodeId == nextNode.get._3).get }
       else { continue = false }
     }
-    logger(state)
+    logger(state, currentNode)
     state.result.get
   }
 
@@ -66,8 +66,9 @@ object Algorithm {
       }
     }
 
-    def apply(state: State[Base, FuncType, V]): Unit ={
+    def apply(state: State[Base, FuncType, V], node: GeneralNode[Base, FuncType, V]): Unit ={
       if (logLocation.isDefined){
+        state.setParameter("_nodeId", node.nodeId)
         val printer = new FileWriter(s"${logLocation.get}/$counter.json")
         printer.write(state.toJson().prettyPrint)
         printer.close()

@@ -34,7 +34,12 @@ class State[Base, FuncType, V <: Optimizable[Base, FuncType]] {
               case e: Exception => {
                 try { JsArray(v.asInstanceOf[Traversable[V]].map(_.convertToJson()).toVector) }
                 catch {
-                  case e: Exception => throw new Exception(s"Can't serialize ($k, $v)")
+                  case e: Exception => {
+                    try { v.toJson }
+                    catch {
+                      case e: Exception => throw new Exception(s"Can't serialize ($k, $v)")
+                    }
+                  }
                 }
               }
             }
