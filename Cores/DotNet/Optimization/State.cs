@@ -60,6 +60,8 @@ namespace OSOL.Extremum.Cores.DotNet.Optimization
                     .Case((bool x) => temp[p.Key] = x)
                     .Case((double x) => temp[p.Key] = x)
                     .Case((int x) => temp[p.Key] = x)
+                    .Case((double[] x) => temp[p.Key] = new JArray(x))
+                    .Case((int[] x) => temp[p.Key] = new JArray(x))
                     .Case((DateTime x) => temp[p.Key] = x)
                     .Case((TV x) => temp[p.Key] = x.ConvertToJson())
                     .Case((Dictionary<string, double> d) => temp[p.Key] = new JArray(d))
