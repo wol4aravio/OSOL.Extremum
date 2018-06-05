@@ -56,9 +56,9 @@ Besides, there are several blocks which mostly play support role:
 Current module contains implementation of algorithmic cores (JVM, written in scala, and .Net, written in C#, versions). These cores provide basic functionality for algorithm development and further usage. 
 
 Version history:
-* *Ver. № 0.0.6.0*
+* *Ver. № 0.0.6.\**
 	* state logging feature
-* *Ver. № 0.0.5.1*
+* *Ver. № 0.0.5.\**
 	* algorithms are described as a transition graph between nodes, which represent steps of optimization procedure,
 	* basic vector arithmetic,
 	* unified form of GoRN - generator of random numbers,
