@@ -17,7 +17,7 @@ class State[Base, FuncType, V <: Optimizable[Base, FuncType]] {
     else throw new NoSuchParameterException(name)
   }
 
-  def toJson(): JsValue = {
+  def toJson(writers: Seq[Any => JsValue]): JsValue = {
     JsObject(
       "result" -> {
         if (result.isDefined) result.get.convertToJson() else JsString("None")
@@ -29,13 +29,24 @@ class State[Base, FuncType, V <: Optimizable[Base, FuncType]] {
           case i: java.lang.Integer => JsNumber(i)
           case l: java.lang.Long => JsNumber(l)
           case _ => {
-            try {v.asInstanceOf[V].convertToJson()}
+            try {
+              v.asInstanceOf[V].convertToJson()
+            }
             catch {
               case e: Exception => {
-                try { JsArray(v.asInstanceOf[Traversable[V]].map(_.convertToJson()).toVector) }
+                try {
+                  JsArray(v.asInstanceOf[Traversable[V]].map(_.convertToJson()).toVector)
+                }
                 catch {
                   case e: Exception => {
-                    try { v.toJson }
+                    try {
+                      val writerResluts = writers.map { w =>
+                        try { Some(w(v)) }
+                        catch { case _: Exception => None }
+                      }
+                      if (writerResluts.length > 0) writerResluts.filter(_.isDefined).head.get
+                      else throw new Exception(s"Can't serialize ($k, $v)")
+                    }
                     catch {
                       case e: Exception => throw new Exception(s"Can't serialize ($k, $v)")
                     }
