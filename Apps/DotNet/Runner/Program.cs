@@ -75,7 +75,7 @@ namespace OSOL.Extremum.Apps.DotNet
             var algConfig = JObject.Parse(File.ReadAllText(opts.AlgorithmConfig));
             var language = algConfig["language"].Value<string>();
             var name = algConfig["algorithm"].Value<string>();
-            var logStates = algConfig["logStates"].Value<string>();
+            var logStates = opts.LogStates;
             if (string.Equals(logStates, "_none"))
                 logStates = null;
             
