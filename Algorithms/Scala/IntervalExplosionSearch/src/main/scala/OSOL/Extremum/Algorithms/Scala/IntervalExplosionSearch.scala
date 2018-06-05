@@ -7,6 +7,7 @@ import OSOL.Extremum.Cores.JVM.Random.GoRN
 import OSOL.Extremum.Cores.JVM.Arithmetics.Interval
 import OSOL.Extremum.Cores.JVM.Vectors.IntervalVector
 import OSOL.Extremum.Cores.JVM.Vectors.IntervalVector.Converters._
+import spray.json._
 
 object IntervalExplosionSearch {
 
@@ -30,6 +31,11 @@ object IntervalExplosionSearch {
       val moved_2 = b2.moveByScala(selected_2).constrain(area)
       (Bomb(moved_1, moved_1.getPerformance(f)), Bomb(moved_2, moved_2.getPerformance(f)))
     }
+
+    def toJson(): JsValue = JsObject(
+        "Bomb" -> JsObject(
+          "location" -> this.location.convertToJson(),
+          "efficiency" -> JsNumber(this.efficiency)))
 
   }
 
@@ -142,7 +148,14 @@ object IntervalExplosionSearch {
       (5, Some(1), 6)
     )
 
-    new Algorithm[IntervalVector, Interval, IntervalVector](nodes = ES_nodes, transitionMatrix = ES_transitionMatrix)
+    val ies = new Algorithm[IntervalVector, Interval, IntervalVector](nodes = ES_nodes, transitionMatrix = ES_transitionMatrix)
+    ies.writers = Seq(
+      bombs => JsArray(bombs.asInstanceOf[Seq[Bomb]].map(_.toJson()).toVector),
+      maxPower => JsArray(maxPower.asInstanceOf[Seq[Map[String, Double]]]
+        .map(map => JsArray(map.map{ case (k, v) => JsObject(k -> JsNumber(v))}.toVector)).toVector)
+    )
+
+    ies
   }
 
 }

@@ -1,0 +1,425 @@
+{
+  "result": "None",
+  "parameters": [{
+    "bombs": [{
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": -0.12597574715438448,
+                  "upper_bound": -0.12597574715438448
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.01586988887110541
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": 0.244359680123113,
+                  "upper_bound": 0.244359680123113
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.0597116532698701
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": -0.7533811307590099,
+                  "upper_bound": -0.7533811307590099
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.5675831281837244
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": 0.6490393564479462,
+                  "upper_bound": 0.6490393564479462
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.42125208621836413
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": -0.667730902008788,
+                  "upper_bound": -0.667730902008788
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.44586455749746967
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": 0.22756206085270986,
+                  "upper_bound": 0.22756206085270986
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.05178449153953243
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": -0.5798328508598831,
+                  "upper_bound": -0.5798328508598831
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.33620613493629947
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": 0.46851610423476114,
+                  "upper_bound": 0.46851610423476114
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.21950733992731758
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": -0.4443515603898228,
+                  "upper_bound": -0.4443515603898228
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.19744830922087037
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": 0.03767788094136436,
+                  "upper_bound": 0.03767788094136436
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.0014196227122316276
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": -0.3379708125349819,
+                  "upper_bound": -0.3379708125349819
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.11422427012555587
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": 0.3249363498192395,
+                  "upper_bound": 0.3249363498192395
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.1055836314338512
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": -0.09957615281561177,
+                  "upper_bound": -0.09957615281561177
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.009915410209558068
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": 0.243419475771591,
+                  "upper_bound": 0.243419475771591
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.059253041184916186
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": -0.1242423188513361,
+                  "upper_bound": -0.1242423188513361
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.015436153793557067
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": 0.009369497121205652,
+                  "upper_bound": 0.009369497121205652
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.000087787476304281
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": -0.0865355020413863,
+                  "upper_bound": -0.0865355020413863
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.007488393113554772
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": 0.10335503794539895,
+                  "upper_bound": 0.10335503794539895
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 0.010682263868694857
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": 6.379303549489984E-7,
+                  "upper_bound": 6.379303549489984E-7
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 4.069551377653551E-13
+      }
+    }, {
+      "Bomb": {
+        "location": {
+          "IntervalVector": {
+            "elements": [{
+              "key": "x",
+              "value": {
+                "Interval": {
+                  "lower_bound": 6.379303549489984E-7,
+                  "upper_bound": 6.379303549489984E-7
+                }
+              }
+            }]
+          }
+        },
+        "efficiency": 4.069551377653551E-13
+      }
+    }]
+  }, {
+    "rMax": [{
+      "key": "x",
+      "value": 1.0
+    }, {
+      "key": "y",
+      "value": 1.0
+    }, {
+      "key": "z",
+      "value": 1.0
+    }]
+  }, {
+    "maxPower": [[{
+      "x": 0.0
+    }, {
+      "y": 0.0
+    }, {
+      "z": 0.0
+    }], [{
+      "x": 0.1111111111111111
+    }, {
+      "y": 0.1111111111111111
+    }, {
+      "z": 0.1111111111111111
+    }], [{
+      "x": 0.2222222222222222
+    }, {
+      "y": 0.2222222222222222
+    }, {
+      "z": 0.2222222222222222
+    }], [{
+      "x": 0.3333333333333333
+    }, {
+      "y": 0.3333333333333333
+    }, {
+      "z": 0.3333333333333333
+    }], [{
+      "x": 0.4444444444444444
+    }, {
+      "y": 0.4444444444444444
+    }, {
+      "z": 0.4444444444444444
+    }], [{
+      "x": 0.5555555555555556
+    }, {
+      "y": 0.5555555555555556
+    }, {
+      "z": 0.5555555555555556
+    }], [{
+      "x": 0.6666666666666666
+    }, {
+      "y": 0.6666666666666666
+    }, {
+      "z": 0.6666666666666666
+    }], [{
+      "x": 0.7777777777777778
+    }, {
+      "y": 0.7777777777777778
+    }, {
+      "z": 0.7777777777777778
+    }], [{
+      "x": 0.8888888888888888
+    }, {
+      "y": 0.8888888888888888
+    }, {
+      "z": 0.8888888888888888
+    }], [{
+      "x": 1.0
+    }, {
+      "y": 1.0
+    }, {
+      "z": 1.0
+    }]]
+  }, {
+    "startTime": 58055563994846
+  }, {
+    "maxBombs": 10
+  }, {
+    "_nodeId": 3
+  }]
+}
