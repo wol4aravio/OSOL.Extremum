@@ -123,13 +123,30 @@ object Runner extends App {
           val Seq(JsString(name), JsNumber(value)) = j.asJsObject().getFields("name", "value")
           (name, new java.lang.Double(value.toDouble))
         }.toMap
-        val algorithm = Algorithms.Scala.IntervalExplosionSearch.createIntervalExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble)
+        val algorithm =
+          if (conf.seed.isEmpty) Algorithms.Scala.IntervalExplosionSearch.createIntervalExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble)
+          else {
+            val seed: Seq[IntervalVector] = scala.io.Source.fromFile(conf.seed()).
+              getLines()
+              .mkString("\n")
+              .parseJson
+              .asInstanceOf[JsArray]
+              .elements
+              .map(_.convertTo[IntervalVector])
+            Algorithms.Scala.IntervalExplosionSearch.createIntervalExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble, Some(seed))
+          }
 
         val f = new IntervalRemoteFunction(conf.task(), conf.port(), conf.field())
         val result = runIntervalVectorAlgorithm(algorithm, f, area, logStates)
 
         saveIntervalVectorResult(result, conf.output(), conf.result())
         saveRealVectorResult(result.toBasicForm().elements, conf.output(), conf.result() + "_real")
+
+        val seedValues =
+          new JsArray(Algorithms.Scala.IntervalExplosionSearch.extractSeed(algorithm).map(_.convertToJson()).toVector)
+        val writer = new FileWriter(conf.result() + "_seed.json")
+        writer.write(seedValues.prettyPrint)
+        writer.close()
 
       }
       case _ => throw new Exception("Unsupported Algorithm")
