@@ -39,20 +39,27 @@ object IntervalExplosionSearch {
 
   }
 
-  private final class GenerateInitialBombsNode(override val nodeId: java.lang.Integer) extends GeneralNode[IntervalVector, Interval, IntervalVector](nodeId) {
+  private final class GenerateInitialBombsNode(override val nodeId: java.lang.Integer, seed: Option[Seq[IntervalVector]]) extends GeneralNode[IntervalVector, Interval, IntervalVector](nodeId) {
 
     override def initialize(f: Map[String, Interval] => Interval, area: Area, state: State[IntervalVector, Interval, IntervalVector]): Unit = {
 
       val maxBombs = state.getParameter[java.lang.Integer](maxBombsName)
-      val bombs: Seq[Bomb] = (1 to maxBombs).map { _ =>
-        val v: IntervalVector = area.mapValues { case (a, b) =>
-          val p1 = GoRN.getContinuousUniform(a, b)
-          val p2 = GoRN.getContinuousUniform(a, b)
-          if (p1 <= p2) Interval(p1, p2)
-          else Interval(p2, p1)
+      val bombs: Seq[Bomb] =
+        if (seed.isDefined) {
+          if(seed.get.length != state.getParameter[Int](maxBombsName)) throw new Exception("Inappropriate seed")
+          seed.get.map {v => Bomb(v, v.getPerformance(f))}.sortBy(_.efficiency)
         }
-        Bomb(v, v.getPerformance(f))
-      }.sortBy(_.efficiency)
+        else {
+          (1 to maxBombs).map { _ =>
+            val v: IntervalVector = area.mapValues { case (a, b) =>
+              val p1 = GoRN.getContinuousUniform(a, b)
+              val p2 = GoRN.getContinuousUniform(a, b)
+              if (p1 <= p2) Interval(p1, p2)
+              else Interval(p2, p1)
+            }
+            Bomb(v, v.getPerformance(f))
+          }.sortBy(_.efficiency)
+        }
 
       state.setParameter(bombsName, bombs)
 
@@ -127,10 +134,10 @@ object IntervalExplosionSearch {
 
   }
 
-  def createIntervalExplosionSearch(maxBombs: java.lang.Integer, rMax: Map[String, java.lang.Double], maxTime: java.lang.Double): Algorithm[IntervalVector, Interval, IntervalVector] = {
+  def createIntervalExplosionSearch(maxBombs: java.lang.Integer, rMax: Map[String, java.lang.Double], maxTime: java.lang.Double, seed: Option[Seq[IntervalVector]] = Option.empty): Algorithm[IntervalVector, Interval, IntervalVector] = {
     val ES_nodes = Seq(
       new SetParametersNode[IntervalVector, Interval, IntervalVector](nodeId = 0, parameters = Map(maxBombsName -> maxBombs, rMaxName -> rMax)),
-      new GenerateInitialBombsNode(nodeId = 1),
+      new GenerateInitialBombsNode(nodeId = 1, seed),
       new PowerCalculationNode(nodeId = 2),
       new ExplosionNode(nodeId = 3),
       new RenewalNode(nodeId = 4),
