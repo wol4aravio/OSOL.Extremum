@@ -46,8 +46,9 @@ object IntervalExplosionSearch {
       val maxBombs = state.getParameter[java.lang.Integer](maxBombsName)
       val bombs: Seq[Bomb] =
         if (seed.isDefined) {
-          if(seed.get.length != state.getParameter[Int](maxBombsName)) throw new Exception("Inappropriate seed")
-          seed.get.map {v => Bomb(v, v.getPerformance(f))}.sortBy(_.efficiency)
+          val maxBombs = state.getParameter[Int](maxBombsName)
+          if(seed.get.length < maxBombs) throw new Exception("Inappropriate seed")
+          seed.get.map {v => Bomb(v, v.getPerformance(f))}.sortBy(_.efficiency).take(maxBombs)
         }
         else {
           (1 to maxBombs).map { _ =>
