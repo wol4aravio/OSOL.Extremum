@@ -145,7 +145,7 @@ Current section will provide information about algorithms that are currently imp
 | Name | Description | Scala | Java |  C#  |  F#  | Supports seed value |
 | ---- | ----------- | :---: | :--: | :--: | :--: | :-----------------: |
 | Random Search (RS) | [Wiki](https://en.wikipedia.org/wiki/Random_search) | + | + | + | + | Scala |
-| Interval Explosion Search (IES) | [Trudy MAI](http://trudymai.ru/upload/iblock/b78/b783155b46dd299b9cecc91637821acc.pdf), [South Ural State University Bulletin](http://mmp.susu.ru/pdf/v9n3st5.pdf) | + | - | - | - |No |
+| Interval Explosion Search (IES) | [Trudy MAI](http://trudymai.ru/upload/iblock/b78/b783155b46dd299b9cecc91637821acc.pdf), [South Ural State University Bulletin](http://mmp.susu.ru/pdf/v9n3st5.pdf) | + | - | - | - | Scala |
 | Differential Evolution (DE) | no link | - | - | + | - | No |
 
 ## Random Search
