@@ -64,7 +64,7 @@ object Algorithm {
       if (logLocation.isDefined) {
         val location = new File(logLocation.get)
         if (location.exists()) purgeFolder(location)
-        else location.mkdir()
+        location.mkdir()
       }
     }
 
