@@ -165,4 +165,7 @@ object IntervalExplosionSearch {
     ies
   }
 
+  def extractSeed(ies: Algorithm[IntervalVector, Interval, IntervalVector]): Seq[IntervalVector] =
+    ies.state.getParameter[Seq[Bomb]](bombsName).map(_.location)
+
 }
