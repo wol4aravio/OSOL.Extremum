@@ -152,20 +152,39 @@ Current section will provide information about algorithms that are currently imp
 
 RS in one of the simplest metaheuristic optimization algorithm. Its idea is to sample points near the current one (which is treated as an approximate solution). When point with better value of target function is found algorithms starts using it as the approximate solution and the whole procedure repeats until termination criterion is met.
 
+### Config example
+
+```json
+{
+	"language": "Language Name",
+	"algorithm": "RS",
+	"radius": 1.0,
+	"maxTime": 60.0	
+}
+```
+
+Notes:
+* available languages are: "Scala", "Java", "CSharp", "FSharp",
+* "RS" can be substituted with the full name "RandomSearch".
+
+### Benchmark Results
+
+**Under Construction**
+
 ## Interval Explosion Search
 
 IES is built using the following heuristics:
 * boxes with bad value of fitness function can move for longer distances,
 * boxes with good value of fitness functions should not move for long distances.
 
-** Under construction **
+**Under Construction**
 
 ## Differential Evolution
 
-** Under construction **
+**Under Construction**
 
 
 # Articles about OSOL.Extremum projects
 
-** Under construction **
+**Under Construction**
 
