@@ -177,6 +177,8 @@ IES is built using the following heuristics:
 * boxes with bad value of fitness function can move for longer distances,
 * boxes with good value of fitness functions should not move for long distances.
 
+Thus, IES tries to balance between global search due to the existence of the opportunity to make relatively huge gaps coupled with an ability to make local search.
+
 ### Config example
 
 ```json
