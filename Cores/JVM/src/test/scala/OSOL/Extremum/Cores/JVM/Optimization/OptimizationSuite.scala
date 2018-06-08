@@ -1,5 +1,7 @@
 package OSOL.Extremum.Cores.JVM.Optimization
 
+import java.io.File
+
 import OSOL.Extremum.Cores.JVM.Optimization.Exceptions.ParameterAlreadyExistsException
 import OSOL.Extremum.Cores.JVM.Optimization.Nodes.{GeneralNode, SetParametersNode, TerminationViaMaxIterations, TerminationViaMaxTime}
 import OSOL.Extremum.Cores.JVM.Random.GoRN

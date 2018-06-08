@@ -7,6 +7,7 @@ import OSOL.Extremum.Cores.JVM.Random.GoRN
 import OSOL.Extremum.Cores.JVM.Arithmetics.Interval
 import OSOL.Extremum.Cores.JVM.Vectors.IntervalVector
 import OSOL.Extremum.Cores.JVM.Vectors.IntervalVector.Converters._
+import spray.json._
 
 object IntervalExplosionSearch {
 
@@ -31,22 +32,35 @@ object IntervalExplosionSearch {
       (Bomb(moved_1, moved_1.getPerformance(f)), Bomb(moved_2, moved_2.getPerformance(f)))
     }
 
+    def toJson(): JsValue = JsObject(
+        "Bomb" -> JsObject(
+          "location" -> this.location.convertToJson(),
+          "efficiency" -> JsNumber(this.efficiency)))
+
   }
 
-  private final class GenerateInitialBombsNode(override val nodeId: java.lang.Integer) extends GeneralNode[IntervalVector, Interval, IntervalVector](nodeId) {
+  private final class GenerateInitialBombsNode(override val nodeId: java.lang.Integer, seed: Option[Seq[IntervalVector]]) extends GeneralNode[IntervalVector, Interval, IntervalVector](nodeId) {
 
     override def initialize(f: Map[String, Interval] => Interval, area: Area, state: State[IntervalVector, Interval, IntervalVector]): Unit = {
 
       val maxBombs = state.getParameter[java.lang.Integer](maxBombsName)
-      val bombs: Seq[Bomb] = (1 to maxBombs).map { _ =>
-        val v: IntervalVector = area.mapValues { case (a, b) =>
-          val p1 = GoRN.getContinuousUniform(a, b)
-          val p2 = GoRN.getContinuousUniform(a, b)
-          if (p1 <= p2) Interval(p1, p2)
-          else Interval(p2, p1)
+      val bombs: Seq[Bomb] =
+        if (seed.isDefined) {
+          val maxBombs = state.getParameter[Int](maxBombsName)
+          if(seed.get.length < maxBombs) throw new Exception("Inappropriate seed")
+          seed.get.map {v => Bomb(v, v.getPerformance(f))}.sortBy(_.efficiency).take(maxBombs)
         }
-        Bomb(v, v.getPerformance(f))
-      }.sortBy(_.efficiency)
+        else {
+          (1 to maxBombs).map { _ =>
+            val v: IntervalVector = area.mapValues { case (a, b) =>
+              val p1 = GoRN.getContinuousUniform(a, b)
+              val p2 = GoRN.getContinuousUniform(a, b)
+              if (p1 <= p2) Interval(p1, p2)
+              else Interval(p2, p1)
+            }
+            Bomb(v, v.getPerformance(f))
+          }.sortBy(_.efficiency)
+        }
 
       state.setParameter(bombsName, bombs)
 
@@ -121,10 +135,10 @@ object IntervalExplosionSearch {
 
   }
 
-  def createIntervalExplosionSearch(maxBombs: java.lang.Integer, rMax: Map[String, java.lang.Double], maxTime: java.lang.Double): Algorithm[IntervalVector, Interval, IntervalVector] = {
+  def createIntervalExplosionSearch(maxBombs: java.lang.Integer, rMax: Map[String, java.lang.Double], maxTime: java.lang.Double, seed: Option[Seq[IntervalVector]] = Option.empty): Algorithm[IntervalVector, Interval, IntervalVector] = {
     val ES_nodes = Seq(
       new SetParametersNode[IntervalVector, Interval, IntervalVector](nodeId = 0, parameters = Map(maxBombsName -> maxBombs, rMaxName -> rMax)),
-      new GenerateInitialBombsNode(nodeId = 1),
+      new GenerateInitialBombsNode(nodeId = 1, seed),
       new PowerCalculationNode(nodeId = 2),
       new ExplosionNode(nodeId = 3),
       new RenewalNode(nodeId = 4),
@@ -142,7 +156,17 @@ object IntervalExplosionSearch {
       (5, Some(1), 6)
     )
 
-    new Algorithm[IntervalVector, Interval, IntervalVector](nodes = ES_nodes, transitionMatrix = ES_transitionMatrix)
+    val ies = new Algorithm[IntervalVector, Interval, IntervalVector](nodes = ES_nodes, transitionMatrix = ES_transitionMatrix)
+    ies.writers = Seq(
+      bombs => JsArray(bombs.asInstanceOf[Seq[Bomb]].map(_.toJson()).toVector),
+      maxPower => JsArray(maxPower.asInstanceOf[Seq[Map[String, Double]]]
+        .map(map => JsArray(map.map{ case (k, v) => JsObject(k -> JsNumber(v))}.toVector)).toVector)
+    )
+
+    ies
   }
+
+  def extractSeed(ies: Algorithm[IntervalVector, Interval, IntervalVector]): Seq[IntervalVector] =
+    ies.state.getParameter[Seq[Bomb]](bombsName).map(_.location)
 
 }

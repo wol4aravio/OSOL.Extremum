@@ -20,6 +20,7 @@ object Runner extends App {
     val field = opt[String](required = true)
     val result = opt[String](required = true)
     val output = opt[String](default = Some("json"))
+    val logStates = opt[String](default = None)
     val seed = opt[String](default = None)
     verify()
   }
@@ -31,18 +32,18 @@ object Runner extends App {
 
   def runRealVectorAlgorithm(algorithm: Algorithm[RealVector, java.lang.Double, RealVector],
                              f: RealRemoteFunction,
-                             area: Map[String, (java.lang.Double, java.lang.Double)]): RealVector = {
+                             area: Map[String, (java.lang.Double, java.lang.Double)], logStates: Option[String]): RealVector = {
     f.initialize()
-    val result = algorithm.work(x => f(x), area)
+    val result = algorithm.work(x => f(x), area, logStates)
     f.terminate()
     result
   }
 
   def runIntervalVectorAlgorithm(algorithm: Algorithm[IntervalVector, Interval, IntervalVector],
                                  f: IntervalRemoteFunction,
-                                 area: Map[String, (java.lang.Double, java.lang.Double)]): IntervalVector = {
+                                 area: Map[String, (java.lang.Double, java.lang.Double)], logStates: Option[String]): IntervalVector = {
     f.initialize()
-    val result = algorithm.work(x => f(x), area)
+    val result = algorithm.work(x => f(x), area, logStates)
     f.terminate()
     result
   }
@@ -90,6 +91,8 @@ object Runner extends App {
         (name, (new java.lang.Double(min.toDouble), new java.lang.Double(max.toDouble)))
       }.toMap[String, (java.lang.Double, java.lang.Double)]
 
+    val logStates = conf.logStates.toOption
+
     (language, algorithm) match {
       case ("Scala", "RS") | ("Scala", "RandomSearch") => {
         val Seq(JsNumber(radius), JsNumber(maxTime)) = algConfig.getFields("radius", "maxTime")
@@ -101,7 +104,7 @@ object Runner extends App {
           }
 
         val f = new RealRemoteFunction(conf.task(), conf.port(), conf.field())
-        val result = runRealVectorAlgorithm(algorithm, f, area)
+        val result = runRealVectorAlgorithm(algorithm, f, area, logStates)
 
         saveRealVectorResult(result, conf.output(), conf.result())
       }
@@ -110,7 +113,7 @@ object Runner extends App {
         val algorithm = Algorithms.Java.RandomSearch.createFixedStepRandomSearch(radius.toDouble, maxTime.toDouble)
 
         val f = new RealRemoteFunction(conf.task(), conf.port(), conf.field())
-        val result = runRealVectorAlgorithm(algorithm, f, area)
+        val result = runRealVectorAlgorithm(algorithm, f, area, logStates)
 
         saveRealVectorResult(result, conf.output(), conf.result())
       }
@@ -120,13 +123,30 @@ object Runner extends App {
           val Seq(JsString(name), JsNumber(value)) = j.asJsObject().getFields("name", "value")
           (name, new java.lang.Double(value.toDouble))
         }.toMap
-        val algorithm = Algorithms.Scala.IntervalExplosionSearch.createIntervalExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble)
+        val algorithm =
+          if (conf.seed.isEmpty) Algorithms.Scala.IntervalExplosionSearch.createIntervalExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble)
+          else {
+            val seed: Seq[IntervalVector] = scala.io.Source.fromFile(conf.seed()).
+              getLines()
+              .mkString("\n")
+              .parseJson
+              .asInstanceOf[JsArray]
+              .elements
+              .map(_.convertTo[IntervalVector])
+            Algorithms.Scala.IntervalExplosionSearch.createIntervalExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble, Some(seed))
+          }
 
         val f = new IntervalRemoteFunction(conf.task(), conf.port(), conf.field())
-        val result = runIntervalVectorAlgorithm(algorithm, f, area)
+        val result = runIntervalVectorAlgorithm(algorithm, f, area, logStates)
 
         saveIntervalVectorResult(result, conf.output(), conf.result())
         saveRealVectorResult(result.toBasicForm().elements, conf.output(), conf.result() + "_real")
+
+        val seedValues =
+          new JsArray(Algorithms.Scala.IntervalExplosionSearch.extractSeed(algorithm).map(_.convertToJson()).toVector)
+        val writer = new FileWriter(conf.result() + "_seed.json")
+        writer.write(seedValues.prettyPrint)
+        writer.close()
 
       }
       case _ => throw new Exception("Unsupported Algorithm")

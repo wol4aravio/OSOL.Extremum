@@ -56,7 +56,9 @@ Besides, there are several blocks which mostly play support role:
 Current module contains implementation of algorithmic cores (JVM, written in scala, and .Net, written in C#, versions). These cores provide basic functionality for algorithm development and further usage. 
 
 Version history:
-* *Ver. № 0.0.5.1*
+* *Ver. № 0.0.6.\**
+	* state logging feature
+* *Ver. № 0.0.5.\**
 	* algorithms are described as a transition graph between nodes, which represent steps of optimization procedure,
 	* basic vector arithmetic,
 	* unified form of GoRN - generator of random numbers,
@@ -65,7 +67,6 @@ Version history:
 	* dummy examples how to create an algorithm using cores.
 
 **Planned Features**
-* Logging nodes,
 * Automated testing on general benchmarks functions,
 * A/B testing of different algorithms,
 * "continue" mode.
@@ -144,7 +145,7 @@ Current section will provide information about algorithms that are currently imp
 | Name | Description | Scala | Java |  C#  |  F#  | Supports seed value |
 | ---- | ----------- | :---: | :--: | :--: | :--: | :-----------------: |
 | Random Search (RS) | [Wiki](https://en.wikipedia.org/wiki/Random_search) | + | + | + | + | Scala |
-| Interval Explosion Search (IES) | [Trudy MAI](http://trudymai.ru/upload/iblock/b78/b783155b46dd299b9cecc91637821acc.pdf), [South Ural State University Bulletin](http://mmp.susu.ru/pdf/v9n3st5.pdf) | + | - | - | - |No |
+| Interval Explosion Search (IES) | [Trudy MAI](http://trudymai.ru/upload/iblock/b78/b783155b46dd299b9cecc91637821acc.pdf), [South Ural State University Bulletin](http://mmp.susu.ru/pdf/v9n3st5.pdf) | + | - | - | - | Scala |
 | Differential Evolution (DE) | no link | - | - | + | - | No |
 
 ## Random Search

@@ -74,7 +74,7 @@ class DynamicSystem:
     @staticmethod
     def measure_error(v):
         if isinstance(v, Interval):
-            return v.abs().upper_bound
+            return v.abs().lower_bound #.upper_bound
         else:
             return np.abs(v)
 
