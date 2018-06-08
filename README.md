@@ -16,18 +16,6 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 	* [PyTools](#pytools)
 	* [Algorithms](#algorithms)
 	* [Apps](#apps)
-* [Usage info](#usage-info)
-	* [Out-of-box usage](#out-of-box-usage)
-	* [Task preparation](#task-preparation)
-		* [Unconstrained optimization](#unconstrained-optimization)
-		* [Openloop control](#openloop-control)
-	* [Algorithm development](#algorithm-develoment)
-		* [JVM Core](#jvm-core)
-			* [Scala](#scala)
-			* [Java](#java)
-		* [.Net Core](#net-core)
-			* [C#](#c)
-			* [F#](#f)
 * [Implemented algorithms](#implemented-algorithms)
 	* [Table of algorithms](#table-of-algorithms)
 	* [Random Search](#random-search)
@@ -109,32 +97,6 @@ Current module contains implementation of various apps built using this project.
 List of apps:
 * Runner (JVM) - used to run [implemented algorithms](#implemented-algorithms) for JVM Core,
 * Runner (.Net) - used to run [implemented algorithms](#implemented-algorithms) for .Net Core.
-
-# Usage info
-
-** Under construction **
-
-## Out-of-box usage
-
-## Task preparation
-
-### Unconstrained optimization
-
-### Openloop control
-
-## Algorithm development
-
-### JVM CORE
-
-#### Scala
-
-#### Java
-
-### .Net Core
-
-#### C\#
-
-#### F\#
 
 # Implemented algorithms
 <p align="justify">
