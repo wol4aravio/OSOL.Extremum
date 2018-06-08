@@ -56,6 +56,7 @@ Besides, there are several blocks which mostly play support role:
 Current module contains implementation of algorithmic cores (JVM, written in scala, and .Net, written in C#, versions). These cores provide basic functionality for algorithm development and further usage. 
 
 Version history:
+
 *Ver. № 0.0.7.\**
 - [ ] automated testing on general benchmarks functions,
 - [ ] A/B testing of different algorithms,
@@ -76,6 +77,7 @@ Version history:
 ## PyTools
 
 Version history:
+
 *Ver. № 0.5.\**
 - [ ] supported tasks: optimal stochastic control.
 
