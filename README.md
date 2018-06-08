@@ -56,46 +56,45 @@ Besides, there are several blocks which mostly play support role:
 Current module contains implementation of algorithmic cores (JVM, written in scala, and .Net, written in C#, versions). These cores provide basic functionality for algorithm development and further usage. 
 
 Version history:
-* *Ver. № 0.0.6.\**
-	* state logging feature
-* *Ver. № 0.0.5.\**
-	* algorithms are described as a transition graph between nodes, which represent steps of optimization procedure,
-	* basic vector arithmetic,
-	* unified form of GoRN - generator of random numbers,
-	* automated testing of algorithm using dummy functions,
-	* support of interval vectors (boxes) for interval optimization algorithms,
-	* dummy examples how to create an algorithm using cores.
+*Ver. № 0.0.7.\**
+- [ ] automated testing on general benchmarks functions,
+- [ ] A/B testing of different algorithms,
+- [ ] "continue" mode.
 
-**Planned Features**
-* Automated testing on general benchmarks functions,
-* A/B testing of different algorithms,
-* "continue" mode.
+**Ver. № 0.0.6.\***
+- [x] state logging feature.
+
+~~Ver. № 0.0.5.\*~~
+- [x] algorithms are described as a transition graph between nodes, which represent steps of optimization procedure,
+- [x] basic vector arithmetic,
+- [x] unified form of GoRN - generator of random numbers,
+- [x] automated testing of algorithm using dummy functions,
+- [x] support of interval vectors (boxes) for interval optimization algorithms,
+- [x] dummy examples how to create an algorithm using cores.
 
 
 ## PyTools
 
 Version history:
-* *Ver. № 0.1.0*
-	* supported tasks:
-		* unconstrained optimization,
-		* optimal openloop control,
-	* implementation of interval arithmetics,
-	* modelling of dynamic systems using Euler and Runge-Kutta discretization processes,
-	* supported types of controllers:
-		* piecewise-constant,
-		* piecewise-linear,
-		* explicit.
+*Ver. № 0.5.\**
+- [ ] supported tasks: optimal stochastic control.
 
-**Planned Features**
-* new tasks:
-	* constrained optimization,
-	* optimal controls of trajectories bundle,
-	* optimal stochastic control,
-	* linear regression task,
-* visualization of algorithms,
-* incremental optimization,
-* chain optimization,
-* improved preformance.
+*Ver. № 0.4.\**
+- [ ] visualization of algorithms,
+- [ ] incremental optimization,
+- [ ] chain optimization.
+
+*Ver. № 0.3.\**
+- [ ] supported tasks: optimal stochastic control.
+
+*Ver. № 0.2.\**
+- [ ] supported tasks: constrained optimization, linear regression task.
+
+**Ver. № 0.1.\***
+- [x] supported tasks: unconstrained optimization, optimal openloop control,
+- [x] implementation of interval arithmetics,
+- [x] modelling of dynamic systems using Euler and Runge-Kutta discretization processes,
+- [x] supported types of controllers: piecewise-constant, piecewise-linear, explicit.
 
 ## Algorithms
 
