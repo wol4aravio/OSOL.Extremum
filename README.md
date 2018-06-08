@@ -177,12 +177,64 @@ IES is built using the following heuristics:
 * boxes with bad value of fitness function can move for longer distances,
 * boxes with good value of fitness functions should not move for long distances.
 
+### Config example
+
+```json
+{
+	"language": "Language Name",
+	"algorithm": "IES",
+	"maxBombs": 20,
+	"rMax": 
+	[
+		{
+			"name": "x",
+			"value": 1.0
+		},
+		{
+			"name": "y",
+			"value": 1.0
+		},
+		{
+			"name": "z",
+			"value": 1.0
+		}
+	],
+	"maxTime": 60.0	
+}
+```
+
+Notes:
+* available language is: "Scala",
+* "IES" can be substituted with the full name "IntervalExplosionSearch".
+
+### Benchmark Results
+
 **Under Construction**
 
 ## Differential Evolution
 
 **Under Construction**
 
+### Config example
+
+```json
+{
+	"language": "Language Name",
+	"algorithm": "DE",
+	"populationSize": 10,
+	"weightingFactor": 0.5,
+	"crossoverRate": 0.75,
+	"maxTime": 60.0	
+}
+```
+
+Notes:
+* available language is: "CSharp",
+* "DE" can be substituted with the full name "DifferentialEvolution".
+
+### Benchmark Results
+
+**Under Construction**
 
 # Articles about OSOL.Extremum projects
 
