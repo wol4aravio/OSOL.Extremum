@@ -1,0 +1,17 @@
+{
+	"language": "Scala",
+	"algorithm": "IES",
+	"maxBombs": 26,
+	"rMax": [
+		{ "name": "a1", "value": 2.5 },
+		{ "name": "a2", "value": 2.5 },
+		{ "name": "a3", "value": 2.5 },
+		{ "name": "b1", "value": 2.5 },
+		{ "name": "b2", "value": 2.5 },
+		{ "name": "b3", "value": 2.5 },
+		{ "name": "c1", "value": 2.5 },
+		{ "name": "c2", "value": 2.5 },
+		{ "name": "c3", "value": 2.5 }
+	],
+	"maxTime": 3600.0
+}
