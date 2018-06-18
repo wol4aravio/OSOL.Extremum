@@ -13,5 +13,5 @@
 		{ "name": "c2", "value": 2.5 },
 		{ "name": "c3", "value": 2.5 }
 	],
-	"maxTime": 3600.0
+	"maxTime": 1200
 }
