@@ -1,3 +1,5 @@
+from argparse import ArgumentParser, RawTextHelpFormatter
+
 import os
 import shutil
 import json
@@ -7,7 +9,6 @@ import pandas as pd
 
 
 def make_tasks(task_template, initials, u_min, u_max, location):
-    cur_dir = os.getcwd()
     new_area = []
     for l in ['a', 'b', 'c']:
         for i in range(1, 4):
@@ -24,7 +25,7 @@ def make_tasks(task_template, initials, u_min, u_max, location):
                 ])
     start_config = dict([('{0:07d}'.format(id + 1), inits) for id, inits in enumerate(start_config)])
 
-    if os.path.exists(cur_dir + '/' + location):
+    if os.path.exists(location):
         shutil.rmtree(location)
     os.makedirs(location)
 
@@ -35,11 +36,11 @@ def make_tasks(task_template, initials, u_min, u_max, location):
         for i in range(0, 3):
             temp_task['control_bounds'][i]['min'] = u_min
             temp_task['control_bounds'][i]['max'] = u_max
-        json.dump(temp_task, open(cur_dir + '/' + location + '/{}.json'.format(task_id), 'w'), indent=4)
+        json.dump(temp_task, open(location + '/{}.json'.format(task_id), 'w'), indent=4)
 
     legend = [[v['value'] for v in values] + [file_name] for file_name, values in start_config.items()]
     legend = pd.DataFrame(data=legend, columns=['p0', 'q0', 'r0', 'name'])
-    legend.to_csv(cur_dir + '/' + location + '/legend.csv', index=False)
+    legend.to_csv(location + '/legend.csv', index=False)
     return
 
 
@@ -49,10 +50,26 @@ initial_values = {
     'r': {'min': -25.0, 'max': 25.0, 'N': 51}
 }
 
-make_tasks(task_template=json.load(open('TaskTemplateExplicit.json', 'r')),
-           initials=initial_values, u_min=-500, u_max=500, location='tasks_1')
 
-make_tasks(task_template=json.load(open('TaskTemplate.json', 'r')),
-           initials=initial_values, u_min=-500, u_max=500, location='tasks_2')
+def main(args):
+    make_tasks(task_template=json.load(open('TaskTemplateExplicit.json', 'r')),
+               initials=initial_values, u_min=-500, u_max=500, location=args.folder_1)
 
-print('Done')
+    make_tasks(task_template=json.load(open('TaskTemplate.json', 'r')),
+               initials=initial_values, u_min=-500, u_max=500, location=args.folder_2 )
+
+
+parser = ArgumentParser(description='Task Creator', formatter_class=RawTextHelpFormatter)
+
+parser.add_argument('--folder_1',
+                    type=str,
+                    help='Folder for explicit tasks')
+
+parser.add_argument('--folder_2',
+                    type=str,
+                    help='Folder for final tasks')
+
+
+args = parser.parse_args()
+
+main(args)
