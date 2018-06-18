@@ -49,13 +49,9 @@ initial_values = {
     'r': {'min': -25.0, 'max': 25.0, 'N': 51}
 }
 
-if os.path.exists('tasks_1'):
-    shutil.rmtree('tasks_1')
 make_tasks(task_template=json.load(open('TaskTemplateExplicit.json', 'r')),
            initials=initial_values, u_min=-500, u_max=500, location='tasks_1')
 
-if os.path.exists('tasks_2'):
-    shutil.rmtree('tasks_2')
 make_tasks(task_template=json.load(open('TaskTemplate.json', 'r')),
            initials=initial_values, u_min=-500, u_max=500, location='tasks_2')
 
