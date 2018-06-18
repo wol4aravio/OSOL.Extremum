@@ -1,0 +1,1 @@
+1) python task_creator.py --folder_1 ~/Downloads/tasks_1 --folder_2 ~/Downloads/tasks_2
