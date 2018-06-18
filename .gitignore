@@ -3,6 +3,8 @@
 # Project Specific
 # ICM_Square
 Projects/ICM_Square/results_from_the_core
+Projects/ICM_Square/tasks_1
+Projects/ICM_Square/tasks_2
 
 # sbt specific
 .cache
