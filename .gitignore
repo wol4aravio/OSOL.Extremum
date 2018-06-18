@@ -1,4 +1,8 @@
-etc
+*.ipynb
+
+# Project Specific
+# ICM_Square
+Projects/ICM_Square/results_from_the_core
 
 # sbt specific
 .cache
