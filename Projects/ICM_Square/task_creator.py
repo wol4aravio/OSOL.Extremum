@@ -9,11 +9,6 @@ import pandas as pd
 
 
 def make_tasks(task_template, initials, u_min, u_max, location):
-    new_area = []
-    for l in ['a', 'b', 'c']:
-        for i in range(1, 4):
-            new_area.append({'name': '{0}{1}'.format(l, i), 'min': u_min, 'max': u_max})
-
     start_config = []
     for p_init in np.linspace(initials['p']['min'], initials['p']['max'], initials['p']['N']).tolist():
         for q_init in np.linspace(initials['q']['min'], initials['q']['max'], initials['q']['N']).tolist():
@@ -31,7 +26,6 @@ def make_tasks(task_template, initials, u_min, u_max, location):
 
     for task_id, initial_conditions in start_config.items():
         temp_task = task_template.copy()
-        temp_task['area'] = new_area
         temp_task['initial_conditions'] = initial_conditions
         for i in range(0, 3):
             temp_task['control_bounds'][i]['min'] = u_min
