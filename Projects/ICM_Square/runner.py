@@ -89,9 +89,7 @@ def main(args):
         already_processed = list(filter(lambda f: f.endswith('json') and ('seed' not in f) and ('real' not in f),
                                         os.listdir(target_folder)))
         already_processed = sorted(already_processed)
-        print(len(task_files))
         task_files = [f for f in task_files if f not in already_processed]
-        print(len(task_files))
 
     pool = Pool(args.max_processes)
     if mode == 'first':
