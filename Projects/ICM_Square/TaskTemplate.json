@@ -1,0 +1,125 @@
+{
+	"task_type": "openloop_control",
+	"area": [
+		{ "name": "u1_0", "min": -500.0, "max": 500.0 },
+		{ "name": "u1_1", "min": -500.0, "max": 500.0 },
+		{ "name": "u1_2", "min": -500.0, "max": 500.0 },
+		{ "name": "u1_3", "min": -500.0, "max": 500.0 },
+		{ "name": "u1_4", "min": -500.0, "max": 500.0 },
+		{ "name": "u1_5", "min": -500.0, "max": 500.0 },
+		{ "name": "u1_6", "min": -500.0, "max": 500.0 },
+		{ "name": "u1_7", "min": -500.0, "max": 500.0 },
+		{ "name": "u1_8", "min": -500.0, "max": 500.0 },
+		{ "name": "u1_9", "min": -500.0, "max": 500.0 },
+		{ "name": "u1_10", "min": -500.0, "max": 500.0 },
+		{ "name": "u2_0", "min": -500.0, "max": 500.0 },
+		{ "name": "u2_1", "min": -500.0, "max": 500.0 },
+		{ "name": "u2_2", "min": -500.0, "max": 500.0 },
+		{ "name": "u2_3", "min": -500.0, "max": 500.0 },
+		{ "name": "u2_4", "min": -500.0, "max": 500.0 },
+		{ "name": "u2_5", "min": -500.0, "max": 500.0 },
+		{ "name": "u2_6", "min": -500.0, "max": 500.0 },
+		{ "name": "u2_7", "min": -500.0, "max": 500.0 },
+		{ "name": "u2_8", "min": -500.0, "max": 500.0 },
+		{ "name": "u2_9", "min": -500.0, "max": 500.0 },
+		{ "name": "u2_10", "min": -500.0, "max": 500.0 },
+		{ "name": "u3_0", "min": -500.0, "max": 500.0 },
+		{ "name": "u3_1", "min": -500.0, "max": 500.0 },
+		{ "name": "u3_2", "min": -500.0, "max": 500.0 },
+		{ "name": "u3_3", "min": -500.0, "max": 500.0 },
+		{ "name": "u3_4", "min": -500.0, "max": 500.0 },
+		{ "name": "u3_5", "min": -500.0, "max": 500.0 },
+		{ "name": "u3_6", "min": -500.0, "max": 500.0 },
+		{ "name": "u3_7", "min": -500.0, "max": 500.0 },
+		{ "name": "u3_8", "min": -500.0, "max": 500.0 },
+		{ "name": "u3_9", "min": -500.0, "max": 500.0 },
+		{ "name": "u3_10", "min": -500.0, "max": 500.0 }
+	],
+	"sampling_type": "RK4",
+	"sampling_eps": 1e-2,
+	"sampling_max_steps": 100,
+	"ode": [
+		{
+			"component": "p",
+			"equation": "u1 / 6.0"
+		},
+		{
+			"component": "q",
+			"equation": "u2 - 0.2 * p * r"
+		},
+		{
+			"component": "r",
+			"equation": "0.2 * (u3 + p * q)"
+		}
+	],
+	"initial_conditions": [
+		{"name": "p", "value": 24.0},
+		{"name": "q", "value": 16.0},
+		{"name": "r", "value": 16.0}
+	],
+	"controllers": [
+		{
+			"name": "u1",
+			"type": "piecewise_linear",
+			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+			"penalty": 1e-7,
+			"variance_power": 2
+		},
+		{
+			"name": "u2",
+			"type": "piecewise_linear",
+			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+			"penalty": 1e-7,
+			"variance_power": 2
+		},
+		{
+			"name": "u3",
+			"type": "piecewise_linear",
+			"switch_points": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+			"penalty": 1e-7,
+			"variance_power": 2
+		}
+	],
+	"control_bounds": [
+		{"name": "u1", "min": -500.0, "max": 500.0},
+		{"name": "u2", "min": -500.0, "max": 500.0},
+		{"name": "u3", "min": -500.0, "max": 500.0}
+	],
+	"auxiliary": [ ],
+	"efficiency": {
+		"integral": [
+			"abs(u1) + abs(u2) + abs(u3)",
+			"0.001 * ((u1 ** 2) + (u2 ** 2) + (u3 ** 2))"
+		],
+		"terminal": "0"
+	},
+	"constraints": {
+		"terminal": [
+			{
+				"equation": "t - 1.0",
+				"max_error": 1e-3,
+				"penalty": 1e+3,
+				"norm": "L2"
+			},
+			{
+				"equation": "p",
+				"max_error": 1e-1,
+				"penalty": 1e+2,
+				"norm": "L2"
+			},
+			{
+				"equation": "q",
+				"max_error": 1e-1,
+				"penalty": 1e+2,
+				"norm": "L2"
+			},
+			{
+				"equation": "r",
+				"max_error": 1e-1,
+				"penalty": 1e+2,
+				"norm": "L2"
+			}
+		],
+		"phase": [ ]
+	}
+}

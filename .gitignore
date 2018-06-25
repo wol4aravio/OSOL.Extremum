@@ -1,4 +1,11 @@
-etc
+*.ipynb
+
+# Project Specific
+# ICM_Square
+Projects/ICM_Square/results_from_the_core
+Projects/ICM_Square/sufficient
+Projects/ICM_Square/tasks_1
+Projects/ICM_Square/tasks_2
 
 # sbt specific
 .cache
@@ -339,3 +346,4 @@ ASALocalRun/
 # NVidia Nsight GPU debugger configuration file
 *.nvuser
 PyTools/OSOL_Extremum/.cache
+Projects/ICM_Square/env_vars.txt

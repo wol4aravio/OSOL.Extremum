@@ -1,0 +1,16 @@
+Part I
+
+1) python task_creator.py --folder_1 ~/Downloads/tasks_1 --folder_2 ~/Downloads/tasks_2
+2) python task_selector.py --source_folder ~/Downloads/tasks_1/ --query "(21 <= p0) and (p0 <= 25) and (21 <= q0) and (q0 <= 25) and (21 <= r0) and (r0 <= 25)" --target_folder ~/Downloads/selected_tasks_1
+3) python task_selector.py --source_folder ~/Downloads/tasks_2/ --query "(21 <= p0) and (p0 <= 25) and (21 <= q0) and (q0 <= 25) and (21 <= r0) and (r0 <= 25)" --target_folder ~/Downloads/selected_tasks_2
+4) python runner.py --mode first --alg_config ies_config_explicit.json --source_folder ~/Downloads/selected_tasks_1 --target_folder ~/Downloads/result_tasks_1
+5) python runner.py --mode second --alg_config ies_config.json --source_folder ~/Downloads/selected_tasks_2 --target_folder ~/Downloads/result_tasks_2 --seed_folder ~/Downloads/result_tasks_1
+
+
+
+Part II
+
+1) python task_selector.py --source_folder ~/Downloads/tasks_1/ --query "((19 <= p0) and (p0 <= 25) and (19 <= q0) and (q0 <= 25) and (19 <= r0) and (r0 <= 25)) and not ((21 <= p0) and (p0 <= 25) and (21 <= q0) and (q0 <= 25) and (21 <= r0) and (r0 <= 25))" --target_folder ~/Downloads/selected_tasks_1_part_2
+2) python task_selector.py --source_folder ~/Downloads/tasks_2/ --query "((19 <= p0) and (p0 <= 25) and (19 <= q0) and (q0 <= 25) and (19 <= r0) and (r0 <= 25)) and not ((21 <= p0) and (p0 <= 25) and (21 <= q0) and (q0 <= 25) and (21 <= r0) and (r0 <= 25))" --target_folder ~/Downloads/selected_tasks_2_part_2
+3) python runner.py --mode first --alg_config ies_config_explicit.json --source_folder ~/Downloads/selected_tasks_1_part_2 --target_folder ~/Downloads/result_tasks_1_part_2
+4) python runner.py --mode second --alg_config ies_config.json --source_folder ~/Downloads/selected_tasks_2_part_2 --target_folder ~/Downloads/result_tasks_2_part_2 --seed_folder ~/Downloads/result_tasks_1_part_2
