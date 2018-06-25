@@ -24,19 +24,19 @@ def get_process_template(core, algorithm, port):
 def main():
 
     parser = optparse.OptionParser()
-    parser.add_option('-a', '--algorithm',
+    parser.add_option('-A', '--algorithm',
                       help='Path to algorithm config',
                       type=str)
-    parser.add_option('-c', '--core',
+    parser.add_option('-C', '--core',
                       help='Path to core',
                       type=str)
-    parser.add_option('-t', '--tasks',
+    parser.add_option('-T', '--tasks',
                       help='Path to folder with tasks',
                       type=str)
-    parser.add_option('-r', '--runs',
+    parser.add_option('-R', '--runs',
                       help='Number of runs per tasks',
                       type=int)
-    parser.add_option('-o', '--output',
+    parser.add_option('-O', '--output',
                       help='Output folders',
                       type=str)
     parser.add_option('-P', '--port',
@@ -60,7 +60,7 @@ def main():
             print('>>> Run {0}/{1}'.format(i + 1, options.runs))
             p = process_base.copy()
             p += ['--task', options.tasks + '/' + task]
-            p += ['--result', options.output + '/{0}_{1}'.format(task_name, i), '--output', 'json']
+            p += ['--result', options.output + '/{0}_{1}'.format(task_name, i + 1), '--output', 'json']
             subprocess.call(p)
 
 
