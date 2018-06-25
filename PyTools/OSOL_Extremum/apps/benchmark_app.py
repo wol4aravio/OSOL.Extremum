@@ -4,13 +4,13 @@ import shutil
 import subprocess
 
 
-def get_process_template(core, algorithm, port):
+def get_process_template(runner, algorithm, port):
     process = []
 
-    if core.endswith('jar'):
-        process += ['java', '-jar', core]
-    elif core.endswith('dll'):
-        process += ['dotnet', core]
+    if runner.endswith('jar'):
+        process += ['java', '-jar', runner]
+    elif runner.endswith('dll'):
+        process += ['dotnet', runner]
     else:
         raise Exception('Unknown core')
 
@@ -27,7 +27,7 @@ def main():
     parser.add_option('-A', '--algorithm',
                       help='Path to algorithm config',
                       type=str)
-    parser.add_option('-C', '--core',
+    parser.add_option('--runner',
                       help='Path to core',
                       type=str)
     parser.add_option('-T', '--tasks',
@@ -46,7 +46,7 @@ def main():
 
     options, _ = parser.parse_args()
 
-    process_base = get_process_template(options.core, options.algorithm, options.port)
+    process_base = get_process_template(options.runner, options.algorithm, options.port)
 
     if os.path.exists(options.output):
         shutil.rmtree(options.output)
