@@ -1,5 +1,8 @@
 *.ipynb
 
+# Cores Specific
+Cores/DotNet/runner
+
 # Project Specific
 # ICM_Square
 Projects/ICM_Square/results_from_the_core

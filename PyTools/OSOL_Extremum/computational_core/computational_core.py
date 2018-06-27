@@ -19,7 +19,7 @@ class ComputationalCore:
             task_info = json.load(json_data)
             if task_info['task_type'] == 'unconstrained_optimization':
                 task = UnconstrainedOptimization.from_dict(task_info)
-                operations = {'f': task.f}
+                operations = {'f': task.f, 'target': task.f}
                 if hasattr(task, '_df'):
                     for k in task._df.keys():
                         operations['df_{}'.format(k)] = partial(task.df, k)
@@ -27,7 +27,8 @@ class ComputationalCore:
                 task = OpenloopControl.from_dict(task_info)
                 operations = {
                     'sim': task.sim,
-                    'sim_out': task.outer_sim
+                    'sim_out': task.outer_sim,
+                    'target': task.sim
                 }
             else:
                 raise Exception('Unsupported task type')

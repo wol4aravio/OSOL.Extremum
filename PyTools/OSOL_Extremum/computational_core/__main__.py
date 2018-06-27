@@ -6,11 +6,11 @@ from OSOL_Extremum.computational_core.tools import *
 def main():
 
     parser = optparse.OptionParser()
-    parser.add_option("-C", "--core",
-                      help="Path to json that describes computational core",
+    parser.add_option('-C', '--core',
+                      help='Path to json that describes computational core',
                       type=str)
-    parser.add_option("-P", "--port",
-                      help="Running port",
+    parser.add_option('-P', '--port',
+                      help='Running port',
                       type=int,
                       default=5000)
 
@@ -22,5 +22,5 @@ def main():
     core_app.run(port=options.port)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

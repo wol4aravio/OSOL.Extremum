@@ -33,6 +33,7 @@ setup(
                       "flask>=0.12.2"],
 
     entry_points={
-        'console_scripts': ['run_core=OSOL_Extremum.computational_core.__main__:main']
+        'console_scripts': ['run_core=OSOL_Extremum.computational_core.__main__:main',
+                            'benchmark=OSOL_Extremum.apps.benchmark_app:main']
     }
 )

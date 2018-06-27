@@ -25,7 +25,7 @@ namespace OSOL.Extremum.Apps.DotNet
             [Option('p', "port", Required = true, HelpText = "Port where to run server")]
             public int Port { get; set; }
     
-            [Option('f', "field", Required = true, HelpText = "Target field")]
+            [Option('f', "field", Default = "target", HelpText = "Target field")]
             public string Field { get; set; }
             
             [Option('r', "result", Required = true, HelpText = "Where to save the result")]
