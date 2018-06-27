@@ -17,7 +17,7 @@ object Runner extends App {
     val algorithm = opt[String](required = true)
     val task = opt[String](required = true)
     val port = opt[Int](required = true)
-    val field = opt[String](required = true)
+    val field = opt[String](default = Some("target"))
     val result = opt[String](required = true)
     val output = opt[String](default = Some("json"))
     val logStates = opt[String](default = None)
