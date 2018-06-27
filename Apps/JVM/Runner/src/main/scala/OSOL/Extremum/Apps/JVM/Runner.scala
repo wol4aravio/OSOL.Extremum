@@ -118,7 +118,7 @@ object Runner extends App {
         saveRealVectorResult(result, conf.output(), conf.result())
       }
       case ("Scala", "IES") | ("Scala", "IntervalExplosionSearch") => {
-        val Seq(JsNumber(maxBombs), JsArray(rMaxJson), JsNumber(maxTime)) = algConfig.getFields("maxBombs", "rMax", "maxTime")
+        val Seq(JsNumber(maxBombs), JsArray(rMaxJson), JsNumber(maxTime)) = algConfig.getFields("maxBombs", "rMaxRatio", "maxTime")
         val rMax = rMaxJson.map { case j =>
           val Seq(JsString(name), JsNumber(value)) = j.asJsObject().getFields("name", "value")
           (name, new java.lang.Double(value.toDouble))
