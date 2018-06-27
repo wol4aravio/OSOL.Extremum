@@ -14,7 +14,7 @@ object IntervalExplosionSearch {
   private val maxBombsName = "maxBombs"
   private val maxPowerName = "maxPower"
   private val bombsName = "bombs"
-  private val rMaxName = "rMax"
+  private val rMaxRatioName = "rMaxRatio"
 
   private case class Bomb(location: IntervalVector, efficiency: java.lang.Double) {
 
@@ -74,7 +74,8 @@ object IntervalExplosionSearch {
 
     override def initialize(f: Map[String, Interval] => Interval, area: Area, state: State[IntervalVector, Interval, IntervalVector]): Unit = {
 
-      val rMax = state.getParameter[Map[String, java.lang.Double]](rMaxName)
+      val rMaxRatio = state.getParameter[java.lang.Double](rMaxRatioName)
+      val rMax = area.map { case (k, (a, b)) => (k, rMaxRatio * (b - a))}
       val maxBombs = state.getParameter[java.lang.Integer](maxBombsName)
 
       val maxPower = Range(0, maxBombs).map{ i =>
@@ -135,9 +136,9 @@ object IntervalExplosionSearch {
 
   }
 
-  def createIntervalExplosionSearch(maxBombs: java.lang.Integer, rMax: Map[String, java.lang.Double], maxTime: java.lang.Double, seed: Option[Seq[IntervalVector]] = Option.empty): Algorithm[IntervalVector, Interval, IntervalVector] = {
+  def createIntervalExplosionSearch(maxBombs: java.lang.Integer, rMaxRatio: java.lang.Double, maxTime: java.lang.Double, seed: Option[Seq[IntervalVector]] = Option.empty): Algorithm[IntervalVector, Interval, IntervalVector] = {
     val ES_nodes = Seq(
-      new SetParametersNode[IntervalVector, Interval, IntervalVector](nodeId = 0, parameters = Map(maxBombsName -> maxBombs, rMaxName -> rMax)),
+      new SetParametersNode[IntervalVector, Interval, IntervalVector](nodeId = 0, parameters = Map(maxBombsName -> maxBombs, rMaxRatioName -> rMaxRatio)),
       new GenerateInitialBombsNode(nodeId = 1, seed),
       new PowerCalculationNode(nodeId = 2),
       new ExplosionNode(nodeId = 3),

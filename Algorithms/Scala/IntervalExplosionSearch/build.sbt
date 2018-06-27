@@ -1,6 +1,6 @@
 name := "OSOL.Extremum.Algorithms.Scala.IntervalExplosionSearch"
 
-version := "0.0.6.1"
+version := "0.0.6.2"
 
 scalaVersion := "2.12.5"
 
