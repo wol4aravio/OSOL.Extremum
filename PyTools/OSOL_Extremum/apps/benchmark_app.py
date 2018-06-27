@@ -2,6 +2,7 @@ import optparse
 import os
 import shutil
 import subprocess
+import json
 
 
 def get_process_template(runner, algorithm, port):
@@ -16,9 +17,13 @@ def get_process_template(runner, algorithm, port):
 
     process += ['--algorithm', algorithm]
     process += ['--port', str(port)]
-    process += ['--field', 'f']
+    process += ['--field', 'target']
 
     return process
+
+
+def parse_result(f):
+    j = json.load(open(f, 'r'))
 
 
 def main():
@@ -62,6 +67,8 @@ def main():
             p += ['--task', options.tasks + '/' + task]
             p += ['--result', options.output + '/{0}_{1}'.format(task_name, i + 1), '--output', 'json']
             subprocess.call(p)
+
+
 
 
 if __name__ == '__main__':
