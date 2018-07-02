@@ -113,6 +113,8 @@ def main():
         results[task_name]['mean'] = results[task_name]['values'].mean()
         results[task_name]['max'] = results[task_name]['values'].max()
         results[task_name]['std'] = results[task_name]['values'].std()
+        results[task_name]['values'] = list(results[task_name]['values'])
+
 
     print('>>> Dumping result')
     json.dump(results, open(os.path.join(output_folder, 'statistics.json'), 'w'), indent=2)
