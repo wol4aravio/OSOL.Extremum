@@ -105,9 +105,10 @@ def main():
         if len(filtered_results) > 0:
             result_files = filtered_results
 
-        results[task_name] = {'values': np.zeros(shape=(len(result_files), ))}
+        results[task_name] = {'values': np.zeros(shape=(len(result_files), )), 'points': []}
         for i, rf in enumerate(result_files):
             x = parse_result(os.path.join(output_folder, rf))
+            results[task_name]['points'].append(x)
             results[task_name]['values'][i] = core.f(x)
         results[task_name]['min'] = results[task_name]['values'].min()
         results[task_name]['mean'] = results[task_name]['values'].mean()
