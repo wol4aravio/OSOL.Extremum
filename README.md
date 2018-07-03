@@ -47,7 +47,7 @@ Version history:
 
 *Ver. № 0.0.7.\**
 - [ ] automated testing on general benchmarks functions,
-- [ ] A/B testing of different algorithms,
+- [x] ~~A/B testing of different algorithms~~ (implemented in PyTools),
 - [ ] "continue" mode.
 
 **Ver. № 0.0.6.\***

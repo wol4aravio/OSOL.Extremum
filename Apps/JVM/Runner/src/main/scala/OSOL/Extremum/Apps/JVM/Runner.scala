@@ -118,13 +118,9 @@ object Runner extends App {
         saveRealVectorResult(result, conf.output(), conf.result())
       }
       case ("Scala", "IES") | ("Scala", "IntervalExplosionSearch") => {
-        val Seq(JsNumber(maxBombs), JsArray(rMaxJson), JsNumber(maxTime)) = algConfig.getFields("maxBombs", "rMaxRatio", "maxTime")
-        val rMax = rMaxJson.map { case j =>
-          val Seq(JsString(name), JsNumber(value)) = j.asJsObject().getFields("name", "value")
-          (name, new java.lang.Double(value.toDouble))
-        }.toMap
+        val Seq(JsNumber(maxBombs), JsNumber(rMaxRatio), JsNumber(maxTime)) = algConfig.getFields("maxBombs", "rMaxRatio", "maxTime")
         val algorithm =
-          if (conf.seed.isEmpty) Algorithms.Scala.IntervalExplosionSearch.createIntervalExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble)
+          if (conf.seed.isEmpty) Algorithms.Scala.IntervalExplosionSearch.createIntervalExplosionSearch(maxBombs.toInt, rMaxRatio.toDouble, maxTime.toDouble)
           else {
             val seed: Seq[IntervalVector] = scala.io.Source.fromFile(conf.seed()).
               getLines()
@@ -133,7 +129,7 @@ object Runner extends App {
               .asInstanceOf[JsArray]
               .elements
               .map(_.convertTo[IntervalVector])
-            Algorithms.Scala.IntervalExplosionSearch.createIntervalExplosionSearch(maxBombs.toInt, rMax, maxTime.toDouble, Some(seed))
+            Algorithms.Scala.IntervalExplosionSearch.createIntervalExplosionSearch(maxBombs.toInt, rMaxRatio.toDouble, maxTime.toDouble, Some(seed))
           }
 
         val f = new IntervalRemoteFunction(conf.task(), conf.port(), conf.field())
