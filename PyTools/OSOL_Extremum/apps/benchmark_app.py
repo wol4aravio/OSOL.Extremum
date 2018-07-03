@@ -73,9 +73,9 @@ def main():
     process_base = get_process_template(options.runner, options.algorithm)
 
     print('>>> Preparing folder')
-    if os.path.exists(output_folder):
-        shutil.rmtree(output_folder)
-    os.makedirs(output_folder)
+    if os.path.exists(result_folder):
+        shutil.rmtree(result_folder)
+    os.makedirs(result_folder)
 
     print('>>> Preparing processes')
     processes = []
