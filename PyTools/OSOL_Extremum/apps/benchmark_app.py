@@ -4,6 +4,7 @@ import shutil
 import subprocess
 import json
 from threading import Thread
+from grip import export
 
 from OSOL_Extremum.computational_core.unconstrained_optimization import *
 
@@ -31,6 +32,31 @@ def parse_result(f):
     for kvp in rv:
         v[kvp['key']] = kvp['value']
     return v
+
+
+def create_markdown(results):
+    text = '''**Benchmark results (detailed)**
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+'''
+    for f_name, stat in results.items():
+        text += '| {0} | {1:.9f} | {2:.9f} | {3:.9f} | {4:.9f} | {5:.9f} |\n'.format(
+            f_name, stat['f*'], stat['min'], stat['mean'], stat['max'], stat['std'])
+
+    text += '''
+
+
+**Benchmark results**
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+'''
+    for f_name, stat in results.items():
+        text += '| {0} | {1:.5f} | {2:.5f} | {3:.5f} | {4:.5f} | {5:.5f} |\n'.format(
+            f_name, stat['f*'], stat['min'], stat['mean'], stat['max'], stat['std'])
+
+    return text
 
 
 def main():
@@ -135,8 +161,12 @@ def main():
         results[task_name]['values'] = list(results[task_name]['values'])
 
     print('>>> Dumping result')
-    json.dump(results, open(os.path.join(output_folder, 'statistics.json'), 'w'), indent=2)
     shutil.copyfile(options.algorithm, os.path.join(output_folder, 'config.json'))
+    json.dump(results, open(os.path.join(output_folder, 'statistics.json'), 'w'), indent=2)
+    md = create_markdown(results)
+    with open(os.path.join(output_folder, 'statistics.md'), 'w') as md_file:
+        md_file.write(md)
+    export(path=os.path.join(output_folder, 'statistics.md'))
 
     print('>>> Done!\n')
 
