@@ -3,8 +3,7 @@ import os
 import shutil
 import subprocess
 import json
-from multiprocessing import Pool
-
+from threading import Thread
 
 from OSOL_Extremum.computational_core.unconstrained_optimization import *
 
@@ -85,15 +84,27 @@ def main():
         for i in range(number_of_runs):
             p = process_base.copy()
             p += ['--task', tasks_folder + '/' + task]
-            p += ['--port', str(port + counter)]
+            p += ['--port', str(port + counter % options.parallel)]
             p += ['--result', os.path.join(result_folder, '{0}_{1}'.format(task_name, i + 1)), '--output', 'json']
             processes.append(p)
             counter += 1
 
     print('>>> Running optimization tasks')
-    pool = Pool(options.parallel)
-    pool.map(subprocess.call, processes)
-    pool.close()
+
+    def call_process(p):
+        subprocess.call(p)
+        return
+
+    i = 0
+    while i < len(processes):
+        threads = []
+        for t_id in range(options.parallel):
+            threads.append(Thread(target=call_process, args=[processes[i]]))
+            threads[-1].start()
+            print('>>> >>> Started {0}/{1} process'.format(i + 1, len(processes)))
+            i += 1
+        for t_id in range(options.parallel):
+            threads[t_id].join()
 
     print('>>> Gathering statistics')
     results = {}
