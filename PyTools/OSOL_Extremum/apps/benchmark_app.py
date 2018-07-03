@@ -67,6 +67,7 @@ def main():
     tasks_folder = options.tasks
     number_of_runs = options.number_of_runs
     port = options.port
+    result_folder = os.path.join(output_folder, 'results')
     tasks = sorted(list(filter(lambda f: f.endswith('json'), os.listdir(tasks_folder))))
 
     process_base = get_process_template(options.runner, options.algorithm)
@@ -85,7 +86,7 @@ def main():
             p = process_base.copy()
             p += ['--task', tasks_folder + '/' + task]
             p += ['--port', str(port + counter)]
-            p += ['--result', output_folder + '/{0}_{1}'.format(task_name, i + 1), '--output', 'json']
+            p += ['--result', os.path.join(result_folder, '{0}_{1}'.format(task_name, i + 1)), '--output', 'json']
             processes.append(p)
             counter += 1
 
@@ -98,18 +99,24 @@ def main():
     results = {}
     for task_id, task in enumerate(tasks):
         task_name = task[:-5]
-        core = UnconstrainedOptimization.from_dict(json.load(open(os.path.join(tasks_folder, task), 'r')))
+        task_json = json.load(open(os.path.join(tasks_folder, task), 'r'))
+        x_best = {}
+        for kvp in task_json['solution']:
+            x_best[kvp['name']] = kvp['value']
+        core = UnconstrainedOptimization.from_dict(task_json)
 
-        result_files = list(filter(lambda f: task_name in f, os.listdir(output_folder)))
-        filtered_results = list(filter(lambda f: 'real' in f, result_files))
+        result_files = list(filter(lambda f: task_name in f, os.listdir(result_folder)))
+        filtered_results = sorted(list(filter(lambda f: 'real' in f, result_files)))
         if len(filtered_results) > 0:
             result_files = filtered_results
 
-        results[task_name] = {'values': np.zeros(shape=(len(result_files), )), 'points': []}
+        results[task_name] = {'values': np.zeros(shape=(len(result_files), )), 'points': [],
+                              'x*': x_best, 'f*': core.f(x_best)}
         for i, rf in enumerate(result_files):
-            x = parse_result(os.path.join(output_folder, rf))
+            x = parse_result(os.path.join(result_folder, rf))
             results[task_name]['points'].append(x)
             results[task_name]['values'][i] = core.f(x)
+
         results[task_name]['min'] = results[task_name]['values'].min()
         results[task_name]['mean'] = results[task_name]['values'].mean()
         results[task_name]['max'] = results[task_name]['values'].max()
