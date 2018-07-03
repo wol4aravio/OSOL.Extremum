@@ -116,9 +116,9 @@ def main():
         results[task_name]['std'] = results[task_name]['values'].std()
         results[task_name]['values'] = list(results[task_name]['values'])
 
-
     print('>>> Dumping result')
     json.dump(results, open(os.path.join(output_folder, 'statistics.json'), 'w'), indent=2)
+    shutil.copyfile(options.algorithm, os.path.join(output_folder, 'config.json'))
 
     print('>>> Done!\n')
 
