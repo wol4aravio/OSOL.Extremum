@@ -30,7 +30,9 @@ setup(
                       "sympy>=1.1.1",
                       "scipy>=0.19.1",
                       "pandas>=0.20.3",
-                      "flask>=0.12.2"],
+                      "flask>=0.12.2",
+                      "pdfkit>=0.6.1",
+                      "markdown>=2.6.11"],
 
     entry_points={
         'console_scripts': ['run_core=OSOL_Extremum.computational_core.__main__:main',
