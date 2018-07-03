@@ -8,7 +8,7 @@
 		{ "name": "x2", "min": -6.0, "max": 6.0 }
 	],
 	"solution": [
-		{ "name": "x1", "value": 0.0 },
-		{ "name": "x2", "value": 0.0 }
+		{ "name": "x1", "value": 3.0 },
+		{ "name": "x2", "value": 2.0 }
 	]
 }
