@@ -1,6 +1,7 @@
 from Numerical_Objects.Interval import *
 
 import json
+import pytest
 
 
 i1 = Interval(-1.0, 2.0)
@@ -142,12 +143,8 @@ def test_exp():
 def test_sqrt():
     assert sqrt(i1).approximately_equals_to(Interval(0.0, math.sqrt(2.0)))
     assert sqrt(i3).approximately_equals_to(Interval(math.sqrt(1.0), math.sqrt(2.0)))
-    try:
+    with pytest.raises(Exception):
         sqrt(i5)
-        bad_op = False
-    except Exception:
-        bad_op = True
-    assert bad_op
 
 
 def test_log():
@@ -155,18 +152,10 @@ def test_log():
     assert log(i2).approximately_equals_to(Interval(-math.inf, math.log(3.0)))
     assert log(i3).approximately_equals_to(Interval(math.log(1.0), math.log(2.0)))
     assert log(i4).approximately_equals_to(Interval(math.log(5.0), math.log(5.1)))
-    try:
+    with pytest.raises(Exception):
         log(i5)
-        bad_op = False
-    except Exception:
-        bad_op = True
-    assert bad_op
-    try:
+    with pytest.raises(Exception):
         log(i6)
-        bad_op = False
-    except Exception:
-        bad_op = True
-    assert bad_op
     assert log(i7).approximately_equals_to(Interval(-math.inf, math.log(3.0)))
 
 

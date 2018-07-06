@@ -13,6 +13,9 @@ class Vector(dict):
     def __getitem__(self, var_name):
         return self._values[var_name]
 
+    def copy(self):
+        return Vector(self._values)
+
     @property
     def keys(self):
         return set(self._values.keys())
@@ -22,7 +25,7 @@ class Vector(dict):
         return list(self._values.values())
 
     def __eq__(self, other):
-        for k in self.keys | other.keys:
+        for k in (self.keys | other.keys):
             try:
                 if self[k] != other[k]:
                     return False

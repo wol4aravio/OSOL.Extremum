@@ -1,6 +1,8 @@
 from Numerical_Objects.Interval import *
 from Numerical_Objects.Vector import *
 
+import pytest
+
 
 v1 = Vector({
     'x': 1.0,
@@ -44,7 +46,7 @@ def test_equality():
     assert v3 == v3.copy()
 
 
-def test_equality():
+def test_inequality():
     assert v1 != v2
     assert v2 != v3
     assert v3 != v1
@@ -58,6 +60,8 @@ def test_get_widest_component():
 def test_linear_ops():
     assert v1 + v1 == 2 * v1
     assert v2 + v2 == 2 * v2
+    with pytest.raises(Exception):
+        v1 + v2
     assert v1 + v3 == Vector({
         'x': 0.0,
         'y': 5.0,
