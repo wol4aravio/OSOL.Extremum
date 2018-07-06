@@ -13,8 +13,11 @@ class Vector(dict):
     def __getitem__(self, var_name):
         return self._values[var_name]
 
+    def __setitem__(self, key, value):
+        self._values[key] = value
+
     def copy(self):
-        return Vector(self._values)
+        return Vector(self._values.copy())
 
     @property
     def keys(self):
@@ -83,7 +86,7 @@ class Vector(dict):
             if hasattr(component, 'constrain'):
                 result[k] = component.constrain(*target_zone)
             else:
-                result[k] = constrain_point(result[k], *target_zone)
+                result[k] = constrain_point(self[k], *target_zone)
         return Vector(result)
 
     def split(self, ratios, key=None):
@@ -103,6 +106,10 @@ class Vector(dict):
             copy = self.copy()
             copy[split_key] = r
             final_result.append(copy)
+
+        for d in final_result:
+            print(d)
+            print('\n\n\n')
 
         return final_result
 

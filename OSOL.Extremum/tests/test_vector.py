@@ -74,3 +74,17 @@ def test_move():
     assert v3 >> {'x': 1.0, 'z': -3.0} == Vector({'x': 0.0, 'y': 3.0, 'z': Interval(0.0, 2.0)})
 
 
+def test_constrain():
+    assert v1.constrain({'x': (-10, 0)}) == Vector({'x': 0.0, 'y': 2.0, 'z': 3.0})
+    assert v3.constrain({'x': (-1.0, 1.0), 'z': (2.0, 4.0)}) == Vector({'x': -1.0, 'y': 3.0, 'z': Interval(3.0, 4.0)})
+
+
+def test_split():
+    results = v3.split([2.0, 2.0, 1.0])
+    assert results[0] == Vector({'x': Interval(-1.0, -1.0), 'y': 3.0, 'z': Interval(3.0, 3.8)})
+    assert results[1] == Vector({'x': Interval(-1.0, -1.0), 'y': 3.0, 'z': Interval(3.8, 4.6)})
+    assert results[2] == Vector({'x': Interval(-1.0, -1.0), 'y': 3.0, 'z': Interval(4.6, 5.0)})
+
+    results = v3.bisect()
+    assert results[0] == Vector({'x': Interval(-1.0, -1.0), 'y': 3.0, 'z': Interval(3.0, 4.0)})
+    assert results[1] == Vector({'x': Interval(-1.0, -1.0), 'y': 3.0, 'z': Interval(4.0, 5.0)})
