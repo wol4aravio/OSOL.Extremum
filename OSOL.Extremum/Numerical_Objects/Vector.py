@@ -28,12 +28,12 @@ class Vector(dict):
         return list(self._values.values())
 
     def __eq__(self, other):
-        for k in (self.keys | other.keys):
-            try:
+        if self.keys != other.keys:
+            return False
+        else:
+            for k in (self.keys | other.keys):
                 if self[k] != other[k]:
                     return False
-            except KeyError:
-                return False
         return True
 
     def __ne__(self, other):
