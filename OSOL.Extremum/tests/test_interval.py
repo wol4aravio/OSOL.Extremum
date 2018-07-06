@@ -100,7 +100,7 @@ def test_division():
 def test_power():
     assert (i1 ** 2.0).approximately_equals_to(Interval(0.0, 4.0))
     assert (i2 ** 3.0).approximately_equals_to(Interval(-64.0, 27.0))
-    assert (i5 ** 0.0).approximately_equals_to(Interval(1.0, 1.0))
+    assert Interval.from_value(i5 ** 0.0).approximately_equals_to(Interval(1.0, 1.0))
 
 
 def test_negate():

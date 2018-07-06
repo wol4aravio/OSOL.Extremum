@@ -1,8 +1,15 @@
+from configparser import ConfigParser
+
 import math
 import json
 
+config = ConfigParser()
+config.read('Numerical_Objects/config.ini')
+
 
 class Interval(dict):
+
+    __MIN_WIDTH = float(config.get('interval', 'min_width'))
 
     def __init__(self, lower_bound, upper_bound):
         self._lower_bound = lower_bound
@@ -10,6 +17,28 @@ class Interval(dict):
         dict.__init__(self, {'Interval': {
             'lower_bound': self._lower_bound,
             'upper_bound': self._upper_bound}})
+
+    def __str__(self):
+        return '[{0}; {1}]'.format(self.l, self.u)
+
+    @classmethod
+    def from_value(cls, value):
+        return cls(value, value)
+
+    @classmethod
+    def from_dict(cls, dict_data):
+        return cls(**dict_data['Interval'])
+
+    @classmethod
+    def from_json(cls, json_data):
+        return cls(**json.loads(json_data)['Interval'])
+
+    @staticmethod
+    def create_valid_interval(lower_bound, upper_bound):
+        if (upper_bound - lower_bound) < Interval.__MIN_WIDTH:
+            return 0.5 * (lower_bound + lower_bound)
+        else:
+            return Interval(lower_bound, upper_bound)
         
     @property
     def l(self):
@@ -30,21 +59,6 @@ class Interval(dict):
     @property
     def radius(self):
         return self.width / 2.0
-
-    @classmethod
-    def from_value(cls, value):
-        return cls(value, value)
-
-    @classmethod
-    def from_dict(cls, dict_data):
-        return cls(**dict_data['Interval'])
-
-    @classmethod
-    def from_json(cls, json_data):
-        return cls(**json.loads(json_data)['Interval'])
-
-    def __str__(self):
-        return '[{0}; {1}]'.format(self.l, self.u)
 
     def approximately_equals_to(self, other, max_error=1e-5):
         def get_difference(a, b):
@@ -70,11 +84,11 @@ class Interval(dict):
         return not (self == other)
 
     def __neg__(self):
-        return Interval(-self.u, -self.l)
+        return Interval.create_valid_interval(-self.u, -self.l)
 
     def __add__(self, other):
         if type(other) == Interval:
-            return Interval(self.l + other.l, self.u + other.u)
+            return Interval.create_valid_interval(self.l + other.l, self.u + other.u)
         else:
             return self + Interval.from_value(other)
 
@@ -83,7 +97,7 @@ class Interval(dict):
 
     def __sub__(self, other):
         if type(other) == Interval:
-            return Interval(self.l - other.u, self.u - other.l)
+            return Interval.create_valid_interval(self.l - other.u, self.u - other.l)
         else:
             return self - Interval.from_value(other)
 
@@ -98,7 +112,7 @@ class Interval(dict):
                 self.u * other.l,
                 self.u * other.u
             ]
-            return Interval(min(products), max(products))
+            return Interval.create_valid_interval(min(products), max(products))
         else:
             return self * Interval.from_value(other)
 
@@ -108,13 +122,13 @@ class Interval(dict):
     def __truediv__(self, other):
         if type(other) == Interval:
             if other.l > 0 or other.u < 0:
-                return self * Interval(1.0 / other.u, 1.0 / other.l)
+                return self * Interval.create_valid_interval(1.0 / other.u, 1.0 / other.l)
             elif other.l == 0.0:
-                return self * Interval(1.0 / other.u, math.inf)
+                return self * Interval.create_valid_interval(1.0 / other.u, math.inf)
             elif other.u == 0.0:
-                return self * Interval(-math.inf, 1.0 / other.l)
+                return self * Interval.create_valid_interval(-math.inf, 1.0 / other.l)
             else:
-                return Interval(-math.inf, math.inf)
+                return Interval.create_valid_interval(-math.inf, math.inf)
         else:
             return self / Interval.from_value(other)
 
@@ -126,14 +140,14 @@ class Interval(dict):
         if power % 2 == 0 and self.l * self.u < 0:
             values.append(0.0)
         values = sorted(values)
-        return Interval(values[0], values[-1])
+        return Interval.create_valid_interval(values[0], values[-1])
 
     def abs(self):
         values = [math.fabs(self.l), math.fabs(self.u)]
         if self.l * self.u < 0:
             values.append(0.0)
         values = sorted(values)
-        return Interval(values[0], values[-1])
+        return Interval.create_valid_interval(values[0], values[-1])
 
     def __abs__(self):
         return self.abs()
@@ -147,7 +161,7 @@ class Interval(dict):
             right_bound = int(math.floor(self.u / c))
             points = [self.l, self.u] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
             mapped_points = sorted(map(math.sin, points))
-            return Interval(mapped_points[0], mapped_points[-1])
+            return Interval.create_valid_interval(mapped_points[0], mapped_points[-1])
 
     def cos(self):
         if self.width > 2.0 * math.pi:
@@ -158,28 +172,28 @@ class Interval(dict):
             right_bound = int(math.floor(self.u / c))
             points = [self.l, self.u] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
             mapped_points = sorted(map(math.cos, points))
-            return Interval(mapped_points[0], mapped_points[-1])
+            return Interval.create_valid_interval(mapped_points[0], mapped_points[-1])
 
     def exp(self):
-        return Interval(math.exp(self.l), math.exp(self.u))
+        return Interval.create_valid_interval(math.exp(self.l), math.exp(self.u))
 
     def sqrt(self):
         if self.u < 0.0:
             raise(Exception('Can\'t perform operation to pure negative interval'))
         else:
             if self.l < 0.0:
-                return Interval(0.0, math.sqrt(self.u))
+                return Interval.create_valid_interval(0.0, math.sqrt(self.u))
             else:
-                return Interval(math.sqrt(self.l), math.sqrt(self.u))
+                return Interval.create_valid_interval(math.sqrt(self.l), math.sqrt(self.u))
 
     def log(self):
         if self.u <= 0.0:
             raise(Exception('Can\'t perform operation to pure negative interval'))
         else:
             if self.l <= 0.0:
-                return Interval(-math.inf, math.log(self.u))
+                return Interval.create_valid_interval(-math.inf, math.log(self.u))
             else:
-                return Interval(math.log(self.l), math.log(self.u))
+                return Interval.create_valid_interval(math.log(self.l), math.log(self.u))
 
 
 def sin(i):
