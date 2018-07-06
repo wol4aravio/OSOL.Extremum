@@ -53,6 +53,16 @@ def test_approximate_equality():
     assert not Interval(-math.inf, 0.0).approximately_equals_to(Interval(-math.inf, math.nan))
 
 
+def test_equality():
+    assert i1 == i1
+    assert Interval(2.0, 2.0) == 2.0
+
+
+def test_inequality():
+    assert i1 != i2
+    assert not (Interval(2.0, 2.0) != 2.0)
+
+
 def test_addition():
     assert (i1 + 2).approximately_equals_to(Interval(1.0, 4.0))
     assert (2.0 + i1).approximately_equals_to(Interval(1.0, 4.0))

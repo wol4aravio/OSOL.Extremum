@@ -5,9 +5,31 @@ import json
 class Interval(dict):
 
     def __init__(self, lower_bound, upper_bound):
-        self.lower_bound = lower_bound
-        self.upper_bound = upper_bound
-        dict.__init__(self, {'Interval': {'lower_bound': lower_bound, 'upper_bound': upper_bound}})
+        self._lower_bound = lower_bound
+        self._upper_bound = upper_bound
+        dict.__init__(self, {'Interval': {
+            'lower_bound': self._lower_bound,
+            'upper_bound': self._upper_bound}})
+        
+    @property
+    def l(self):
+        return self._lower_bound
+
+    @property
+    def u(self):
+        return self._upper_bound
+    
+    @property
+    def middle_point(self):
+        return 0.5 * (self.l + self.u)
+
+    @property
+    def width(self):
+        return self.u - self.l
+
+    @property
+    def radius(self):
+        return self.width / 2.0
 
     @classmethod
     def from_value(cls, value):
@@ -22,19 +44,7 @@ class Interval(dict):
         return cls(**json.loads(json_data)['Interval'])
 
     def __str__(self):
-        return '[{0}; {1}]'.format(self.lower_bound, self.upper_bound)
-
-    @property
-    def middle_point(self):
-        return 0.5 * (self.lower_bound + self.upper_bound)
-
-    @property
-    def width(self):
-        return self.upper_bound - self.lower_bound
-
-    @property
-    def radius(self):
-        return self.width / 2.0
+        return '[{0}; {1}]'.format(self.l, self.u)
 
     def approximately_equals_to(self, other, max_error=1e-5):
         def get_difference(a, b):
@@ -46,16 +56,25 @@ class Interval(dict):
                     return 1.0
             else:
                 return delta
-        error_left = get_difference(self.lower_bound, other.lower_bound)
-        error_right = get_difference(self.upper_bound, other.upper_bound)
+        error_left = get_difference(self.l, other.l)
+        error_right = get_difference(self.u, other.u)
         return error_left + error_right <= max_error
 
+    def __eq__(self, other):
+        if type(other) == Interval:
+            return self.l == other.l and self.u == other.u
+        else:
+            return self.l == other and self.u == other
+
+    def __ne__(self, other):
+        return not (self == other)
+
     def __neg__(self):
-        return Interval(-self.upper_bound, -self.lower_bound)
+        return Interval(-self.u, -self.l)
 
     def __add__(self, other):
         if type(other) == Interval:
-            return Interval(self.lower_bound + other.lower_bound, self.upper_bound + other.upper_bound)
+            return Interval(self.l + other.l, self.u + other.u)
         else:
             return self + Interval.from_value(other)
 
@@ -64,7 +83,7 @@ class Interval(dict):
 
     def __sub__(self, other):
         if type(other) == Interval:
-            return Interval(self.lower_bound - other.upper_bound, self.upper_bound - other.lower_bound)
+            return Interval(self.l - other.u, self.u - other.l)
         else:
             return self - Interval.from_value(other)
 
@@ -74,10 +93,10 @@ class Interval(dict):
     def __mul__(self, other):
         if type(other) == Interval:
             products = [
-                self.lower_bound * other.lower_bound,
-                self.lower_bound * other.upper_bound,
-                self.upper_bound * other.lower_bound,
-                self.upper_bound * other.upper_bound
+                self.l * other.l,
+                self.l * other.u,
+                self.u * other.l,
+                self.u * other.u
             ]
             return Interval(min(products), max(products))
         else:
@@ -88,12 +107,12 @@ class Interval(dict):
 
     def __truediv__(self, other):
         if type(other) == Interval:
-            if other.lower_bound > 0 or other.upper_bound < 0:
-                return self * Interval(1.0 / other.upper_bound, 1.0 / other.lower_bound)
-            elif other.lower_bound == 0.0:
-                return self * Interval(1.0 / other.upper_bound, math.inf)
-            elif other.upper_bound == 0.0:
-                return self * Interval(-math.inf, 1.0 / other.lower_bound)
+            if other.l > 0 or other.u < 0:
+                return self * Interval(1.0 / other.u, 1.0 / other.l)
+            elif other.l == 0.0:
+                return self * Interval(1.0 / other.u, math.inf)
+            elif other.u == 0.0:
+                return self * Interval(-math.inf, 1.0 / other.l)
             else:
                 return Interval(-math.inf, math.inf)
         else:
@@ -103,15 +122,15 @@ class Interval(dict):
         return Interval.from_value(other) / self
 
     def __pow__(self, power, modulo=None):
-        values = [math.pow(self.lower_bound, power), math.pow(self.upper_bound, power)]
-        if power % 2 == 0 and self.lower_bound * self.upper_bound < 0:
+        values = [math.pow(self.l, power), math.pow(self.u, power)]
+        if power % 2 == 0 and self.l * self.u < 0:
             values.append(0.0)
         values = sorted(values)
         return Interval(values[0], values[-1])
 
     def abs(self):
-        values = [math.fabs(self.lower_bound), math.fabs(self.upper_bound)]
-        if self.lower_bound * self.upper_bound < 0:
+        values = [math.fabs(self.l), math.fabs(self.u)]
+        if self.l * self.u < 0:
             values.append(0.0)
         values = sorted(values)
         return Interval(values[0], values[-1])
@@ -124,9 +143,9 @@ class Interval(dict):
             return Interval(-1.0, 1.0)
         else:
             c = 0.5 * math.pi
-            left_bound = int(math.ceil(self.lower_bound / c))
-            right_bound = int(math.floor(self.upper_bound / c))
-            points = [self.lower_bound, self.upper_bound] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
+            left_bound = int(math.ceil(self.l / c))
+            right_bound = int(math.floor(self.u / c))
+            points = [self.l, self.u] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
             mapped_points = sorted(map(math.sin, points))
             return Interval(mapped_points[0], mapped_points[-1])
 
@@ -135,32 +154,32 @@ class Interval(dict):
             return Interval(-1.0, 1.0)
         else:
             c = 0.5 * math.pi
-            left_bound = int(math.ceil(self.lower_bound / c))
-            right_bound = int(math.floor(self.upper_bound / c))
-            points = [self.lower_bound, self.upper_bound] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
+            left_bound = int(math.ceil(self.l / c))
+            right_bound = int(math.floor(self.u / c))
+            points = [self.l, self.u] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
             mapped_points = sorted(map(math.cos, points))
             return Interval(mapped_points[0], mapped_points[-1])
 
     def exp(self):
-        return Interval(math.exp(self.lower_bound), math.exp(self.upper_bound))
+        return Interval(math.exp(self.l), math.exp(self.u))
 
     def sqrt(self):
-        if self.upper_bound < 0.0:
+        if self.u < 0.0:
             raise(Exception('Can\'t perform operation to pure negative interval'))
         else:
-            if self.lower_bound < 0.0:
-                return Interval(0.0, math.sqrt(self.upper_bound))
+            if self.l < 0.0:
+                return Interval(0.0, math.sqrt(self.u))
             else:
-                return Interval(math.sqrt(self.lower_bound), math.sqrt(self.upper_bound))
+                return Interval(math.sqrt(self.l), math.sqrt(self.u))
 
     def log(self):
-        if self.upper_bound <= 0.0:
+        if self.u <= 0.0:
             raise(Exception('Can\'t perform operation to pure negative interval'))
         else:
-            if self.lower_bound <= 0.0:
-                return Interval(-math.inf, math.log(self.upper_bound))
+            if self.l <= 0.0:
+                return Interval(-math.inf, math.log(self.u))
             else:
-                return Interval(math.log(self.lower_bound), math.log(self.upper_bound))
+                return Interval(math.log(self.l), math.log(self.u))
 
 
 def sin(i):
