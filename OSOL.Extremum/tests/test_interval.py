@@ -1,3 +1,4 @@
+from Numbers.Interval import *
 
 
 i1 = Interval(-1.0, 2.0)
