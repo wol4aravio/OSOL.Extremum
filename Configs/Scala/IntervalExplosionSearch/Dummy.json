@@ -1,7 +1,0 @@
-{
-	"language": "Scala",
-	"algorithm": "IES",
-	"maxBombs": 20,
-	"rMaxRatio": 0.1,
-	"maxTime": 60.0	
-}
