@@ -44,6 +44,7 @@ def test_equality():
     assert v1 == v1.copy()
     assert v2 == v2.copy()
     assert v3 == v3.copy()
+    assert not v1 == v2
 
 
 def test_inequality():
@@ -80,7 +81,7 @@ def test_constrain():
 
 
 def test_split():
-    results = v3.split([2.0, 2.0, 1.0])
+    results = v3.split([2.0, 2.0, 1.0], key='z')
     assert results[0] == Vector({'x': Interval(-1.0, -1.0), 'y': 3.0, 'z': Interval(3.0, 3.8)})
     assert results[1] == Vector({'x': Interval(-1.0, -1.0), 'y': 3.0, 'z': Interval(3.8, 4.6)})
     assert results[2] == Vector({'x': Interval(-1.0, -1.0), 'y': 3.0, 'z': Interval(4.6, 5.0)})
