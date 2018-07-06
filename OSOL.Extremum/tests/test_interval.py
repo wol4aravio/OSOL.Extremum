@@ -175,3 +175,10 @@ def test_constrain():
     assert Interval.from_value(i4.constrain(1.5, 3.0)).approximately_equals_to(Interval(3.0, 3.0))
     assert i7.constrain(-10, 3.0).approximately_equals_to(i7)
 
+
+def test_splitting():
+    assert i1.bisect()[0] == Interval(-1.0, 0.5)
+    assert i1.bisect()[1] == Interval(0.5, 2.0)
+    assert i1.split([1.0, 2.0])[0] == Interval(-1.0, 0.0)
+    assert i1.split([1.0, 2.0])[1] == Interval(0.0, 2.0)
+

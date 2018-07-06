@@ -201,6 +201,17 @@ class Interval(dict):
         return Interval.create_valid_interval(constrain_point(self.l, min_value, max_value),
                                               constrain_point(self.u, min_value, max_value))
 
+    def split(self, ratios):
+        ratio_sum = sum(ratios)
+        w = self.width
+        intervals = []
+        for i in range(len(ratios)):
+            intervals.append(Interval(self.l + sum(ratios[:i]) * w / ratio_sum, self.l + sum(ratios[:(i+1)]) * w / ratio_sum))
+        return intervals
+
+    def bisect(self):
+        return self.split([1.0, 1.0])
+
 
 def sin(i):
     return i.sin()
