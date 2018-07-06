@@ -1,0 +1,7 @@
+# Mac Specific
+
+.DS_Store
+
+# PyCharm Specific
+
+.idea
