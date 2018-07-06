@@ -10,7 +10,7 @@ python:
   - "3.6"
 # command to install dependencies
 install:
-  - cd OSOL_Extremum
+  - cd OSOL.Extremum
   - pipenv install
 script:
   - pipenv run pytest --cov=./
