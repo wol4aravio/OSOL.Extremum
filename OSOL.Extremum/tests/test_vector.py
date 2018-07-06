@@ -89,3 +89,6 @@ def test_split():
     results = v3.bisect()
     assert results[0] == Vector({'x': Interval(-1.0, -1.0), 'y': 3.0, 'z': Interval(3.0, 4.0)})
     assert results[1] == Vector({'x': Interval(-1.0, -1.0), 'y': 3.0, 'z': Interval(4.0, 5.0)})
+
+    results = v1.bisect()
+    assert results[0] == results[1]
