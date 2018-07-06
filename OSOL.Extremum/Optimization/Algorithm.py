@@ -31,7 +31,7 @@ class Algorithm:
             os.makedirs(log_states)
         current_iteration = self.iterations[0]
 
-        while not terminator(self.current_state):
+        while not terminator(current_state=self.current_state):
             current_iteration = current_iteration(f, area, self.current_state)
             if current_iteration is None:
                 break
