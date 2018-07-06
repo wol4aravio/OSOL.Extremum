@@ -8,7 +8,7 @@ class MaxTimeTerminator(dict):
         self._max_time = max_time
 
         duration_dict = dict([s.split(':') for s in max_time.split(',')])
-        for k, v in duration_dict.items:
+        for k, v in duration_dict.items():
             duration_dict[k] = float(v)
         self._duration = timedelta(days=duration_dict.get('d', 0.0),
                                    hours=duration_dict.get('h', 0.0),
