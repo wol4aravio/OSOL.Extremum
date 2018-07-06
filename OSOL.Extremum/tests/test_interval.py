@@ -168,3 +168,10 @@ def test_log():
         bad_op = True
     assert bad_op
     assert log(i7).approximately_equals_to(Interval(-math.inf, math.log(3.0)))
+
+
+def test_constrain():
+    assert i1.constrain(1.5, 3.0).approximately_equals_to(Interval(1.5, 2.0))
+    assert Interval.from_value(i4.constrain(1.5, 3.0)).approximately_equals_to(Interval(3.0, 3.0))
+    assert i7.constrain(-10, 3.0).approximately_equals_to(i7)
+

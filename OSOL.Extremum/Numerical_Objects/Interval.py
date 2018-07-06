@@ -1,3 +1,5 @@
+from Tools.Space import constrain_point
+
 from configparser import ConfigParser
 
 import math
@@ -194,6 +196,10 @@ class Interval(dict):
                 return Interval.create_valid_interval(-math.inf, math.log(self.u))
             else:
                 return Interval.create_valid_interval(math.log(self.l), math.log(self.u))
+
+    def constrain(self, min_value, max_value):
+        return Interval.create_valid_interval(constrain_point(self.l, min_value, max_value),
+                                              constrain_point(self.u, min_value, max_value))
 
 
 def sin(i):
