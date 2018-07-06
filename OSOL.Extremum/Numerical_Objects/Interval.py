@@ -21,7 +21,7 @@ class Interval(dict):
             'upper_bound': self._upper_bound}})
 
     def __str__(self):
-        return '[{0}; {1}]'.format(self.l, self.u)
+        return '[{0}; {1}]'.format(self.left, self.right)
 
     @classmethod
     def from_value(cls, value):
@@ -43,20 +43,20 @@ class Interval(dict):
             return Interval(lower_bound, upper_bound)
         
     @property
-    def l(self):
+    def left(self):
         return self._lower_bound
 
     @property
-    def u(self):
+    def right(self):
         return self._upper_bound
     
     @property
     def middle_point(self):
-        return 0.5 * (self.l + self.u)
+        return 0.5 * (self.left + self.right)
 
     @property
     def width(self):
-        return self.u - self.l
+        return self.right - self.left
 
     @property
     def radius(self):
@@ -72,25 +72,25 @@ class Interval(dict):
                     return 1.0
             else:
                 return delta
-        error_left = get_difference(self.l, other.l)
-        error_right = get_difference(self.u, other.u)
+        error_left = get_difference(self.left, other.left)
+        error_right = get_difference(self.right, other.right)
         return error_left + error_right <= max_error
 
     def __eq__(self, other):
         if type(other) == Interval:
-            return self.l == other.l and self.u == other.u
+            return self.left == other.left and self.right == other.right
         else:
-            return self.l == other and self.u == other
+            return self.left == other and self.right == other
 
     def __ne__(self, other):
         return not (self == other)
 
     def __neg__(self):
-        return Interval.create_valid_interval(-self.u, -self.l)
+        return Interval.create_valid_interval(-self.right, -self.left)
 
     def __add__(self, other):
         if type(other) == Interval:
-            return Interval.create_valid_interval(self.l + other.l, self.u + other.u)
+            return Interval.create_valid_interval(self.left + other.left, self.right + other.right)
         else:
             return self + Interval.from_value(other)
 
@@ -99,7 +99,7 @@ class Interval(dict):
 
     def __sub__(self, other):
         if type(other) == Interval:
-            return Interval.create_valid_interval(self.l - other.u, self.u - other.l)
+            return Interval.create_valid_interval(self.left - other.right, self.right - other.left)
         else:
             return self - Interval.from_value(other)
 
@@ -109,10 +109,10 @@ class Interval(dict):
     def __mul__(self, other):
         if type(other) == Interval:
             products = [
-                self.l * other.l,
-                self.l * other.u,
-                self.u * other.l,
-                self.u * other.u
+                self.left * other.left,
+                self.left * other.right,
+                self.right * other.left,
+                self.right * other.right
             ]
             return Interval.create_valid_interval(min(products), max(products))
         else:
@@ -123,12 +123,12 @@ class Interval(dict):
 
     def __truediv__(self, other):
         if type(other) == Interval:
-            if other.l > 0 or other.u < 0:
-                return self * Interval.create_valid_interval(1.0 / other.u, 1.0 / other.l)
-            elif other.l == 0.0:
-                return self * Interval.create_valid_interval(1.0 / other.u, math.inf)
-            elif other.u == 0.0:
-                return self * Interval.create_valid_interval(-math.inf, 1.0 / other.l)
+            if other.left > 0 or other.right < 0:
+                return self * Interval.create_valid_interval(1.0 / other.right, 1.0 / other.left)
+            elif other.left == 0.0:
+                return self * Interval.create_valid_interval(1.0 / other.right, math.inf)
+            elif other.right == 0.0:
+                return self * Interval.create_valid_interval(-math.inf, 1.0 / other.left)
             else:
                 return Interval.create_valid_interval(-math.inf, math.inf)
         else:
@@ -138,15 +138,15 @@ class Interval(dict):
         return Interval.from_value(other) / self
 
     def __pow__(self, power, modulo=None):
-        values = [math.pow(self.l, power), math.pow(self.u, power)]
-        if power % 2 == 0 and self.l * self.u < 0:
+        values = [math.pow(self.left, power), math.pow(self.right, power)]
+        if power % 2 == 0 and self.left * self.right < 0:
             values.append(0.0)
         values = sorted(values)
         return Interval.create_valid_interval(values[0], values[-1])
 
     def abs(self):
-        values = [math.fabs(self.l), math.fabs(self.u)]
-        if self.l * self.u < 0:
+        values = [math.fabs(self.left), math.fabs(self.right)]
+        if self.left * self.right < 0:
             values.append(0.0)
         values = sorted(values)
         return Interval.create_valid_interval(values[0], values[-1])
@@ -159,9 +159,9 @@ class Interval(dict):
             return Interval(-1.0, 1.0)
         else:
             c = 0.5 * math.pi
-            left_bound = int(math.ceil(self.l / c))
-            right_bound = int(math.floor(self.u / c))
-            points = [self.l, self.u] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
+            left_bound = int(math.ceil(self.left / c))
+            right_bound = int(math.floor(self.right / c))
+            points = [self.left, self.right] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
             mapped_points = sorted(map(math.sin, points))
             return Interval.create_valid_interval(mapped_points[0], mapped_points[-1])
 
@@ -170,43 +170,43 @@ class Interval(dict):
             return Interval(-1.0, 1.0)
         else:
             c = 0.5 * math.pi
-            left_bound = int(math.ceil(self.l / c))
-            right_bound = int(math.floor(self.u / c))
-            points = [self.l, self.u] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
+            left_bound = int(math.ceil(self.left / c))
+            right_bound = int(math.floor(self.right / c))
+            points = [self.left, self.right] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
             mapped_points = sorted(map(math.cos, points))
             return Interval.create_valid_interval(mapped_points[0], mapped_points[-1])
 
     def exp(self):
-        return Interval.create_valid_interval(math.exp(self.l), math.exp(self.u))
+        return Interval.create_valid_interval(math.exp(self.left), math.exp(self.right))
 
     def sqrt(self):
-        if self.u < 0.0:
+        if self.right < 0.0:
             raise(Exception('Can\'t perform operation to pure negative interval'))
         else:
-            if self.l < 0.0:
-                return Interval.create_valid_interval(0.0, math.sqrt(self.u))
+            if self.left < 0.0:
+                return Interval.create_valid_interval(0.0, math.sqrt(self.right))
             else:
-                return Interval.create_valid_interval(math.sqrt(self.l), math.sqrt(self.u))
+                return Interval.create_valid_interval(math.sqrt(self.left), math.sqrt(self.right))
 
     def log(self):
-        if self.u <= 0.0:
+        if self.right <= 0.0:
             raise(Exception('Can\'t perform operation to pure negative interval'))
         else:
-            if self.l <= 0.0:
-                return Interval.create_valid_interval(-math.inf, math.log(self.u))
+            if self.left <= 0.0:
+                return Interval.create_valid_interval(-math.inf, math.log(self.right))
             else:
-                return Interval.create_valid_interval(math.log(self.l), math.log(self.u))
+                return Interval.create_valid_interval(math.log(self.left), math.log(self.right))
 
     def constrain(self, min_value, max_value):
-        return Interval.create_valid_interval(constrain_point(self.l, min_value, max_value),
-                                              constrain_point(self.u, min_value, max_value))
+        return Interval.create_valid_interval(constrain_point(self.left, min_value, max_value),
+                                              constrain_point(self.right, min_value, max_value))
 
     def split(self, ratios):
         ratio_sum = sum(ratios)
         w = self.width
         intervals = []
         for i in range(len(ratios)):
-            intervals.append(Interval(self.l + sum(ratios[:i]) * w / ratio_sum, self.l + sum(ratios[:(i+1)]) * w / ratio_sum))
+            intervals.append(Interval(self.left + sum(ratios[:i]) * w / ratio_sum, self.left + sum(ratios[:(i + 1)]) * w / ratio_sum))
         return intervals
 
     def bisect(self):
