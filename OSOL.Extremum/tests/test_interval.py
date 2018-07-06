@@ -1,4 +1,4 @@
-from Numbers.Interval import *
+from Numerical_Objects.Interval import *
 
 import json
 
