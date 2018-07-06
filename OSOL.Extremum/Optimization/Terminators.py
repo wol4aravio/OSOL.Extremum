@@ -1,6 +1,8 @@
 from datetime import datetime as dt
 from datetime import timedelta
 
+import json
+
 
 class MaxTimeTerminator(dict):
 
@@ -18,6 +20,14 @@ class MaxTimeTerminator(dict):
         dict.__init__(self, {'Terminator': {
             'name': 'MaxTimeTerminator',
             'max_time': self._max_time}})
+
+    @classmethod
+    def from_dict(cls, dict_data):
+        return cls(max_time=dict_data['Terminator']['max_time'])
+
+    @classmethod
+    def from_json(cls, json_data):
+        return MaxTimeTerminator.from_dict(json.loads(json_data))
 
     def __call__(self, *args, **kwargs):
         current_state = kwargs['current_state']
