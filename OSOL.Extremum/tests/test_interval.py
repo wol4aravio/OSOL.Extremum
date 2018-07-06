@@ -1,5 +1,7 @@
 from Numbers.Interval import *
 
+import json
+
 
 i1 = Interval(-1.0, 2.0)
 i2 = Interval(-4.0, 3.0)
@@ -8,6 +10,24 @@ i4 = Interval(5.0, 5.1)
 i5 = Interval(-6.0, -5.0)
 i6 = Interval(-2.0, 0.0)
 i7 = Interval(0.0, 3.0)
+
+
+def test_to_string():
+    assert str(i1) == '[-1.0; 2.0]'
+    assert str(i4) == '[5.0; 5.1]'
+    assert str(i6) == '[-2.0; 0.0]'
+
+
+def test_from_dict():
+    assert i1.approximately_equals_to(Interval.from_dict(dict(i1)))
+    assert i5.approximately_equals_to(Interval.from_dict(dict(i5)))
+    assert i7.approximately_equals_to(Interval.from_dict(dict(i7)))
+
+
+def test_from_dump():
+    assert i1.approximately_equals_to(Interval.from_json(json.dumps(i1)))
+    assert i5.approximately_equals_to(Interval.from_json(json.dumps(i5)))
+    assert i7.approximately_equals_to(Interval.from_json(json.dumps(i7)))
 
 
 def test_middle_point():
