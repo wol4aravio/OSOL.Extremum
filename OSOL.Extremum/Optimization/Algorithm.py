@@ -23,7 +23,7 @@ class Algorithm:
         '''Initializes algorithm with the given seed'''
 
     def work(self, f, area, terminator, seed=None, log_states=None):
-        self.initialize( f, area, seed)
+        self.initialize(f, area, seed)
         if log_states is not None:
             log_counter = 1
             if os.path.exists(log_states):
@@ -32,7 +32,7 @@ class Algorithm:
         current_iteration = self.iterations[0]
 
         while not terminator(current_state=self.current_state):
-            current_iteration = current_iteration(f, area, self.current_state)
+            current_iteration = current_iteration(f, area)
             if current_iteration is None:
                 break
             if log_states is not None:

@@ -4,9 +4,14 @@ from configparser import ConfigParser
 
 import math
 import json
+import os
+
 
 config = ConfigParser()
-config.read('Numerical_Objects/config.ini')
+if os.getcwd().endswith('tests'):
+    config.read('../Numerical_Objects/config.ini')
+else:
+    config.read('Numerical_Objects/config.ini')
 
 
 class Interval(dict):

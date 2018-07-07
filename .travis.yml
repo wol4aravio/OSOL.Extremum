@@ -11,6 +11,6 @@ install:
   - cd OSOL.Extremum
   - pipenv install
 script:
-  - pipenv run pytest --cov=./
+  - pipenv run pytest -n 2 --cov=./
 after_success:
   - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
