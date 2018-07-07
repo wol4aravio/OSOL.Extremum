@@ -2,6 +2,7 @@ from Numerical_Objects.Interval import *
 from Numerical_Objects.Vector import *
 
 import pytest
+import json
 
 
 v1 = Vector({
@@ -20,6 +21,18 @@ v3 = Vector({
     'y': 3.0,
     'z': Interval(3.0, 5.0)
 })
+
+
+def test_from_dict():
+    assert v1 == Vector.from_dict(dict(v1)['Vector'])
+    assert v2 == Vector.from_dict(dict(v2)['Vector'])
+    assert v3 == Vector.from_dict(dict(v3)['Vector'])
+
+
+def test_from_json():
+    assert v1 == Vector.from_json(json.dumps(v1))
+    assert v2 == Vector.from_json(json.dumps(v2))
+    assert v3 == Vector.from_json(json.dumps(v3))
 
 
 def test_indexer():

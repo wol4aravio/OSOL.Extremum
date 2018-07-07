@@ -1,4 +1,5 @@
 from Tools.Space import constrain_point
+from Numerical_Objects.Interval import Interval
 
 import random
 import math
@@ -9,7 +10,7 @@ class Vector(dict):
 
     def __init__(self, values):
         self._values = values
-        dict.__init__(self, {'Vector': self._values})
+        dict.__init__(self, {'Vector': {'values': self._values}})
 
     def __getitem__(self, var_name):
         return self._values[var_name]
@@ -23,7 +24,14 @@ class Vector(dict):
 
     @classmethod
     def from_json(cls, json_data):
-        return cls(**json.loads(json_data)['Vector'])
+        values_dict = json.loads(json_data)['Vector']['values']
+        for k, v in values_dict.items():
+            if type(v) == dict:
+                if 'Interval' in v:
+                    values_dict[k] = Interval.from_dict(v['Interval'])
+                else:
+                    raise Exception('Can\'t deserialize object: {}'.format(v))
+        return cls(values_dict)
 
     def copy(self):
         return Vector(self._values.copy())
