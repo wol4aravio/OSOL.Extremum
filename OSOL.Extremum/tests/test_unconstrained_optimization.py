@@ -3,6 +3,7 @@ from Numerical_Objects.Interval import Interval as I
 from Numerical_Objects.Vector import Vector as V
 
 from math import fabs
+import json
 
 
 task = {
@@ -19,6 +20,11 @@ def almost_equal_real(v1, v2):
 
 def almost_equal_interval(i1, i2):
     return fabs(i1.left - i2.left) + fabs(i1.right - i2.right) < 2 * tol
+
+
+def test_from_json():
+    f = UnconstrainedOptimization.from_dict(task)
+    assert f == UnconstrainedOptimization.from_json(json.dumps(f))
 
 
 def test_real_calculation():

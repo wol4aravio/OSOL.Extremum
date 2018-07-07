@@ -13,10 +13,9 @@ class UnconstrainedOptimization(dict):
 
         self._f_expr = parse_expr(f)
         self._sym_vars = list(map(symbols, variables))
-        self._f = lambdify(self._sym_vars, self._f_expr, np)
+        self._f_lambda = lambdify(self._sym_vars, self._f_expr, np)
 
-        dict.__init__(self, {'Task': {
-            'name': 'UnconstrainedOptimization',
+        dict.__init__(self, {'UnconstrainedOptimization': {
             'f': self._f,
             'variables': self._variables}})
 
@@ -26,9 +25,9 @@ class UnconstrainedOptimization(dict):
 
     @classmethod
     def from_json(cls, json_data):
-        return UnconstrainedOptimization.from_dict(json.loads(json_data)['Task'])
+        return UnconstrainedOptimization.from_dict(json.loads(json_data)['UnconstrainedOptimization'])
 
     def __call__(self, *args, **kwargs):
         vector = args[0]
         args = list(map(lambda v: vector[v], self._variables))
-        return self._f(*args)
+        return self._f_lambda(*args)
