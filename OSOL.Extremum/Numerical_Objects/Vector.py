@@ -132,3 +132,13 @@ class Vector(dict):
 
     def bisect(self, key=None):
         return self.split(ratios=[1.0, 1.0], key=key)
+
+    def reduce_to_solution(self):
+        result = {}
+        for k in self.keys:
+            v = self[k]
+            if type(v) == Interval:
+                result[k] = v.middle_point
+            else:
+                result[k] = float(v)
+        return result

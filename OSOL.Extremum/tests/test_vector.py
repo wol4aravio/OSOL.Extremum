@@ -105,3 +105,7 @@ def test_split():
 
     results = v1.bisect()
     assert results[0] == results[1]
+
+
+def test_reduce_to_solution():
+    assert v3.reduce_to_solution() == {'x': -1.0, 'y': 3.0, 'z': 4.0}
