@@ -19,11 +19,11 @@ class Algorithm:
         '''Returns list of iterations'''
 
     @abstractmethod
-    def initialize(self, seed):
+    def initialize(self, f, area, seed):
         '''Initializes algorithm with the given seed'''
 
     def work(self, f, area, terminator, seed=None, log_states=None):
-        self.initialize(seed)
+        self.initialize( f, area, seed)
         if log_states is not None:
             log_counter = 1
             if os.path.exists(log_states):

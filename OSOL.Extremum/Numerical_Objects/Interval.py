@@ -85,6 +85,30 @@ class Interval(dict):
     def __ne__(self, other):
         return not (self == other)
 
+    def __lt__(self, other):
+        if type(other) == Interval:
+            return self.left < other.left
+        else:
+            return self.left < other
+
+    def __le__(self, other):
+        if type(other) == Interval:
+            return self.left <= other.left
+        else:
+            return self.left <= other
+
+    def __gt__(self, other):
+        if type(other) == Interval:
+            return self.left > other.left
+        else:
+            return self.left > other
+
+    def __ge__(self, other):
+        if type(other) == Interval:
+            return self.left >= other.left
+        else:
+            return self.left >= other
+
     def __neg__(self):
         return Interval.create_valid_interval(-self.right, -self.left)
 
