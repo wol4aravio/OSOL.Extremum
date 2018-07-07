@@ -14,7 +14,7 @@ class Dummy_Optimization(Algorithm):
 
     @property
     def current_state(self):
-        return {'x': self.x}
+        return {'result': self.x}
 
     @property
     def iterations(self):
