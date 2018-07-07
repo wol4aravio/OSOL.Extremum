@@ -2,6 +2,7 @@ from Tools.Space import constrain_point
 
 import random
 import math
+import json
 
 
 class Vector(dict):
@@ -15,6 +16,14 @@ class Vector(dict):
 
     def __setitem__(self, key, value):
         self._values[key] = value
+
+    @classmethod
+    def from_dict(cls, dict_data):
+        return cls(**dict_data)
+
+    @classmethod
+    def from_json(cls, json_data):
+        return cls(**json.loads(json_data)['Vector'])
 
     def copy(self):
         return Vector(self._values.copy())

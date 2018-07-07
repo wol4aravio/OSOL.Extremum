@@ -5,8 +5,10 @@ from Numerical_Objects.Vector import Vector as V
 from math import fabs
 
 
-f = UnconstrainedOptimization(f='1 * x ** 2 + 2 * y ** 2 + 3 * z ** 2',
-                              variables=['x', 'y', 'z'])
+task = {
+    'f': '1 * x ** 2 + 2 * y ** 2 + 3 * z ** 2',
+    'variables': ['x', 'y', 'z']
+}
 
 tol = 1e-7
 
@@ -20,14 +22,17 @@ def almost_equal_interval(i1, i2):
 
 
 def test_real_calculation():
+    f = UnconstrainedOptimization.from_dict(task)
     assert almost_equal_real(f({'x': 1, 'y': 2, 'z': 3}), 36.0)
     assert almost_equal_real(f({'x': -1, 'y': -2, 'z': -3}), 36.0)
     assert almost_equal_real(f({'x': 2, 'y': 2, 'z': 2}), 24.0)
 
 
 def test_interval_calculation():
+    f = UnconstrainedOptimization.from_dict(task)
     assert almost_equal_interval(f({'x': I(1, 2), 'y': I(2, 3), 'z': I(3, 4)}), I(36.0, 70.0))
 
 
 def test_mixed_calculation():
+    f = UnconstrainedOptimization.from_dict(task)
     assert almost_equal_interval(f(V({'x': I(1, 2), 'y': 2, 'z': 3})), I(36.0, 39.0))

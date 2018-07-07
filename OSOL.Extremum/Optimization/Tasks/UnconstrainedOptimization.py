@@ -22,11 +22,11 @@ class UnconstrainedOptimization(dict):
 
     @classmethod
     def from_dict(cls, dict_data):
-        return cls(f=dict_data['Task']['f_str'], variables=dict_data['Task']['variables'])
+        return cls(**dict_data)
 
     @classmethod
     def from_json(cls, json_data):
-        return UnconstrainedOptimization.from_dict(json.loads(json_data))
+        return UnconstrainedOptimization.from_dict(json.loads(json_data)['Task'])
 
     def __call__(self, *args, **kwargs):
         vector = args[0]

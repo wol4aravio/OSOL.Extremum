@@ -20,9 +20,9 @@ def test_to_string():
 
 
 def test_from_dict():
-    assert i1.approximately_equals_to(Interval.from_dict(dict(i1)))
-    assert i5.approximately_equals_to(Interval.from_dict(dict(i5)))
-    assert i7.approximately_equals_to(Interval.from_dict(dict(i7)))
+    assert i1.approximately_equals_to(Interval.from_dict(dict(i1)['Interval']))
+    assert i5.approximately_equals_to(Interval.from_dict(dict(i5)['Interval']))
+    assert i7.approximately_equals_to(Interval.from_dict(dict(i7)['Interval']))
 
 
 def test_from_dump():
