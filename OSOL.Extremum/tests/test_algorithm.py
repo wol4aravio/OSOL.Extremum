@@ -44,9 +44,11 @@ class Dummy_Optimization(Algorithm):
     def generate_new_points(self, f, area):
         x = self.x
         delta = {k: np.random.uniform(left, right) for k, (left, right) in self.delta_area.items()}
-        [x1, x2] = x.bisect()
-        [x3, x4] = (x >> delta).bisect()
-        self.x = sorted([x1, x2, x3, x4], key=lambda v: f(v))[0]
+        x_new = x >> delta
+        x_best = min(x, x_new, key=lambda v: f(v))
+        [x, x_new] = x_best.bisect()
+        x_best = min(x, x_new, key=lambda v: f(v))
+        self.x = x_best
         return self.generate_new_points
 
 

@@ -38,7 +38,7 @@ area_3 = {
     'z': (-10.0, 10.0)
 }
 
-mt = MaxTimeTerminator('m:2,s:30')
+mt = MaxTimeTerminator('m:1,s:30')
 
 
 def solution_delta(v1, v2):
