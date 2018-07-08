@@ -56,22 +56,22 @@ def solution_delta(v1, v2):
 
 class Verifier:
     def __init__(self, tolerance=1e-3, attempts=5):
-        self.test_functions = [f_1, f_2, f_3]
-        self.search_area = [area_1, area_2, area_3]
-        self.solutions = [v_1, v_2, v_3]
-        self.tolerance = tolerance
-        self.attempts = attempts
+        self._test_functions = [f_1, f_2, f_3]
+        self._search_area = [area_1, area_2, area_3]
+        self._solutions = [v_1, v_2, v_3]
+        self._tolerance = tolerance
+        self._attempts = attempts
 
     def verify(self, algorithms, logger):
-        for i_f, f in enumerate(self.test_functions):
-            logger.info('>>> Testing function {0}/{1}'.format(i_f + 1, len(self.test_functions)))
+        for i_f, f in enumerate(self._test_functions):
+            logger.info('>>> Testing function {0}/{1}'.format(i_f + 1, len(self._test_functions)))
             success = False
             for i_a, a in enumerate(algorithms):
                 logger.info('>>> >>> Using config {0}/{1}'.format(i_a + 1, len(algorithms)))
-                for j in range(self.attempts):
-                    logger.info('>>> >>> >>> Attempt {0}/{1}'.format(j + 1, self.attempts))
-                    x_opt = a.work(f, self.search_area[i_f], mt)
-                    if solution_delta(x_opt, self.solutions[i_f]) < self.tolerance:
+                for j in range(self._attempts):
+                    logger.info('>>> >>> >>> Attempt {0}/{1}'.format(j + 1, self._attempts))
+                    x_opt = a.work(f, self._search_area[i_f], mt)
+                    if solution_delta(x_opt, self._solutions[i_f]) < self._tolerance:
                         success = True
                         break
                 if success:
