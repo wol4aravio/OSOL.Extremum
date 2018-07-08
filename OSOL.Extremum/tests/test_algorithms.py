@@ -1,4 +1,4 @@
-from Optimization.Algorithms.RandomSearch import RandomSearch
+from Tools.OptimizationTools import *
 from Optimization.Verifier import Verifier
 
 
@@ -25,9 +25,9 @@ rs_3_config = {
     }
 }
 
-rs_1 = RandomSearch.from_json(rs_1_config)
-rs_2 = RandomSearch.from_json(rs_2_config)
-rs_3 = RandomSearch.from_json(rs_3_config)
+rs_1 = create_algorithm_from_json(rs_1_config)
+rs_2 = create_algorithm_from_json(rs_2_config)
+rs_3 = create_algorithm_from_json(rs_3_config)
 
 
 def test_random_search():

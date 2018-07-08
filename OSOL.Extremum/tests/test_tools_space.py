@@ -1,4 +1,4 @@
-from Tools.Space import *
+from Tools.etc import *
 
 
 def test_constrain():
