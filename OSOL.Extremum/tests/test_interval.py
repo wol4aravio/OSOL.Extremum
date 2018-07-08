@@ -64,6 +64,26 @@ def test_inequality():
     assert not (Interval(2.0, 2.0) != 2.0)
 
 
+def test_lt():
+    assert i2 < i1
+    assert i6 < i7
+
+
+def test_le():
+    assert i2 <= i1
+    assert i2 <= Interval(-4.0, 2.0)
+
+
+def assert_gt():
+    assert i1 > i2
+    assert i7 > i6
+
+
+def assert_ge():
+    assert i1 >= i2
+    assert Interval(-4.0, 2.0) >= i2
+
+
 def test_addition():
     assert (i1 + 2).approximately_equals_to(Interval(1.0, 4.0))
     assert (2.0 + i1).approximately_equals_to(Interval(1.0, 4.0))
