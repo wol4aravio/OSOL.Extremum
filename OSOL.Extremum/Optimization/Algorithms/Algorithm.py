@@ -8,10 +8,6 @@ import json
 class Algorithm(dict):
     __metaclass__ = ABCMeta
 
-    # @classmethod
-    # def create_algorithm_from_json(cls, dict_data):
-
-
     @classmethod
     @abstractmethod
     def from_dict(cls, dict_data):
