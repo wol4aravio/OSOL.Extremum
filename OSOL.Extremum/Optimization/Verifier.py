@@ -54,7 +54,7 @@ def solution_delta(v1, v2):
     return delta
 
 
-class Tester:
+class Verifier:
     def __init__(self, tolerance=1e-3, attempts=5):
         self.test_functions = [f_1, f_2, f_3]
         self.search_area = [area_1, area_2, area_3]

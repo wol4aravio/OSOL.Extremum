@@ -1,5 +1,5 @@
 from Optimization.Algorithm import Algorithm
-from Optimization.Tester import Tester
+from Optimization.Verifier import Verifier
 from Numerical_Objects.Interval import Interval
 from Numerical_Objects.Vector import Vector
 
@@ -56,7 +56,7 @@ a1 = Dummy_Optimization(0.01)
 a2 = Dummy_Optimization(0.005)
 a3 = Dummy_Optimization(0.001)
 
-tester = Tester()
+tester = Verifier()
 
 
 def test_algorithm():
