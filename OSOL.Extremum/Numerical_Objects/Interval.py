@@ -1,4 +1,4 @@
-from Tools.Space import constrain_point
+from Tools.etc import constrain_point
 
 from configparser import ConfigParser
 
