@@ -1,3 +1,5 @@
+from Tools.Encoders import CustomEncoder
+
 from abc import ABCMeta, abstractmethod
 
 import os
@@ -49,6 +51,7 @@ class Algorithm:
             if log_states is not None:
                 json.dump(self.current_state,
                           open(os.path.join(log_states, '{0:07d}.json'.format(log_counter)), 'w'),
+                          cls=CustomEncoder,
                           indent=2)
                 log_counter += 1
 
