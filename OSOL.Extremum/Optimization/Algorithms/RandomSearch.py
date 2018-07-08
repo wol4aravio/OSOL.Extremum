@@ -27,7 +27,7 @@ class RandomSearch(Algorithm):
 
     @classmethod
     def from_dict(cls, dict_data):
-        return cls(dict['radius'])
+        return cls(dict_data['radius'])
 
     @classmethod
     def from_json(cls, json_data):
