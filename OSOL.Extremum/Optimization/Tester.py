@@ -68,7 +68,7 @@ class Tester:
             for a in algorithms:
                 for j in range(self.attempts):
                     x_opt = a.work(f, self.search_area[i], mt)
-                    if solution_delta(x_opt.reduce_to_solution(), self.solutions[i].reduce_to_solution()) < self.tolerance:
+                    if solution_delta(x_opt, self.solutions[i]) < self.tolerance:
                         success = True
                         break
                 if success:

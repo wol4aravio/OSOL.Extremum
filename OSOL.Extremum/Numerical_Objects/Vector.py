@@ -124,10 +124,6 @@ class Vector(dict):
             copy[split_key] = r
             final_result.append(copy)
 
-        for d in final_result:
-            print(d)
-            print('\n\n\n')
-
         return final_result
 
     def bisect(self, key=None):
