@@ -1,3 +1,5 @@
+from Tools.Encoders import CustomEncoder
+
 from Optimization.Tasks.UnconstrainedOptimization import UnconstrainedOptimization
 from Numerical_Objects.Interval import Interval as I
 from Numerical_Objects.Vector import Vector as V
@@ -24,7 +26,8 @@ def almost_equal_interval(i1, i2):
 
 def test_from_json():
     f = UnconstrainedOptimization.from_dict(task)
-    assert f == UnconstrainedOptimization.from_json(json.dumps(f))
+    assert f._f == UnconstrainedOptimization.from_json(json.dumps(f, cls=CustomEncoder))._f
+    assert f._variables == UnconstrainedOptimization.from_json(json.dumps(f, cls=CustomEncoder))._variables
 
 
 def test_real_calculation():
