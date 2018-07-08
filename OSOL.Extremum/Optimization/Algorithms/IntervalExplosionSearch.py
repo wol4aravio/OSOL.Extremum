@@ -52,7 +52,7 @@ class IntervalExplosionSearch(Algorithm):
 
     @classmethod
     def from_dict(cls, dict_data):
-        return cls(dict_data['max_bombs'], dict_data['м'])
+        return cls(dict_data['max_bombs'], dict_data['max_radius_ratio'])
 
     @classmethod
     def from_json(cls, json_data):
