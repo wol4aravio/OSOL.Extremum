@@ -8,15 +8,10 @@ class RandomSearch(Algorithm):
 
     @staticmethod
     def generate_random_point_in_sphere(current_point, radius, area):
-        normally_distributed = {}
-        for k, v in zip(area.keys(), np.random.normal(0.0, 1.0, len(area))):
-            normally_distributed[k] = v
-        normally_distributed = Vector(normally_distributed)
-
+        normally_distributed = Vector({k: v for k, v in zip(area.keys(), np.random.normal(0.0, 1.0, len(area)))})
         length = np.sqrt(sum(np.array(normally_distributed.values) ** 2))
         shift = (np.random.uniform(0.0, radius) / length) * normally_distributed
-
-        return (current_point >> shift).constrain(area)
+        return (current_point >> shift.reduce_to_dict()).constrain(area)
 
     def __init__(self, radius):
         self._x = None

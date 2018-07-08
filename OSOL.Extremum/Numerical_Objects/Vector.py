@@ -129,7 +129,7 @@ class Vector(dict):
     def bisect(self, key=None):
         return self.split(ratios=[1.0, 1.0], key=key)
 
-    def reduce_to_solution(self):
+    def reduce_to_dict(self):
         result = {}
         for k in self.keys:
             v = self[k]

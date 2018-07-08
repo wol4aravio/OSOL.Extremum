@@ -40,8 +40,8 @@ area_3 = {
 
 
 def solution_delta(v1, v2):
-    s1 = v1.reduce_to_solution()
-    s2 = v2.reduce_to_solution()
+    s1 = v1.reduce_to_dict()
+    s2 = v2.reduce_to_dict()
 
     keys = s1.keys() | s2.keys()
     delta = 0.0
