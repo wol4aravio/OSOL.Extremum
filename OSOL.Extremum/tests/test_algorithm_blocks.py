@@ -62,17 +62,17 @@ a1 = DummyOptimization(5, 0.001)
 a2 = DummyOptimization(10, 0.005)
 a3 = DummyOptimization(25, 0.01)
 
-tester = Verifier()
+verifier = Verifier()
 
 
 def test_logging():
     log_dir = 'log_test'
-    a1.work(tester._test_functions[0], tester._search_area[0], tester._mt, log_states=log_dir)
+    a1.work(verifier._test_functions[0], verifier._search_area[0], verifier._mt, log_states=log_dir)
     assert len(os.listdir(log_dir)) > 0
     shutil.rmtree(log_dir)
 
 
 def test_algorithm():
     logger = logging.getLogger('Integration test of optimization parts')
-    assert tester.verify([a1, a2, a3], logger)
+    assert verifier.verify([a1, a2, a3], logger)
     print('Done!\n')
