@@ -1,13 +1,16 @@
+from Optimization.Terminators.Terminator import Terminator
+
 from datetime import datetime as dt
 from datetime import timedelta
 
 import json
 
 
-class MaxTimeTerminator(dict):
+class MaxTimeTerminator(Terminator):
 
     def __init__(self, max_time):
         self._max_time = max_time
+        self.start_time = None
 
         duration_dict = dict([s.split(':') for s in max_time.split(',')])
         for k, v in duration_dict.items():
@@ -29,14 +32,12 @@ class MaxTimeTerminator(dict):
     def from_json(cls, json_data):
         return MaxTimeTerminator.from_dict(json.loads(json_data))
 
+    def initialize(self):
+        self.start_time = dt.now()
+
     def __call__(self, *args, **kwargs):
-        current_state = kwargs['current_state']
-        if 'start_time' not in current_state:
-            current_state['start_time'] = dt.now()
-            return False
+        elapsed_time = dt.now() - self.start_time
+        if elapsed_time > self._duration:
+            return True
         else:
-            elapsed_time = dt.now() - current_state['start_time']
-            if elapsed_time > self._duration:
-                return True
-            else:
-                return False
+            return False

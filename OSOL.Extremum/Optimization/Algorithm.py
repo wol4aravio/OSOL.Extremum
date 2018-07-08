@@ -24,6 +24,7 @@ class Algorithm:
 
     def work(self, f, area, terminator, seed=None, log_states=None):
         self.initialize(f, area, seed)
+        terminator.initialize()
         if log_states is not None:
             log_counter = 1
             if os.path.exists(log_states):

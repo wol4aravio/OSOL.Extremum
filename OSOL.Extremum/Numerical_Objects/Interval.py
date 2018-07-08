@@ -235,7 +235,8 @@ class Interval(dict):
         w = self.width
         intervals = []
         for i in range(len(ratios)):
-            intervals.append(Interval(self.left + sum(ratios[:i]) * w / ratio_sum, self.left + sum(ratios[:(i + 1)]) * w / ratio_sum))
+            intervals.append(Interval.create_valid_interval(lower_bound=self.left + sum(ratios[:i]) * w / ratio_sum,
+                                                            upper_bound=self.left + sum(ratios[:(i + 1)]) * w / ratio_sum))
         return intervals
 
     def bisect(self):

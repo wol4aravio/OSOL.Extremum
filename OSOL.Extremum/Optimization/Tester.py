@@ -1,5 +1,5 @@
 from Optimization.Tasks.UnconstrainedOptimization import UnconstrainedOptimization
-from Optimization.Terminator import MaxTimeTerminator
+from Optimization.Terminators.MaxTimeTerminator import MaxTimeTerminator
 from Numerical_Objects.Vector import Vector
 
 from math import *
