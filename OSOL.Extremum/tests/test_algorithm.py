@@ -4,6 +4,8 @@ from Numerical_Objects.Interval import Interval
 from Numerical_Objects.Vector import Vector
 
 import numpy as np
+import logging
+logging.basicConfig(level=logging.INFO)
 
 
 class Dummy_Optimization(Algorithm):
@@ -59,4 +61,5 @@ tester = Verifier()
 
 
 def test_algorithm():
-    assert tester.test([a1, a2, a3])
+    logger = logging.getLogger('Integration test of optimization parts')
+    assert tester.test([a1, a2, a3], logger)

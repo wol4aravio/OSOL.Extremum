@@ -62,13 +62,16 @@ class Verifier:
         self.tolerance = tolerance
         self.attempts = attempts
 
-    def test(self, algorithms):
-        for i, f in enumerate(self.test_functions):
+    def test(self, algorithms, logger):
+        for i_f, f in enumerate(self.test_functions):
+            logger.info('>>> Testing function {0}/{1}'.format(i_f + 1, len(self.test_functions)))
             success = False
-            for a in algorithms:
+            for i_a, a in enumerate(algorithms):
+                logger.info('>>> >>> Using config {0}/{1}'.format(i_a + 1, len(algorithms)))
                 for j in range(self.attempts):
-                    x_opt = a.work(f, self.search_area[i], mt)
-                    if solution_delta(x_opt, self.solutions[i]) < self.tolerance:
+                    logger.info('>>> >>> >>> Attempt {0}/{1}'.format(j + 1, self.attempts))
+                    x_opt = a.work(f, self.search_area[i_f], mt)
+                    if solution_delta(x_opt, self.solutions[i_f]) < self.tolerance:
                         success = True
                         break
                 if success:
