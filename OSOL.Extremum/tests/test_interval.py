@@ -1,3 +1,4 @@
+from Tools.Encoders import CustomEncoder
 from Numerical_Objects.Interval import *
 
 import json
@@ -20,15 +21,15 @@ def test_to_string():
 
 
 def test_from_dict():
-    assert i1.approximately_equals_to(Interval.from_dict(dict(i1)['Interval']))
-    assert i5.approximately_equals_to(Interval.from_dict(dict(i5)['Interval']))
-    assert i7.approximately_equals_to(Interval.from_dict(dict(i7)['Interval']))
+    assert i1.approximately_equals_to(Interval.from_dict({'lower_bound': i1.left, 'upper_bound': i1.right}))
+    assert i5.approximately_equals_to(Interval.from_dict({'lower_bound': i5.left, 'upper_bound': i5.right}))
+    assert i7.approximately_equals_to(Interval.from_dict({'lower_bound': i7.left, 'upper_bound': i7.right}))
 
 
 def test_from_dump():
-    assert i1.approximately_equals_to(Interval.from_json(json.dumps(i1)))
-    assert i5.approximately_equals_to(Interval.from_json(json.dumps(i5)))
-    assert i7.approximately_equals_to(Interval.from_json(json.dumps(i7)))
+    assert i1.approximately_equals_to(Interval.from_json(json.dumps(i1, cls=CustomEncoder)))
+    assert i5.approximately_equals_to(Interval.from_json(json.dumps(i5, cls=CustomEncoder)))
+    assert i7.approximately_equals_to(Interval.from_json(json.dumps(i7, cls=CustomEncoder)))
 
 
 def test_middle_point():

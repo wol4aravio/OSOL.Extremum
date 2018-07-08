@@ -14,16 +14,13 @@ else:
     config.read('Numerical_Objects/config.ini')
 
 
-class Interval(dict):
+class Interval:
 
     __MIN_WIDTH = float(config.get('interval', 'min_width'))
 
     def __init__(self, lower_bound, upper_bound):
         self._lower_bound = lower_bound
         self._upper_bound = upper_bound
-        dict.__init__(self, {'Interval': {
-            'lower_bound': self._lower_bound,
-            'upper_bound': self._upper_bound}})
 
     def __str__(self):
         return '[{0}; {1}]'.format(self.left, self.right)
