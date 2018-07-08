@@ -17,9 +17,6 @@ class DummyOptimization(Algorithm):
         self.delta_area = None
         self.ratio = ratio
         self.N = N
-        dict.__init__(self, {'DummyOptimization': {
-            'ratio': self.ratio,
-            'N': self.N}})
 
     @property
     def current_state(self):
