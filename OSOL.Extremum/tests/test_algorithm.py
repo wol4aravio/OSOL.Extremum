@@ -55,9 +55,9 @@ class Dummy_Optimization(Algorithm):
         return self.generate_new_points
 
 
-a1 = Dummy_Optimization(5, 0.01)
+a1 = Dummy_Optimization(5, 0.001)
 a2 = Dummy_Optimization(10, 0.005)
-a3 = Dummy_Optimization(25, 0.001)
+a3 = Dummy_Optimization(25, 0.01)
 
 tester = Verifier()
 
