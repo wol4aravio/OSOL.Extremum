@@ -79,7 +79,7 @@ class Interval:
         return error_left + error_right <= max_error
 
     def __eq__(self, other):
-        if type(other) == Interval:
+        if isinstance(other, Interval):
             return self.left == other.left and self.right == other.right
         else:
             return self.left == other and self.right == other
@@ -88,25 +88,25 @@ class Interval:
         return not (self == other)
 
     def __lt__(self, other):
-        if type(other) == Interval:
+        if isinstance(other, Interval):
             return self.left < other.left
         else:
             return self.left < other
 
     def __le__(self, other):
-        if type(other) == Interval:
+        if isinstance(other, Interval):
             return self.left <= other.left
         else:
             return self.left <= other
 
     def __gt__(self, other):
-        if type(other) == Interval:
+        if isinstance(other, Interval):
             return self.left > other.left
         else:
             return self.left > other
 
     def __ge__(self, other):
-        if type(other) == Interval:
+        if isinstance(other, Interval):
             return self.left >= other.left
         else:
             return self.left >= other
@@ -115,7 +115,7 @@ class Interval:
         return Interval.create_valid_interval(-self.right, -self.left)
 
     def __add__(self, other):
-        if type(other) == Interval:
+        if isinstance(other, Interval):
             return Interval.create_valid_interval(self.left + other.left, self.right + other.right)
         else:
             return self + Interval.from_value(other)
@@ -124,7 +124,7 @@ class Interval:
         return self + other
 
     def __sub__(self, other):
-        if type(other) == Interval:
+        if isinstance(other, Interval):
             return Interval.create_valid_interval(self.left - other.right, self.right - other.left)
         else:
             return self - Interval.from_value(other)
@@ -133,7 +133,7 @@ class Interval:
         return Interval.from_value(other) - self
 
     def __mul__(self, other):
-        if type(other) == Interval:
+        if isinstance(other, Interval):
             products = [
                 self.left * other.left,
                 self.left * other.right,
@@ -148,7 +148,7 @@ class Interval:
         return self * other
 
     def __truediv__(self, other):
-        if type(other) == Interval:
+        if isinstance(other, Interval):
             if other.left > 0 or other.right < 0:
                 return self * Interval.create_valid_interval(1.0 / other.right, 1.0 / other.left)
             elif other.left == 0.0:
