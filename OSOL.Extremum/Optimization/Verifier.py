@@ -38,8 +38,6 @@ area_3 = {
     'z': (-10.0, 10.0)
 }
 
-mt = MaxTimeTerminator('m:1,s:30')
-
 
 def solution_delta(v1, v2):
     s1 = v1.reduce_to_solution()
@@ -61,6 +59,7 @@ class Verifier:
         self._solutions = [v_1, v_2, v_3]
         self._tolerance = tolerance
         self._attempts = attempts
+        self._mt = MaxTimeTerminator('m:1,s:30')
 
     def verify(self, algorithms, logger):
         for i_f, f in enumerate(self._test_functions):
@@ -70,7 +69,7 @@ class Verifier:
                 logger.info('>>> >>> Using config {0}/{1}'.format(i_a + 1, len(algorithms)))
                 for j in range(self._attempts):
                     logger.info('>>> >>> >>> Attempt {0}/{1}'.format(j + 1, self._attempts))
-                    x_opt = a.work(f, self._search_area[i_f], mt)
+                    x_opt = a.work(f, self._search_area[i_f], self._mt)
                     if solution_delta(x_opt, self._solutions[i_f]) < self._tolerance:
                         success = True
                         break

@@ -3,6 +3,8 @@ from Optimization.Verifier import Verifier
 from Numerical_Objects.Interval import Interval
 from Numerical_Objects.Vector import Vector
 
+import os
+import shutil
 import numpy as np
 import logging
 logging.basicConfig(level=logging.INFO)
@@ -58,6 +60,13 @@ a2 = Dummy_Optimization(10, 0.005)
 a3 = Dummy_Optimization(25, 0.001)
 
 tester = Verifier()
+
+
+def test_logging():
+    log_dir = 'log_test'
+    a1.work(tester._test_functions[0], tester._search_area[0], tester._mt, log_states=log_dir)
+    assert len(os.listdir(log_dir)) > 0
+    shutil.rmtree(log_dir)
 
 
 def test_algorithm():

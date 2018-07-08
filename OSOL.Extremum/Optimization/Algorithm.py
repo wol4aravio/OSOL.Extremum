@@ -37,7 +37,7 @@ class Algorithm:
             if current_iteration is None:
                 break
             if log_states is not None:
-                json.dump(self.current_state, open(os.path.join(log_states, '{0:07d}.json'), 'w'), indent=2)
+                json.dump(self.current_state, open(os.path.join(log_states, '{0:07d}.json'.format(log_counter)), 'w'), indent=2)
                 log_counter += 1
 
         return self.current_state['result']
