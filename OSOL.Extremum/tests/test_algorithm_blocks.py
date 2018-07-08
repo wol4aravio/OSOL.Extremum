@@ -1,4 +1,4 @@
-from Optimization.Algorithm import Algorithm
+from Optimization.Algorithms.Algorithm import Algorithm
 from Optimization.Verifier import Verifier
 from Numerical_Objects.Interval import Interval
 from Numerical_Objects.Vector import Vector
@@ -10,13 +10,16 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 
-class Dummy_Optimization(Algorithm):
+class DummyOptimization(Algorithm):
     def __init__(self, N, ratio):
         self.best = None
         self.points = None
         self.delta_area = None
         self.ratio = ratio
         self.N = N
+        dict.__init__(self, {'DummyOptimization': {
+            'ratio': self.ratio,
+            'N': self.N}})
 
     @property
     def current_state(self):
@@ -55,9 +58,9 @@ class Dummy_Optimization(Algorithm):
         return self.generate_new_points
 
 
-a1 = Dummy_Optimization(5, 0.001)
-a2 = Dummy_Optimization(10, 0.005)
-a3 = Dummy_Optimization(25, 0.01)
+a1 = DummyOptimization(5, 0.001)
+a2 = DummyOptimization(10, 0.005)
+a3 = DummyOptimization(25, 0.01)
 
 tester = Verifier()
 
