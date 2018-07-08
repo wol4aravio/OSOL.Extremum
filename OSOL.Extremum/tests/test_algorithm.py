@@ -62,5 +62,5 @@ tester = Verifier()
 
 def test_algorithm():
     logger = logging.getLogger('Integration test of optimization parts')
-    assert tester.test([a1, a2, a3], logger)
+    assert tester.verify([a1, a2, a3], logger)
     print('Done!\n')

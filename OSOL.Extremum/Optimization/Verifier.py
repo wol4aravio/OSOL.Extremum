@@ -62,7 +62,7 @@ class Verifier:
         self.tolerance = tolerance
         self.attempts = attempts
 
-    def test(self, algorithms, logger):
+    def verify(self, algorithms, logger):
         for i_f, f in enumerate(self.test_functions):
             logger.info('>>> Testing function {0}/{1}'.format(i_f + 1, len(self.test_functions)))
             success = False
