@@ -5,7 +5,7 @@ import shutil
 import json
 
 
-class Algorithm(dict):
+class Algorithm:
     __metaclass__ = ABCMeta
 
     @classmethod

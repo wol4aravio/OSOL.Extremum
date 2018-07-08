@@ -20,17 +20,13 @@ class MaxTimeTerminator(Terminator):
                                    minutes=duration_dict.get('m', 0.0),
                                    seconds=duration_dict.get('s', 0.0))
 
-        dict.__init__(self, {'Terminator': {
-            'name': 'MaxTimeTerminator',
-            'max_time': self._max_time}})
-
     @classmethod
     def from_dict(cls, dict_data):
-        return cls(max_time=dict_data['Terminator']['max_time'])
+        return cls(max_time=dict_data['max_time'])
 
     @classmethod
     def from_json(cls, json_data):
-        return MaxTimeTerminator.from_dict(json.loads(json_data))
+        return MaxTimeTerminator.from_dict(json.loads(json_data)['MaxTimeTerminator'])
 
     def initialize(self):
         self._start_time = dt.now()

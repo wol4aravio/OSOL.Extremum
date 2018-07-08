@@ -5,50 +5,44 @@ from Numerical_Objects.Interval import Interval
 import numpy as np
 
 
+class Bomb:
+    def __init__(self, location):
+        self._location = location
+        self._efficiency = None
+
+    def get_efficiency(self, f):
+        self._efficiency = f(self._location)
+
+    def explode(self, f, area, power):
+        split_component = self._location.get_widest_component()
+        [part_left, part_right] = self._location.bisect(key=split_component)
+
+        shift_left = {}
+        shift_right = {}
+        for k, (min_value, max_value) in power.items():
+            if k != split_component:
+                shift_left[k] = np.random.uniform(min_value, max_value)
+                shift_right[k] = np.random.uniform(min_value, max_value)
+            else:
+                shift_left[k] = np.random.uniform(min_value, 0.0)
+                shift_right[k] = np.random.uniform(0.0, max_value)
+
+        part_left = Bomb((part_left >> shift_left).constrain(area))
+        part_right = Bomb((part_right >> shift_right).constrain(area))
+
+        part_left.get_efficiency(f)
+        part_right.get_efficiency(f)
+
+        return [part_left, part_right]
+
+
 class IntervalExplosionSearch(Algorithm):
-
-    class _Bomb(dict):
-        def __init__(self, location):
-            self._location = location
-            self._efficiency = None
-            dict.__init__(self, {'Bomb': {
-                'location': self._location,
-                'efficiency': self._efficiency}})
-
-        def get_efficiency(self, f):
-            self._efficiency = f(self._location)
-
-        def explode(self, f, area, power):
-            split_component = self._location.get_widest_component()
-            [part_left, part_right] = self._location.bisect(key=split_component)
-
-            shift_left = {}
-            shift_right = {}
-            for k, (min_value, max_value) in power.items():
-                if k != split_component:
-                    shift_left[k] = np.random.uniform(min_value, max_value)
-                    shift_right[k] = np.random.uniform(min_value, max_value)
-                else:
-                    shift_left[k] = np.random.uniform(min_value, 0.0)
-                    shift_right[k] = np.random.uniform(0.0, max_value)
-
-            part_left = IntervalExplosionSearch._Bomb((part_left >> shift_left).constrain(area))
-            part_right = IntervalExplosionSearch._Bomb((part_right >> shift_right).constrain(area))
-
-            part_left.get_efficiency(f)
-            part_right.get_efficiency(f)
-
-            return [part_left, part_right]
 
     def __init__(self, max_bombs, max_radius_ratio):
         self._max_bombs = max_bombs
         self._max_radius_ratio = max_radius_ratio
         self._bombs = None
         self._deltas = None
-        dict.__init__(self, {'IntervalExplosionSearch': {
-            'max_bombs': self._max_bombs,
-            'max_radius_ratio': self._max_radius_ratio
-        }})
 
     @classmethod
     def from_dict(cls, dict_data):
@@ -65,7 +59,10 @@ class IntervalExplosionSearch(Algorithm):
 
     @property
     def iterations(self):
-        return [self.generate_new_bombs]
+        return [
+            self.calculate_deltas,
+            self.generate_new_bombs
+        ]
 
     def initialize(self, f, area, seed):
         if seed is None:
@@ -75,14 +72,15 @@ class IntervalExplosionSearch(Algorithm):
                 for k, (left, right) in area.items():
                     [p1, p2] = sorted(np.random.uniform(left, right, (1, 2))[0])
                     point[k] = Interval.create_valid_interval(lower_bound=p1, upper_bound=p2)
-                self._bombs.append(IntervalExplosionSearch._Bomb(Vector(point)))
+                self._bombs.append(Bomb(Vector(point)))
         else:
             if type(seed) == list:
-                self._bombs = [IntervalExplosionSearch._Bomb(v) for v in seed]
+                self._bombs = [Bomb(v) for v in seed]
             else:
-                self._bombs = [IntervalExplosionSearch._Bomb(seed)]
+                self._bombs = [Bomb(seed)]
 
-        self._bombs[-1].get_efficiency(f)
+        for i in range(self._max_bombs):
+            self._bombs[i].get_efficiency(f)
         self._bombs = sorted(self._bombs, key=lambda b: b._efficiency)
 
     def calculate_deltas(self, f, area):

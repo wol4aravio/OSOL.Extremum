@@ -5,7 +5,7 @@ import numpy as np
 import json
 
 
-class UnconstrainedOptimization(dict):
+class UnconstrainedOptimization:
 
     def __init__(self, f, variables):
         self._f = f
@@ -14,10 +14,6 @@ class UnconstrainedOptimization(dict):
         self._f_expr = parse_expr(f)
         self._sym_vars = list(map(symbols, variables))
         self._f_lambda = lambdify(self._sym_vars, self._f_expr, np)
-
-        dict.__init__(self, {'UnconstrainedOptimization': {
-            'f': self._f,
-            'variables': self._variables}})
 
     @classmethod
     def from_dict(cls, dict_data):

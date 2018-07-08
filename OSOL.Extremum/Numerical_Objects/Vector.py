@@ -6,11 +6,13 @@ import math
 import json
 
 
-class Vector(dict):
+class Vector:
 
     def __init__(self, values):
         self._values = values
-        dict.__init__(self, {'Vector': {'values': self._values}})
+
+    def __str__(self):
+        return ' x '.join(['({0}: {1})'.format(k, v) for k, v in self._values.items()])
 
     def __getitem__(self, var_name):
         return self._values[var_name]
@@ -129,12 +131,15 @@ class Vector(dict):
     def bisect(self, key=None):
         return self.split(ratios=[1.0, 1.0], key=key)
 
-    def reduce_to_dict(self):
+    def reduce_to_dict(self, point_reduction=True):
         result = {}
         for k in self.keys:
             v = self[k]
             if type(v) == Interval:
-                result[k] = v.middle_point
+                if point_reduction:
+                    result[k] = v.middle_point
+                else:
+                    result[k] = v
             else:
                 result[k] = float(v)
         return result

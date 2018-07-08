@@ -17,8 +17,6 @@ class RandomSearch(Algorithm):
         self._x = None
         self._f_x = None
         self._radius = radius
-        dict.__init__(self, {'RandomSearch': {
-            'radius': self._radius}})
 
     @classmethod
     def from_dict(cls, dict_data):

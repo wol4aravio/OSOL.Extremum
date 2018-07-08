@@ -1,3 +1,4 @@
+from Tools.Encoders import CustomEncoder
 from Numerical_Objects.Interval import *
 from Numerical_Objects.Vector import *
 
@@ -24,15 +25,15 @@ v3 = Vector({
 
 
 def test_from_dict():
-    assert v1 == Vector.from_dict(dict(v1)['Vector'])
-    assert v2 == Vector.from_dict(dict(v2)['Vector'])
-    assert v3 == Vector.from_dict(dict(v3)['Vector'])
+    assert v1 == Vector.from_dict({'values': v1.reduce_to_dict(point_reduction=False)})
+    assert v2 == Vector.from_dict({'values': v2.reduce_to_dict(point_reduction=False)})
+    assert v3 == Vector.from_dict({'values': v3.reduce_to_dict(point_reduction=False)})
 
 
 def test_from_json():
-    assert v1 == Vector.from_json(json.dumps(v1))
-    assert v2 == Vector.from_json(json.dumps(v2))
-    assert v3 == Vector.from_json(json.dumps(v3))
+    assert v1 == Vector.from_json(json.dumps(v1, cls=CustomEncoder))
+    assert v2 == Vector.from_json(json.dumps(v2, cls=CustomEncoder))
+    assert v3 == Vector.from_json(json.dumps(v3, cls=CustomEncoder))
 
 
 def test_indexer():

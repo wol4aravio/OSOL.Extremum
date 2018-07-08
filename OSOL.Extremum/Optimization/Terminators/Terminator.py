@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-class Terminator(dict):
+class Terminator:
     __metaclass__ = ABCMeta
 
     @classmethod
