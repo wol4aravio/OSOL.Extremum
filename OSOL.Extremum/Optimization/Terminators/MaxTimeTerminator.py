@@ -10,7 +10,7 @@ class MaxTimeTerminator(Terminator):
 
     def __init__(self, max_time):
         self._max_time = max_time
-        self.start_time = None
+        self._start_time = None
 
         duration_dict = dict([s.split(':') for s in max_time.split(',')])
         for k, v in duration_dict.items():
@@ -33,10 +33,10 @@ class MaxTimeTerminator(Terminator):
         return MaxTimeTerminator.from_dict(json.loads(json_data))
 
     def initialize(self):
-        self.start_time = dt.now()
+        self._start_time = dt.now()
 
     def __call__(self, *args, **kwargs):
-        elapsed_time = dt.now() - self.start_time
+        elapsed_time = dt.now() - self._start_time
         if elapsed_time > self._duration:
             return True
         else:
