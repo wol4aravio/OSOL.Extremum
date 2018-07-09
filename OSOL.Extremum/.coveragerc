@@ -5,3 +5,4 @@ omit =
     **/__main__.py
     **/*_app.py
     tests/*
+    apps/*
