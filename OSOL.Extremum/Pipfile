@@ -9,6 +9,7 @@ pytest-cov = "*"
 numpy = "*"
 sympy = "*"
 pytest-xdist = "*"
+pandas = "*"
 
 [dev-packages]
 
