@@ -10,8 +10,12 @@ numpy = "*"
 sympy = "*"
 pytest-xdist = "*"
 pandas = "*"
+grip = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.6"
+
+[scripts]
+benchmark = "python apps/benchmark.py"
