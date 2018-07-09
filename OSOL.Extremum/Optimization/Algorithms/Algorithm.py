@@ -1,3 +1,5 @@
+from Tools.Encoders import CustomEncoder
+
 from abc import ABCMeta, abstractmethod
 
 import os
@@ -54,6 +56,3 @@ class Algorithm:
                 log_counter += 1
 
         return self.current_state['result']
-
-
-from Tools.Encoders import CustomEncoder

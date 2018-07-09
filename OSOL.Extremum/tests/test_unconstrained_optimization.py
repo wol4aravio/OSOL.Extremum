@@ -1,5 +1,4 @@
 from Tools.Encoders import CustomEncoder
-
 from Optimization.Tasks.UnconstrainedOptimization import UnconstrainedOptimization
 from Numerical_Objects.Interval import Interval as I
 from Numerical_Objects.Vector import Vector as V

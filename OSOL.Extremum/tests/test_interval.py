@@ -191,4 +191,3 @@ def test_splitting():
     assert i1.bisect()[1] == Interval(0.5, 2.0)
     assert i1.split([1.0, 2.0])[0] == Interval(-1.0, 0.0)
     assert i1.split([1.0, 2.0])[1] == Interval(0.0, 2.0)
-

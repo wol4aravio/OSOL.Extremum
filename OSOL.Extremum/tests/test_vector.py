@@ -1,5 +1,4 @@
 from Tools.Encoders import CustomEncoder
-from Numerical_Objects.Interval import *
 from Numerical_Objects.Vector import *
 
 import pytest

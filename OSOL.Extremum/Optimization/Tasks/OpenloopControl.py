@@ -1,4 +1,3 @@
-from Cybernatics.DynamicSystem import DynamicSystem
 from Numerical_Objects.Vector import Vector
 
 import json
@@ -21,12 +20,12 @@ class OpenloopControl:
         return self.sim(parameters)
 
     def outer_sim(self, json_file, save_loc):
-        parameters = Vector.from_json(json.load(open(json_file, 'r')))
+        parameters = Vector.from_json(''.join(open(json_file, 'r').readlines()))
         times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance = self._ds.simulate(parameters)
 
         data_state = np.ndarray(shape=(len(times), 1 + len(states[0])))
-        cols_state = ['t'] + self._ds.state_vars[:(
-                    len(self._ds.state_vars) - len(self._ds.integral_criteria) - len(self._ds.phase_constraints))]
+        cols_state = ['t'] + self._ds._state_vars[:(
+                    len(self._ds._state_vars) - len(self._ds._integral_criteria) - len(self._ds._phase_constraints))]
         data_state[:, 0] = times
         for i in range(len(states)):
             data_state[i, 1:] = [states[i][n] for n in cols_state[1:]]
@@ -34,9 +33,9 @@ class OpenloopControl:
 
         data_control = np.ndarray(shape=(len(controls), 1 + len(controls[0])))
         data_control[:, 0] = times[:-1]
-        cols_control = ['t'] + self._ds.control_vars
+        cols_control = ['t'] + self._ds._control_vars
         for i in range(len(controls)):
-            data_control[i, 1:] = [controls[i][n] for n in self._ds.control_vars]
+            data_control[i, 1:] = [controls[i][n] for n in self._ds._control_vars]
         data_control = pd.DataFrame(data=data_control, columns=cols_control)
 
         criteria_info = {

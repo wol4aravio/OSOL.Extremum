@@ -1,5 +1,7 @@
+from Tools.Encoders import CustomEncoder
 from Cybernatics.DynamicSystem import DynamicSystem
 from Optimization.Tasks.OpenloopControl import OpenloopControl
+from Numerical_Objects.Vector import Vector
 from Numerical_Objects.Interval import Interval
 from tests.test_dynamic_system import ds_json
 
@@ -68,49 +70,19 @@ def test_interval():
 
 
 def test_outer():
-    parameters_json = {
-        'RealVector': {
-            'elements': [
-                {
-                    'key': 'u1_0',
-                    'value': 5
-                },
-                {
-                    'key': 'u1_1',
-                    'value': 6
-                },
-                {
-                    'key': 'u1_2',
-                    'value': 7
-                },
-
-                {
-                    'key': 'u2_0',
-                    'value': 2
-                },
-                {
-                    'key': 'u2_1',
-                    'value': 2
-                },
-                {
-                    'key': 'u2_2',
-                    'value': 2
-                },
-                {
-                    'key': 'u2_3',
-                    'value': 2
-                },
-
-                {
-                    'key': 'a',
-                    'value': 5
-                }
-            ]
-        }
+    parameters = {
+        'u1_0': 5,
+        'u1_1': 6,
+        'u1_2': 7,
+        'u2_0': 2,
+        'u2_1': 2,
+        'u2_2': 2,
+        'u2_3': 2,
+        'a': 5
     }
-    
+
     os.makedirs('temp')
-    json.dump(parameters_json, open('temp/p.json', 'w'))
+    json.dump(Vector(parameters), open('temp/p.json', 'w'), cls=CustomEncoder, indent=2)
     from_json = task.outer_sim('temp/p.json', 'test')
     shutil.rmtree('temp')
     shutil.rmtree('test')
