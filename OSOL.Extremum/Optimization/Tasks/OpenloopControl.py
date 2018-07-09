@@ -19,13 +19,14 @@ class OpenloopControl:
         parameters = args[0]
         return self.sim(parameters)
 
-    def outer_sim(self, json_file, save_loc):
+    def outer_sim(self, json_file, save_loc, reduce=False):
         parameters = Vector.from_json(''.join(open(json_file, 'r').readlines()))
+        if reduce:
+            parameters = Vector(parameters.reduce_to_dict())
         times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance = self._ds.simulate(parameters)
 
         data_state = np.ndarray(shape=(len(times), 1 + len(states[0])))
-        cols_state = ['t'] + self._ds._state_vars[:(
-                    len(self._ds._state_vars) - len(self._ds._integral_criteria) - len(self._ds._phase_constraints))]
+        cols_state = ['t'] + self._ds._state_vars[:(len(self._ds._state_vars) - len(self._ds._integral_criteria) - len(self._ds._phase_constraints))]
         data_state[:, 0] = times
         for i in range(len(states)):
             data_state[i, 1:] = [states[i][n] for n in cols_state[1:]]

@@ -8,7 +8,7 @@ import os
 
 
 config = ConfigParser()
-if os.getcwd().endswith('tests'):
+if os.getcwd().endswith('tests') or os.getcwd().endswith('apps'):
     config.read('../Numerical_Objects/config.ini')
 else:
     config.read('Numerical_Objects/config.ini')

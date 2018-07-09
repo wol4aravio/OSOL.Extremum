@@ -26,6 +26,10 @@ def main():
     parser.add_option('-O', '--output',
                       help='Output file path',
                       type=str)
+    parser.add_option('-R', '--reduce',
+                      help='Reduce final vector or not',
+                      action='store_true',
+                      default=False)
 
     options, _ = parser.parse_args()
 
@@ -36,6 +40,8 @@ def main():
 
     print('Processing')
     x = algorithm.work(task['f'], task['area'], mt)
+    if options.reduce:
+        x = Vector(x.reduce_to_dict())
     json.dump(x, open(output_file, 'w'), cls=CustomEncoder, indent=2)
     print('Done\n')
 
