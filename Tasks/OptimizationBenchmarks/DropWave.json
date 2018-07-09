@@ -2,7 +2,6 @@
 	"task_type": "unconstrained_optimization",
 	"f": "-(1 + cos(12 * sqrt(x1 ** 2 + x2 ** 2))) / (2 + 0.5 * (x1 ** 2 + x2 ** 2))",
 	"vars": ["x1", "x2"],
-	"differentiable": true,
 	"area": [
 		{ "name": "x1", "min": -5.12, "max": 5.12 },
 		{ "name": "x2", "min": -5.12, "max": 5.12 }
