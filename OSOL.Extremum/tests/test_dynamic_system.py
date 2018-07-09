@@ -1,4 +1,4 @@
-from Cybernatics.Dynamic_System import DynamicSystem
+from Cybernatics.DynamicSystem import DynamicSystem
 from Numerical_Objects.Vector import Vector
 from Numerical_Objects.Interval import Interval
 
