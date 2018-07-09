@@ -1,5 +1,3 @@
-from Tools.Encoders import CustomEncoder
-
 from abc import ABCMeta, abstractmethod
 
 import os
@@ -57,3 +55,5 @@ class Algorithm:
 
         return self.current_state['result']
 
+
+from Tools.Encoders import CustomEncoder
