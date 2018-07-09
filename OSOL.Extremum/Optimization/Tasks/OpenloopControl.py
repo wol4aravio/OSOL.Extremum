@@ -16,9 +16,11 @@ class OpenloopControl:
         times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance = self._ds.simulate(parameters)
         return sum(I_integral) + I_terminal + sum(errors_terminal_state) + sum(phase_errors) + sum(controller_variance)
 
-    def outer_sim(self, parameters):
-        json_file = parameters['json_file']
-        save_loc = parameters['save_loc']
+    def __call__(self, *args, **kwargs):
+        parameters = args[0]
+        return self.sim(parameters)
+
+    def outer_sim(self, json_file, save_loc):
         parameters = Vector.from_json(json.load(open(json_file, 'r')))
         times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance = self._ds.simulate(parameters)
 
