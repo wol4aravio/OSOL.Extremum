@@ -29,7 +29,7 @@ def test_1():
     _, x, _, _, _, _, _, _ = ds.simulate(Vector({}))
     x_real = list(map(lambda v: v['x'], x))
 
-    ds.initial_conditions['x'] = Interval.from_value(0.0)
+    ds._initial_conditions['x'] = Interval.from_value(0.0)
     _, x, _, _, _, _, _, _ = ds.simulate(Vector({}))
     x_interval = list(map(lambda v: v['x'], x))
 
@@ -52,27 +52,27 @@ def test_2():
                        integral_criteria='0', terminal_criterion='0',
                        terminal_constraints=[{'equation': 'x', 'max_error': 1e-5, 'penalty': 1, 'norm': 'L2'}],
                        phase_constraints=[])
-    times = np.linspace(0.0, ds.sampling_eps * ds.sampling_max_steps, ds.sampling_max_steps + 1)
+    times = np.linspace(0.0, ds._sampling_eps * ds._sampling_max_steps, ds._sampling_max_steps + 1)
     x_ideal = np.sin(times)
 
     _, x, _, _, _, _, _, _ = ds.simulate(Vector({}))
     x_real_RK4 = list(map(lambda v: v['x'], x))
 
-    ds.initial_conditions['x'] = Interval.from_value(0.0)
+    ds._initial_conditions['x'] = Interval.from_value(0.0)
     _, x, _, _, _, _, _, _ = ds.simulate(Vector({}))
     x_interval_RK4 = list(map(lambda v: v['x'], x))
 
     error_real_RK4 = rmse(x_real_RK4, x_ideal)
     error_interval_RK4 = rmse(x_interval_RK4, x_ideal)
 
-    ds.sampling_type = 'Euler'
-    ds.prolong = ds.prolong_Euler
-    ds.initial_conditions['x'] = 0.0
+    ds._sampling_type = 'Euler'
+    ds._prolong = ds.prolong_Euler
+    ds._initial_conditions['x'] = 0.0
 
     _, x, _, _, _, error_terminal_state, _, _ = ds.simulate(Vector({}))
     x_real_Euler = list(map(lambda v: v['x'], x))
 
-    ds.initial_conditions['x'] = Interval.from_value(0.0)
+    ds._initial_conditions['x'] = Interval.from_value(0.0)
     _, x, _, _, _, _, _, _ = ds.simulate(Vector({}))
     x_interval_Euler = list(map(lambda v: v['x'], x))
 
@@ -87,7 +87,7 @@ def test_2():
     assert np.abs(error_real_RK4 - error_interval_RK4 < tol * tol)
     assert error_real_RK4 < error_real_Euler
     assert error_interval_RK4 < error_interval_Euler
-    assert np.abs(error_terminal_state - ((-np.sin(ds.sampling_eps * ds.sampling_max_steps)) ** 2)) < tol
+    assert np.abs(error_terminal_state - ((-np.sin(ds._sampling_eps * ds._sampling_max_steps)) ** 2)) < tol
 
 
 # ode with 2 eqs: x1' = cos(t), x2' = x1
@@ -100,7 +100,7 @@ def test_3():
                        aux={'ct': 'cos(t)'}, etc_vars=['ct'],
                        integral_criteria='0', terminal_criterion='0',
                        terminal_constraints=[], phase_constraints=[])
-    times = np.linspace(0.0, ds.sampling_eps * ds.sampling_max_steps, ds.sampling_max_steps + 1)
+    times = np.linspace(0.0, ds._sampling_eps * ds._sampling_max_steps, ds._sampling_max_steps + 1)
     x1_ideal = np.sin(times)
     x2_ideal = -np.cos(times)
 
@@ -108,8 +108,8 @@ def test_3():
     x1_real_Euler = list(map(lambda v: v['x1'], x))
     x2_real_Euler = list(map(lambda v: v['x2'], x))
 
-    ds.initial_conditions['x1'] = Interval.from_value(0.0)
-    ds.initial_conditions['x2'] = Interval.from_value(-1.0)
+    ds._initial_conditions['x1'] = Interval.from_value(0.0)
+    ds._initial_conditions['x2'] = Interval.from_value(-1.0)
     _, x, _, _, _, _, _, _ = ds.simulate(Vector({}))
     x1_interval_Euler = list(map(lambda v: v['x1'], x))
     x2_interval_Euler = list(map(lambda v: v['x2'], x))
@@ -117,17 +117,17 @@ def test_3():
     error_real_Euler = rmse(x1_real_Euler, x1_ideal) + rmse(x2_real_Euler, x2_ideal)
     error_interval_Euler = rmse(x1_interval_Euler, x1_ideal) + rmse(x2_interval_Euler, x2_ideal)
 
-    ds.sampling_type = 'RK4'
-    ds.prolong = ds.prolong_RK4
-    ds.initial_conditions['x1'] = 0.0
-    ds.initial_conditions['x2'] = -1.0
+    ds._sampling_type = 'RK4'
+    ds._prolong = ds.prolong_RK4
+    ds._initial_conditions['x1'] = 0.0
+    ds._initial_conditions['x2'] = -1.0
 
     _, x, _, _, _, _, _, _ = ds.simulate(Vector({}))
     x1_real_RK4 = list(map(lambda v: v['x1'], x))
     x2_real_RK4 = list(map(lambda v: v['x2'], x))
 
-    ds.initial_conditions['x1'] = Interval.from_value(0.0)
-    ds.initial_conditions['x2'] = Interval.from_value(-1.0)
+    ds._initial_conditions['x1'] = Interval.from_value(0.0)
+    ds._initial_conditions['x2'] = Interval.from_value(-1.0)
     _, x, _, _, _, _, _, _ = ds.simulate({})
     x1_interval_RK4 = list(map(lambda v: v['x1'], x))
     x2_interval_RK4 = list(map(lambda v: v['x2'], x))
