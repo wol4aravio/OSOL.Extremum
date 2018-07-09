@@ -63,7 +63,7 @@ verifier = Verifier()
 
 
 def test_logging():
-    log_dir = 'log_test'
+    log_dir = 'log_test_all'
     a1.work(verifier._test_functions[0], verifier._search_area[0], verifier._mt, log_states=log_dir)
     assert len(os.listdir(log_dir)) > 0
     shutil.rmtree(log_dir)
