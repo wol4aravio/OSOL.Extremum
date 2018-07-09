@@ -1,3 +1,7 @@
+import os
+import sys
+sys.path.append(os.getcwd())
+
 from Tools.OptimizationTools import *
 from Tools.Encoders import CustomEncoder
 
@@ -5,7 +9,6 @@ from Optimization.Terminators.MaxTimeTerminator import MaxTimeTerminator
 
 import optparse
 import json
-import os
 
 
 def main():
@@ -27,13 +30,13 @@ def main():
     options, _ = parser.parse_args()
 
     output_file = options.output
-    task = create_task_from_json(json.load(open(options.task, 'r')))
+    task = create_task_from_json(json.load(open(options.problem, 'r')))
     algorithm = create_algorithm_from_json(json.load(open(options.algorithm, 'r')))
-    mt = MaxTimeTerminator(options.working_time)
+    mt = MaxTimeTerminator(options.time)
 
     print('Processing')
     x = algorithm.work(task['f'], task['area'], mt)
-    json.dump(x, open('{}.json'.format(output_file), 'r'), cls=CustomEncoder, indent=2)
+    json.dump(x, open(output_file, 'w'), cls=CustomEncoder, indent=2)
     print('Done\n')
 
 
