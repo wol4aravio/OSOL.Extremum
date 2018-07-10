@@ -25,8 +25,8 @@ def almost_equal_interval(i1, i2):
 
 def test_from_json():
     f = UnconstrainedOptimization.from_dict(task)
-    assert f._f == UnconstrainedOptimization.from_json(json.dumps(f, cls=CustomEncoder))._f
-    assert f._variables == UnconstrainedOptimization.from_json(json.dumps(f, cls=CustomEncoder))._variables
+    assert f._f == UnconstrainedOptimization.from_json(json.loads(json.dumps(f, cls=CustomEncoder)))._f
+    assert f._variables == UnconstrainedOptimization.from_json(json.loads(json.dumps(f, cls=CustomEncoder)))._variables
 
 
 def test_real_calculation():

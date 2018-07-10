@@ -20,7 +20,7 @@ class OpenloopControl:
         return self.sim(parameters)
 
     def outer_sim(self, json_file, save_loc, reduce=False):
-        parameters = Vector.from_json(''.join(open(json_file, 'r').readlines()))
+        parameters = Vector.from_json(json.load(open(json_file, 'r')))
         if reduce:
             parameters = Vector(parameters.reduce_to_dict())
         times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance = self._ds.simulate(parameters)

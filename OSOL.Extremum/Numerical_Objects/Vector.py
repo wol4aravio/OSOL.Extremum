@@ -26,7 +26,7 @@ class Vector:
 
     @classmethod
     def from_json(cls, json_data):
-        values_dict = json.loads(json_data)['Vector']['values']
+        values_dict = json_data['Vector']['values']
         for k, v in values_dict.items():
             if type(v) == dict:
                 if 'Interval' in v:

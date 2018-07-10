@@ -26,7 +26,7 @@ class MaxTimeTerminator(Terminator):
 
     @classmethod
     def from_json(cls, json_data):
-        return MaxTimeTerminator.from_dict(json.loads(json_data)['MaxTimeTerminator'])
+        return MaxTimeTerminator.from_dict(json_data['MaxTimeTerminator'])
 
     def initialize(self):
         self._start_time = dt.now()

@@ -21,7 +21,7 @@ class UnconstrainedOptimization:
 
     @classmethod
     def from_json(cls, json_data):
-        return UnconstrainedOptimization.from_dict(json.loads(json_data)['UnconstrainedOptimization'])
+        return UnconstrainedOptimization.from_dict(json_data['UnconstrainedOptimization'])
 
     def __call__(self, *args, **kwargs):
         vector = args[0]

@@ -27,9 +27,9 @@ def test_from_dict():
 
 
 def test_from_dump():
-    assert i1.approximately_equals_to(Interval.from_json(json.dumps(i1, cls=CustomEncoder)))
-    assert i5.approximately_equals_to(Interval.from_json(json.dumps(i5, cls=CustomEncoder)))
-    assert i7.approximately_equals_to(Interval.from_json(json.dumps(i7, cls=CustomEncoder)))
+    assert i1.approximately_equals_to(Interval.from_json(json.loads(json.dumps(i1, cls=CustomEncoder))))
+    assert i5.approximately_equals_to(Interval.from_json(json.loads(json.dumps(i5, cls=CustomEncoder))))
+    assert i7.approximately_equals_to(Interval.from_json(json.loads(json.dumps(i7, cls=CustomEncoder))))
 
 
 def test_middle_point():

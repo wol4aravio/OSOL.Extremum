@@ -35,7 +35,7 @@ class Interval:
 
     @classmethod
     def from_json(cls, json_data):
-        return cls(**json.loads(json_data)['Interval'])
+        return cls(**json_data['Interval'])
 
     @staticmethod
     def create_valid_interval(lower_bound, upper_bound):

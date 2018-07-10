@@ -30,9 +30,9 @@ def test_from_dict():
 
 
 def test_from_json():
-    assert v1 == Vector.from_json(json.dumps(v1, cls=CustomEncoder))
-    assert v2 == Vector.from_json(json.dumps(v2, cls=CustomEncoder))
-    assert v3 == Vector.from_json(json.dumps(v3, cls=CustomEncoder))
+    assert v1 == Vector.from_json(json.loads(json.dumps(v1, cls=CustomEncoder)))
+    assert v2 == Vector.from_json(json.loads(json.dumps(v2, cls=CustomEncoder)))
+    assert v3 == Vector.from_json(json.loads(json.dumps(v3, cls=CustomEncoder)))
 
 
 def test_indexer():
