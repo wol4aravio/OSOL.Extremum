@@ -1,17 +1,11 @@
 from Optimization.Algorithms.Algorithm import Algorithm
+from Optimization.Algorithms.tools import generate_random_point_in_sphere
 from Numerical_Objects.Vector import Vector
 
 import numpy as np
 
 
 class RandomSearch(Algorithm):
-
-    @staticmethod
-    def generate_random_point_in_sphere(current_point, radius, area):
-        normally_distributed = Vector({k: v for k, v in zip(area.keys(), np.random.normal(0.0, 1.0, len(area)))})
-        length = np.sqrt(sum(np.array(normally_distributed.values) ** 2))
-        shift = (np.random.uniform(0.0, radius) / length) * normally_distributed
-        return (current_point + shift).constrain(area)
 
     def __init__(self, radius):
         self._x = None
@@ -54,7 +48,7 @@ class RandomSearch(Algorithm):
         x = self._x
         f_x = self._f_x
 
-        x_new = RandomSearch.generate_random_point_in_sphere(x, self._radius, area)
+        x_new = generate_random_point_in_sphere(x, self._radius, area)
         f_x_new = f(x_new)
 
         if f_x_new < f_x:
