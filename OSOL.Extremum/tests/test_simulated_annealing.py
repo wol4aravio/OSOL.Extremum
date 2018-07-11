@@ -12,14 +12,14 @@ verifier = Verifier()
 
 sa_1_config = {
     'SimulatedAnnealing': {
-        'init_temperature': 10.0,
+        'init_temperature': 25.0,
         'C': 0.85,
         'beta': 0.99
     }
 }
 sa_2_config = {
     'SimulatedAnnealing': {
-        'init_temperature': 5.0,
+        'init_temperature': 10.0,
         'C': 0.85,
         'beta': 0.999
     }
