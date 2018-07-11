@@ -28,7 +28,7 @@ sa_3_config = {
     'SimulatedAnnealing': {
         'init_temperature': 1.0,
         'C': 0.85,
-        'beta': 0.9995
+        'beta': 0.995
     }
 }
 
