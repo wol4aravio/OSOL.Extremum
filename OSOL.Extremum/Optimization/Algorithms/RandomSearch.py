@@ -26,7 +26,7 @@ class RandomSearch(Algorithm):
 
     @property
     def iterations(self):
-        return [self.generate_new_points]
+        return [self.generate_new_point]
 
     def initialize(self, f, area, seed):
         if seed is None:
@@ -44,7 +44,7 @@ class RandomSearch(Algorithm):
                 self._x = seed
                 self._f_x = f(self._x)
 
-    def generate_new_points(self, f, area):
+    def generate_new_point(self, f, area):
         x = self._x
         f_x = self._f_x
 
@@ -55,4 +55,4 @@ class RandomSearch(Algorithm):
             self._x = x_new
             self._f_x = f_x_new
 
-        return self.generate_new_points
+        return self.generate_new_point
