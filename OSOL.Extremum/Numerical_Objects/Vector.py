@@ -2,7 +2,7 @@ from Tools.etc import constrain_point
 from Numerical_Objects.Interval import Interval
 
 import random
-import math
+from math import *
 import json
 
 
@@ -45,6 +45,16 @@ class Vector:
     @property
     def values(self):
         return list(self._values.values())
+
+    @property
+    def length(self):
+        s = 0
+        for v in self.values:
+            s += v ** 2
+        if isinstance(s, Interval):
+            return Interval.sqrt(s)
+        else:
+            return sqrt(s)
 
     @property
     def dim(self):

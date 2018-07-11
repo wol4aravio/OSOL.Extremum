@@ -1,8 +1,10 @@
 from Tools.Encoders import CustomEncoder
 from Numerical_Objects.Vector import *
+from Numerical_Objects.Interval import Interval
 
 import pytest
 import json
+import math
 
 
 v1 = Vector({
@@ -49,6 +51,13 @@ def test_dim():
     assert v1.dim == 3
     assert v2.dim == 2
     assert v3.dim == 3
+
+
+def test_length():
+    assert v1.length == math.sqrt(14.0)
+    assert math.fabs((v1 * (1.0 / v1.length)).length - 1.0) < 1e-7
+    assert v2.length == Interval.sqrt(Interval(34.0, 74.0))
+    assert v3.length == Interval.sqrt(Interval(19.0, 35.0))
 
 
 def test_values():
