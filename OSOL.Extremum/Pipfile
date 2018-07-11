@@ -18,6 +18,6 @@ grip = "*"
 python_version = "3.6"
 
 [scripts]
-optimize = "python ./apps/optimize.py"
-simulate = "python ./apps/simulate.py"
-benchmark = "python ./apps/benchmark.py"
+optimize = "python ./Apps/optimize.py"
+simulate = "python ./Apps/simulate.py"
+benchmark = "python ./Apps/benchmark.py"
