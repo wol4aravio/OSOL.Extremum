@@ -2,7 +2,7 @@ from Tools.etc import constrain_point
 from Numerical_Objects.Interval import Interval
 
 import random
-from math import *
+import math
 import json
 
 
@@ -54,7 +54,7 @@ class Vector:
         if isinstance(s, Interval):
             return Interval.sqrt(s)
         else:
-            return sqrt(s)
+            return math.sqrt(s)
 
     @property
     def dim(self):
