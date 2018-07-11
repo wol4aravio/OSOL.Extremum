@@ -46,6 +46,10 @@ class Vector:
     def values(self):
         return list(self._values.values())
 
+    @property
+    def dim(self):
+        return len(self._values)
+
     def __eq__(self, other):
         if self.keys != other.keys:
             return False

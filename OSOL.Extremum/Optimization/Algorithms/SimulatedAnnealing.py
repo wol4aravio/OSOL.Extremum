@@ -52,8 +52,8 @@ class SimulatedAnnealing(Algorithm):
         f_x = self._f_x
         T = self._T
 
-        delta = dict(zip(x.keys, np.random.multivariate_normal(mean=np.zeros(shape=(len(x), )),
-                                                               cov=T*np.identity(len(x)))))
+        delta = dict(zip(x.keys, np.random.multivariate_normal(mean=np.zeros(shape=(x.dim, )),
+                                                               cov=T*np.identity(x.dim))))
 
         x_new = (x >> delta).constrain(area)
         f_x_new = f(x_new)

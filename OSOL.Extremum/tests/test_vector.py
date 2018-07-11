@@ -45,6 +45,12 @@ def test_keys():
     assert v1.keys == v3.keys
 
 
+def test_dim():
+    assert v1.dim == 3
+    assert v2.dim == 2
+    assert v3.dim == 3
+
+
 def test_values():
     assert 1 in v1.values
     assert 2 in v1.values
