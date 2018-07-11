@@ -95,6 +95,12 @@ class Vector:
             result[k] = self[k] + delta.get(k, 0.0)
         return Vector(result)
 
+    def __mul__(self, coefficient):
+        result = {}
+        for k in self.keys:
+            result[k] = coefficient * self[k]
+        return Vector(result)
+
     def __rmul__(self, coefficient):
         result = {}
         for k in self.keys:

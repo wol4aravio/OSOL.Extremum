@@ -79,7 +79,7 @@ def test_get_widest_component():
 
 def test_linear_ops():
     assert v1 + v1 == 2 * v1
-    assert v2 + v2 == 2 * v2
+    assert v2 + v2 == v2 * 2
     with pytest.raises(Exception):
         v1 + v2
     assert v1 + v3 == Vector({
