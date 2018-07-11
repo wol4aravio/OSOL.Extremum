@@ -112,10 +112,13 @@ class Vector:
         return Vector(result)
 
     def __rmul__(self, coefficient):
-        result = {}
-        for k in self.keys:
-            result[k] = coefficient * self[k]
-        return Vector(result)
+        return self.__mul__(coefficient)
+
+    def __neg__(self):
+        return self * (-1.0)
+
+    def __sub__(self, other):
+        return self + other.__neg__()
 
     def constrain(self, min_max_values):
         result = {}
