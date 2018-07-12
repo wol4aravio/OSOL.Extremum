@@ -41,6 +41,18 @@ class AdaptiveRandomSearch(Algorithm):
     def from_json(cls, json_data):
         return cls.from_dict(json_data['AdaptiveRandomSearch'])
 
+    def to_dict(self):
+        return {
+            'init_radius': self._init_radius,
+            'factor_small': self._factor_small,
+            'factor_huge': self._factor_huge,
+            'frequency': self._frequency,
+            'max_no_change': self._max_no_change
+        }
+
+    def to_json(self):
+        return {'AdaptiveRandomSearch': self.to_dict}
+
     @property
     def current_state(self):
         return {'result': self._x, 'efficiency': self._f_x,

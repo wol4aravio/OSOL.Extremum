@@ -22,6 +22,16 @@ class SimulatedAnnealing(Algorithm):
     def from_json(cls, json_data):
         return cls.from_dict(json_data['SimulatedAnnealing'])
 
+    def to_dict(self):
+        return {
+            'init_temperature': self._init_temperature,
+            'C': self._C,
+            'beta': self._beta
+        }
+
+    def to_json(self):
+        return {'SimulatedAnnealing': self.to_dict}
+
     @property
     def current_state(self):
         return {'result': self._x, 'efficiency': self._f_x, 'temperature': self._T}

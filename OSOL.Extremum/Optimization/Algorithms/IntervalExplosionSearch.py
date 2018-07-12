@@ -52,6 +52,15 @@ class IntervalExplosionSearch(Algorithm):
     def from_json(cls, json_data):
         return cls.from_dict(json_data['IntervalExplosionSearch'])
 
+    def to_dict(self):
+        return {
+            'max_bombs': self._max_bombs,
+            'max_radius_ratio': self._max_radius_ratio
+        }
+
+    def to_json(self):
+        return {'IntervalExplosionSearch': self.to_dict}
+
     @property
     def current_state(self):
         return {'bombs': self._bombs,

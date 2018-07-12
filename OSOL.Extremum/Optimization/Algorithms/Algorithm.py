@@ -34,6 +34,14 @@ class Algorithm:
     def initialize(self, f, area, seed):
         '''Initializes algorithm with the given seed'''
 
+    @abstractmethod
+    def to_dict(self):
+        '''Converts algorithm to dict'''
+
+    @abstractmethod
+    def to_json(self):
+        '''Converts algorithm to json dict'''
+
     def work(self, f, area, terminator, seed=None, log_states=None):
         self.initialize(f, area, seed)
         terminator.initialize()

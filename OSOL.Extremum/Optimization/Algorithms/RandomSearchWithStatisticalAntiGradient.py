@@ -21,6 +21,15 @@ class RandomSearchWithStatisticalAntiGradient(Algorithm):
     def from_json(cls, json_data):
         return cls.from_dict(json_data['RandomSearchWithStatisticalAntiGradient'])
 
+    def to_dict(self):
+        return {
+            'radius': self._radius,
+            'number_of_samples': self._number_of_samples
+        }
+
+    def to_json(self):
+        return {'RandomSearchWithStatisticalAntiGradient': self.to_dict}
+
     @property
     def current_state(self):
         return {'result': self._x, 'efficiency': self._f_x}

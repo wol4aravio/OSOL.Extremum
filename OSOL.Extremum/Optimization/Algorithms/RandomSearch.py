@@ -20,6 +20,14 @@ class RandomSearch(Algorithm):
     def from_json(cls, json_data):
         return cls.from_dict(json_data['RandomSearch'])
 
+    def to_dict(self):
+        return {
+            'radius': self._radius
+        }
+
+    def to_json(self):
+        return {'RandomSearch': self.to_dict}
+
     @property
     def current_state(self):
         return {'result': self._x, 'efficiency': self._f_x}

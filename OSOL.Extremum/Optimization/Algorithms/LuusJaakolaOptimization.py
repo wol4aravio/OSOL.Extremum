@@ -31,6 +31,18 @@ class LuusJaakolaOptimization(Algorithm):
     def from_json(cls, json_data):
         return cls.from_dict(json_data['LuusJaakolaOptimization'])
 
+    def to_dict(self):
+        return {
+            'init_radius': self._init_radius,
+            'number_of_samples': self._number_of_samples,
+            'reduction_coefficient': self._reduction_coefficient,
+            'recover_coefficient': self._recover_coefficient,
+            'iteration_per_run': self._iteration_per_run
+        }
+
+    def to_json(self):
+        return {'LuusJaakolaOptimization': self.to_dict}
+
     @property
     def current_state(self):
         return {'result': self._x, 'efficiency': self._f_x, 'radius': self._radius}
