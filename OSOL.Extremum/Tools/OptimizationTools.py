@@ -3,6 +3,7 @@ from Optimization.Algorithms.IntervalExplosionSearch import IntervalExplosionSea
 from Optimization.Algorithms.AdaptiveRandomSearch import AdaptiveRandomSearch
 from Optimization.Algorithms.SimulatedAnnealing import SimulatedAnnealing
 from Optimization.Algorithms.RandomSearchWithStatisticalAntiGradient import RandomSearchWithStatisticalAntiGradient
+from Optimization.Algorithms.LuusJaakolaOptimization import LuusJaakolaOptimization
 
 
 def create_algorithm_from_json(json_data):
@@ -16,5 +17,7 @@ def create_algorithm_from_json(json_data):
         return SimulatedAnnealing.from_json(json_data)
     elif 'RandomSearchWithStatisticalAntiGradient' in json_data:
         return RandomSearchWithStatisticalAntiGradient.from_json(json_data)
+    elif 'LuusJaakolaOptimization' in json_data:
+        return LuusJaakolaOptimization.from_json(json_data)
     else:
         raise Exception('Unsupported Optimization Algorithm')
