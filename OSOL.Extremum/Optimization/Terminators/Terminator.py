@@ -15,6 +15,14 @@ class Terminator:
         '''Constructs terminator from json'''
 
     @abstractmethod
+    def to_dict(self):
+        '''Converts current terminator to dict'''
+
+    @abstractmethod
+    def to_json(self):
+        '''COnverts current terminator to json dict'''
+
+    @abstractmethod
     def initialize(self):
         '''Initializes terminator'''
 
