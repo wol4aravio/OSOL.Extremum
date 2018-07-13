@@ -50,7 +50,7 @@ def test_logging():
     shutil.rmtree(log_dir)
 
 
-def test_random_search():
+def test_algorithm():
     logger = logging.getLogger('Adaptive Random Search')
     assert verifier.verify([ars_1, ars_2, ars_3], logger)
     print('Done!\n')

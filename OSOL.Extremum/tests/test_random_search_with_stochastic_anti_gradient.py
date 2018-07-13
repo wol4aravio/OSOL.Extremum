@@ -41,7 +41,7 @@ def test_logging():
     shutil.rmtree(log_dir)
 
 
-def test_random_search():
+def test_algorithm():
     logger = logging.getLogger('Random Search With Statistical Anti Gradient')
     assert verifier.verify([rs_w_sag_1, rs_w_sag_2, rs_w_sag_3], logger)
     print('Done!\n')

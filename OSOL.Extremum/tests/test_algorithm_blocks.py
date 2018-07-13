@@ -2,6 +2,7 @@ from Optimization.Algorithms.Algorithm import Algorithm
 from Optimization.Verifier import Verifier
 from Numerical_Objects.Interval import Interval
 from Numerical_Objects.Vector import Vector
+from Optimization.Algorithms.tools import distance_between_vectors
 
 import os
 import shutil
@@ -60,6 +61,14 @@ a2 = DummyOptimization(10, 0.005)
 a3 = DummyOptimization(25, 0.01)
 
 verifier = Verifier()
+
+
+def test_vector_distance():
+    assert distance_between_vectors(Vector({'x': 0, 'y': 0, 'z': 0}),
+                                    Vector({'x': 1, 'y': 2, 'z': 3})) == np.sqrt(14.0)
+
+    assert distance_between_vectors(Vector({'x': -1, 'y': -2, 'z': -3}),
+                                    Vector({'x': 1, 'y': 2, 'z': 3})) == np.sqrt(56.0)
 
 
 def test_logging():

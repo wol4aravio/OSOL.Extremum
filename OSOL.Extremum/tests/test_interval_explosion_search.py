@@ -43,7 +43,7 @@ def test_logging():
     shutil.rmtree(log_dir)
 
 
-def test_interval_explosion_search():
+def test_algorithm():
     logger = logging.getLogger('Interval Explosion Search')
     assert verifier.verify([ies_1, ies_2, ies_3], logger)
     print('Done!\n')

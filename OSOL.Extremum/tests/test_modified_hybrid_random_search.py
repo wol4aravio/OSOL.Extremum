@@ -123,7 +123,7 @@ def test_logging():
     shutil.rmtree(log_dir)
 
 
-def test_random_search():
+def test_algorithm():
     logger = logging.getLogger('Modified Hybrid Random Search')
     assert verifier.verify([mhrs_1, mhrs_2, mhrs_3], logger)
     print('Done!\n')

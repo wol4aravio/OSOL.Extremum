@@ -44,7 +44,7 @@ def test_logging():
     shutil.rmtree(log_dir)
 
 
-def test_random_search():
+def test_algorithm():
     logger = logging.getLogger('Simulated Annealing')
     assert verifier.verify([sa_1, sa_2, sa_3], logger)
     print('Done!\n')

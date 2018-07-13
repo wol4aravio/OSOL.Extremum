@@ -50,7 +50,7 @@ def test_logging():
     shutil.rmtree(log_dir)
 
 
-def test_random_search():
+def test_algorithm():
     logger = logging.getLogger('Luus Jaakola Optimization')
     assert verifier.verify([lj_1, lj_2, lj_3], logger)
     print('Done!\n')
