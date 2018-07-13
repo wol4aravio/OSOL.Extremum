@@ -5,6 +5,7 @@ from Optimization.Algorithms.SimulatedAnnealing import SimulatedAnnealing
 from Optimization.Algorithms.RandomSearchWithStatisticalAntiGradient import RandomSearchWithStatisticalAntiGradient
 from Optimization.Algorithms.LuusJaakolaOptimization import LuusJaakolaOptimization
 from Optimization.Algorithms.ModifiedHybridRandomSearch import ModifiedHybridRandomSearch
+from Optimization.Algorithms.ModifiedHybridMemeticAlgorithm import ModifiedHybridMemeticAlgorithm
 
 
 def create_algorithm_from_json(json_data):
@@ -22,5 +23,7 @@ def create_algorithm_from_json(json_data):
         return LuusJaakolaOptimization.from_json(json_data)
     elif 'ModifiedHybridRandomSearch' in json_data:
         return ModifiedHybridRandomSearch.from_json(json_data)
+    elif 'ModifiedHybridMemeticAlgorithm' in json_data:
+        return ModifiedHybridMemeticAlgorithm.from_json(json_data)
     else:
         raise Exception('Unsupported Optimization Algorithm')
