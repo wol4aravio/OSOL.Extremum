@@ -49,7 +49,7 @@ def main():
     if seed_values is None:
         x = algorithm.work(task['f'], task['area'], mt)
     else:
-        seed_values = [Vector.from_json(open(f, 'r')) for f in seed_values.split(',')]
+        seed_values = [Vector.from_json(json.load(open(f, 'r'))) for f in seed_values.split(',')]
         x = algorithm.work(task['f'], task['area'], mt, seed_values)
 
     if options.reduce:

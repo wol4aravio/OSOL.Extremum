@@ -74,8 +74,8 @@ class IntervalExplosionSearch(Algorithm):
         ]
 
     def initialize(self, f, area, seed):
+        self._bombs = []
         if seed is None:
-            self._bombs = []
             for i in range(self._max_bombs):
                 point = {}
                 for k, (left, right) in area.items():
@@ -83,10 +83,12 @@ class IntervalExplosionSearch(Algorithm):
                     point[k] = Interval.create_valid_interval(lower_bound=p1, upper_bound=p2)
                 self._bombs.append(Bomb(Vector(point)))
         else:
-            if isinstance(seed, list):
-                self._bombs = [Bomb(v) for v in seed]
-            else:
-                self._bombs = [Bomb(seed)]
+            while len(self._bombs) < self._max_bombs:
+                if isinstance(seed, list):
+                    self._bombs += [Bomb(v) for v in seed]
+                else:
+                    self._bombs += [Bomb(seed)]
+            self._bombs = self._bombs[:self._max_bombs]
 
         for i in range(self._max_bombs):
             self._bombs[i].get_efficiency(f)
