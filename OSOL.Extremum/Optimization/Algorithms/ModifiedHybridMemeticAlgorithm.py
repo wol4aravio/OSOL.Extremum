@@ -77,7 +77,7 @@ class ModifiedHybridMemeticAlgorithm(Algorithm):
         self._iteration_id = 0
         self._pool = []
         if seed is not None:
-            if type(seed) == list:
+            if isinstance(seed, list):
                 self._pool += sorted(list(map(lambda v: (v, f(v)), seed)), key=lambda kvp: kvp[1])[:self._pool_size]
             else:
                 self._pool.append((seed, f(seed)))

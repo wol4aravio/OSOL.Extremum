@@ -65,7 +65,7 @@ class LuusJaakolaOptimization(Algorithm):
             self._x = point
             self._f_x = f(point)
         else:
-            if type(seed) == list:
+            if isinstance(seed, list):
                 self._x = sorted(seed, key=lambda v: f(v))[0]
                 self._f_x = f(self._x)
             else:

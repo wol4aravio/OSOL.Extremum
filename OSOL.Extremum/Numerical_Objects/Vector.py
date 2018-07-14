@@ -28,7 +28,7 @@ class Vector:
     def from_json(cls, json_data):
         values_dict = json_data['Vector']['values']
         for k, v in values_dict.items():
-            if type(v) == dict:
+            if isinstance(v, dict):
                 if 'Interval' in v:
                     values_dict[k] = Interval.from_dict(v['Interval'])
                 else:
@@ -158,7 +158,7 @@ class Vector:
         result = {}
         for k in self.keys:
             v = self[k]
-            if type(v) == Interval:
+            if isinstance(v, Interval):
                 if point_reduction:
                     result[k] = v.middle_point
                 else:

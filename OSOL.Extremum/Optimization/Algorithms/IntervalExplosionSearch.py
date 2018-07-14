@@ -83,7 +83,7 @@ class IntervalExplosionSearch(Algorithm):
                     point[k] = Interval.create_valid_interval(lower_bound=p1, upper_bound=p2)
                 self._bombs.append(Bomb(Vector(point)))
         else:
-            if type(seed) == list:
+            if isinstance(seed, list):
                 self._bombs = [Bomb(v) for v in seed]
             else:
                 self._bombs = [Bomb(seed)]
