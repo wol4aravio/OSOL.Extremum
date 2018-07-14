@@ -2,7 +2,6 @@
 	"task_type": "unconstrained_optimization",
 	"f": "(x1 ** 2 + x2 - 11) ** 2 + (x1 + x2 ** 2 - 7) ** 2",
 	"vars": ["x1", "x2"],
-	"differentiable": true,
 	"area": [
 		{ "name": "x1", "min": -6.0, "max": 6.0 },
 		{ "name": "x2", "min": -6.0, "max": 6.0 }
