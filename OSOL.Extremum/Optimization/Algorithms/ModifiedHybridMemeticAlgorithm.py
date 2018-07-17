@@ -1,4 +1,5 @@
 from Optimization.Algorithms.Algorithm import Algorithm
+from Optimization.Terminators.MaxTimeTerminator import MaxTimeTerminator
 from Optimization.Algorithms.tools import distance_between_vectors
 from Numerical_Objects.Vector import Vector
 
@@ -36,6 +37,8 @@ class ModifiedHybridMemeticAlgorithm(Algorithm):
 
     @classmethod
     def from_json(cls, json_data):
+        data = json_data['ModifiedHybridMemeticAlgorithm']
+        data['combination_algorithm'] = MaxTimeTerminator.from_json(data['combination_algorithm'])
         return cls.from_dict(json_data['ModifiedHybridMemeticAlgorithm'])
 
     def to_dict(self):
