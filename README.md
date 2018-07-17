@@ -129,6 +129,14 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 <br/>
 
+- [x] ~~__application__: solution of optimization task~~
+- [x] ~~__application__: benchmarking of an algorithm configuration~~
+- [x] ~~__application__: simulation of a control~~
+- [ ] __application__: algorithms comparison
+- [ ] __application__: algorithm visualization
+
+<br/>
+
 - [x] ~~__benchmarking__: <= 10 test functions (2D)~~
 - [ ] __benchmarking__: <= 25 test functions (2D)
 - [ ] __benchmarking__: <= 50 test functions (2D)
