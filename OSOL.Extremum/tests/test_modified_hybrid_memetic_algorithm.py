@@ -1,6 +1,5 @@
 from Tools.OptimizationTools import *
 from Optimization.Verifier import Verifier
-from Optimization.Terminators.MaxTimeTerminator import MaxTimeTerminator
 
 import os
 import shutil
@@ -10,17 +9,16 @@ logging.basicConfig(level=logging.INFO)
 
 verifier = Verifier()
 
-rs_config = {
+rs = {
     'RandomSearch': {
         'radius': 0.1
     }
 }
-rs = create_algorithm_from_json(rs_config)
-mt = MaxTimeTerminator.from_json({
+mt = {
     'MaxTimeTerminator': {
         'max_time': 's:0.1'
     }
-})
+}
 
 mhma_1_config = {
     'ModifiedHybridMemeticAlgorithm': {
