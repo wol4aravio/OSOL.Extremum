@@ -45,36 +45,36 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 # Current State
 
-- [x] supported tasks: unconstrained optimization
-- [x] supported tasks: optimal openloop control
+- [x] ~~supported tasks: unconstrained optimization~~
+- [x] ~~supported tasks: optimal openloop control~~
 - [ ] supported tasks: constrained optimization
 - [ ] supported tasks: optimal feedback control
 - [ ] supported tasks: optimal stochastic control
 
-- [x] features: implementation of interval arithmetics
-- [x] features: state logging
+- [x] ~~features: implementation of interval arithmetics~~
+- [x] ~~features: state logging~~
 - [ ] features: custom callbacks
 
-- [x] modelling of dynamic systems using Euler discretization processes
-- [x] modelling of dynamic systems using Runge-Kutta (IV order) discretization processes
+- [x] ~~modelling of dynamic systems using Euler discretization processes~~
+- [x] ~~modelling of dynamic systems using Runge-Kutta (IV order) discretization processes~~
 
-- [x] supported types of controllers: piecewise-constant
-- [x] supported types of controllers: piecewise-linear
-- [x] supported types of controllers: explicit
+- [x] ~~supported types of controllers: piecewise-constant~~
+- [x] ~~supported types of controllers: piecewise-linear~~
+- [x] ~~supported types of controllers: explicit~~
 - [ ] supported types of controllers: via decomposition by basis
 
-- [x] benchmarking: <= 10 test functions (2D)
+- [x] ~~benchmarking: <= 10 test functions (2D)~~
 - [ ] benchmarking: <= 25 test functions (2D)
 - [ ] benchmarking: <= 50 test functions (2D)
 
-- [x] implemented algorithms: Adaptive Random Search
-- [x] implemented algorithms: Interval Explosion Search
-- [x] implemented algorithms: Luus-Jaakola Optimization
-- [x] implemented algorithms: Modified Hybrid Memetic Algorithm
-- [x] implemented algorithms: Modified Hybrid Random Search
-- [x] implemented algorithms: Random Search
-- [x] implemented algorithms: Random Search with Statistical Anti Gradient
-- [x] implemented algorithms: Simulated Annealing
+- [x] ~~implemented algorithms: Adaptive Random Search~~
+- [x] ~~implemented algorithms: Interval Explosion Search~~
+- [x] ~~implemented algorithms: Luus-Jaakola Optimization~~
+- [x] ~~implemented algorithms: Modified Hybrid Memetic Algorithm~~
+- [x] ~~implemented algorithms: Modified Hybrid Random Search~~
+- [x] ~~implemented algorithms: Random Search~~
+- [x] ~~implemented algorithms: Random Search with Statistical Anti Gradient~~
+- [x] ~~implemented algorithms: Simulated Annealing~~
 - [ ] implemented algorithms: Interval Genetic Algorithm with Ternary Coding
 - [ ] implemented algorithms: Metaheuristic Interval Inversed Search
 - [ ] implemented algorithms: Differential Evolution
