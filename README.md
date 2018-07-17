@@ -109,21 +109,31 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 - [ ] __supported tasks__: optimal feedback control
 - [ ] __supported tasks__: optimal stochastic control
 
+<br/>
+
 - [x] ~~__features__: implementation of interval arithmetics~~
 - [x] ~~__features__: state logging~~
 - [ ] __features__: custom callbacks
 
+<br/>
+
 - [x] ~~__modelling of dynamic systems__: Euler discretization processes~~
 - [x] ~~__modelling of dynamic systems__: Runge-Kutta (IV order) discretization processes~~
+
+<br/>
 
 - [x] ~~__supported types of controllers__: piecewise-constant~~
 - [x] ~~__supported types of controllers__: piecewise-linear~~
 - [x] ~~__supported types of controllers__: explicit~~
 - [ ] __supported types of controllers__: via decomposition by basis
 
+<br/>
+
 - [x] ~~__benchmarking__: <= 10 test functions (2D)~~
 - [ ] __benchmarking__: <= 25 test functions (2D)
 - [ ] __benchmarking__: <= 50 test functions (2D)
+
+<br/>
 
 - [x] ~~__implemented algorithms__: Adaptive Random Search~~
 - [x] ~~__implemented algorithms__: Interval Explosion Search~~
