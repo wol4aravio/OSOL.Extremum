@@ -114,6 +114,7 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 - [x] ~~__features__: implementation of interval arithmetics~~
 - [x] ~~__features__: state logging~~
 - [ ] __features__: custom callbacks
+- [ ] __features__: termination via max iterations
 
 <br/>
 
