@@ -21,6 +21,7 @@ class AdaptiveRandomSearch(Algorithm):
         self._x_new_2 = None
         self._f_x_new_2 = None
         self._radius = None
+        self._radius_huge = None
         self._iteration_id = None
         self._no_change = None
         self._init_radius = init_radius
@@ -93,11 +94,11 @@ class AdaptiveRandomSearch(Algorithm):
         self._f_x_new_1 = f(self._x_new_1)
 
         if iteration_id % frequency == 0:
-            radius_huge = radius * factor_huge
+            self._radius_huge = radius * factor_huge
         else:
-            radius_huge = radius * factor_small
+            self._radius_huge = radius * factor_small
 
-        self._x_new_2 = AdaptiveRandomSearch.generate_random_point_in_sphere(x, radius_huge, area)
+        self._x_new_2 = AdaptiveRandomSearch.generate_random_point_in_sphere(x, self._radius_huge, area)
         self._f_x_new_2 = f(self._x_new_2)
 
         return self.modify_radius
@@ -113,7 +114,7 @@ class AdaptiveRandomSearch(Algorithm):
             if f_x_new_2 < f_x_new_1:
                 self._x = x_new_2
                 self._f_x = f_x_new_2
-                self._radius = self._radius * self._factor_huge
+                self._radius = self._radius_huge
             else:
                 self._x = x_new_1
                 self._f_x = f_x_new_1
