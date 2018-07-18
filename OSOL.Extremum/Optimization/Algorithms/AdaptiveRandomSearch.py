@@ -64,7 +64,7 @@ class AdaptiveRandomSearch(Algorithm):
 
     def initialize(self, f, area, seed):
         self._radius = self._init_radius
-        self._iteration_id = 0
+        self._iteration_id = 1
         self._no_change = 0
         if seed is None:
             point = {}
@@ -92,7 +92,7 @@ class AdaptiveRandomSearch(Algorithm):
         self._x_new_1 = AdaptiveRandomSearch.generate_random_point_in_sphere(x, radius, area)
         self._f_x_new_1 = f(self._x_new_1)
 
-        if iteration_id % frequency == 0.0:
+        if iteration_id % frequency == 0:
             radius_huge = radius * factor_huge
         else:
             radius_huge = radius * factor_small
