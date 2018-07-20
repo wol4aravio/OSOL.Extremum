@@ -45,6 +45,16 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 # Project Structure
 
+**Numerical Objects** module contains interval arithmetics and vector operations.
+
+**Cybernatics** module implements dynamic systems with different types of controllers.
+
+**Optimization** module implements all required levels of abstraction of optimization algorithms and contains realization of various metaheuristic optimization algithms and tasks that can be solved via them.
+
+**Tools** module contains various procedures and classes to connect modules together and provide convenient input/output methods (including JSON serialization).
+
+**Applications** module contains scripts that are targeted on solution of a real problem, e.g. to apply optimization algorithm to the given task, to simulate dynamic system behavior using provided controls, evaluate algorithm's efficiency on benchmark set.
+
 ##  Numerical Objects
 
 ### Interval
