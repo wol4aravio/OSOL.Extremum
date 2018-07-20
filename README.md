@@ -97,19 +97,51 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 ## Adaptive Random Search
 
+### Config Example
+
+### Benchmark Results
+
 ## Interval Explosion Search
+
+### Config Example
+
+### Benchmark Results
 
 ## Luus-Jaakola Optimization
 
+### Config Example
+
+### Benchmark Results
+
 ## Modified Hybrid Memetic Algorithm
+
+### Config Example
+
+### Benchmark Results
 
 ## Modified Hybrid Random Search
 
+### Config Example
+
+### Benchmark Results
+
 ## Random Search
+
+### Config Example
+
+### Benchmark Results
 
 ## Random Search with Statistical Anti Gradient
 
+### Config Example
+
+### Benchmark Results
+
 ## Simulated Annealing
+
+### Config Example
+
+### Benchmark Results
 
 # Current State
 
