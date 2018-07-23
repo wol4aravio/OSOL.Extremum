@@ -99,7 +99,7 @@ class IntervalExplosionSearch(Algorithm):
         for i in range(self._max_bombs):
             deltas = {}
             for k, (min_value, max_value) in area.items():
-                d = i * (max_value - min_value) / (self._max_bombs - 1)
+                d = i * self._max_radius_ratio * (max_value - min_value) / (self._max_bombs - 1)
                 deltas[k] = (-d, d)
             self._deltas.append(deltas)
         return self.generate_new_bombs
