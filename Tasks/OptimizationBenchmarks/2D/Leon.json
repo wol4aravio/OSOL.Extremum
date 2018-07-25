@@ -1,0 +1,13 @@
+{
+	"task_type": "unconstrained_optimization",
+	"f": "(1 - x1) ** 2 + 100 * (x2 - x1 ** 2) ** 2",
+	"vars": ["x1", "x2"],
+	"area": [
+		{ "name": "x1", "min": -1.2, "max": 1.2 },
+		{ "name": "x2", "min": -1.2, "max": 1.2 }
+	],
+	"solution": [
+		{ "name": "x1", "value": 1.0 },
+		{ "name": "x2", "value": 1.0 }
+	]
+}
