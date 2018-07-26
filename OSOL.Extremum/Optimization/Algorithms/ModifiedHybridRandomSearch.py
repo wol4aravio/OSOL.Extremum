@@ -1,4 +1,5 @@
 from Optimization.Algorithms.Algorithm import Algorithm
+from Optimization.Terminators.MaxTimeTerminator import MaxTimeTerminator
 from Numerical_Objects.Vector import Vector
 
 import numpy as np
@@ -18,7 +19,10 @@ class ModifiedHybridRandomSearch(Algorithm):
 
     @classmethod
     def from_json(cls, json_data):
-        return cls.from_dict(json_data['ModifiedHybridRandomSearch'])
+        data = json_data['ModifiedHybridRandomSearch']
+        data['algorithms'] = [Tools.OptimizationTools.create_algorithm_from_json(j) for j in data['algorithms']]
+        data['terminators'] = [MaxTimeTerminator.from_json(j) for j in data['terminators']]
+        return cls.from_dict(data)
 
     def to_dict(self):
         return {
@@ -67,3 +71,6 @@ class ModifiedHybridRandomSearch(Algorithm):
             self._f_x = f_x_new
 
         return self.make_one_run
+
+
+import Tools.OptimizationTools
