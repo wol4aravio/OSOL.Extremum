@@ -18,7 +18,7 @@
 	"sampling_max_steps": 1000,
 	"ode": [
 		{
-			"component": "p",
+			"component": "r",
 			"equation": "u"
 		},
 		{
@@ -27,15 +27,15 @@
 		},
 		{
 			"component": "u",
-			"equation": "v * v / r - mu / (r * r) * (1 - beta * ((cos(alpha)) ** 3))"
+			"equation": "v * v / r - _mu / (r * r) * (1 - _beta * ((cos(alpha)) ** 3))"
 		},
 		{
 			"component": "v",
-			"equation": "-u * v / r + mu * beta * sin(alpha) * ((Cos(alpha)) ** 2) / (r * r)"
+			"equation": "-u * v / r + _mu * _beta * sin(alpha) * ((cos(alpha)) ** 2) / (r * r)"
 		}
 	],
 	"initial_conditions": [
-		{"name": "p", "value": 1.495978707e11},
+		{"name": "r", "value": 1.495978707e11},
 		{"name": "theta", "value": 0.0},
 		{"name": "u", "value": 0.0},
 		{"name": "v", "value": 2.98e4}
@@ -54,11 +54,11 @@
 	],
 	"auxiliary": [
 		{
-			"component": "mu",
+			"component": "_mu",
 			"equation": "1.32712440018e20"
 		},
 		{
-			"component": "mu",
+			"component": "_beta",
 			"equation": "0.042"
 		}
 	],
