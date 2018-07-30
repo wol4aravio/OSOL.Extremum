@@ -13,7 +13,7 @@
 		{ "name": "alpha_9", "min": -250.0, "max": 250.0 },
 		{ "name": "alpha_10", "min": -250.0, "max": 250.0 }
 	],
-	"sampling_type": "RK4",
+	"sampling_type": "Euler",
 	"sampling_eps": 86400,
 	"sampling_max_steps": 1000,
 	"ode": [
@@ -73,7 +73,7 @@
 			{
 				"equation": "r-5.8343169573e10",
 				"max_error": 1e2,
-				"penalty": 1e+2,
+				"penalty": 1,
 				"norm": "L2"
 			},
 			{
