@@ -1,0 +1,94 @@
+{
+	"task_type": "openloop_control",
+	"area": [
+		{ "name": "alpha_0", "min": -1.5707963267948966, "max": 1.5707963267948966 },
+		{ "name": "alpha_1", "min": -1.5707963267948966, "max": 1.5707963267948966 },
+		{ "name": "alpha_2", "min": -1.5707963267948966, "max": 1.5707963267948966 },
+		{ "name": "alpha_3", "min": -1.5707963267948966, "max": 1.5707963267948966 },
+		{ "name": "alpha_4", "min": -1.5707963267948966, "max": 1.5707963267948966 },
+		{ "name": "alpha_5", "min": -1.5707963267948966, "max": 1.5707963267948966 },
+		{ "name": "alpha_6", "min": -1.5707963267948966, "max": 1.5707963267948966 },
+		{ "name": "alpha_7", "min": -1.5707963267948966, "max": 1.5707963267948966 },
+		{ "name": "alpha_8", "min": -1.5707963267948966, "max": 1.5707963267948966 },
+		{ "name": "alpha_9", "min": -1.5707963267948966, "max": 1.5707963267948966 },
+		{ "name": "alpha_10", "min": -1.5707963267948966, "max": 1.5707963267948966 }
+	],
+	"sampling_type": "Euler",
+	"sampling_eps": 86400,
+	"sampling_max_steps": 1000,
+	"ode": [
+		{
+			"component": "r",
+			"equation": "u"
+		},
+		{
+			"component": "theta",
+			"equation": "v / r"
+		},
+		{
+			"component": "u",
+			"equation": "v * v / r - _mu / (r * r) * (1 - _beta * ((cos(alpha)) ** 3))"
+		},
+		{
+			"component": "v",
+			"equation": "-u * v / r + _mu * _beta * sin(alpha) * ((cos(alpha)) ** 2) / (r * r)"
+		}
+	],
+	"initial_conditions": [
+		{"name": "r", "value": 1.495978707e11},
+		{"name": "theta", "value": 0.0},
+		{"name": "u", "value": 0.0},
+		{"name": "v", "value": 2.98e4}
+	],
+	"controllers": [
+		{
+			"name": "alpha",
+			"type": "piecewise_linear",
+			"switch_points": [0, 8640000, 17280000, 25920000, 34560000, 43200000, 51840000, 60480000, 69120000, 77760000, 86400000],
+			"penalty": 1e-3,
+			"variance_power": 2
+		}
+	],
+	"control_bounds": [
+		{"name": "alpha", "min": -1.5707963267948966, "max": 1.5707963267948966}
+	],
+	"auxiliary": [
+		{
+			"component": "_mu",
+			"equation": "1.32712440018e20"
+		},
+		{
+			"component": "_beta",
+			"equation": "0.042"
+		}
+	],
+	"efficiency": {
+		"integral": [
+			"0"
+		],
+		"terminal": "t / 86400"
+	},
+	"constraints": {
+		"terminal": [
+			{
+				"equation": "r-5.8343169573e10",
+				"max_error": 1e2,
+				"penalty": 1,
+				"norm": "L2"
+			},
+			{
+				"equation": "u",
+				"max_error": 1e1,
+				"penalty": 1e+2,
+				"norm": "L2"
+			},
+			{
+				"equation": "v-4.79e4",
+				"max_error": 1e1,
+				"penalty": 1e+2,
+				"norm": "L2"
+			}
+		],
+		"phase": [ ]
+	}
+}

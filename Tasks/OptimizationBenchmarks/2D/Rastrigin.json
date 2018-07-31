@@ -1,0 +1,13 @@
+{
+	"task_type": "unconstrained_optimization",
+	"f": "20 * ((x1 ** 2 - 10 * cos(2 * 3.141592653589793 * x1)) + (x2 ** 2 - 10 * cos(2 * 3.141592653589793 * x2)))",
+	"vars": ["x1", "x2"],
+	"area": [
+		{ "name": "x1", "min": -5.12, "max": 5.12 },
+		{ "name": "x2", "min": -5.12, "max": 5.12 }
+	],
+	"solution": [
+		{ "name": "x1", "value": 0.0 },
+		{ "name": "x2", "value": 0.0 }
+	]
+}

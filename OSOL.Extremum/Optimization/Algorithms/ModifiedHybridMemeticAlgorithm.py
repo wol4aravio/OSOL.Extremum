@@ -113,7 +113,7 @@ class ModifiedHybridMemeticAlgorithm(Algorithm):
         if norm > 0:
             normalized_coefficients = {k: coefficients[k] / norm for k in coefficients.keys}
         else:
-            normalized_coefficients = {k: 1.0 / len(area) for k in coefficients.keys}
+            normalized_coefficients = {k: 1.0 / coefficients.dim for k in coefficients.keys}
         combination_vector = Vector({k: 0.0 for k in area.keys()})
         for i, (x, _) in enumerate(vectors_with_values):
             combination_vector += normalized_coefficients['c_{}'.format(i)] * x

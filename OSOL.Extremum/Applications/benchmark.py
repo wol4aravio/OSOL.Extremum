@@ -45,8 +45,28 @@ def create_markdown(results):
     return text
 
 
-def run_algorithm(alg, task_name, f, area, terminator):
-    return task_name, alg.work(f, area, terminator)
+def create_tex(results):
+    text = '''Benchmark results (detailed)
+\\begin{tabular}{|l|c|c|c|c|c|}
+\\hline
+Function name & Optimal value & Min value & Mean value & Max value & Standard deviation \\\\ \\hline
+'''
+    for f_name, stat in results.items():
+        text += '{0} & {1:.9f} & {2:.9f} & {3:.9f} & {4:.9f} & {5:.9f} \\\\ \\hline \n'.format(
+            f_name, stat['f*'], stat['min'], stat['mean'], stat['max'], stat['std'])
+    text += '\\end{tabular} \n\n'
+
+    text += '''Benchmark results
+\\begin{tabular}{|l|c|c|c|c|c|}
+\\hline
+Function name & Optimal value & Min value & Mean value & Max value & Standard deviation \\\\ \\hline
+'''
+    for f_name, stat in results.items():
+        text += '{0} & {1:.5f} & {2:.5f} & {3:.5f} & {4:.5f} & {5:.5f} \\\\ \\hline \n'.format(
+            f_name, stat['f*'], stat['min'], stat['mean'], stat['max'], stat['std'])
+    text += '\\end{tabular} \n\n'
+
+    return text
 
 
 def main():
@@ -152,6 +172,8 @@ def main():
     with open(os.path.join(output_folder, 'statistics.md'), 'w') as md_file:
         md_file.write(md)
     export(path=os.path.join(output_folder, 'statistics.md'))
+    with open(os.path.join(output_folder, 'for_tex.txt'), 'w') as tex_file:
+        tex_file.write(create_tex(results))
 
     print('>>> Done!\n')
 
