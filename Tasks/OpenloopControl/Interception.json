@@ -1,0 +1,102 @@
+{
+	"task_type": "openloop_control",
+	"area": [
+		{ "name": "u_I_0", "min": -50, "max": 50 },
+		{ "name": "u_I_1", "min": -50, "max": 50 },
+		{ "name": "u_I_2", "min": -50, "max": 50 },
+		{ "name": "u_I_3", "min": -50, "max": 50 },
+		{ "name": "u_I_4", "min": -50, "max": 50 },
+		{ "name": "u_I_5", "min": -50, "max": 50 },
+		{ "name": "u_I_6", "min": -50, "max": 50 },
+		{ "name": "u_I_7", "min": -50, "max": 50 },
+		{ "name": "u_I_8", "min": -50, "max": 50 },
+		{ "name": "u_I_9", "min": -50, "max": 50 },
+		{ "name": "u_I_10", "min": -50, "max": 50 }
+	],
+	"sampling_type": "RK4",
+	"sampling_eps": 1,
+	"sampling_max_steps": 100,
+	"ode": [
+		{
+			"component": "r_T",
+			"equation": "V_T * cos(gamma_T - lambda_T)"
+		},
+		{
+			"component": "lambda_T",
+			"equation": "V_T * sin(gamma_T - lambda_T) / r_T"
+		},
+		{
+			"component": "gamma_T",
+			"equation": "u_T / V_T"
+		},
+		{
+			"component": "r_I",
+			"equation": "V_I * cos(gamma_I - lambda_I)"
+		},
+		{
+			"component": "lambda_I",
+			"equation": "V_I * sin(gamma_I - lambda_I) / r_I"
+		},
+		{
+			"component": "gamma_I",
+			"equation": "u_I / V_I"
+		}
+	],
+	"initial_conditions": [
+		{"name": "r_T", "value": 2000},
+		{"name": "lambda_T", "value": 0.7853981633974483},
+		{"name": "gamma_T", "value": 1.5707963267948966},
+		{"name": "r_I", "value": 1000},
+		{"name": "lambda_I", "value": 0.7853981633974483},
+		{"name": "gamma_I", "value": 0.7853981633974483}
+	],
+	"controllers": [
+		{
+			"name": "u_I",
+			"type": "piecewise_linear",
+			"switch_points": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+			"penalty": 1e-3,
+			"variance_power": 2
+		}
+	],
+	"control_bounds": [
+		{"name": "u_I", "min": -50.0, "max": 50.0}
+	],
+	"auxiliary": [
+		{
+			"component": "V_T",
+			"equation": "125.0"
+		},
+		{
+			"component": "u_T",
+			"equation": "-10.0"
+		},
+		{
+			"component": "V_I",
+			"equation": "175.0"
+		}
+	],
+	"efficiency": {
+		"integral": [
+			"0"
+		],
+		"terminal": "t"
+	},
+	"constraints": {
+		"terminal": [
+			{
+				"equation": "r_T * cos(lambda_T) - r_I * cos(lambda_I)",
+				"max_error": 1e-1,
+				"penalty": 1e+2,
+				"norm": "L2"
+			},
+			{
+				"equation": "r_T * sin(lambda_T) - r_I * sin(lambda_I)",
+				"max_error": 1e-1,
+				"penalty": 1e+2,
+				"norm": "L2"
+			}
+		],
+		"phase": [ ]
+	}
+}
