@@ -27,11 +27,11 @@
 		},
 		{
 			"component": "u",
-			"equation": "(v ** 2) / r - _mu / (r ** 2) * (1 - _beta * ((cos(alpha)) ** 3))"
+			"equation": "(v ** 2) / r - _mu * (1 - _beta * ((cos(alpha)) ** 3)) / (r ** 2)"
 		},
 		{
 			"component": "v",
-			"equation": "-u * v / r + _mu * _beta * sin(alpha) * ((cos(alpha)) ** 2) / (r * r)"
+			"equation": "-u * v / r + _mu * _beta * sin(alpha) * ((cos(alpha)) ** 2) / (r ** 2)"
 		}
 	],
 	"initial_conditions": [
