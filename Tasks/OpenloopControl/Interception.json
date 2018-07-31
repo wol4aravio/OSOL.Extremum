@@ -14,8 +14,8 @@
 		{ "name": "u_I_10", "min": -50, "max": 50 }
 	],
 	"sampling_type": "RK4",
-	"sampling_eps": 1,
-	"sampling_max_steps": 100,
+	"sampling_eps": 1e-1,
+	"sampling_max_steps": 1000,
 	"ode": [
 		{
 			"component": "r_T",
