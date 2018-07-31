@@ -87,13 +87,13 @@
 			{
 				"equation": "r_T * cos(lambda_T) - r_I * cos(lambda_I)",
 				"max_error": 1e-1,
-				"penalty": 1e+2,
+				"penalty": 1e+1,
 				"norm": "L2"
 			},
 			{
 				"equation": "r_T * sin(lambda_T) - r_I * sin(lambda_I)",
 				"max_error": 1e-1,
-				"penalty": 1e+2,
+				"penalty": 1e+1,
 				"norm": "L2"
 			}
 		],
