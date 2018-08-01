@@ -13,9 +13,9 @@
 		{ "name": "alpha_9", "min": -1.5707963267948966, "max": 1.5707963267948966 },
 		{ "name": "alpha_10", "min": -1.5707963267948966, "max": 1.5707963267948966 }
 	],
-	"sampling_type": "Euler",
-	"sampling_eps": 1440,
-	"sampling_max_steps": 60000,
+	"sampling_type": "RK4",
+	"sampling_eps": 86400,
+	"sampling_max_steps": 1000,
 	"ode": [
 		{
 			"component": "r",
@@ -27,7 +27,7 @@
 		},
 		{
 			"component": "u",
-			"equation": "(v ** 2) / r - _mu * (1 - _beta * ((cos(alpha)) ** 3)) / (r ** 2)"
+			"equation": "(v ** 2) / r - (_mu - _beta * ((cos(alpha)) ** 3)) / (r ** 2)"
 		},
 		{
 			"component": "v",
@@ -71,21 +71,21 @@
 	"constraints": {
 		"terminal": [
 			{
-				"equation": "r-5.8343169573e10",
-				"max_error": 1e2,
-				"penalty": 1,
+				"equation": "(r / 1.49597870700e11) - 0.39",
+				"max_error": 1e-3,
+				"penalty": 1e3,
 				"norm": "L2"
 			},
 			{
 				"equation": "u",
-				"max_error": 1e1,
-				"penalty": 1e+2,
+				"max_error": 1,
+				"penalty": 1,
 				"norm": "L2"
 			},
 			{
 				"equation": "v-4.79e4",
-				"max_error": 1e1,
-				"penalty": 1e+2,
+				"max_error": 1,
+				"penalty": 1,
 				"norm": "L2"
 			}
 		],
