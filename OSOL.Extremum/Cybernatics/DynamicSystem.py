@@ -81,7 +81,11 @@ class DynamicSystem:
     @staticmethod
     def measure_error(v):
         if isinstance(v, Interval):
-            return v.abs().left
+            v_abs = v.abs()
+            if isinstance(v_abs, Interval):
+                return v_abs.left
+            else:
+                return v_abs
         else:
             return np.abs(v)
 
