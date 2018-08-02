@@ -21,7 +21,7 @@
 		},
 		{
 			"component": "x2",
-			"equation": "(x3 ** 2) / x1 - (1 - _beta * abs((cos(alpha)) ** 3) / (x1 ** 2)"
+			"equation": "(x3 ** 2) / x1 - (1 - _beta * abs((cos(alpha)) ** 3)) / (x1 ** 2)"
 		},
 		{
 			"component": "x3",
