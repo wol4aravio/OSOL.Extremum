@@ -9,42 +9,40 @@
 		{ "name": "alpha_5", "min": -1.5707963267948966, "max": 1.5707963267948966 },
 		{ "name": "alpha_6", "min": -1.5707963267948966, "max": 1.5707963267948966 },
 		{ "name": "alpha_7", "min": -1.5707963267948966, "max": 1.5707963267948966 },
-		{ "name": "alpha_8", "min": -1.5707963267948966, "max": 1.5707963267948966 },
-		{ "name": "alpha_9", "min": -1.5707963267948966, "max": 1.5707963267948966 },
-		{ "name": "alpha_10", "min": -1.5707963267948966, "max": 1.5707963267948966 }
+		{ "name": "alpha_8", "min": -1.5707963267948966, "max": 1.5707963267948966 }
 	],
-	"sampling_type": "Euler",
-	"sampling_eps": 86400,
-	"sampling_max_steps": 1000,
+	"sampling_type": "RK4",
+	"sampling_eps": 0.1,
+	"sampling_max_steps": 80,
 	"ode": [
 		{
-			"component": "r",
-			"equation": "u"
+			"component": "x1",
+			"equation": "x2"
 		},
 		{
-			"component": "theta",
-			"equation": "v / r"
+			"component": "x2",
+			"equation": "(x3 ** 2) / x1 - (1 - _beta * abs((cos(alpha)) ** 3)) / (x1 ** 2)"
 		},
 		{
-			"component": "u",
-			"equation": "v * v / r - _mu / (r * r) * (1 - _beta * ((cos(alpha)) ** 3))"
+			"component": "x3",
+			"equation": "-x2 * x3 / x1 - _beta * sin(alpha) * ((cos(alpha)) ** 2) / (x1 ** 2) "
 		},
 		{
-			"component": "v",
-			"equation": "-u * v / r + _mu * _beta * sin(alpha) * ((cos(alpha)) ** 2) / (r * r)"
+			"component": "x4",
+			"equation": "x3 / x1"
 		}
 	],
 	"initial_conditions": [
-		{"name": "r", "value": 1.495978707e11},
-		{"name": "theta", "value": 0.0},
-		{"name": "u", "value": 0.0},
-		{"name": "v", "value": 2.98e4}
+		{"name": "x1", "value": 1.0},
+		{"name": "x2", "value": 0.0},
+		{"name": "x3", "value": 1.0},
+		{"name": "x4", "value": 0.0}
 	],
 	"controllers": [
 		{
 			"name": "alpha",
 			"type": "piecewise_linear",
-			"switch_points": [0, 8640000, 17280000, 25920000, 34560000, 43200000, 51840000, 60480000, 69120000, 77760000, 86400000],
+			"switch_points": [0, 1, 2, 3, 4, 5, 6, 7, 8],
 			"penalty": 1e-3,
 			"variance_power": 2
 		}
@@ -54,38 +52,34 @@
 	],
 	"auxiliary": [
 		{
-			"component": "_mu",
-			"equation": "1.32712440018e20"
-		},
-		{
 			"component": "_beta",
-			"equation": "0.042"
+			"equation": "0.16892"
 		}
 	],
 	"efficiency": {
 		"integral": [
 			"0"
 		],
-		"terminal": "t / 86400"
+		"terminal": "t"
 	},
 	"constraints": {
 		"terminal": [
 			{
-				"equation": "r-5.8343169573e10",
-				"max_error": 1e2,
-				"penalty": 1,
+				"equation": "x1 - 1.525",
+				"max_error": 1e-2,
+				"penalty": 1e2,
 				"norm": "L2"
 			},
 			{
-				"equation": "u",
-				"max_error": 1e1,
-				"penalty": 1e+2,
+				"equation": "x2",
+				"max_error": 1e-2,
+				"penalty": 1e2,
 				"norm": "L2"
 			},
 			{
-				"equation": "v-4.79e4",
-				"max_error": 1e1,
-				"penalty": 1e+2,
+				"equation": "x3 - 0.8098",
+				"max_error": 1e-2,
+				"penalty": 1e2,
 				"norm": "L2"
 			}
 		],

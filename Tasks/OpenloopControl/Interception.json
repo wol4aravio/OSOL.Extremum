@@ -14,8 +14,8 @@
 		{ "name": "u_I_10", "min": -50, "max": 50 }
 	],
 	"sampling_type": "RK4",
-	"sampling_eps": 1,
-	"sampling_max_steps": 100,
+	"sampling_eps": 1e-1,
+	"sampling_max_steps": 1000,
 	"ode": [
 		{
 			"component": "r_T",
@@ -86,13 +86,13 @@
 		"terminal": [
 			{
 				"equation": "r_T * cos(lambda_T) - r_I * cos(lambda_I)",
-				"max_error": 1e-1,
+				"max_error": 1,
 				"penalty": 1e+1,
 				"norm": "L2"
 			},
 			{
 				"equation": "r_T * sin(lambda_T) - r_I * sin(lambda_I)",
-				"max_error": 1e-1,
+				"max_error": 1,
 				"penalty": 1e+1,
 				"norm": "L2"
 			}
