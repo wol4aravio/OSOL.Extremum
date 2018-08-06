@@ -56,7 +56,6 @@ class LuusJaakolaOptimization(Algorithm):
     def initialize(self, f, area, seed):
         self._run_id = 0
         self._iteration_id = 0
-        self._radius = self._init_radius
         if seed is None:
             point = {}
             for k, (left, right) in area.items():
