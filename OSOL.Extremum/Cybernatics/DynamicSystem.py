@@ -244,9 +244,7 @@ class DynamicSystem:
                     error = DynamicSystem.measure_error(eq(*values))
                     if error > max_error:
                         stop = False
-                        errors_terminal_state.append(np.power(penalty * error, float(norm[1:])))
-                    else:
-                        errors_terminal_state.append(error)
+                    errors_terminal_state.append(np.power(penalty * error, float(norm[1:])))
                 if stop:
                     break
         I_integral = [states[-1]['I_integral_{}'.format(i + 1)] for i in range(len(self._integral_criteria))]
