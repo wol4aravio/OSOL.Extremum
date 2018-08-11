@@ -1,6 +1,7 @@
 from Tools.etc import constrain_point
 
 from configparser import ConfigParser
+import warnings
 
 import math
 import json
@@ -16,7 +17,11 @@ else:
 
 class Interval:
 
-    __MIN_WIDTH = float(config.get('interval', 'min_width'))
+    try:
+        __MIN_WIDTH = float(config.get('interval', 'min_width'))
+    except Exception:
+        warnings.warn('Can not parse config.ini file. Setting default __MIN_WIDTH = 1e-7')
+        __MIN_WIDTH = 1e-7
 
     def __init__(self, lower_bound, upper_bound):
         self._lower_bound = lower_bound
