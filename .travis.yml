@@ -1,16 +1,21 @@
 env:
   global:
     - secure: "ovxoZQAhCQIeHY+pYZAJUv+QabcXWM4BjRxFP7pMctKVEUF3Pa0ajEfiP7XPfLiwZyGVIhitHxpYxgt9n7RVFtanhXan9RWe0gjN5enyDFiJBnlXxZwmLAIzJeV8CpLCKyNBg2XU7eKqMFjNI/MnVOgGsO/5WOz/5vhLH/Z13QkoIZm0BeGrW8a1lAOs0/jmpPs9nhmcfGncxQR1NyIGayo+Fj5ZMfs2COL6wibSMzSKpT0OngjQy47QHxHZ3Q3oRuMH0o9f0x6+/jE+5NCfvsO5kBclK69SL6sn7QjO4IsJdSjY1kTjeRco3y1wlhbx4xKDf+7C8jqu+y9gTAvxhLlbYuCxJTqO6aDHeoYY52j9c/DVkQORmgqwJ0XrY1XmQDWAFMeUy8Js44M3LjJc0bsS3JxY4s58bCHasiDojSq7g1Jnzj9psvJviRTzZYb5dcgpmQE8ckjDkw4X9Ljcz6vb8q0pIACMeE2F1GIMyuX4yHhnTmWkOfkeMlUEmVqbzCNe9la2kyKEe1QUjvQhpa99rVygLVmmRKjfdrHe84oObdygCfNC0NSq+iPkJ6Y7MfbHiLYsI9Mkw9Sw5AsxYaxw4D+8SpphTmcrOzw47VvLIEfvui6JB55I23hM88NfmbH8LtQovv0gmGXFBdg6SVZnsJ3+eLfulhackYVN/hI="
+    - secure: "dyMpCnkxdRZ8a/sBMe6XZbUvmve1vKVMneSN912uz77q6ObY2gINNcDymTlUkjPqMUH1wLvi8efON7QOfCadqPuYFNdXTLRDTkjQaY2csBMBL3QZrEBdsx5m3BuTByfF/VtzmLPFZ1pQO/CTLRorxSKGUC+qhg4LS9mUR3GoYJl7TT+I3NdDzPXKNzhwxjl0gcPhTYEvPmGXqhTRqgeSc47VrUKlFWOBOhI4Ade+AclVO73seril+TcsR7N/JsNKCLGhvm8C1qMYa0JBqS4e0pQn4hN8Chkw4XS0euLfCx4NbM4oIpvCuTEjrSAI7G+my2mwoJWM8BN3VFvE25i+rGD1r1kP+Vv7wGFlvQUSPAFI76a5dnqB+SMMhFqnDJpt/JWn2OPnC6xJnKpfcQ5sFeNNEFXNE7AclsZXe/uRRIZ7+XTg4XEbBn0CXkmN9tuzlZetCgRj40YwwzyCAnh+gieYT+ZyrYTJI+iRX7f2OV0t5+ggF0O7EJRpAuNvHRgjP/rpyX8WQOua0Wb2YtWDPJz890+x3BY63ELXioLYCnbsGVSGhgtY9FUIEwCEp7Qz6pJEdSTwScMO+xDi7y0GIisdtZYzqgpoR/Ev3inFxHbVUrEbHWETpbSX7f99P3Nsok0bL/75q1ROPEyHIMHUU8vfy/xZ0lOgYRf86L1OyEE="
+    - secure: "xSBUzq0e2uBCkROMYvOjjyjpI3Po7M9e4cYWKxR0vUPSJP8HogcHyb4dPlwRQp8GxInNfvwsLXeEtWT8eWWjbDDYuMF25XWaLJ0J8FK5Wu9QJ5Q3pkHuBblkATwlJY2hSOwfSwKY7mpns9KYo3kPWFERK6EehGScH7z+vHALGZrFQockbpLeAuvwfZxq34SL0kzreX1aDKt4W5UVQ1/IQgRY9mZ+OC04vnSiU+fc/+YKmNDXHqeBLfKPg/EXT480WbKZ4infGUQ3mwDY0lQCF1KdCis9QOoEBi3+xStASsxnedijkRcVfXfTmvtGN3KYM0jOa8e3k+HcvARsGsH5T6D/ElgB30epYbVcR8Sx8lTLf80pWry5X1YYXHQCfoYZeTL+OisIa3C9cAt2snFFM2LBOGzg2D+o+LDpcJps/I+B5cmBtkqOd6nyiuOQ7rrhzT3w8PepEt9AdeNX2UtVjJ9z7kOPA8xlxbtTjoKsWlror6JYqHdN6PM6d5JkTqh3QrxcR/jcG3nQGlwmkP5ZYaHFHQho//LWUh7b4UqfifdbGIrdtMQbQxQUKfk/V9oXeLU2x1/Uwm4Y/Mm3uu89UWhfTPvQeKTgPlbTQyuAAnIkknt6R/jfp5rMq20RqzlYkmStJQOiVKtpM0YEkz8wQPlEJ4YF8Jp4MUnFcMzhQ10="
 
 language: python
 python:
   - "3.6"
-# command to install dependencies
 install:
   - pip install pipenv
+  - pip install twine
   - cd OSOL.Extremum
   - pipenv install
-script:
-  - pipenv run pytest -n 2 -s --cov=./
+  - pipenv run pipenv_to_requirements
+# script:
+  # - pipenv run pytest -n 2 -s --cov=./
 after_success:
   - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+  - pipenv run python setup.py sdist
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then pipenv run twine upload -u $PYPI_USERNAME - p $PYPI_PASSWORD dist/* -r pypi; else pipenv run twine upload -u $PYPI_USERNAME - p $PYPI_PASSWORD dist/* -r pypitest; fi
