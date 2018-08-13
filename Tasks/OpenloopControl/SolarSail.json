@@ -67,19 +67,19 @@
 			{
 				"equation": "x1 - 1.525",
 				"max_error": 1e-2,
-				"penalty": 1e2,
+				"penalty": [1e+2, "explicit"],
 				"norm": "L2"
 			},
 			{
 				"equation": "x2",
 				"max_error": 1e-2,
-				"penalty": 1e2,
+				"penalty": [1e+2, "explicit"],
 				"norm": "L2"
 			},
 			{
 				"equation": "x3 - 0.8098",
 				"max_error": 1e-2,
-				"penalty": 1e2,
+				"penalty": [1e+2, "explicit"],
 				"norm": "L2"
 			}
 		],
