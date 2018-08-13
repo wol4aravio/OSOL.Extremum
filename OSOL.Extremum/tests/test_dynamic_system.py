@@ -21,7 +21,7 @@ def test_1():
                        controllers={}, control_vars=[], control_bounds={},
                        aux={}, etc_vars=[],
                        integral_criteria='0', terminal_criterion='0',
-                       terminal_constraints=[{'equation': 't - 1.0', 'max_error': 1e-5, 'penalty': 1e+5, 'norm': 'L2'}],
+                       terminal_constraints=[{'equation': 't - 1.0', 'max_error': 1e-5, 'penalty': [1e+5, "explicit"], 'norm': 'L2'}],
                        phase_constraints=[])
     times = np.linspace(0.0, 1.0, 1000 + 1)
     x_ideal = times * times
@@ -50,7 +50,7 @@ def test_2():
                        controllers={}, control_vars=[], control_bounds={},
                        aux={}, etc_vars=[],
                        integral_criteria='0', terminal_criterion='0',
-                       terminal_constraints=[{'equation': 'x', 'max_error': 1e-5, 'penalty': 1, 'norm': 'L2'}],
+                       terminal_constraints=[{'equation': 'x', 'max_error': 1e-5, 'penalty': [1, "explicit"], 'norm': 'L2'}],
                        phase_constraints=[])
     times = np.linspace(0.0, ds._sampling_eps * ds._sampling_max_steps, ds._sampling_max_steps + 1)
     x_ideal = np.sin(times)
@@ -228,24 +228,24 @@ ds_json = '''{
 			{
 				"equation": "s - 9.0",
 				"max_error": 2.5e-3,
-				"penalty": 1e+2,
+				"penalty": [1e+2, "explicit"],
 				"norm": "L2"
 			}
 		],
 		"phase": [
 			{
 				"equation": "x",
-				"penalty": 1e+3,
+				"penalty": [1e+3, "explicit"],
 				"norm": "L2"
 			},
 			{
 				"equation": "s - (t ** 3)",
-				"penalty": 1e+3,
+				"penalty": [1e+3, "explicit"],
 				"norm": "L2"
 			},
 			{
 				"equation": "s-15",
-				"penalty": 1e+3,
+				"penalty": [1e+3, "explicit"],
 				"norm": "L2"
 			}			
 		]
