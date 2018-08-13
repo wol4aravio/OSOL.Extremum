@@ -18,5 +18,5 @@ script:
 after_success:
   - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
   - pipenv run pipenv_to_requirements
-  - pipenv run python setup.py sdist
+  - pipenv run python setup.py sdist bdist_wheel
   - if [ "$TRAVIS_BRANCH" = "master" ]; then twine upload -u $PYPI_USERNAME - p $PYPI_PASSWORD -r pypi dist/*; else twine upload -u $PYPI_USERNAME - p $PYPI_PASSWORD -r pypitest dist/*; fi
