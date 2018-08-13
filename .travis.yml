@@ -12,11 +12,11 @@ install:
   - pip install twine
   - cd OSOL.Extremum
   - pipenv install
-  - pipenv run pipenv_to_requirements
 script:
   - echo 'Success'
   # - pipenv run pytest -n 2 -s --cov=./
 after_success:
   - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+  - pipenv run pipenv_to_requirements
   - pipenv run python setup.py sdist
   - if [ "$TRAVIS_BRANCH" = "master" ]; then pipenv run twine upload -u $PYPI_USERNAME - p $PYPI_PASSWORD dist/* -r pypi; else pipenv run twine upload -u $PYPI_USERNAME - p $PYPI_PASSWORD dist/* -r pypitest; fi
