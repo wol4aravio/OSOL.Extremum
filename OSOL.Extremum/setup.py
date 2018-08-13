@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
 
 setup(
     name="osol.extremum",
-    version="0.0.1",
+    version="0.1.0",
 
     description="OSOL.Extermum",
 
@@ -17,8 +17,10 @@ setup(
     license="MIT License",
 
     classifiers=[
-        "Intended Audience :: Developers",
-        "Topic :: Scientific/Engineering :: Optimization",
+        "Intended Audience :: Education",
+        "Intended Audience :: Science/Research",
+        "Topic :: Scientific/Engineering :: Mathematics",
+        "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "License :: MIT License",
         "Programming Language :: Python :: 3.6",
     ],
