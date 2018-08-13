@@ -17,8 +17,9 @@ install:
 script:
   - echo 'Success'
   # - pipenv run pytest -n 2 -s --cov=./
-after_success:
+  - coverage xml
   - python-codacy-coverage -r coverage.xml
+after_success:
   - pipenv run pipenv_to_requirements
   - python setup.py sdist bdist_wheel
   - if [ "$TRAVIS_BRANCH" = "dev" ]; then twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD --repository-url https://test.pypi.org/legacy/ dist/*; fi
