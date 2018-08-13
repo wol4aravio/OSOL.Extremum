@@ -15,8 +15,7 @@ install:
   - cd OSOL.Extremum
   - pipenv install
 script:
-  - echo 'Success'
-  # - pipenv run pytest -n 2 -s --cov=./
+  - pipenv run pytest -n 2 -s --cov=./
   - coverage xml
   - python-codacy-coverage -r coverage.xml
 after_success:
