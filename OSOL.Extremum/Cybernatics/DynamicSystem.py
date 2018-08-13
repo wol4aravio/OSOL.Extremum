@@ -6,11 +6,18 @@ from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
 
 
-def phase(x, penalty, norm):
+def phase_explicit(x, penalty, norm):
     if isinstance(x, Interval):
-        return Interval(phase(x.left, penalty, norm), phase(x.right, penalty, norm))
+        return Interval(phase_explicit(x.left, penalty, norm), phase_explicit(x.right, penalty, norm))
     else:
         return np.power(penalty * max(x, 0.0), norm)
+
+
+def phase_implicit(x, penalty, norm):
+    if isinstance(x, Interval):
+        return Interval(phase_implicit(x.left, penalty, norm), phase_implicit(x.right, penalty, norm))
+    else:
+        return penalty * np.power(max(x, 0.0), norm)
 
 
 class DynamicSystem:
@@ -50,10 +57,16 @@ class DynamicSystem:
 
         self._phase_constraints = phase_constraints
         for i in range(len(self._phase_constraints)):
-            self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
-                                                         parse_expr('phase({0}, {1}, {2})'.format(self._phase_constraints[i]['equation'],
-                                                                                                  self._phase_constraints[i]['penalty'],
-                                                                                                  float(self._phase_constraints[i]['norm'][1:]))), [np, {'phase': phase}])
+            if self._phase_constraints[i]['penalty'][1] == "explicit":
+                self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
+                                                             parse_expr('phase({0}, {1}, {2})'.format(self._phase_constraints[i]['equation'],
+                                                                                                      self._phase_constraints[i]['penalty'][0],
+                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), [np, {'phase': phase_explicit}])
+            else:
+                self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
+                                                             parse_expr('phase({0}, {1}, {2})'.format(self._phase_constraints[i]['equation'],
+                                                                                                      self._phase_constraints[i]['penalty'][0],
+                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), [np, {'phase': phase_implicit}])
             self._initial_conditions['phase_{}'.format(i + 1)] = 0.0
 
         self._aux = aux
@@ -237,16 +250,17 @@ class DynamicSystem:
                 for constraint in self._terminal_constraints:
                     eq = constraint['equation']
                     max_error = constraint['max_error']
-                    penalty = constraint['penalty']
+                    [penalty, penalty_type] = constraint['penalty']
                     norm = constraint['norm']
 
                     values = [times[-1]] + list(x_next.values())
                     error = DynamicSystem.measure_error(eq(*values))
                     if error > max_error:
                         stop = False
+                    if penalty_type == "explicit":
                         errors_terminal_state.append(np.power(penalty * error, float(norm[1:])))
                     else:
-                        errors_terminal_state.append(error)
+                        errors_terminal_state.append(penalty * np.power(error, float(norm[1:])))
                 if stop:
                     break
         I_integral = [states[-1]['I_integral_{}'.format(i + 1)] for i in range(len(self._integral_criteria))]

@@ -22,7 +22,7 @@ def test_real():
     I_terminal_ideal = 8.99891199975
     phase_errors_ideal = [34784.1137839443, 5.62296778644782e-07, 0.0]
     controller_variance_ideal = [4.0, 0.0, 0.0]
-    terminal_error = 1e-3
+    terminal_error = 0.0118
 
     parameters = {
         'u1_0': 5,
@@ -49,7 +49,7 @@ def test_interval():
     I_terminal_ideal = 8.99891199975
     phase_errors_ideal = [34784.1137839443, 5.62296778644782e-07, 0.0]
     controller_variance_ideal = [4.0, 0.0, 0.0]
-    terminal_error = 1e-3
+    terminal_error = 0.0118
 
     parameters = {
         'u1_0': Interval.from_value(5),
