@@ -6,14 +6,18 @@ from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
 
 
-def phase(x, penalty, penalty_type, norm):
+def phase_explicit(x, penalty, norm):
     if isinstance(x, Interval):
-        return Interval(phase(x.left, penalty, penalty_type, norm), phase(x.right, penalty, penalty_type, norm))
+        return Interval(phase_explicit(x.left, penalty, norm), phase_explicit(x.right, penalty, norm))
     else:
-        if penalty_type == "explicit":
-            return np.power(penalty * max(x, 0.0), norm)
-        else:
-            return penalty * np.power(max(x, 0.0), norm)
+        return np.power(penalty * max(x, 0.0), norm)
+
+
+def phase_implicit(x, penalty, norm):
+    if isinstance(x, Interval):
+        return Interval(phase_implicit(x.left, penalty, norm), phase_implicit(x.right, penalty, norm))
+    else:
+        return penalty * np.power(max(x, 0.0), norm)
 
 
 class DynamicSystem:
@@ -53,11 +57,16 @@ class DynamicSystem:
 
         self._phase_constraints = phase_constraints
         for i in range(len(self._phase_constraints)):
-            self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
-                                                         parse_expr('phase({0}, {1}, {2}, {3})'.format(self._phase_constraints[i]['equation'],
-                                                                                                  self._phase_constraints[i]['penalty'][0],
-                                                                                                  self._phase_constraints[i]['penalty'][1],
-                                                                                                  float(self._phase_constraints[i]['norm'][1:]))), [np, {'phase': phase}])
+            if self._phase_constraints[i]['penalty'][1] == "explicit":
+                self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
+                                                             parse_expr('phase({0}, {1}, {2})'.format(self._phase_constraints[i]['equation'],
+                                                                                                      self._phase_constraints[i]['penalty'][0],
+                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), [np, {'phase': phase_explicit}])
+            else:
+                self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
+                                                             parse_expr('phase({0}, {1}, {2})'.format(self._phase_constraints[i]['equation'],
+                                                                                                      self._phase_constraints[i]['penalty'][0],
+                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), [np, {'phase': phase_implicit}])
             self._initial_conditions['phase_{}'.format(i + 1)] = 0.0
 
         self._aux = aux

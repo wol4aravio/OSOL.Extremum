@@ -228,14 +228,14 @@ ds_json = '''{
 			{
 				"equation": "s - 9.0",
 				"max_error": 2.5e-3,
-				"penalty": [1e+2, "explicit"],
+				"penalty": [1e+4, "implicit"],
 				"norm": "L2"
 			}
 		],
 		"phase": [
 			{
 				"equation": "x",
-				"penalty": [1e+3, "explicit"],
+				"penalty": [1e+6, "implicit"],
 				"norm": "L2"
 			},
 			{
@@ -245,7 +245,7 @@ ds_json = '''{
 			},
 			{
 				"equation": "s-15",
-				"penalty": [1e+3, "explicit"],
+				"penalty": [1e+6, "implicit"],
 				"norm": "L2"
 			}			
 		]
@@ -304,7 +304,7 @@ def test_4():
     assert np.abs(I_integral_calc[1] - I_integral_ideal[1]) < tol
     assert np.abs(I_integral_calc[2] - I_integral_ideal[2]) < tol
     assert np.abs(I_terminal_calc - I_terminal_ideal) < tol
-    assert errors_terminal_state[0] < 1e2 * tol
+    assert errors_terminal_state[0] < 1e3 * tol
     assert np.abs(phase_errors_calc[0] - phase_errors_ideal[0]) < tol
     assert np.abs(phase_errors_calc[1] - phase_errors_ideal[1]) < tol
     assert np.abs(phase_errors_calc[2] - phase_errors_ideal[2]) < tol
