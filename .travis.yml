@@ -20,7 +20,7 @@ script:
   - coverage xml
   - python-codacy-coverage -r coverage.xml
 after_success:
-  - pipenv lock -r > requirements.txt
+  - pipenv run pipenv_to_requirements
   - python setup.py sdist bdist_wheel
   - if [ "$TRAVIS_BRANCH" = "dev" ]; then twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD --repository-url https://test.pypi.org/legacy/ dist/*; fi
   - if [ "$TRAVIS_BRANCH" = "master" ]; then twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*; fi
