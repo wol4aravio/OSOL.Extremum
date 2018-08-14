@@ -16,7 +16,7 @@ install:
   - pipenv install
 script:
 #  - pipenv run pytest -n 2 -s --cov=./
-  - pipenv run pytest -s --cov=./ Sources/OSOL.Extremum/tests/test_vector.py
+  - pipenv run pytest -s --cov=./ OSOL.Extremum/tests/test_vector.py
   - coverage xml
   - python-codacy-coverage -r coverage.xml
 after_success:
