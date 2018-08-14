@@ -13,24 +13,10 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 # Contents
 * [Project Structure](#project-structure)
 	* [Numerical Objects](#numerical-objects)
-		* [Interval](#interval)
-		* [Vector](#vector)
-	* [Cybernatics](#cybernatics)
-		* [Dynamic System](#dynamic-system)
-		* [Controllers](#controllers)
+	* [Cybernetics](#cybernetics)
 	* [Optimization](#optimization)
-		* [Algorithms](#algorithms)
-		* [Terminators](#terminators)
-		* [Tasks](#tasks)
-		* [Verifier](#verifier)
 	* [Tools](#algorithms)
-		* [Encoders](#encoders)
-		* [Optimization Tools](#optimization-tools)
-		* [etc](#etc)
 	* [Applications](#applications)
-		* [Benchmark](#benchmark)
-		* [Optimize](#optimize)
-		* [Simulate](#simulate)
 * [Implemented algorithms](#implemented-algorithms)
 	* [Adaptive Random Search](#adaptive-random-search)
 	* [Interval Explosion Search](#interval-explosion-search)
@@ -47,7 +33,7 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 **Numerical Objects** module contains interval arithmetics and vector operations.
 
-**Cybernatics** module implements dynamic systems with different types of controllers.
+**Cybernetics** module implements dynamic systems with different types of controllers.
 
 **Optimization** module implements all required levels of abstraction of optimization algorithms and contains realization of various metaheuristic optimization algithms and tasks that can be solved via them.
 
@@ -57,41 +43,13 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 ##  Numerical Objects
 
-### Interval
-
-### Vector
-
-## Cybernatics
-
-### Dynamic System
-
-### Controllers
+## Cybernetics
 
 ## Optimization
 
-### Algorithms
-
-### Terminators
-
-### Tasks
-
-### Verifier
-
 ## Tools
 
-### Encoders
-
-### Optimization Tools
-
-### etc
-
 ## Applications
-
-### Benchmark
-
-### Optimize
-
-### Simulate
 
 # Implemented Algorithms
 
