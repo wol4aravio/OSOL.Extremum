@@ -12,11 +12,6 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 # Contents
 * [Project Structure](#project-structure)
-	* [Numerical Objects](#numerical-objects)
-	* [Cybernetics](#cybernetics)
-	* [Optimization](#optimization)
-	* [Tools](#algorithms)
-	* [Applications](#applications)
 * [Implemented algorithms](#implemented-algorithms)
 	* [Adaptive Random Search](#adaptive-random-search)
 	* [Interval Explosion Search](#interval-explosion-search)
@@ -31,7 +26,7 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 # Project Structure
 
-**Numerical Objects** module contains interval arithmetics and vector operations.
+**Numerical Objects** module contains [interval arithmetics](Examples/NumericalObjects.Intervals.ipynb) and vector operations.
 
 **Cybernetics** module implements dynamic systems with different types of controllers.
 
@@ -40,16 +35,6 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 **Tools** module contains various procedures and classes to connect modules together and provide convenient input/output methods (including JSON serialization).
 
 **Applications** module contains scripts that are targeted on solution of a real problem, e.g. to apply optimization algorithm to the given task, to simulate dynamic system behavior using provided controls, evaluate algorithm's efficiency on benchmark set.
-
-##  Numerical Objects
-
-## Cybernetics
-
-## Optimization
-
-## Tools
-
-## Applications
 
 # Implemented Algorithms
 
