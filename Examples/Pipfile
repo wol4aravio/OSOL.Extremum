@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[[source]]
+url = "https://test.pypi.org/simple"
+verify_ssl = true
+name = "test_pypi"
+
+[packages]
+jupyter = "*"
+"osol.extremum" = "==0.0.7"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
