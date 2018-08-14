@@ -1,9 +1,9 @@
-from Optimization.Tasks.UnconstrainedOptimization import UnconstrainedOptimization
-from Optimization.Tasks.OpenloopControl import OpenloopControl
+from ..Optimization.Tasks.UnconstrainedOptimization import UnconstrainedOptimization
+from ..Optimization.Tasks.OpenloopControl import OpenloopControl
 
-from Cybernetics.DynamicSystem import DynamicSystem
+from ..Cybernetics.DynamicSystem import DynamicSystem
 
-from Numerical_Objects.Vector import Vector
+from ..Numerical_Objects.Vector import Vector
 
 
 def create_task_from_json(json_data):
