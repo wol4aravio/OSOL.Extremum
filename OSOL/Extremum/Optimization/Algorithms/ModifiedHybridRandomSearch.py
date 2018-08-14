@@ -73,4 +73,4 @@ class ModifiedHybridRandomSearch(Algorithm):
         return self.make_one_run
 
 
-import Tools.OptimizationTools
+import OSOL.Extremum.Tools.OptimizationTools

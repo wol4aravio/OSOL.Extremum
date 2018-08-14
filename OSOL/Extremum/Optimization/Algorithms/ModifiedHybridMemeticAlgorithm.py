@@ -200,4 +200,4 @@ class ModifiedHybridMemeticAlgorithm(Algorithm):
         return self.pool_formation
 
 
-import Tools.OptimizationTools
+import OSOL.Extremum.Tools.OptimizationTools
