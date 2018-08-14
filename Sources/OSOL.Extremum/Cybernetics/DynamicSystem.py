@@ -1,5 +1,5 @@
 from Numerical_Objects.Interval import Interval
-from Cybernatics.Controllers import create_controller_from_dict
+from Cybernetics.Controllers import create_controller_from_dict
 
 from sympy import symbols, lambdify
 from sympy.parsing.sympy_parser import parse_expr
