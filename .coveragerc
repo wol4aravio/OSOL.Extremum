@@ -1,0 +1,6 @@
+[run]
+omit =
+    setup.py
+    *__init__.py
+    OSOL/Extremum/tests/*
+    OSOL/Extremum/Applications/*

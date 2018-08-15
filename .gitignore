@@ -7,3 +7,9 @@
 .idea
 .pytest_cache
 __pycache__
+
+# Notebooks
+.ipynb_checkpoints
+
+# Temp
+*~
