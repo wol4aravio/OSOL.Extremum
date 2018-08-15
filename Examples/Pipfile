@@ -10,7 +10,7 @@ name = "test_pypi"
 
 [packages]
 jupyter = "*"
-"osol.extremum" = "==0.0.7"
+"osol.extremum" = "==0.1.0"
 
 [dev-packages]
 
