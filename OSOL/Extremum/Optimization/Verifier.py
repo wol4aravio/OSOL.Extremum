@@ -59,7 +59,7 @@ class Verifier:
         self._solutions = [v_1, v_2, v_3]
         self._tolerance = tolerance
         self._attempts = attempts
-        self._mt = MaxTimeTerminator('m:1,s:30')
+        self._mt = MaxTimeTerminator('s:10')
 
     def verify(self, algorithms, logger):
         for i_f, f in enumerate(self._test_functions):
