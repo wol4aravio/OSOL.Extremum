@@ -26,7 +26,7 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 # Project Structure
 
-**Numerical Objects** module contains [interval arithmetics](Examples/NumericalObjects.Intervals.ipynb) and vector operations.
+**Numerical Objects** module contains [interval arithmetics](Examples/NumericalObjects.Intervals.ipynb) and [vector](Examples/NumericalObjects.Vectors.ipynb) operations.
 
 **Cybernetics** module implements dynamic systems with different types of controllers.
 
