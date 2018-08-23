@@ -41,7 +41,7 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 ## Adaptive Random Search
 
-[Adaptive Random Search](Gendreau) (ARS) enriches classical [Random Search](Gendreau) (RS) with the
+Adaptive Random Search (ARS) [[1](references)] enriches classical Random Search (RS) [[1](references)] with the
 procedure of search radius update.
 
 ### Config Example
@@ -56,11 +56,23 @@ procedure of search radius update.
 
 ## Luus-Jaakola Optimization
 
+Procedure of Modified Luus-Jaakola Optimization (LJO) is very similar to classic RS 
+with the exception that search area is reduced and then restored during execution [[3, 4](references)] 
+
 ### Config Example
 
 ### Benchmark Results
 
 ## Modified Hybrid Memetic Algorithm
+
+Term ”Memetic Algorithm” is widely used to denote an interaction between evolutionary
+and other approach basing on the definition of population coupled with local improvement 
+procedure. Firstly it was proposed in [[5 - 7](references)] and had a form of hybrid of genetic 
+algorithm with individual learning process to make a solution more accurate.
+
+The proposed algorithm uses cultural evolution component which is realized as an internal
+optimization sub-task. During the process of cultural evolution information of population
+members is used to construct new solutions.
 
 ### Config Example
 
@@ -79,6 +91,8 @@ procedure of search radius update.
 ### Benchmark Results
 
 ## Random Search with Statistical Anti Gradient
+
+Random Search with Statistical Anti Gradient (RSwSAG) modifies current solution by anti gradient that is calculated over a set of samples [[2](references)].
 
 ### Config Example
 
@@ -145,7 +159,20 @@ procedure of search radius update.
 - [ ] __implemented algorithms__: Metaheuristic Interval Inversed Search
 - [ ] __implemented algorithms__: Differential Evolution
 
+# References
+
+[1] Gendreau M., and Potvin J.-S. 2010. Handbook of Metaheuristics. New York: Springer
+
+[2] Theodoridis S. 2015. Machine Learning. A Bayesian and Optimization Perspective. NY: Academic Press.
+
+[3] Luus R. 2000. Iterative Dynamic Programming. Monographs and Surveys in Pure and Applied Mathematics. London: Chapman & Hall, CRC Press.
+
+[4] Luus R., Jaakola T.H.I. 1973. ”Optimization by direct search and systematic reduction of the size of search region”. American Institute of Chemical Engineers Journal 19(4): 760 – 766.
+
+[5] Brownlee J. 2011. Clever Algorithms: Nature-Inspired Programming Recipes. North Carolina, Morrisville: LuLu.
+
+[6] Moscato P., Cotta C. 2010. ”A Modern Introduction to Memetic Algorithms”. In Handbook of Metaheuristics edited by Michel Gendreau and Jean-Yves Potvin, 141 – 184. London: Springer.
+
+[7] Panteleev A.V., Pis’mennaya V.A. 2018. ”Application of a Memetic Algorithm for the Optimal Control of Bunches of Trajectories of Nonlinear Deterministic Systems with Incomplete Feedback”. Journal of Computer and Systems Sciences International 57(1): 25 – 36.
+
 # Articles about OSOL.Extremum Project
-
-[Gendreau]: Gendreau M., and Potvin J.-S. 2010. Handbook of Metaheuristics. New York: Springer
-
