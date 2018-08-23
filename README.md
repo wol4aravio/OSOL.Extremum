@@ -87,6 +87,8 @@ members is used to construct new solutions.
 
 ## Modified Hybrid Random Search
 
+Modified Hybrid Random Search (MHRS) consequently uses several simpler optimization.
+
 ### Config Example
 
 ### Benchmark Results
