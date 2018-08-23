@@ -41,7 +41,7 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 ## Adaptive Random Search
 
-[Adaptive Random Search (ARS)][1] enriches classical [Random Search (RS)][1] with the
+[Adaptive Random Search][Gendreau] (ARS) enriches classical [Random Search][Gendreau] (RS) with the
 procedure of search radius update.
 
 ### Config Example
@@ -145,8 +145,7 @@ procedure of search radius update.
 - [ ] __implemented algorithms__: Metaheuristic Interval Inversed Search
 - [ ] __implemented algorithms__: Differential Evolution
 
-# References
-
-[1]: Gendreau M., and Potvin J.-S. 2010. Handbook of Metaheuristics. New York: Springer
-
 # Articles about OSOL.Extremum Project
+
+[Gendreau]: Gendreau M., and Potvin J.-S. 2010. Handbook of Metaheuristics. New York: Springer
+
