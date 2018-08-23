@@ -41,7 +41,7 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 ## Adaptive Random Search
 
-Adaptive Random Search (ARS) [[1](references)] enriches classical Random Search (RS) [[1](references)] with the
+Adaptive Random Search (ARS) [[1](#references)] enriches classical Random Search (RS) [[1](#references)] with the
 procedure of search radius update.
 
 ### Config Example
@@ -50,7 +50,7 @@ procedure of search radius update.
 
 ## Interval Explosion Search
 
-Current algorithm is based on several heuristics [[8](references)]:
+Current algorithm is based on several heuristics [[8](#references)]:
 * solution candidates with better function value will slightly change position, on the
 opposite – candidates with worse function value have a potential to greatly change
 position,
@@ -64,7 +64,7 @@ all possible direction along one axis.
 ## Luus-Jaakola Optimization
 
 Procedure of Modified Luus-Jaakola Optimization (LJO) is very similar to classic RS 
-with the exception that search area is reduced and then restored during execution [[3, 4](references)] 
+with the exception that search area is reduced and then restored during execution [[3, 4](#references)] 
 
 ### Config Example
 
@@ -74,7 +74,7 @@ with the exception that search area is reduced and then restored during executio
 
 Term ”Memetic Algorithm” is widely used to denote an interaction between evolutionary
 and other approach basing on the definition of population coupled with local improvement 
-procedure. Firstly it was proposed in [[5 - 7](references)] and had a form of hybrid of genetic 
+procedure. Firstly it was proposed in [[5 - 7](#references)] and had a form of hybrid of genetic 
 algorithm with individual learning process to make a solution more accurate.
 
 The proposed algorithm uses cultural evolution component which is realized as an internal
@@ -99,7 +99,7 @@ members is used to construct new solutions.
 
 ## Random Search with Statistical Anti Gradient
 
-Random Search with Statistical Anti Gradient (RSwSAG) modifies current solution by anti gradient that is calculated over a set of samples [[2](references)].
+Random Search with Statistical Anti Gradient (RSwSAG) modifies current solution by anti gradient that is calculated over a set of samples [[2](#references)].
 
 ### Config Example
 
