@@ -22,6 +22,7 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 	* [Random Search with Statistical Anti Gradient](#random-search-with-statistical-anti-gradient)
 	* [Simulated Annealing](#simulated-annealing)
 * [Current State](#current-state)
+* [References](#references)
 * [Articles about OSOL.Extremum Project](#articles-about-osolextremum-projects)
 
 # Project Structure
@@ -39,6 +40,9 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 # Implemented Algorithms
 
 ## Adaptive Random Search
+
+Adaptive Random Search (ARS) [1] enriches classical Random Search (RS) [1] with the
+procedure of search radius update.
 
 ### Config Example
 
@@ -140,5 +144,9 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 - [ ] __implemented algorithms__: Interval Genetic Algorithm with Ternary Coding
 - [ ] __implemented algorithms__: Metaheuristic Interval Inversed Search
 - [ ] __implemented algorithms__: Differential Evolution
+
+# References
+
+[1]: Gendreau M., and Potvin J.-S. 2010. Handbook of Metaheuristics. New York: Springer
 
 # Articles about OSOL.Extremum Project
