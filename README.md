@@ -50,6 +50,13 @@ procedure of search radius update.
 
 ## Interval Explosion Search
 
+Current algorithm is based on several heuristics [[8](references)]:
+* solution candidates with better function value will slightly change position, on the
+opposite – candidates with worse function value have a potential to greatly change
+position,
+* during explosion phase (when new solutions are generated) search is performed by
+all possible direction along one axis.
+
 ### Config Example
 
 ### Benchmark Results
@@ -174,5 +181,7 @@ Random Search with Statistical Anti Gradient (RSwSAG) modifies current solution 
 [6] Moscato P., Cotta C. 2010. ”A Modern Introduction to Memetic Algorithms”. In Handbook of Metaheuristics edited by Michel Gendreau and Jean-Yves Potvin, 141 – 184. London: Springer.
 
 [7] Panteleev A.V., Pis’mennaya V.A. 2018. ”Application of a Memetic Algorithm for the Optimal Control of Bunches of Trajectories of Nonlinear Deterministic Systems with Incomplete Feedback”. Journal of Computer and Systems Sciences International 57(1): 25 – 36.
+
+[8] Panteleev A.V., Panovskiy V.N., Korotkova T.I. 2016. ”Interval explosion search algorithm and its application to hypersonic aircraft modelling and motion optimization problems”. Bulletin of the South Ural State University, Series: Mathematical Modelling, Programming and Computer Software 9: 55 – 67.
 
 # Articles about OSOL.Extremum Project
