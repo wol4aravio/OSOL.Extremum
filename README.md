@@ -41,7 +41,7 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 
 ## Adaptive Random Search
 
-[Adaptive Random Search][Gendreau] (ARS) enriches classical [Random Search][Gendreau] (RS) with the
+[Adaptive Random Search](Gendreau) (ARS) enriches classical [Random Search](Gendreau) (RS) with the
 procedure of search radius update.
 
 ### Config Example
