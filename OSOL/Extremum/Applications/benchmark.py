@@ -18,7 +18,7 @@ import numpy as np
 
 
 def get_process_template(algorithm, terminator):
-    process = ['python', 'Applications/optimize.py', '-A', algorithm, '-T', terminator]
+    process = ['python', 'OSOL/Extremum/Applications/optimize.py', '-A', algorithm, '-T', terminator]
     return process
 
 
