@@ -11,6 +11,7 @@ import optparse
 import os
 import shutil
 import subprocess
+from joblib import Parallel, delayed
 import json
 from threading import Thread
 from grip import export
@@ -120,21 +121,7 @@ def main():
             counter += 1
 
     print('>>> Running optimization tasks')
-
-    def call_process(p):
-        subprocess.call(p)
-        return
-
-    i = 0
-    while i < len(processes):
-        threads = []
-        for t_id in range(options.parallel):
-            threads.append(Thread(target=call_process, args=[processes[i]]))
-            threads[-1].start()
-            print('>>> >>> Started {0}/{1} process'.format(i + 1, len(processes)))
-            i += 1
-        for t_id in range(options.parallel):
-            threads[t_id].join()
+    Parallel(n_jobs=options.parallel)(delayed(subprocess.call)(p) for p in processes)
 
     print('>>> Gathering statistics')
     results = {}
