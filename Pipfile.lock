@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "87f4329dc640f5a73a60af30ab9b19fa3bb8a875de7e1dab6f8cb748b190e242"
+            "sha256": "f862f85075710245ff69ae315bc0eb1281f5a49b3c07da5423e47b1286188be6"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -604,6 +604,14 @@
             ],
             "version": "==2.10"
         },
+        "joblib": {
+            "hashes": [
+                "sha256:2a596c8db2b828f8ddfd78041b9b78f75c32413322499835585840ad6a2e01f3",
+                "sha256:e9f04885cf11704669f3a731ea6ac00bbc7dea16137aa4394ef7c272cdb9d008"
+            ],
+            "index": "pypi",
+            "version": "==0.12.2"
+        },
         "jsonschema": {
             "hashes": [
                 "sha256:000e68abd33c972a5248544925a0cae7d1125f9bf6c58280d37546b946769a08",
@@ -732,11 +740,11 @@
         },
         "osol.extremum": {
             "hashes": [
-                "sha256:93c0c1016ab7e3eac7fa03cbd7ef0fa01fb0fbb6256f191f688c34533703e54d",
-                "sha256:b0552633793d88ea0170fd697f0c7650dda8a6ab148b1cf2099294b4ca2a9b85"
+                "sha256:60f8573cff2ed3f6e139abed7649a9d7a455b9d0388f95a8e95705f841a88260",
+                "sha256:97796002d5854f6ff3d9f4b68e4584f3b80ca2f6a2decaee2be9b10d5dc30fa1"
             ],
             "index": "pypi",
-            "version": "==0.1.1"
+            "version": "==0.1.2"
         },
         "pandas": {
             "hashes": [
