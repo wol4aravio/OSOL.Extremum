@@ -101,8 +101,28 @@ functions that are not continuous or differentiable. Such optimization methods a
 direct-search, derivative-free, or black-box methods.
 
 ### Config Example
+```json
+{
+  "RandomSearch": {
+    "radius": 0.01
+  }
+}
+```
 
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -14.10203 | -4.16746 | -2.76281 | 2.42587 |
+| Beale | 0.00000 | 0.00000 | 1.52480 | 8.91115 | 2.85970 |
+| CosineMixture | -0.20000 | -0.20000 | 0.33965 | 0.97471 | 0.33916 |
+| DropWave | -1.00000 | -0.78575 | -0.24806 | -0.07951 | 0.17102 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.00000 | 32.36729 | 49.79582 | 23.75109 |
+| GoldsteinPrice | 3.00000 | 3.00000 | 163.11000 | 840.00000 | 307.14218 |
+| HimmelBlau | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Leon | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Rastrigin | -400.00000 | -400.00000 | -77.83420 | 415.85933 | 228.73809 |
 
 ## Random Search with Statistical Anti Gradient
 
