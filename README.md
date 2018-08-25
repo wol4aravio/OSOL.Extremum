@@ -134,7 +134,7 @@ members is used to construct new solutions.
 
 ## Modified Hybrid Random Search
 
-Modified Hybrid Random Search (MHRS) consequently uses several simpler optimization.
+Modified Hybrid Random Search (MHRS) consequently uses several simpler optimization procedures.
 
 ### Config Example
 
