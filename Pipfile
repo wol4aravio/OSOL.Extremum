@@ -21,7 +21,7 @@ joblib = "*"
 
 [dev-packages]
 jupyter = "*"
-"osol.extremum" = "==0.1.1"
+"osol.extremum" = "==0.1.2"
 
 [requires]
 python_version = "3.6"

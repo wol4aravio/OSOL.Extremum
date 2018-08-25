@@ -30,7 +30,7 @@ class SimulatedAnnealing(Algorithm):
         }
 
     def to_json(self):
-        return {'SimulatedAnnealing': self.to_dict}
+        return {'SimulatedAnnealing': self.to_dict()}
 
     @property
     def current_state(self):

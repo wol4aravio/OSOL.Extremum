@@ -26,7 +26,7 @@ class RandomSearch(Algorithm):
         }
 
     def to_json(self):
-        return {'RandomSearch': self.to_dict}
+        return {'RandomSearch': self.to_dict()}
 
     @property
     def current_state(self):

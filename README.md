@@ -32,6 +32,7 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 **Cybernetics** module implements dynamic systems with different types of controllers.
 
 **Optimization** module implements all required levels of abstraction of optimization algorithms and contains realization of various metaheuristic optimization algithms and tasks that can be solved via them.
+* [Example of algorithm benchmarking](Examples/Optimization.Benchmarking.ipynb)
 
 **Tools** module contains various procedures and classes to connect modules together and provide convenient input/output methods (including JSON serialization).
 
@@ -46,7 +47,32 @@ procedure of search radius update.
 
 ### Config Example
 
+```json
+{
+  "AdaptiveRandomSearch": {
+    "init_radius": 1.0,
+    "factor_small": 1.1,
+    "factor_huge": 1.5,
+    "frequency": 5,
+    "max_no_change": 5
+  }
+}
+```
+
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -22.71828 | -4.05817 | -2.77192 | 2.88728 |
+| Beale | 0.00000 | 0.00000 | 1.40197 | 8.98086 | 2.66703 |
+| CosineMixture | -0.20000 | -0.20000 | -0.20000 | -0.20000 | 0.00000 |
+| DropWave | -1.00000 | -1.00000 | -0.93238 | -0.15277 | 0.11691 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.00000 | 29.37954 | 49.79582 | 24.49124 |
+| GoldsteinPrice | 3.00000 | 3.00000 | 17.04000 | 84.00000 | 30.42266 |
+| HimmelBlau | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Leon | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Rastrigin | -400.00000 | -400.00000 | -228.66881 | 236.76975 | 162.85383 |
 
 ## Interval Explosion Search
 
@@ -59,7 +85,29 @@ all possible direction along one axis.
 
 ### Config Example
 
+```json
+{
+  "IntervalExplosionSearch": {
+    "max_bombs": 10,
+    "max_radius_ratio": 0.1
+  }
+}
+```
+
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -22.71813 | -22.71690 | -22.71521 | 0.00067 |
+| Beale | 0.00000 | 0.00000 | 0.00001 | 0.00005 | 0.00001 |
+| CosineMixture | -0.20000 | -0.20000 | -0.20000 | -0.20000 | 0.00000 |
+| DropWave | -1.00000 | -1.00000 | -0.99999 | -0.99991 | 0.00001 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.00000 | 13.44497 | 49.79582 | 22.10727 |
+| GoldsteinPrice | 3.00000 | 3.00000 | 3.00003 | 3.00018 | 0.00003 |
+| HimmelBlau | 0.00000 | 0.00000 | 0.00002 | 0.00010 | 0.00002 |
+| Leon | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Rastrigin | -400.00000 | -399.99998 | -399.99811 | -399.98947 | 0.00232 |
 
 ## Luus-Jaakola Optimization
 
@@ -68,7 +116,32 @@ with the exception that search area is reduced and then restored during executio
 
 ### Config Example
 
+```json
+{
+  "LuusJaakolaOptimization": {
+    "init_radius": 1.0,
+    "number_of_samples": 5,
+    "reduction_coefficient": 0.95,
+    "recover_coefficient": 0.97,
+    "iteration_per_run": 5
+  }
+}
+```
+
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -22.71828 | -4.00004 | -2.76720 | 2.48257 |
+| Beale | 0.00000 | 0.00000 | 1.59728 | 9.28137 | 2.76872 |
+| CosineMixture | -0.20000 | -0.20000 | -0.20000 | -0.20000 | 0.00000 |
+| DropWave | -1.00000 | -1.00000 | -0.96878 | -0.61950 | 0.04713 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.00000 | 26.39179 | 49.79582 | 24.85306 |
+| GoldsteinPrice | 3.00000 | 3.00000 | 18.39000 | 84.00000 | 31.77637 |
+| HimmelBlau | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Leon | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Rastrigin | -400.00000 | -380.10082 | -108.08053 | 415.85933 | 194.56416 |
 
 ## Modified Hybrid Memetic Algorithm
 
@@ -87,7 +160,7 @@ members is used to construct new solutions.
 
 ## Modified Hybrid Random Search
 
-Modified Hybrid Random Search (MHRS) consequently uses several simpler optimization.
+Modified Hybrid Random Search (MHRS) consequently uses several simpler optimization procedures.
 
 ### Config Example
 
@@ -101,8 +174,28 @@ functions that are not continuous or differentiable. Such optimization methods a
 direct-search, derivative-free, or black-box methods.
 
 ### Config Example
+```json
+{
+  "RandomSearch": {
+    "radius": 1.0
+  }
+}
+```
 
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -22.71826 | -22.12810 | -2.80858 | 3.35485 |
+| Beale | 0.00000 | 0.00000 | 1.30965 | 8.49208 | 2.76080 |
+| CosineMixture | -0.20000 | -0.20000 | -0.20000 | -0.20000 | 0.00000 |
+| DropWave | -1.00000 | -1.00000 | -1.00000 | -0.99999 | 0.00000 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.00000 | 31.86933 | 49.79582 | 23.90199 |
+| GoldsteinPrice | 3.00000 | 3.00000 | 20.01001 | 84.00014 | 32.99198 |
+| HimmelBlau | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Leon | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Rastrigin | -400.00000 | -400.00000 | -399.99999 | -399.99995 | 0.00001 |
 
 ## Random Search with Statistical Anti Gradient
 
