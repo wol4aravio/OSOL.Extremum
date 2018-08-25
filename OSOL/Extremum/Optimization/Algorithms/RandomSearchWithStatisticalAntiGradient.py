@@ -28,7 +28,7 @@ class RandomSearchWithStatisticalAntiGradient(Algorithm):
         }
 
     def to_json(self):
-        return {'RandomSearchWithStatisticalAntiGradient': self.to_dict}
+        return {'RandomSearchWithStatisticalAntiGradient': self.to_dict()}
 
     @property
     def current_state(self):

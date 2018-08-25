@@ -59,7 +59,7 @@ class IntervalExplosionSearch(Algorithm):
         }
 
     def to_json(self):
-        return {'IntervalExplosionSearch': self.to_dict}
+        return {'IntervalExplosionSearch': self.to_dict()}
 
     @property
     def current_state(self):

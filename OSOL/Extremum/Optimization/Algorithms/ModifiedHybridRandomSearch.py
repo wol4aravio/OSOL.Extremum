@@ -31,7 +31,7 @@ class ModifiedHybridRandomSearch(Algorithm):
         }
 
     def to_json(self):
-        return {'ModifiedHybridRandomSearch': self.to_dict}
+        return {'ModifiedHybridRandomSearch': self.to_dict()}
 
     @property
     def current_state(self):
