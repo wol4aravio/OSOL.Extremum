@@ -46,7 +46,32 @@ procedure of search radius update.
 
 ### Config Example
 
+```json
+{
+  "AdaptiveRandomSearch": {
+    "init_radius": 1.0,
+    "factor_small": 1.1,
+    "factor_huge": 1.5,
+    "frequency": 5,
+    "max_no_change": 5
+  }
+}
+```
+
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -22.71828 | -4.05817 | -2.77192 | 2.88728 |
+| Beale | 0.00000 | 0.00000 | 1.40197 | 8.98086 | 2.66703 |
+| CosineMixture | -0.20000 | -0.20000 | -0.20000 | -0.20000 | 0.00000 |
+| DropWave | -1.00000 | -1.00000 | -0.93238 | -0.15277 | 0.11691 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.00000 | 29.37954 | 49.79582 | 24.49124 |
+| GoldsteinPrice | 3.00000 | 3.00000 | 17.04000 | 84.00000 | 30.42266 |
+| HimmelBlau | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Leon | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Rastrigin | -400.00000 | -400.00000 | -228.66881 | 236.76975 | 162.85383 |
 
 ## Interval Explosion Search
 
