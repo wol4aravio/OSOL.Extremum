@@ -84,7 +84,29 @@ all possible direction along one axis.
 
 ### Config Example
 
+```json
+{
+  "IntervalExplosionSearch": {
+    "max_bombs": 10,
+    "max_radius_ratio": 0.1
+  }
+}
+```
+
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -22.71813 | -22.71690 | -22.71521 | 0.00067 |
+| Beale | 0.00000 | 0.00000 | 0.00001 | 0.00005 | 0.00001 |
+| CosineMixture | -0.20000 | -0.20000 | -0.20000 | -0.20000 | 0.00000 |
+| DropWave | -1.00000 | -1.00000 | -0.99999 | -0.99991 | 0.00001 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.00000 | 13.44497 | 49.79582 | 22.10727 |
+| GoldsteinPrice | 3.00000 | 3.00000 | 3.00003 | 3.00018 | 0.00003 |
+| HimmelBlau | 0.00000 | 0.00000 | 0.00002 | 0.00010 | 0.00002 |
+| Leon | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Rastrigin | -400.00000 | -399.99998 | -399.99811 | -399.98947 | 0.00232 |
 
 ## Luus-Jaakola Optimization
 
