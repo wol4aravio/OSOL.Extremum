@@ -32,6 +32,7 @@ Optimization theory is a widely-used field of mathematics that can be applied to
 **Cybernetics** module implements dynamic systems with different types of controllers.
 
 **Optimization** module implements all required levels of abstraction of optimization algorithms and contains realization of various metaheuristic optimization algithms and tasks that can be solved via them.
+* [Example of algorithm benchmarking](Examples/Optimization.Benchmarking.ipynb)
 
 **Tools** module contains various procedures and classes to connect modules together and provide convenient input/output methods (including JSON serialization).
 
