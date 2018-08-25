@@ -115,7 +115,32 @@ with the exception that search area is reduced and then restored during executio
 
 ### Config Example
 
+```json
+{
+  "LuusJaakolaOptimization": {
+    "init_radius": 1.0,
+    "number_of_samples": 5,
+    "reduction_coefficient": 0.95,
+    "recover_coefficient": 0.97,
+    "iteration_per_run": 5
+  }
+}
+```
+
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -22.71828 | -4.00004 | -2.76720 | 2.48257 |
+| Beale | 0.00000 | 0.00000 | 1.59728 | 9.28137 | 2.76872 |
+| CosineMixture | -0.20000 | -0.20000 | -0.20000 | -0.20000 | 0.00000 |
+| DropWave | -1.00000 | -1.00000 | -0.96878 | -0.61950 | 0.04713 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.00000 | 26.39179 | 49.79582 | 24.85306 |
+| GoldsteinPrice | 3.00000 | 3.00000 | 18.39000 | 84.00000 | 31.77637 |
+| HimmelBlau | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Leon | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Rastrigin | -400.00000 | -380.10082 | -108.08053 | 415.85933 | 194.56416 |
 
 ## Modified Hybrid Memetic Algorithm
 
