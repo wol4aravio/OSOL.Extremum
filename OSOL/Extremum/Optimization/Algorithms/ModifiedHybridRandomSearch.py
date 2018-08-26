@@ -19,7 +19,7 @@ class ModifiedHybridRandomSearch(Algorithm):
 
     @classmethod
     def from_json(cls, json_data):
-        data = json_data['ModifiedHybridRandomSearch']
+        data = json_data['ModifiedHybridRandomSearch'].copy()
         data['algorithms'] = [OSOL.Extremum.Tools.OptimizationTools.create_algorithm_from_json(j) for j in data['algorithms']]
         data['terminators'] = [MaxTimeTerminator.from_json(j) for j in data['terminators']]
         return cls.from_dict(data)
@@ -31,7 +31,7 @@ class ModifiedHybridRandomSearch(Algorithm):
         }
 
     def to_json(self):
-        return {'ModifiedHybridRandomSearch': self.to_dict}
+        return {'ModifiedHybridRandomSearch': self.to_dict()}
 
     @property
     def current_state(self):

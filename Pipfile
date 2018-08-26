@@ -3,6 +3,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[[source]]
+url = "https://test.pypi.org/simple"
+verify_ssl = true
+name = "test_pypi"
+
 [packages]
 pytest = "*"
 pytest-cov = "*"
@@ -12,8 +17,11 @@ pytest-xdist = "*"
 pandas = "*"
 grip = "*"
 pipenv-to-requirements = "*"
+joblib = "*"
 
 [dev-packages]
+jupyter = "*"
+"osol.extremum" = "==0.1.4"
 
 [requires]
 python_version = "3.6"

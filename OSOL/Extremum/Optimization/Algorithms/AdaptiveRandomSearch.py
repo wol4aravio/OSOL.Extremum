@@ -52,7 +52,7 @@ class AdaptiveRandomSearch(Algorithm):
         }
 
     def to_json(self):
-        return {'AdaptiveRandomSearch': self.to_dict}
+        return {'AdaptiveRandomSearch': self.to_dict()}
 
     @property
     def current_state(self):

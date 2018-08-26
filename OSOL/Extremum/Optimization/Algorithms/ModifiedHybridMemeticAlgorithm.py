@@ -37,7 +37,7 @@ class ModifiedHybridMemeticAlgorithm(Algorithm):
 
     @classmethod
     def from_json(cls, json_data):
-        data = json_data['ModifiedHybridMemeticAlgorithm']
+        data = json_data['ModifiedHybridMemeticAlgorithm'].copy()
         data['combination_algorithm'] = OSOL.Extremum.Tools.OptimizationTools.create_algorithm_from_json(data['combination_algorithm'])
         data['combination_terminator'] = MaxTimeTerminator.from_json(data['combination_terminator'])
         return cls.from_dict(data)
@@ -57,7 +57,7 @@ class ModifiedHybridMemeticAlgorithm(Algorithm):
         }
 
     def to_json(self):
-        return {'ModifiedHybridMemeticAlgorithm': self.to_dict}
+        return {'ModifiedHybridMemeticAlgorithm': self.to_dict()}
 
     @property
     def current_state(self):

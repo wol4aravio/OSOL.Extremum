@@ -9,10 +9,7 @@ import os
 
 
 config = ConfigParser()
-if os.getcwd().endswith('tests') or os.getcwd().endswith('Applications'):
-    config.read('../Numerical_Objects/config.ini')
-else:
-    config.read('Numerical_Objects/config.ini')
+config.read('OSOL/Extremum/Numerical_Objects/config.ini')
 
 
 class Interval:
@@ -20,8 +17,8 @@ class Interval:
     try:
         __MIN_WIDTH = float(config.get('interval', 'min_width'))
     except Exception:
-        warnings.warn('Can not parse config.ini file. Setting default __MIN_WIDTH = 1e-7')
-        __MIN_WIDTH = 1e-7
+        warnings.warn('Can not parse config.ini file. Setting default __MIN_WIDTH = 1e-3')
+        __MIN_WIDTH = 1e-3
 
     def __init__(self, lower_bound, upper_bound):
         self._lower_bound = lower_bound

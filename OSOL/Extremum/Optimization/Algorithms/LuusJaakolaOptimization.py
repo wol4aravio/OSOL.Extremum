@@ -41,7 +41,7 @@ class LuusJaakolaOptimization(Algorithm):
         }
 
     def to_json(self):
-        return {'LuusJaakolaOptimization': self.to_dict}
+        return {'LuusJaakolaOptimization': self.to_dict()}
 
     @property
     def current_state(self):
