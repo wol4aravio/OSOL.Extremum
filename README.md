@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/wol4aravio/OSOL.Extremum.svg?branch=master)](https://travis-ci.org/wol4aravio/OSOL.Extremum.svg?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6d29733e0b2d4faea9b99306ecff0f91)](https://www.codacy.com/app/wol4aravio/OSOL.Extremum?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wol4aravio/OSOL.Extremum&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/6d29733e0b2d4faea9b99306ecff0f91)](https://www.codacy.com/app/wol4aravio/OSOL.Extremum?utm_source=github.com&utm_medium=referral&utm_content=wol4aravio/OSOL.Extremum&utm_campaign=Badge_Coverage)
+[![PyPI version](https://badge.fury.io/py/osol.extremum.svg)](https://badge.fury.io/py/osol.extremum)
 
 <p align="center">
 <b> Open-Source Optimization Library - Extremum </b>
@@ -156,7 +157,45 @@ members is used to construct new solutions.
 
 ### Config Example
 
+```json
+{
+  "ModifiedHybridMemeticAlgorithm": {
+    "population_size": 10,
+    "distance_bias": 0.1,
+    "pool_size": 5,
+    "pool_purge_size": 5,
+    "combination_algorithm": {
+      "RandomSearch": {
+        "radius": 0.1
+      }
+    },
+    "combination_terminator": {
+      "MaxTimeTerminator": {
+        "max_time": "s:0.1"
+      }
+    },
+    "path_relinking_parameter": 5,
+    "local_improvement_parameter": 5,
+    "delta_path_relinking": 5,
+    "delta_local_improvement": 0.01
+  }
+}
+```
+
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -22.71828 | -22.71777 | -22.71388 | 0.00090 |
+| Beale | 0.00000 | 0.00000 | 0.00000 | 0.00003 | 0.00000 |
+| CosineMixture | -0.20000 | -0.20000 | -0.20000 | -0.20000 | 0.00000 |
+| DropWave | -1.00000 | -1.00000 | -1.00000 | -0.99990 | 0.00001 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.00000 | 0.00002 | 0.00145 | 0.00014 |
+| GoldsteinPrice | 3.00000 | 3.00000 | 3.00001 | 3.00016 | 0.00003 |
+| HimmelBlau | 0.00000 | 0.00000 | 0.00001 | 0.00006 | 0.00001 |
+| Leon | 0.00000 | 0.00000 | 0.00023 | 0.00615 | 0.00086 |
+| Rastrigin | -400.00000 | -400.00000 | -399.99998 | -399.99933 | 0.00007 |
 
 ## Modified Hybrid Random Search
 
@@ -164,7 +203,70 @@ Modified Hybrid Random Search (MHRS) consequently uses several simpler optimizat
 
 ### Config Example
 
+```json
+{
+  "ModifiedHybridRandomSearch": {
+    "algorithms": [
+      {
+        "AdaptiveRandomSearch": {
+          "init_radius": 1.0,
+          "factor_small": 1.1,
+          "factor_huge": 1.5,
+          "frequency": 5,
+          "max_no_change": 5
+        }
+      },
+      {
+        "RandomSearchWithStatisticalAntiGradient": {
+          "radius": 1.0,
+          "number_of_samples": 5
+        }
+      },
+      {
+        "LuusJaakolaOptimization": {
+          "init_radius": 1.0,
+          "number_of_samples": 5,
+          "reduction_coefficient": 0.95,
+          "recover_coefficient": 0.97,
+          "iteration_per_run": 5
+        }
+      }
+    ],
+    "terminators": [
+      {
+        "MaxTimeTerminator": {
+          "max_time": "s:5"
+        }
+      },
+      {
+        "MaxTimeTerminator": {
+          "max_time": "s:5"
+        }
+      },
+      {
+        "MaxTimeTerminator": {
+          "max_time": "s:5"
+        }
+      }
+    ]
+  }
+}
+```
+
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -22.71828 | -5.98708 | -2.77883 | 6.54783 |
+| Beale | 0.00000 | 0.00000 | 0.86048 | 9.01775 | 2.19928 |
+| CosineMixture | -0.20000 | -0.20000 | -0.20000 | -0.20000 | 0.00000 |
+| DropWave | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.00000 | 25.89383 | 49.79582 | 24.87799 |
+| GoldsteinPrice | 3.00000 | 3.00000 | 16.77000 | 84.00000 | 30.42626 |
+| HimmelBlau | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Leon | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Rastrigin | -400.00000 | -400.00000 | -312.64288 | 177.07108 | 128.86537 |
 
 ## Random Search
 
@@ -203,7 +305,29 @@ Random Search with Statistical Anti Gradient (RSwSAG) modifies current solution 
 
 ### Config Example
 
+```json
+{
+  "RandomSearchWithStatisticalAntiGradient": {
+    "radius": 1.0,
+    "number_of_samples": 5
+  }
+}
+```
+
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -22.71797 | -6.11105 | -2.05663 | 6.85998 |
+| Beale | 0.00000 | 0.00012 | 0.63264 | 9.42809 | 1.15283 |
+| CosineMixture | -0.20000 | -0.20000 | -0.20000 | -0.19999 | 0.00000 |
+| DropWave | -1.00000 | -1.00000 | -1.00000 | -0.99998 | 0.00000 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.96336 | 90.84234 | 213.05327 | 45.22504 |
+| GoldsteinPrice | 3.00000 | 3.00193 | 5.88163 | 12.21118 | 2.20215 |
+| HimmelBlau | 0.00000 | 0.00162 | 0.61417 | 2.46690 | 0.47214 |
+| Leon | 0.00000 | 0.00005 | 0.10794 | 0.26133 | 0.06735 |
+| Rastrigin | -400.00000 | -400.00000 | -284.47774 | 419.41124 | 177.54471 |
 
 ## Simulated Annealing
 
@@ -216,62 +340,55 @@ as gradient descent.
 
 ### Config Example
 
+```json
+{
+  "SimulatedAnnealing": {
+    "init_temperature": 25.0,
+    "C": 0.85,
+    "beta": 0.99
+  }
+}
+```
+
 ### Benchmark Results
+
+| Function name | Optimal value | Min value | Mean value | Max value | Standard deviation |
+| ------------- | :-----------: | :-------: | :--------: | :-------: | :----------------: |
+| Ackley | -22.71828 | -22.71828 | -15.87059 | -2.76310 | 9.22266 |
+| Beale | 0.00000 | 0.00000 | 0.23205 | 0.82458 | 0.31806 |
+| CosineMixture | -0.20000 | -0.20000 | -0.20000 | -0.20000 | 0.00000 |
+| DropWave | -1.00000 | -1.00000 | -0.70044 | -0.07951 | 0.32082 |
+| Exponential | -1.00000 | -1.00000 | -1.00000 | -1.00000 | 0.00000 |
+| FreudensteinRoth | 0.00000 | 0.00000 | 6.97142 | 49.79582 | 17.27851 |
+| GoldsteinPrice | 3.00000 | 3.00000 | 4.62000 | 84.00000 | 11.34000 |
+| HimmelBlau | 0.00000 | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| Leon | 0.00000 | 0.00000 | 0.00002 | 0.00046 | 0.00007 |
+| Rastrigin | -400.00000 | -400.00000 | -387.86150 | -360.20164 | 11.21968 |
 
 # Current State
 
-- [x] ~~__supported tasks__: unconstrained optimization~~
-- [x] ~~__supported tasks__: optimal openloop control~~
-- [ ] __supported tasks__: constrained optimization
-- [ ] __supported tasks__: optimal feedback control
-- [ ] __supported tasks__: optimal stochastic control
+## Version 0.1.*
 
-<br/>
+* **supported tasks**: unconstrained optimization, optimal openloop control,
+* **algorithms**: Adaptive Random Search, Interval Explosion Search, Luus-Jaakola Optimization,
+Modified Hybrid Memetic Algorithm, Modified Hybrid Random Search, Random Search,
+Random Search with Statistical Anti Gradient, Simulated Annealing,
+* **cybernetics**: 
+    * **discretization**: Euler, Runge-Kutta (IV order),
+    * **controllers**: piecewise-constant, piecewise-linear, explicit,
+* **applications**: solution of optimization task, benchmarking of an algorithm configuration,
+simulation of a control,
+* **miscellaneous**: implementation of interval arithmetics, state logging.
 
-- [x] ~~__features__: implementation of interval arithmetics~~
-- [x] ~~__features__: state logging~~
-- [ ] __features__: custom callbacks
-- [ ] __features__: termination via max iterations
+## Planned
 
-<br/>
-
-- [x] ~~__modelling of dynamic systems__: Euler discretization processes~~
-- [x] ~~__modelling of dynamic systems__: Runge-Kutta (IV order) discretization processes~~
-
-<br/>
-
-- [x] ~~__supported types of controllers__: piecewise-constant~~
-- [x] ~~__supported types of controllers__: piecewise-linear~~
-- [x] ~~__supported types of controllers__: explicit~~
-- [ ] __supported types of controllers__: via decomposition by basis
-
-<br/>
-
-- [x] ~~__application__: solution of optimization task~~
-- [x] ~~__application__: benchmarking of an algorithm configuration~~
-- [x] ~~__application__: simulation of a control~~
-- [ ] __application__: algorithms comparison
-- [ ] __application__: algorithm visualization
-
-<br/>
-
-- [x] ~~__benchmarking__: <= 10 test functions (2D)~~
-- [ ] __benchmarking__: <= 25 test functions (2D)
-- [ ] __benchmarking__: <= 50 test functions (2D)
-
-<br/>
-
-- [x] ~~__implemented algorithms__: Adaptive Random Search~~
-- [x] ~~__implemented algorithms__: Interval Explosion Search~~
-- [x] ~~__implemented algorithms__: Luus-Jaakola Optimization~~
-- [x] ~~__implemented algorithms__: Modified Hybrid Memetic Algorithm~~
-- [x] ~~__implemented algorithms__: Modified Hybrid Random Search~~
-- [x] ~~__implemented algorithms__: Random Search~~
-- [x] ~~__implemented algorithms__: Random Search with Statistical Anti Gradient~~
-- [x] ~~__implemented algorithms__: Simulated Annealing~~
-- [ ] __implemented algorithms__: Interval Genetic Algorithm with Ternary Coding
-- [ ] __implemented algorithms__: Metaheuristic Interval Inversed Search
-- [ ] __implemented algorithms__: Differential Evolution
+* **supported tasks**: constrained optimization, optimal feedback control, optimal stochastic control,
+* **algorithms**: Interval Genetic Algorithm with Ternary Coding, Metaheuristic Interval Inversed Search,
+Differential Evolution,
+* **cybernetics**: controller via decomposition by basis,
+* **applications**: algorithms comparison, algorithm visualization,
+* **miscellaneous**: custom callbacks, termination via max iterations, termination via max function evaluation, 
+PyTorch integration.
 
 # References
 
