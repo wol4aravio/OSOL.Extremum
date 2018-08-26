@@ -7,6 +7,7 @@ import math
 import json
 import os
 
+
 config = ConfigParser()
 config.read('OSOL/Extremum/Numerical_Objects/config.ini')
 
