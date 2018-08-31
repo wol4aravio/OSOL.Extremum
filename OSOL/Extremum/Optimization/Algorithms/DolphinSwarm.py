@@ -64,7 +64,7 @@ class DolphinSwarm(Algorithm):
 
     @property
     def iterations(self):
-        return [self.search_phase, self.call_phase]
+        return [self.search_phase, self.call_phase, self.predation_phase]
 
     def _refresh_best_dolphin(self):
         min_id = np.argmin(self._dolphins_K_fit)
@@ -103,7 +103,8 @@ class DolphinSwarm(Algorithm):
             if self._dolphins_L_fit[d_id] < self._dolphins_K_fit[d_id]:
                 self._dolphins_K_fit[d_id] = self._dolphins_L_fit[d_id]
                 self._dolphins_K = self._dolphins_L[d_id].copy()
-        return
+
+        return self.call_phase
 
     def call_phase(self, f, area):
         N = self._number_of_dolphins
@@ -127,4 +128,41 @@ class DolphinSwarm(Algorithm):
                         self._dolphins_K[i] = self._dolphins_K[j].copy()
                         self._dolphins_K_fit[i] = self._dolphins_K_fit[j]
 
-        return
+        return self.predation_phase
+
+    @staticmethod
+    def _dolphin_movement(area, d, r):
+        xi = generate_random_point_in_rectangular({k: (-1.0, 1.0) for k in area.keys})
+        xi *= 1.0 / xi.length
+        return d + xi * r
+
+    def predation_phase(self, f, area):
+        R1 = self._search_time * self._speed
+        e = self._radius_reduction_coefficient
+        for d_id, d in enumerate(self._dolphins):
+            DK = distance_between_vectors(d, self._dolphins_K[d_id])
+            DKL = distance_between_vectors(self._dolphins_K[d_id], self._dolphins_L[d_id])
+
+            if DK <= R1:
+                R2 = (1.0 - 2.0 / e) * DK
+                new_dolphin = self._dolphins_K[d_id] + (d - self._dolphins_K[d_id]) * (R2 / DK)
+            if DK >= DKL and DK > R1:
+                p_11 = DK / self._dolphins_K_fit[d_id]
+                p_12 = (DK - DKL) / self._dolphins_L_fit[d_id]
+                p_2 = (e * DK) / (1e-17 + self._dolphins_K_fit[d_id])
+                R2 = (1.0 - (p_11 + p_12) / p_2) * DK
+                new_dolphin = DolphinSwarm._dolphin_movement(area, d, R2)
+            if DK > R1 and DK < DKL:
+                p_11 = DK / self._dolphins_K_fit[d_id]
+                p_12 = (DKL - DK) / self._dolphins_L_fit[d_id]
+                p_2 = (e * DK) / (1e-17 + self._dolphins_K_fit[d_id])
+                R2 = (1.0 - (p_11 - p_12) / p_2) * DK
+                new_dolphin = DolphinSwarm._dolphin_movement(area, d, R2)
+
+            new_dolphin_fitness = f(new_dolphin)
+            self._dolphins[d_id] = new_dolphin
+            if new_dolphin_fitness < self._dolphins_K_fit[d_id]:
+                self._dolphins_K[d_id] = new_dolphin.copy()
+                self._dolphins_K_fit[d_id] = new_dolphin_fitness
+
+        return self.search_phase
