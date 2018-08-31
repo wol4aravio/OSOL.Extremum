@@ -1,5 +1,5 @@
 from OSOL.Extremum.Optimization.Algorithms.Algorithm import Algorithm
-from OSOL.Extremum.Optimization.Algorithms.tools import generate_random_point_in_rectangular
+from OSOL.Extremum.Optimization.Algorithms.tools import *
 from OSOL.Extremum.Numerical_Objects.Vector import Vector
 
 import numpy as np
@@ -7,7 +7,9 @@ import numpy as np
 
 class DolphinSwarm(Algorithm):
 
-    def __init__(self, number_of_dolphins, speed, search_time, number_of_directions):
+    def __init__(self,
+                 number_of_dolphins, speed, search_time,
+                 number_of_directions, acceleration, maximum_transmission_time):
         self._dolphins = None
         self._dolphins_K = None
         self._dolphins_L = None
@@ -18,6 +20,12 @@ class DolphinSwarm(Algorithm):
         self._speed = speed
         self._search_time = search_time
         self._number_of_directions = number_of_directions
+        self._acceleration = acceleration
+        self._maximum_transmission_time = maximum_transmission_time
+
+        self._transmission_time_matrix = np.full(
+            shape=(number_of_dolphins, number_of_dolphins),
+            fill_value=np.inf)
 
     @classmethod
     def from_dict(cls, dict_data):
@@ -25,7 +33,9 @@ class DolphinSwarm(Algorithm):
             dict_data['number_of_dolphins'],
             dict_data['speed'],
             dict_data['search_time'],
-            dict_data['number_of_directions'])
+            dict_data['number_of_directions'],
+            dict_data['acceleration'],
+            dict_data['maximum_transmission_time'])
 
     @classmethod
     def from_json(cls, json_data):
@@ -36,7 +46,9 @@ class DolphinSwarm(Algorithm):
             'number_of_dolphins': self._number_of_dolphins,
             'speed': self._speed,
             'search_time': self._search_time,
-            'number_of_directions': self._number_of_directions
+            'number_of_directions': self._number_of_directions,
+            'acceleration': self._acceleration,
+            'maximum_transmission_time': self._maximum_transmission_time
         }
 
     def to_json(self):
@@ -48,7 +60,7 @@ class DolphinSwarm(Algorithm):
 
     @property
     def iterations(self):
-        return [self.search_phase]
+        return [self.search_phase, self.call_phase]
 
     def _refresh_best_dolphin(self):
         min_id = np.argmin(self._dolphins_K_fit)
@@ -86,4 +98,29 @@ class DolphinSwarm(Algorithm):
                 self._dolphins_K_fit[d_id] = self._dolphins_L_fit[d_id]
                 self._dolphins_K = self._dolphins_L[d_id].copy()
         return
+
+    def call_phase(self, f, area):
+        N = self._number_of_dolphins
+        A = self._acceleration
+        speed = self._speed
+        T2 = self._maximum_transmission_time
+        for i in range(N):
+            for j in range(N):
+                if self._dolphins_K_fit[j] < self._dolphins_K_fit[i]:
+                    distance = distance_between_vectors(self._dolphins_K[i], self._dolphins_K[j])
+                    bias = np.ceil(distance / (A * speed))
+                    if self._transmission_time_matrix[i, j] > bias:
+                        self._transmission_time_matrix[i, j] = bias
+
+        self._transmission_time_matrix -= 1
+        for i in range(N):
+            for j in range(N):
+                if self._transmission_time_matrix[i, j] == 0:
+                    self._transmission_time_matrix[i, j] = T2
+                    if self._dolphins_K_fit[j] < self._dolphins_K_fit[i]:
+                        self._dolphins_K[i] = self._dolphins_K[j].copy()
+                        self._dolphins_K_fit[i] = self._dolphins_K_fit[j]
+
+        return
+
 
