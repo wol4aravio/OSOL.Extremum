@@ -1,6 +1,6 @@
 from OSOL.Extremum.Optimization.Algorithms.Algorithm import Algorithm
 from OSOL.Extremum.Optimization.Terminators.MaxTimeTerminator import MaxTimeTerminator
-from OSOL.Extremum.Optimization.Algorithms.tools import distance_between_vectors
+from OSOL.Extremum.Optimization.Algorithms.tools import distance_between_vectors, generate_random_point_in_rectangular
 from OSOL.Extremum.Numerical_Objects.Vector import Vector
 
 import numpy as np
@@ -88,11 +88,9 @@ class ModifiedHybridMemeticAlgorithm(Algorithm):
         self.sort_pool()
 
     def pool_formation(self, f, area):
-
         population = []
         for i in range(self._population_size):
-            values = {k: np.random.uniform(*area[k]) for k in area.keys()}
-            population.append(Vector(values))
+            population.append(generate_random_point_in_rectangular(area))
         population = list(map(lambda v: (v, f(v)), population))
         population = sorted(population, key=lambda kvp: kvp[1])
         self._pool.append(population[0])
