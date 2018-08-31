@@ -133,7 +133,7 @@ class DolphinSwarm(Algorithm):
 
     @staticmethod
     def _dolphin_movement(area, d, r):
-        xi = generate_random_point_in_rectangular({k: (-1.0, 1.0) for k in area.keys})
+        xi = generate_random_point_in_rectangular({k: (-1.0, 1.0) for k in area.keys()})
         xi *= 1.0 / xi.length
         return d + xi * r
 
