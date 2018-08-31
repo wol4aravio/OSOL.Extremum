@@ -93,9 +93,9 @@ class DolphinSwarm(Algorithm):
         self._dolphins_L = []
         self._dolphins_L_fit = []
         for d_id, d in enumerate(self._dolphins):
-            velocities = [generate_random_point_in_rectangular({k: (-1.0, 1.0) for k in area.keys})
+            velocities = [generate_random_point_in_rectangular({k: (-1.0, 1.0) for k in area.keys()})
                           for _ in range(self._number_of_directions)]
-            velocities = [v * (speed / v.length)  for v in velocities]
+            velocities = [v * (speed / v.length) for v in velocities]
             investigated_locations = [d + v * i for v in velocities for i in range(1, self._search_time + 1)]
             fitness = [f(loc) for loc in investigated_locations]
             best_loc_id = np.argmin(fitness)
