@@ -147,20 +147,18 @@ class DolphinSwarm(Algorithm):
             DKL = distance_between_vectors(self._dolphins_K[d_id], self._dolphins_L[d_id])
             new_dolphin = None
 
-            if DK <= R1 and DK > 0:
+            if DK <= R1:
                 R2 = (1.0 - 2.0 / e) * DK
-                new_dolphin = self._dolphins_K[d_id] + (d - self._dolphins_K[d_id]) * (R2 / DK)
-            if DK >= DKL and DK > R1:
+                new_dolphin = self._dolphins_K[d_id] + (d - self._dolphins_K[d_id]) * (R2 / (1e-17 + DK))
+            else:
                 p_11 = DK / self._dolphins_K_fit[d_id]
-                p_12 = (DK - DKL) / self._dolphins_L_fit[d_id]
                 p_2 = (e * DK) / (1e-17 + self._dolphins_K_fit[d_id])
-                R2 = (1.0 - (p_11 + p_12) / p_2) * DK
-                new_dolphin = DolphinSwarm._dolphin_movement(area, d, R2)
-            if DK > R1 and DK < DKL:
-                p_11 = DK / self._dolphins_K_fit[d_id]
-                p_12 = (DKL - DK) / self._dolphins_L_fit[d_id]
-                p_2 = (e * DK) / (1e-17 + self._dolphins_K_fit[d_id])
-                R2 = (1.0 - (p_11 - p_12) / p_2) * DK
+                if DK >= DKL:
+                    p_12 = (DK - DKL) / self._dolphins_L_fit[d_id]
+                    R2 = (1.0 - (p_11 + p_12) / p_2) * DK
+                else:
+                    p_12 = (DKL - DK) / self._dolphins_L_fit[d_id]
+                    R2 = (1.0 - (p_11 - p_12) / p_2) * DK
                 new_dolphin = DolphinSwarm._dolphin_movement(area, d, R2)
 
             if new_dolphin is not None:
