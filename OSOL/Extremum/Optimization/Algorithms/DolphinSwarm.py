@@ -1,5 +1,5 @@
 from OSOL.Extremum.Optimization.Algorithms.Algorithm import Algorithm
-from OSOL.Extremum.Optimization.Algorithms.tools import generate_random_point_in_sphere
+from OSOL.Extremum.Optimization.Algorithms.tools import generate_random_point_in_rectangular
 from OSOL.Extremum.Numerical_Objects.Vector import Vector
 
 import numpy as np
@@ -45,8 +45,7 @@ class DolphinSwarm(Algorithm):
     def initialize(self, f, area, seed):
         if seed is None:
             for i in range(self._number_of_dolphins):
-                self._dolphins.append(Vector({k: np.random.uniform(left, right)
-                                              for k, (left, right) in area.items()}))
+                self._dolphins.append(generate_random_point_in_rectangular(area))
         else:
             if isinstance(seed, list):
                 self._dolphins = sorted(seed, key=lambda v: f(v))[:self._number_of_dolphins]
@@ -54,9 +53,13 @@ class DolphinSwarm(Algorithm):
                 self._dolphins = seed
             if len(self._dolphins) < self._number_of_dolphins:
                 for i in range(len(self._dolphins), self._number_of_dolphins):
-                    self._dolphins.append(Vector({k: np.random.uniform(left, right)
-                                                  for k, (left, right) in area.items()}))
+                    self._dolphins.append(generate_random_point_in_rectangular(area))
 
         self._dolphins_K = [d.copy() for d in self._dolphins]
         self._dolphins_K_fit = [f(d) for d in self._dolphins_K]
         return
+
+
+
+    # def search_phase(self, f, area):
+
