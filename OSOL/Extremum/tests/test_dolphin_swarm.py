@@ -18,7 +18,7 @@ ds_1_config = {
         'number_of_directions': 5,
         'acceleration': 1,
         'maximum_transmission_time': 10,
-        'radius_reduction_coefficient': 2
+        'radius_reduction_coefficient': 2.1
     }
 }
 ds_2_config = {
@@ -29,7 +29,7 @@ ds_2_config = {
         'number_of_directions': 10,
         'acceleration': 1,
         'maximum_transmission_time': 10,
-        'radius_reduction_coefficient': 2
+        'radius_reduction_coefficient': 2.5
     }
 }
 ds_3_config = {
@@ -40,7 +40,7 @@ ds_3_config = {
         'number_of_directions': 3,
         'acceleration': 1,
         'maximum_transmission_time': 10,
-        'radius_reduction_coefficient': 2
+        'radius_reduction_coefficient': 3.0
     }
 }
 
