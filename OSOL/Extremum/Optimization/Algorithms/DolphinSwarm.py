@@ -103,7 +103,7 @@ class DolphinSwarm(Algorithm):
             self._dolphins_L_fit.append(fitness[best_loc_id])
             if self._dolphins_L_fit[d_id] < self._dolphins_K_fit[d_id]:
                 self._dolphins_K_fit[d_id] = self._dolphins_L_fit[d_id]
-                self._dolphins_K = self._dolphins_L[d_id].copy()
+                self._dolphins_K[d_id] = self._dolphins_L[d_id].copy()
 
         return self.call_phase
 
