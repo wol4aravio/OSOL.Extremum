@@ -71,6 +71,7 @@ class DolphinSwarm(Algorithm):
         return self._dolphins_K[min_id]
 
     def initialize(self, f, area, seed):
+        self._dolphins = []
         if seed is None:
             for i in range(self._number_of_dolphins):
                 self._dolphins.append(generate_random_point_in_rectangular(area))
