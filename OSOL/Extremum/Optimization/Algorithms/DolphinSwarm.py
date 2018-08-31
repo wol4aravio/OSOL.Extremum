@@ -151,14 +151,10 @@ class DolphinSwarm(Algorithm):
                 new_dolphin = self._dolphins_K[d_id] + (d - self._dolphins_K[d_id]) * (R2 / (1e-17 + DK))
             else:
                 p_11 = DK / self._dolphins_K_fit[d_id]
+                p_12 = (DK - DKL) / self._dolphins_L_fit[d_id]
                 p_2 = (e * DK) / (1e-17 + self._dolphins_K_fit[d_id])
-                if DK >= DKL:
-                    p_12 = (DK - DKL) / self._dolphins_L_fit[d_id]
-                    R2 = (1.0 - (p_11 + p_12) / p_2) * DK
-                else:
-                    p_12 = (DKL - DK) / self._dolphins_L_fit[d_id]
-                    R2 = (1.0 - (p_11 - p_12) / p_2) * DK
-                new_dolphin = DolphinSwarm._dolphin_movement(area, d, R2)
+                R2 = (1.0 - (p_11 + p_12) / p_2) * DK
+                new_dolphin = DolphinSwarm._dolphin_movement(area, self._dolphins_K[d_id], R2)
 
             new_dolphin_fitness = f(new_dolphin)
             self._dolphins[d_id] = new_dolphin
