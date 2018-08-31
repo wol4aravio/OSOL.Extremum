@@ -28,7 +28,7 @@ ds_2_config = {
         'search_time': 5,
         'number_of_directions': 10,
         'acceleration': 1,
-        'maximum_transmission_time': 5,
+        'maximum_transmission_time': 10,
         'radius_reduction_coefficient': 2
     }
 }
@@ -39,7 +39,7 @@ ds_3_config = {
         'search_time': 10,
         'number_of_directions': 3,
         'acceleration': 1,
-        'maximum_transmission_time': 5,
+        'maximum_transmission_time': 10,
         'radius_reduction_coefficient': 2
     }
 }

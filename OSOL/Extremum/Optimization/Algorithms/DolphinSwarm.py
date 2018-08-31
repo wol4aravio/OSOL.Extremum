@@ -117,7 +117,7 @@ class DolphinSwarm(Algorithm):
             for j in range(N):
                 if self._dolphins_K_fit[j] < self._dolphins_K_fit[i]:
                     distance = distance_between_vectors(self._dolphins_K[i], self._dolphins_K[j])
-                    bias = np.ceil(distance / (A * speed))
+                    bias = int(np.ceil(distance / (A * speed)))
                     if self._transmission_time_matrix[i, j] > bias:
                         self._transmission_time_matrix[i, j] = bias
 
@@ -127,8 +127,8 @@ class DolphinSwarm(Algorithm):
                 if self._transmission_time_matrix[i, j] == 0:
                     self._transmission_time_matrix[i, j] = T2
                     if self._dolphins_K_fit[j] < self._dolphins_K_fit[i]:
-                        self._dolphins_K[i] = self._dolphins_K[j].copy()
                         self._dolphins_K_fit[i] = self._dolphins_K_fit[j]
+                        self._dolphins_K[i] = self._dolphins_K[j].copy()
 
         return self.predation_phase
 
@@ -136,7 +136,7 @@ class DolphinSwarm(Algorithm):
     def _dolphin_movement(area, d, r):
         xi = generate_random_point_in_rectangular({k: (-1.0, 1.0) for k in area.keys()})
         xi *= 1.0 / xi.length
-        new_d = (d + xi * r).contrain(area)
+        new_d = (d + xi * r).constrain(area)
         return new_d
 
     def predation_phase(self, f, area):
@@ -167,7 +167,7 @@ class DolphinSwarm(Algorithm):
                 new_dolphin_fitness = f(new_dolphin)
                 self._dolphins[d_id] = new_dolphin
                 if new_dolphin_fitness < self._dolphins_K_fit[d_id]:
-                    self._dolphins_K[d_id] = new_dolphin.copy()
                     self._dolphins_K_fit[d_id] = new_dolphin_fitness
+                    self._dolphins_K[d_id] = new_dolphin.copy()
 
         return self.search_phase
