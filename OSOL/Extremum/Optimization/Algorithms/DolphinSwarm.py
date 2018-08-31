@@ -97,6 +97,7 @@ class DolphinSwarm(Algorithm):
                           for _ in range(self._number_of_directions)]
             velocities = [v * (speed / v.length) for v in velocities]
             investigated_locations = [d + v * i for v in velocities for i in range(1, self._search_time + 1)]
+            investigated_locations = [loc.constrain(area) for loc in investigated_locations]
             fitness = [f(loc) for loc in investigated_locations]
             best_loc_id = np.argmin(fitness)
             self._dolphins_L.append(investigated_locations[best_loc_id])
@@ -135,7 +136,8 @@ class DolphinSwarm(Algorithm):
     def _dolphin_movement(area, d, r):
         xi = generate_random_point_in_rectangular({k: (-1.0, 1.0) for k in area.keys()})
         xi *= 1.0 / xi.length
-        return d + xi * r
+        new_d = (d + xi * r).contrain(area)
+        return new_d
 
     def predation_phase(self, f, area):
         R1 = self._search_time * self._speed
