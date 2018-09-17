@@ -53,6 +53,23 @@ def test_dim():
     assert v3.dim == 3
 
 
+def test_pytorch_available():
+    assert v1.pytorch_available
+    with pytest.raises(Exception):
+        v2.to_pytorch_vector()
+    with pytest.raises(Exception):
+        v3.to_pytorch_vector()
+
+
+def test_pytorch_conversion():
+    v1_copy = v1.copy()
+    v1_copy.to_pytorch_vector()
+    v1_copy_times_2 = v1_copy + v1_copy
+    v1_copy_times_2.to_ordinary_vector()
+    assert v1_copy_times_2 == 2 * v1
+
+
+
 def test_length():
     assert v1.length == math.sqrt(14.0)
     assert math.fabs((v1 * (1.0 / v1.length)).length - 1.0) < 1e-7
