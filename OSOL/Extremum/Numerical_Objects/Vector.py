@@ -102,7 +102,9 @@ class Vector:
         for k, v in self._values.items():
             derivatives[k] = torch.tensor(self[k].grad)
             self[k].grad.zero_()
-        return Vector(derivatives)
+        grad_vector = Vector(derivatives)
+        grad_vector._is_pytorch = True
+        return grad_vector
 
 
     def get_widest_component(self):

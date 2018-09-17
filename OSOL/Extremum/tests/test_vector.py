@@ -1,6 +1,7 @@
 from OSOL.Extremum.Tools.Encoders import CustomEncoder
 from OSOL.Extremum.Numerical_Objects.Vector import *
 from OSOL.Extremum.Numerical_Objects.Interval import Interval
+from OSOL.Extremum.Optimization.Tasks.UnconstrainedOptimization import UnconstrainedOptimization
 
 import pytest
 import json
@@ -69,7 +70,29 @@ def test_pytorch_conversion():
     v1_copy_times_2.to_ordinary_vector()
     assert not v1_copy_times_2._is_pytorch
     assert v1_copy_times_2 == 2 * v1
-    
+
+
+def test_pytorch_grad():
+    v1_copy = v1.copy()
+    v1_copy.to_pytorch_vector()
+    f = UnconstrainedOptimization('cos(x) + exp(sin(y)) + z ** 3', ['x', 'y', 'z'], pytorch=True)
+    f_result = f(v1_copy)
+    f_result.backward()
+    grad = v1_copy.grad()
+    grad.to_ordinary_vector()
+
+    df_x = UnconstrainedOptimization('-sin(x)', ['x', 'y', 'z'])
+    df_y = UnconstrainedOptimization('exp(sin(y)) * cos(y)', ['x', 'y', 'z'])
+    df_z = UnconstrainedOptimization('3 * z ** 2', ['x', 'y', 'z'])
+
+    grad_2 = Vector({
+        'x': df_x(v1),
+        'y': df_y(v1),
+        'z': df_z(v1)
+        })
+
+    assert (grad - grad_2).length < 1e-7
+
 
 def test_length():
     assert v1.length == math.sqrt(14.0)
