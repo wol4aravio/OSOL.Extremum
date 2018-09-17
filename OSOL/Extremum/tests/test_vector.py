@@ -64,11 +64,12 @@ def test_pytorch_available():
 def test_pytorch_conversion():
     v1_copy = v1.copy()
     v1_copy.to_pytorch_vector()
+    assert v1_copy._is_pytorch
     v1_copy_times_2 = v1_copy + v1_copy
     v1_copy_times_2.to_ordinary_vector()
+    assert not v1_copy_times_2._is_pytorch
     assert v1_copy_times_2 == 2 * v1
-
-
+    
 
 def test_length():
     assert v1.length == math.sqrt(14.0)
