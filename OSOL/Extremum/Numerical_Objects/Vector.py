@@ -1,6 +1,9 @@
 from OSOL.Extremum.Tools.etc import constrain_point
 from OSOL.Extremum.Numerical_Objects.Interval import Interval
 
+import torch
+import numpy as np
+
 import random
 import math
 import json
@@ -10,6 +13,7 @@ class Vector:
 
     def __init__(self, values):
         self._values = values
+        self._is_pytorch = False
 
     def __str__(self):
         return ' x '.join(['({0}: {1})'.format(k, v) for k, v in self._values.items()])
@@ -47,6 +51,13 @@ class Vector:
         return list(self._values.values())
 
     @property
+    def pytorch_available(self):
+        for v in self.values:
+            if isinstance(v, Interval):
+                return False
+        return True
+
+    @property
     def length(self):
         s = 0
         for v in self.values:
@@ -71,6 +82,19 @@ class Vector:
 
     def __ne__(self, other):
         return not (self == other)
+
+    def to_pytorch_vector(self, dtype=np.float32):
+        if self.pytorch_available:
+            self._is_pytorch = True
+            for k, v in self._values.items():
+                self._values[k] = torch.tensor(np.array([v], dtype=dtype), requires_grad=True)
+        else:
+            raise Exception('Unable to convert to pytorch')
+
+    def to_ordinary_vector(self):
+        for k, v in self._values.items():
+            self._values[k] = v.tolist()[0]
+
 
     def get_widest_component(self):
         def get_width(v):
