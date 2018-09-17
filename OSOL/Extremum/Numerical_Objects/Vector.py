@@ -92,8 +92,17 @@ class Vector:
             raise Exception('Unable to convert to pytorch')
 
     def to_ordinary_vector(self):
+        self._is_pytorch = False
         for k, v in self._values.items():
             self._values[k] = v.tolist()[0]
+
+
+    def grad(self):
+        derivatives = {}
+        for k, v in self._values.items():
+            derivatives[k] = torch.tensor(self[k].grad)
+            self[k].grad.zero_()
+        return Vector(derivatives)
 
 
     def get_widest_component(self):
