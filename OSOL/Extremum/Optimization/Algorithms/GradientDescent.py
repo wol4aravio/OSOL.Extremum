@@ -31,7 +31,7 @@ class GradientDescent(Algorithm):
 
     @property
     def current_state(self):
-        return {'result': self._x, 'efficiency': self._f_x}
+        return {'result': self._x, 'efficiency': self._f_x.tolist()[0]}
 
     @property
     def iterations(self):
