@@ -1,4 +1,4 @@
-from OSOL.Extremum.Tools.etc import constrain_point
+from OSOL.Extremum.Tools.etc import *
 from OSOL.Extremum.Numerical_Objects.Interval import Interval
 
 import torch
@@ -11,9 +11,9 @@ import json
 
 class Vector:
 
-    def __init__(self, values):
+    def __init__(self, values, is_pytorch=False):
         self._values = values
-        self._is_pytorch = False
+        self._is_pytorch = is_pytorch
 
     def __str__(self):
         return ' x '.join(['({0}: {1})'.format(k, v) for k, v in self._values.items()])
@@ -40,7 +40,7 @@ class Vector:
         return cls(values_dict)
 
     def copy(self):
-        return Vector(self._values.copy())
+        return Vector(self._values.copy(), self._is_pytorch)
 
     @property
     def keys(self):
@@ -102,9 +102,7 @@ class Vector:
         for k, v in self._values.items():
             derivatives[k] = torch.tensor(self[k].grad)
             self[k].grad.zero_()
-        grad_vector = Vector(derivatives)
-        grad_vector._is_pytorch = True
-        return grad_vector
+        return Vector(derivatives, is_pytorch=True)
 
 
     def get_widest_component(self):
@@ -132,19 +130,28 @@ class Vector:
                 result[k] = self[k] + other[k]
             except KeyError:
                 raise Exception('Can\'t sum vectors with different keys: {0} VS {1}'.format(self.keys, other.keys))
-        return Vector(result)
+        if self._is_pytorch:
+            for k in result.keys():
+                result[k].retain_grad()
+        return Vector(result, is_pytorch=(self._is_pytorch or other._is_pytorch))
 
     def __rshift__(self, delta):
         result = {}
         for k in self.keys:
             result[k] = self[k] + delta.get(k, 0.0)
-        return Vector(result)
+        if self._is_pytorch:
+            for k in result.keys():
+                result[k].retain_grad()
+        return Vector(result, is_pytorch=self._is_pytorch)
 
     def __mul__(self, coefficient):
         result = {}
         for k in self.keys:
             result[k] = coefficient * self[k]
-        return Vector(result)
+        if self._is_pytorch:
+            for k in result.keys():
+                result[k].retain_grad()
+        return Vector(result, is_pytorch=self._is_pytorch)
 
     def __rmul__(self, coefficient):
         return self.__mul__(coefficient)
@@ -163,8 +170,12 @@ class Vector:
             if hasattr(component, 'constrain'):
                 result[k] = component.constrain(*target_zone)
             else:
-                result[k] = constrain_point(self[k], *target_zone)
-        return Vector(result)
+                if not self._is_pytorch:
+                    result[k] = constrain_point(component, *target_zone)
+                else:
+                    result[k] = constrain_tensor(component, *target_zone)
+                    result[k].retain_grad()
+        return Vector(result, is_pytorch=self._is_pytorch)
 
     def split(self, ratios, key=None):
         if key is None:
