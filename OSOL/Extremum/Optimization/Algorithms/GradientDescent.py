@@ -61,7 +61,6 @@ class GradientDescent(Algorithm):
 
 
     def make_step(self, f, area):
-        print(self._x, self._grad)
         self._x = self._x - self._alpha * self._grad
         self._x = self._x.constrain(area)
         self._f_x = f(self._x)
