@@ -1,19 +1,24 @@
 from sympy import symbols, lambdify
 from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
+import torch
 
 import json
 
 
 class UnconstrainedOptimization:
 
-    def __init__(self, f, variables):
+    def __init__(self, f, variables, pytorch=False):
         self._f = f
         self._variables = variables
 
         self._f_expr = parse_expr(f)
         self._sym_vars = list(map(symbols, variables))
-        self._f_lambda = lambdify(self._sym_vars, self._f_expr, np)
+        if not pytorch:
+            self._f_lambda = lambdify(self._sym_vars, self._f_expr, np)
+        else:
+            self._f_lambda = lambdify(self._sym_vars, self._f_expr, torch)
+
 
     @classmethod
     def from_dict(cls, dict_data):

@@ -63,4 +63,7 @@ class Algorithm:
                           indent=2)
                 log_counter += 1
 
-        return self.current_state['result']
+        result = self.current_state['result']
+        if result._is_pytorch:
+            result.to_ordinary_vector()
+        return result
