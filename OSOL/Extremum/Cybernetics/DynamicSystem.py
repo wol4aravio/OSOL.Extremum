@@ -15,7 +15,7 @@ def phase_explicit(x, penalty, norm):
 
 
 def phase_explicit_pytorch(x, penalty, norm):
-    return (penalty * torch.clamp(x, min=0.0, max=None)) ** norm
+    return (penalty * x(min=0.0, max=None)) ** norm
 
 
 def phase_implicit(x, penalty, norm):
@@ -26,7 +26,7 @@ def phase_implicit(x, penalty, norm):
 
 
 def phase_implicit_pytorch(x, penalty, norm):
-    return penalty * (torch.clamp(x, min=0.0, max=None) ** norm)
+    return penalty * (x.clamp(min=0.0, max=None) ** norm)
 
 
 class DynamicSystem:
@@ -47,6 +47,7 @@ class DynamicSystem:
         self._etc_vars = etc_vars
         self._vars_str = ['t'] + self._state_vars + self._control_vars + self._etc_vars
         self._sym_vars = list(map(symbols, self._vars_str))
+        self._is_pytorch = pytorch
 
         if not pytorch:
             libs = {
@@ -126,6 +127,10 @@ class DynamicSystem:
             return np.abs(v)
 
     @staticmethod
+    def measure_error_tensor(v):
+        return torch.abs(v)
+
+    @staticmethod
     def constrain(v, min_max):
         if isinstance(v, Interval):
             return Interval(DynamicSystem.constrain(v.left, min_max),
@@ -133,6 +138,9 @@ class DynamicSystem:
         else:
             return np.clip(v, min_max[0], min_max[1])
 
+    @staticmethod
+    def constrain_tensor(v, min_max):
+        return v.clamp(min=min_max[0], max=min_max[1])
 
     @classmethod
     def from_dict(cls, data, pytorch=False):
@@ -251,17 +259,26 @@ class DynamicSystem:
             self._controllers[v].set_parameters(params)
         eps = self._sampling_eps
         max_steps = self._sampling_max_steps
-        x0 = dict([(v, self._initial_conditions[v]) for v in self._state_vars])
-        times = [0.0]
-        states = [x0]
+        if not self._is_pytorch:
+            times = [0.0]
+            states = [dict([(v, self._initial_conditions[v]) for v in self._state_vars])]
+        else:
+            times = [torch.tensor([0.0], dtype=torch.float32, requires_grad=True)]
+            states = [dict([(v, torch.tensor([self._initial_conditions[v]], dtype=torch.float32, requires_grad=True))
+                      for v in self._state_vars])]
         controls = []
         errors_terminal_state = 0.0
         for step_id in range(1, max_steps + 1):
             t = times[-1]
             x = states[-1]
             u = dict([self._controllers[v].get_control(t, x) for v in self._control_vars])
-            for v in self._control_vars:
-                u[v] = DynamicSystem.constrain(u[v], self._control_bounds[v])
+            if not self._is_pytorch:
+                for v in self._control_vars:
+                    u[v] = DynamicSystem.constrain(u[v], self._control_bounds[v])
+            else:
+                for v in self._control_vars:
+                    u[v] = DynamicSystem.constrain_tensor(u[v], self._control_bounds[v])
+                    u[v].retain_grad()
             a = self.get_aux(t, x, u)
             x_next = self._prolong(t, x, u, a, eps)
             times.append(t + eps)
@@ -277,13 +294,22 @@ class DynamicSystem:
                     norm = constraint['norm']
 
                     values = [times[-1]] + list(x_next.values())
-                    error = DynamicSystem.measure_error(eq(*values))
+                    if not self._is_pytorch:
+                        error = DynamicSystem.measure_error(eq(*values))
+                    else:
+                        error = DynamicSystem.measure_error_tensor(eq(*values))
                     if error > max_error:
                         stop = False
-                    if penalty_type == "explicit":
-                        errors_terminal_state.append(np.power(penalty * error, float(norm[1:])))
+                    if not self._is_pytorch:
+                        if penalty_type == "explicit":
+                            errors_terminal_state.append(np.power(penalty * error, float(norm[1:])))
+                        else:
+                            errors_terminal_state.append(penalty * np.power(error, float(norm[1:])))
                     else:
-                        errors_terminal_state.append(penalty * np.power(error, float(norm[1:])))
+                        if penalty_type == "explicit":
+                            errors_terminal_state.append(torch.pow(penalty * error, float(norm[1:])))
+                        else:
+                            errors_terminal_state.append(penalty * torch.pow(error, float(norm[1:])))
                 if stop:
                     break
         I_integral = [states[-1]['I_integral_{}'.format(i + 1)] for i in range(len(self._integral_criteria))]
@@ -298,5 +324,5 @@ class DynamicSystem:
             if c.penalty == 0.0:
                 controller_variance.append(0.0)
             else:
-                controller_variance.append(c.penalty * c.get_measure_variance(times, states))
+                controller_variance.append(c.penalty * c.get_measure_variance(times, states, self._is_pytorch))
         return times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance
