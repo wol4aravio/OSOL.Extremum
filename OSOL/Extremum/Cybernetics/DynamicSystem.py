@@ -4,6 +4,7 @@ from OSOL.Extremum.Cybernetics.Controllers import create_controller_from_dict
 from sympy import symbols, lambdify
 from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
+import torchs
 
 
 def phase_explicit(x, penalty, norm):
@@ -13,11 +14,19 @@ def phase_explicit(x, penalty, norm):
         return np.power(penalty * max(x, 0.0), norm)
 
 
+def phase_explicit_pytorch(x, penalty, norm):
+    return (penalty * torch.clamp(x, min=0.0, max=None)) ** norm
+
+
 def phase_implicit(x, penalty, norm):
     if isinstance(x, Interval):
         return Interval(phase_implicit(x.left, penalty, norm), phase_implicit(x.right, penalty, norm))
     else:
         return penalty * np.power(max(x, 0.0), norm)
+
+
+def phase_implicit_pytorch(x, penalty, norm):
+    return penalty * (torch.clamp(x, min=0.0, max=None) ** norm)
 
 
 class DynamicSystem:
@@ -28,7 +37,8 @@ class DynamicSystem:
                  controllers, control_vars, control_bounds,
                  aux, etc_vars,
                  integral_criteria, terminal_criterion,
-                 terminal_constraints, phase_constraints):
+                 terminal_constraints, phase_constraints,
+                 pytorch=False):
 
         self._state_vars = state_vars + ['I_integral_{}'.format(i + 1)
                                          for i in range(len(integral_criteria))] + ['phase_{}'.format(i + 1)
@@ -38,9 +48,22 @@ class DynamicSystem:
         self._vars_str = ['t'] + self._state_vars + self._control_vars + self._etc_vars
         self._sym_vars = list(map(symbols, self._vars_str))
 
-        self._integral_criteria = [lambdify(self._sym_vars, parse_expr(c), np) for c in integral_criteria]
+        if not pytorch:
+            libs = {
+                'dummy': [np],
+                'explicit': [np, {'phase': phase_explicit}],
+                'implicit': [np, {'phase': phase_implicit}]
+            }
+        else:
+            libs = {
+                'dummy': [torch],
+                'explicit': [torch, {'phase': phase_explicit_pytorch}],
+                'implicit': [torch, {'phase': phase_implicit_pytorch}]
+            }
+
+        self._integral_criteria = [lambdify(self._sym_vars, parse_expr(c), libs['dummy']) for c in integral_criteria]
         self._terminal_criterion = lambdify(self._sym_vars[:(1 + len(self._state_vars))],
-                                            parse_expr(terminal_criterion), np)
+                                            parse_expr(terminal_criterion), libs['dummy'])
 
         self._initial_conditions = initial_conditions
 
@@ -50,7 +73,7 @@ class DynamicSystem:
         self._f = f
         for v in self._state_vars:
             if not v.startswith('I_integral_') and not v.startswith('phase_'):
-                self._f[v] = lambdify(self._sym_vars, parse_expr(self._f[v]), np)
+                self._f[v] = lambdify(self._sym_vars, parse_expr(self._f[v]), libs['dummy'])
         for i in range(len(integral_criteria)):
             self._f['I_integral_{}'.format(i + 1)] = self._integral_criteria[i]
             self._initial_conditions['I_integral_{}'.format(i + 1)] = 0.0
@@ -61,19 +84,19 @@ class DynamicSystem:
                 self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
                                                              parse_expr('phase({0}, {1}, {2})'.format(self._phase_constraints[i]['equation'],
                                                                                                       self._phase_constraints[i]['penalty'][0],
-                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), [np, {'phase': phase_explicit}])
+                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), libs['explicit'])
             else:
                 self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
                                                              parse_expr('phase({0}, {1}, {2})'.format(self._phase_constraints[i]['equation'],
                                                                                                       self._phase_constraints[i]['penalty'][0],
-                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), [np, {'phase': phase_implicit}])
+                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), libs['implicit'])
             self._initial_conditions['phase_{}'.format(i + 1)] = 0.0
 
         self._aux = aux
         counter = 0
         for v in self._etc_vars:
             self._aux[v] = lambdify(self._sym_vars[:(len(self._sym_vars) - (len(self._etc_vars) - counter))],
-                                    parse_expr(self._aux[v]), np)
+                                    parse_expr(self._aux[v]), libs['dummy'])
             counter += 1
 
         self._sampling_type = sampling_type
@@ -89,7 +112,7 @@ class DynamicSystem:
         self._terminal_constraints = terminal_constraints
         for i in range(len(self._terminal_constraints)):
             self._terminal_constraints[i]['equation'] = lambdify(self._sym_vars[:(len(self._sym_vars) - len(self._etc_vars) - len(self._control_vars))],
-                                                                 parse_expr(self._terminal_constraints[i]['equation']), np)
+                                                                 parse_expr(self._terminal_constraints[i]['equation']), libs['dummy'])
 
     @staticmethod
     def measure_error(v):
