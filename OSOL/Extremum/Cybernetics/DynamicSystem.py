@@ -135,7 +135,7 @@ class DynamicSystem:
 
 
     @classmethod
-    def from_dict(cls, data):
+    def from_dict(cls, data, pytorch=False):
 
         sampling_type = data['sampling_type']
         sampling_eps = data['sampling_eps']
@@ -198,7 +198,7 @@ class DynamicSystem:
                    controllers, control_vars, control_bounds,
                    aux, etc_vars,
                    integral_criterion, terminal_criterion,
-                   terminal_constraints, phase_constraints)
+                   terminal_constraints, phase_constraints, pytorch=pytorch)
 
     def get_aux(self, t, x, u):
         values = [t] + list(x.values()) + list(u.values())
