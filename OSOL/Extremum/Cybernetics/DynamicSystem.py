@@ -4,7 +4,7 @@ from OSOL.Extremum.Cybernetics.Controllers import create_controller_from_dict
 from sympy import symbols, lambdify
 from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
-import torchs
+import torch
 
 
 def phase_explicit(x, penalty, norm):
