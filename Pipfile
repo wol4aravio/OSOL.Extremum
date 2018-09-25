@@ -24,6 +24,8 @@ torch = "==0.4.0"
 jupyter = "*"
 "osol.extremum" = "==0.1.4"
 pylint = "*"
+"flake8" = "*"
+"autopep8" = "*"
 
 [requires]
 python_version = "3.6"
