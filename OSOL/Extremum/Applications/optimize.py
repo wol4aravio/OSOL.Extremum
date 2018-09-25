@@ -36,13 +36,18 @@ def main():
                       help='Reduce final vector or not',
                       action='store_true',
                       default=False)
+    parser.add_option('--addtional',
+                      action='append',
+                      dest='additional_options')
 
     options, _ = parser.parse_args()
 
     output_file = options.output
-    task = create_task_from_json(json.load(open(options.problem, 'r')))
-    algorithm = create_algorithm_from_json(
-        json.load(open(options.algorithm, 'r')))
+    task_json = json.load(open(options.problem, 'r'))
+    for additional in options.additional_options:
+        task_json.update(parse_additional_ops(*additional.split(':')))
+    task = create_task_from_json(task_json)
+    algorithm = create_algorithm_from_json(json.load(open(options.algorithm, 'r')))
     seed_values = options.seed
     mt = MaxTimeTerminator(options.time)
 
