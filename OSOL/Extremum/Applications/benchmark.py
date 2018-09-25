@@ -20,7 +20,8 @@ import numpy as np
 
 def get_process_template(algorithm, terminator):
     process = ['python', 'OSOL/Extremum/Applications/optimize.py',
-               '-A', algorithm, '-T', terminator]
+               '-A', algorithm,
+               '-T', terminator]
     return process
 
 
@@ -100,11 +101,11 @@ def main():
     tasks_folder = options.tasks
     number_of_runs = options.number_of_runs
     result_folder = os.path.join(output_folder, 'results')
-    tasks = sorted(
-        list(filter(lambda f: f.endswith('json'), os.listdir(tasks_folder))))
+    tasks = sorted(list(
+        filter(lambda f: f.endswith('json'),
+               os.listdir(tasks_folder))))
 
-    process_base = get_process_template(
-        options.algorithm, options.working_time)
+    process_base = get_process_template(options.algorithm, options.working_time)
 
     print('>>> Preparing folder')
     if os.path.exists(result_folder):
@@ -119,8 +120,7 @@ def main():
         for i in range(number_of_runs):
             p = process_base.copy()
             p += ['-P', tasks_folder + '/' + task]
-            p += ['-O', os.path.join(result_folder,
-                                     '{0}_{1}.json'.format(task_name, i + 1))]
+            p += ['-O', os.path.join(result_folder, '{0}_{1}.json'.format(task_name, i + 1))]
             processes.append(p)
             counter += 1
 
@@ -138,7 +138,8 @@ def main():
             x_best[kvp['name']] = kvp['value']
         x_best = Vector(x_best)
         f = UnconstrainedOptimization(
-            f=task_json['f'], variables=task_json['vars'])
+            f=task_json['f'], 
+            variables=task_json['vars'])
 
         result_files = list(
             filter(lambda f: task_name in f, os.listdir(result_folder)))
@@ -164,8 +165,8 @@ def main():
     print('>>> Dumping result')
     shutil.copyfile(options.algorithm, os.path.join(
         output_folder, 'config.json'))
-    json.dump(results, open(os.path.join(output_folder,
-                                         'statistics.json'), 'w'), cls=CustomEncoder, indent=2)
+    json.dump(results, 
+              open(os.path.join(output_folder, 'statistics.json'), 'w'), cls=CustomEncoder, indent=2)
     md = create_markdown(results)
     with open(os.path.join(output_folder, 'statistics.md'), 'w') as md_file:
         md_file.write(md)
