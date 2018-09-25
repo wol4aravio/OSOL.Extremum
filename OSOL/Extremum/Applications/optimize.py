@@ -36,7 +36,7 @@ def main():
                       help='Reduce final vector or not',
                       action='store_true',
                       default=False)
-    parser.add_option('--addtional',
+    parser.add_option('--additional',
                       action='append',
                       dest='additional_options')
 
@@ -44,8 +44,9 @@ def main():
 
     output_file = options.output
     task_json = json.load(open(options.problem, 'r'))
-    for additional in options.additional_options:
-        task_json.update(parse_additional_ops(*additional.split(':')))
+    if options.additional_options is not None:
+        for additional in options.additional_options:
+            task_json.update(parse_additional_ops(*additional.split(':')))
     task = create_task_from_json(task_json)
     algorithm = create_algorithm_from_json(json.load(open(options.algorithm, 'r')))
     seed_values = options.seed

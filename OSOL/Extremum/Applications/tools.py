@@ -21,3 +21,33 @@ def create_task_from_json(json_data, pytorch=False):
     else:
         raise Exception('Unsupported Task Type')
     return result
+
+def parse_additional_ops(key, value):
+    if key == 'task_type' or key == 'sampling_type':
+        parsed = value
+    elif key == 'vars':
+        parsed = value.split(',')
+    elif key == 'sampling_eps':
+        parsed = float(value)
+    elif key == 'sampling_max_steps':
+        parsed = int(value)
+    elif key == 'area' or key == 'control_bounds':
+        parsed = []
+        for part in value.split(';'):
+            [k, min_value, max_value] = part.split(',')
+            parsed.append({
+                'name': k,
+                'min': float(min_value),
+                'max': float(max_value)
+            })
+    elif key == 'initial_conditions':
+        parsed = []
+        for part in value.split(','):
+            [k, k_value] = part.split(',')
+            parsed.append({
+                'name': k,
+                'value': float(k_value)
+            })
+    else:
+        raise Exception('Unsupported key: {}'.format(key))
+    return {key: parsed}
