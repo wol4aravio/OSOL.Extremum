@@ -41,7 +41,8 @@ def main():
 
     output_file = options.output
     task = create_task_from_json(json.load(open(options.problem, 'r')))
-    algorithm = create_algorithm_from_json(json.load(open(options.algorithm, 'r')))
+    algorithm = create_algorithm_from_json(
+        json.load(open(options.algorithm, 'r')))
     seed_values = options.seed
     mt = MaxTimeTerminator(options.time)
 
@@ -49,7 +50,8 @@ def main():
     if seed_values is None:
         x = algorithm.work(task['f'], task['area'], mt)
     else:
-        seed_values = [Vector.from_json(json.load(open(f, 'r'))) for f in seed_values.split(',')]
+        seed_values = [Vector.from_json(json.load(open(f, 'r')))
+                       for f in seed_values.split(',')]
         x = algorithm.work(task['f'], task['area'], mt, seed_values)
 
     if options.reduce:
