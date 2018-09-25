@@ -22,7 +22,6 @@ torch = "==0.4.0"
 
 [dev-packages]
 jupyter = "*"
-"osol.extremum" = "==0.1.4"
 pylint = "*"
 "flake8" = "*"
 "autopep8" = "*"
