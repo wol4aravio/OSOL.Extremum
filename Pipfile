@@ -23,6 +23,7 @@ torch = "==0.4.0"
 [dev-packages]
 jupyter = "*"
 "osol.extremum" = "==0.1.4"
+pylint = "*"
 
 [requires]
 python_version = "3.6"
