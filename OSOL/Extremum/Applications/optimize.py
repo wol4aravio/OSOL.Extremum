@@ -36,11 +36,18 @@ def main():
                       help='Reduce final vector or not',
                       action='store_true',
                       default=False)
+    parser.add_option('--additional',
+                      action='append',
+                      dest='additional_options')
 
     options, _ = parser.parse_args()
 
     output_file = options.output
-    task = create_task_from_json(json.load(open(options.problem, 'r')))
+    task_json = json.load(open(options.problem, 'r'))
+    if options.additional_options is not None:
+        for additional in options.additional_options:
+            task_json.update(parse_additional_ops(*additional.split(':')))
+    task = create_task_from_json(task_json)
     algorithm = create_algorithm_from_json(json.load(open(options.algorithm, 'r')))
     seed_values = options.seed
     mt = MaxTimeTerminator(options.time)
@@ -49,7 +56,8 @@ def main():
     if seed_values is None:
         x = algorithm.work(task['f'], task['area'], mt)
     else:
-        seed_values = [Vector.from_json(json.load(open(f, 'r'))) for f in seed_values.split(',')]
+        seed_values = [Vector.from_json(json.load(open(f, 'r')))
+                       for f in seed_values.split(',')]
         x = algorithm.work(task['f'], task['area'], mt, seed_values)
 
     if options.reduce:
