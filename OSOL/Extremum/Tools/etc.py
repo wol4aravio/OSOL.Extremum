@@ -1,7 +1,8 @@
+import numpy as np
+import torch
+
 def constrain_point(x, min_value, max_value):
-    if x < min_value:
-        return min_value
-    elif x > max_value:
-        return max_value
-    else:
-        return x
+	return np.clip(x, min_value, max_value)
+
+def constrain_tensor(x, min_value, max_value):
+	return x.clamp(min=min_value, max=max_value)

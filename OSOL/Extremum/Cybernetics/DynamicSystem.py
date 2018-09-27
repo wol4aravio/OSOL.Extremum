@@ -4,6 +4,7 @@ from OSOL.Extremum.Cybernetics.Controllers import create_controller_from_dict
 from sympy import symbols, lambdify
 from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
+import torch
 
 
 def phase_explicit(x, penalty, norm):
@@ -13,11 +14,19 @@ def phase_explicit(x, penalty, norm):
         return np.power(penalty * max(x, 0.0), norm)
 
 
+def phase_explicit_pytorch(x, penalty, norm):
+    return (penalty * x(min=0.0, max=None)) ** norm
+
+
 def phase_implicit(x, penalty, norm):
     if isinstance(x, Interval):
         return Interval(phase_implicit(x.left, penalty, norm), phase_implicit(x.right, penalty, norm))
     else:
         return penalty * np.power(max(x, 0.0), norm)
+
+
+def phase_implicit_pytorch(x, penalty, norm):
+    return penalty * (x.clamp(min=0.0, max=None) ** norm)
 
 
 class DynamicSystem:
@@ -28,7 +37,8 @@ class DynamicSystem:
                  controllers, control_vars, control_bounds,
                  aux, etc_vars,
                  integral_criteria, terminal_criterion,
-                 terminal_constraints, phase_constraints):
+                 terminal_constraints, phase_constraints,
+                 pytorch=False):
 
         self._state_vars = state_vars + ['I_integral_{}'.format(i + 1)
                                          for i in range(len(integral_criteria))] + ['phase_{}'.format(i + 1)
@@ -37,10 +47,24 @@ class DynamicSystem:
         self._etc_vars = etc_vars
         self._vars_str = ['t'] + self._state_vars + self._control_vars + self._etc_vars
         self._sym_vars = list(map(symbols, self._vars_str))
+        self._is_pytorch = pytorch
 
-        self._integral_criteria = [lambdify(self._sym_vars, parse_expr(c), np) for c in integral_criteria]
+        if not pytorch:
+            libs = {
+                'dummy': [np],
+                'explicit': [np, {'phase': phase_explicit}],
+                'implicit': [np, {'phase': phase_implicit}]
+            }
+        else:
+            libs = {
+                'dummy': [torch],
+                'explicit': [torch, {'phase': phase_explicit_pytorch}],
+                'implicit': [torch, {'phase': phase_implicit_pytorch}]
+            }
+
+        self._integral_criteria = [lambdify(self._sym_vars, parse_expr(c), libs['dummy']) for c in integral_criteria]
         self._terminal_criterion = lambdify(self._sym_vars[:(1 + len(self._state_vars))],
-                                            parse_expr(terminal_criterion), np)
+                                            parse_expr(terminal_criterion), libs['dummy'])
 
         self._initial_conditions = initial_conditions
 
@@ -50,7 +74,7 @@ class DynamicSystem:
         self._f = f
         for v in self._state_vars:
             if not v.startswith('I_integral_') and not v.startswith('phase_'):
-                self._f[v] = lambdify(self._sym_vars, parse_expr(self._f[v]), np)
+                self._f[v] = lambdify(self._sym_vars, parse_expr(self._f[v]), libs['dummy'])
         for i in range(len(integral_criteria)):
             self._f['I_integral_{}'.format(i + 1)] = self._integral_criteria[i]
             self._initial_conditions['I_integral_{}'.format(i + 1)] = 0.0
@@ -61,19 +85,19 @@ class DynamicSystem:
                 self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
                                                              parse_expr('phase({0}, {1}, {2})'.format(self._phase_constraints[i]['equation'],
                                                                                                       self._phase_constraints[i]['penalty'][0],
-                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), [np, {'phase': phase_explicit}])
+                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), libs['explicit'])
             else:
                 self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
                                                              parse_expr('phase({0}, {1}, {2})'.format(self._phase_constraints[i]['equation'],
                                                                                                       self._phase_constraints[i]['penalty'][0],
-                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), [np, {'phase': phase_implicit}])
+                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), libs['implicit'])
             self._initial_conditions['phase_{}'.format(i + 1)] = 0.0
 
         self._aux = aux
         counter = 0
         for v in self._etc_vars:
             self._aux[v] = lambdify(self._sym_vars[:(len(self._sym_vars) - (len(self._etc_vars) - counter))],
-                                    parse_expr(self._aux[v]), np)
+                                    parse_expr(self._aux[v]), libs['dummy'])
             counter += 1
 
         self._sampling_type = sampling_type
@@ -89,7 +113,7 @@ class DynamicSystem:
         self._terminal_constraints = terminal_constraints
         for i in range(len(self._terminal_constraints)):
             self._terminal_constraints[i]['equation'] = lambdify(self._sym_vars[:(len(self._sym_vars) - len(self._etc_vars) - len(self._control_vars))],
-                                                                 parse_expr(self._terminal_constraints[i]['equation']), np)
+                                                                 parse_expr(self._terminal_constraints[i]['equation']), libs['dummy'])
 
     @staticmethod
     def measure_error(v):
@@ -103,6 +127,10 @@ class DynamicSystem:
             return np.abs(v)
 
     @staticmethod
+    def measure_error_tensor(v):
+        return torch.abs(v)
+
+    @staticmethod
     def constrain(v, min_max):
         if isinstance(v, Interval):
             return Interval(DynamicSystem.constrain(v.left, min_max),
@@ -110,9 +138,12 @@ class DynamicSystem:
         else:
             return np.clip(v, min_max[0], min_max[1])
 
+    @staticmethod
+    def constrain_tensor(v, min_max):
+        return v.clamp(min=min_max[0], max=min_max[1])
 
     @classmethod
-    def from_dict(cls, data):
+    def from_dict(cls, data, pytorch=False):
 
         sampling_type = data['sampling_type']
         sampling_eps = data['sampling_eps']
@@ -175,7 +206,7 @@ class DynamicSystem:
                    controllers, control_vars, control_bounds,
                    aux, etc_vars,
                    integral_criterion, terminal_criterion,
-                   terminal_constraints, phase_constraints)
+                   terminal_constraints, phase_constraints, pytorch=pytorch)
 
     def get_aux(self, t, x, u):
         values = [t] + list(x.values()) + list(u.values())
@@ -228,17 +259,26 @@ class DynamicSystem:
             self._controllers[v].set_parameters(params)
         eps = self._sampling_eps
         max_steps = self._sampling_max_steps
-        x0 = dict([(v, self._initial_conditions[v]) for v in self._state_vars])
-        times = [0.0]
-        states = [x0]
+        if not self._is_pytorch:
+            times = [0.0]
+            states = [dict([(v, self._initial_conditions[v]) for v in self._state_vars])]
+        else:
+            times = [torch.tensor([0.0], dtype=torch.float32, requires_grad=True)]
+            states = [dict([(v, torch.tensor([self._initial_conditions[v]], dtype=torch.float32, requires_grad=True))
+                      for v in self._state_vars])]
         controls = []
         errors_terminal_state = 0.0
         for step_id in range(1, max_steps + 1):
             t = times[-1]
             x = states[-1]
             u = dict([self._controllers[v].get_control(t, x) for v in self._control_vars])
-            for v in self._control_vars:
-                u[v] = DynamicSystem.constrain(u[v], self._control_bounds[v])
+            if not self._is_pytorch:
+                for v in self._control_vars:
+                    u[v] = DynamicSystem.constrain(u[v], self._control_bounds[v])
+            else:
+                for v in self._control_vars:
+                    u[v] = DynamicSystem.constrain_tensor(u[v], self._control_bounds[v])
+                    u[v].retain_grad()
             a = self.get_aux(t, x, u)
             x_next = self._prolong(t, x, u, a, eps)
             times.append(t + eps)
@@ -254,13 +294,22 @@ class DynamicSystem:
                     norm = constraint['norm']
 
                     values = [times[-1]] + list(x_next.values())
-                    error = DynamicSystem.measure_error(eq(*values))
+                    if not self._is_pytorch:
+                        error = DynamicSystem.measure_error(eq(*values))
+                    else:
+                        error = DynamicSystem.measure_error_tensor(eq(*values))
                     if error > max_error:
                         stop = False
-                    if penalty_type == "explicit":
-                        errors_terminal_state.append(np.power(penalty * error, float(norm[1:])))
+                    if not self._is_pytorch:
+                        if penalty_type == "explicit":
+                            errors_terminal_state.append(np.power(penalty * error, float(norm[1:])))
+                        else:
+                            errors_terminal_state.append(penalty * np.power(error, float(norm[1:])))
                     else:
-                        errors_terminal_state.append(penalty * np.power(error, float(norm[1:])))
+                        if penalty_type == "explicit":
+                            errors_terminal_state.append(torch.pow(penalty * error, float(norm[1:])))
+                        else:
+                            errors_terminal_state.append(penalty * torch.pow(error, float(norm[1:])))
                 if stop:
                     break
         I_integral = [states[-1]['I_integral_{}'.format(i + 1)] for i in range(len(self._integral_criteria))]
@@ -275,5 +324,5 @@ class DynamicSystem:
             if c.penalty == 0.0:
                 controller_variance.append(0.0)
             else:
-                controller_variance.append(c.penalty * c.get_measure_variance(times, states))
+                controller_variance.append(c.penalty * c.get_measure_variance(times, states, self._is_pytorch))
         return times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance

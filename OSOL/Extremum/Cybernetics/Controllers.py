@@ -1,14 +1,18 @@
 from sympy import symbols, lambdify
 from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
+import torch
 
 
-def piecewise_variance_measure(switch_points, controls, Lp):
+def piecewise_variance_measure(switch_points, controls, Lp, pytorch=False):
     nu = 0.0
     for i in range(len(switch_points) - 1):
         tau = switch_points[i + 1] - switch_points[i]
         delta = controls[i + 1] - controls[i]
-        nu += np.power(np.abs(delta / tau), Lp)
+        if not pytorch:
+            nu += np.power(np.abs(delta / tau), Lp)
+        else:
+            nu += torch.pow(torch.abs(delta / tau), Lp)
     return nu
 
 
@@ -31,8 +35,8 @@ class PiecewiseConstantController:
         control = [c for (tau, c) in timed_control if tau <= t][-1]
         return self.control_name, control
 
-    def get_measure_variance(self, t, x):
-        return piecewise_variance_measure(self.switch_points, self.controls, self.variance_power)
+    def get_measure_variance(self, t, x, pytorch=False):
+        return piecewise_variance_measure(self.switch_points, self.controls, self.variance_power, pytorch)
 
 
 class PiecewiseLinearController:
@@ -60,8 +64,8 @@ class PiecewiseLinearController:
             control = self.controls[-1]
         return self.control_name, control
 
-    def get_measure_variance(self, t, x):
-        return piecewise_variance_measure(self.switch_points, self.controls, self.variance_power)
+    def get_measure_variance(self, t, x, pytorch=False):
+        return piecewise_variance_measure(self.switch_points, self.controls, self.variance_power, pytorch)
 
 
 class ExplicitController:
@@ -95,8 +99,8 @@ class ExplicitController:
         self.generated_controls.append(control)
         return self.control_name, control
 
-    def get_measure_variance(self, t, x):
-        return piecewise_variance_measure(t[:-1], self.generated_controls, self.variance_power)
+    def get_measure_variance(self, t, x, pytorch=False):
+        return piecewise_variance_measure(t[:-1], self.generated_controls, self.variance_power, pytorch)
 
 
 def create_controller_from_dict(data):
@@ -121,3 +125,24 @@ def create_controller_from_dict(data):
         return ExplicitController(data['name'], data['formula'], data['vars'], data['param_names'], penalty, variance_power)
     else:
         raise Exception('Unsupported Controller')
+
+
+def convert_controller(controller, **params):
+    target_dict = {}
+    target_dict['penalty'] = params.get('penalty', 0.0)
+    target_dict['variance_power'] = params.get('variance_power', 1.0)
+    if 'type' not in params or 'name' not in params:
+        raise Exception('No type or name')
+    else:
+        target_dict['type'] = params.get('type')
+        target_dict['name'] = params.get('name')
+        if target_dict['type'] == 'explicit':
+            raise Exception('Currently conversion to explicit controller is not supported')
+        elif target_dict['type'] == 'piecewise_linear' or target_dict['type'] == 'piecewise_constant':
+            target_dict['switch_points'] = params.get('switch_points')
+            target_dict['controls'] = []
+            for t in target_dict['switch_points']:
+                target_dict['controls'].append(controller.get_control(t, x=None)[-1])
+        else:
+            raise Exception('Unknown target type {}'.format(target_dict['type']))
+        return create_controller_from_dict(target_dict)
