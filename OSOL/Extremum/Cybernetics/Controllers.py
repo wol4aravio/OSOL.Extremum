@@ -127,7 +127,7 @@ def create_controller_from_dict(data):
         raise Exception('Unsupported Controller')
 
 
-def convert(controller, **params):
+def convert_controller(controller, **params):
     target_dict = {}
     target_dict['penalty'] = params.get('penalty', 0.0)
     target_dict['variance_power'] = params.get('variance_power', 1.0)
@@ -142,7 +142,7 @@ def convert(controller, **params):
             target_dict['switch_points'] = params.get('switch_points')
             target_dict['controls'] = []
             for t in target_dict['switch_points']:
-                target_dict['controls'].append(controller.get_control(t, x=None))
+                target_dict['controls'].append(controller.get_control(t, x=None)[-1])
         else:
             raise Exception('Unknown target type {}'.format(target_dict['type']))
         return create_controller_from_dict(target_dict)
