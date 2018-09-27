@@ -1,4 +1,5 @@
 from OSOL.Extremum.Optimization.Algorithms.Algorithm import Algorithm
+from OSOL.Extremum.Optimization.Algorithms.tools import generate_random_point_in_rectangular
 from OSOL.Extremum.Numerical_Objects.Vector import Vector
 
 import numpy as np
@@ -43,12 +44,8 @@ class SimulatedAnnealing(Algorithm):
     def initialize(self, f, area, seed):
         self._T = self._init_temperature
         if seed is None:
-            point = {}
-            for k, (left, right) in area.items():
-                point[k] = np.random.uniform(left, right)
-            point = Vector(point)
-            self._x = point
-            self._f_x = f(point)
+            self._x = generate_random_point_in_rectangular(area)
+            self._f_x = f(self._x)
         else:
             if isinstance(seed, list):
                 self._x = sorted(seed, key=lambda v: f(v))[0]

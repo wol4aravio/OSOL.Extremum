@@ -1,17 +1,11 @@
 from OSOL.Extremum.Optimization.Algorithms.Algorithm import Algorithm
+from OSOL.Extremum.Optimization.Algorithms.tools import generate_random_point_in_sphere
 from OSOL.Extremum.Numerical_Objects.Vector import Vector
 
 import numpy as np
 
 
 class AdaptiveRandomSearch(Algorithm):
-
-    @staticmethod
-    def generate_random_point_in_sphere(current_point, radius, area):
-        normally_distributed = Vector({k: v for k, v in zip(area.keys(), np.random.normal(0.0, 1.0, len(area)))})
-        length = np.sqrt(sum(np.array(normally_distributed.values) ** 2))
-        shift = (np.random.uniform(0.0, radius) / length) * normally_distributed
-        return (current_point + shift).constrain(area)
 
     def __init__(self, init_radius, factor_small, factor_huge, frequency, max_no_change):
         self._x = None
@@ -90,7 +84,7 @@ class AdaptiveRandomSearch(Algorithm):
         iteration_id = self._iteration_id
         frequency = self._frequency
 
-        self._x_new_1 = AdaptiveRandomSearch.generate_random_point_in_sphere(x, radius, area)
+        self._x_new_1 = generate_random_point_in_sphere(x, radius, area)
         self._f_x_new_1 = f(self._x_new_1)
 
         if iteration_id % frequency == 0:
@@ -98,7 +92,7 @@ class AdaptiveRandomSearch(Algorithm):
         else:
             self._radius_huge = radius * factor_small
 
-        self._x_new_2 = AdaptiveRandomSearch.generate_random_point_in_sphere(x, self._radius_huge, area)
+        self._x_new_2 = generate_random_point_in_sphere(x, self._radius_huge, area)
         self._f_x_new_2 = f(self._x_new_2)
 
         return self.modify_radius
