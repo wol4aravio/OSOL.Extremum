@@ -19,7 +19,9 @@ import numpy as np
 
 
 def get_process_template(algorithm, terminator):
-    process = ['python', 'OSOL/Extremum/Applications/optimize.py', '-A', algorithm, '-T', terminator]
+    process = ['python', 'OSOL/Extremum/Applications/optimize.py',
+               '-A', algorithm,
+               '-T', terminator]
     return process
 
 
@@ -99,7 +101,9 @@ def main():
     tasks_folder = options.tasks
     number_of_runs = options.number_of_runs
     result_folder = os.path.join(output_folder, 'results')
-    tasks = sorted(list(filter(lambda f: f.endswith('json'), os.listdir(tasks_folder))))
+    tasks = sorted(list(
+        filter(lambda f: f.endswith('json'),
+               os.listdir(tasks_folder))))
 
     process_base = get_process_template(options.algorithm, options.working_time)
 
@@ -121,7 +125,8 @@ def main():
             counter += 1
 
     print('>>> Running optimization tasks')
-    Parallel(n_jobs=options.parallel)(delayed(subprocess.call)(p) for p in processes)
+    Parallel(n_jobs=options.parallel)(delayed(subprocess.call)(p)
+                                      for p in processes)
 
     print('>>> Gathering statistics')
     results = {}
@@ -132,17 +137,22 @@ def main():
         for kvp in task_json['solution']:
             x_best[kvp['name']] = kvp['value']
         x_best = Vector(x_best)
-        f = UnconstrainedOptimization(f=task_json['f'], variables=task_json['vars'])
+        f = UnconstrainedOptimization(
+            f=task_json['f'], 
+            variables=task_json['vars'])
 
-        result_files = list(filter(lambda f: task_name in f, os.listdir(result_folder)))
-        filtered_results = sorted(list(filter(lambda f: 'real' in f, result_files)))
+        result_files = list(
+            filter(lambda f: task_name in f, os.listdir(result_folder)))
+        filtered_results = sorted(
+            list(filter(lambda f: 'real' in f, result_files)))
         if len(filtered_results) > 0:
             result_files = filtered_results
 
         results[task_name] = {'values': np.zeros(shape=(len(result_files), )), 'points': [],
                               'x*': x_best, 'f*': f(x_best)}
         for i, rf in enumerate(result_files):
-            x = Vector.from_json(json.load(open(os.path.join(result_folder, rf), 'r')))
+            x = Vector.from_json(
+                json.load(open(os.path.join(result_folder, rf), 'r')))
             results[task_name]['points'].append(x)
             results[task_name]['values'][i] = f(x)
 
@@ -153,8 +163,10 @@ def main():
         results[task_name]['values'] = list(results[task_name]['values'])
 
     print('>>> Dumping result')
-    shutil.copyfile(options.algorithm, os.path.join(output_folder, 'config.json'))
-    json.dump(results, open(os.path.join(output_folder, 'statistics.json'), 'w'), cls=CustomEncoder, indent=2)
+    shutil.copyfile(options.algorithm, os.path.join(
+        output_folder, 'config.json'))
+    json.dump(results, 
+              open(os.path.join(output_folder, 'statistics.json'), 'w'), cls=CustomEncoder, indent=2)
     md = create_markdown(results)
     with open(os.path.join(output_folder, 'statistics.md'), 'w') as md_file:
         md_file.write(md)

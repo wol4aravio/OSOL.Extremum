@@ -6,6 +6,8 @@ from OSOL.Extremum.Optimization.Algorithms.RandomSearchWithStatisticalAntiGradie
 from OSOL.Extremum.Optimization.Algorithms.LuusJaakolaOptimization import LuusJaakolaOptimization
 from OSOL.Extremum.Optimization.Algorithms.ModifiedHybridRandomSearch import ModifiedHybridRandomSearch
 from OSOL.Extremum.Optimization.Algorithms.ModifiedHybridMemeticAlgorithm import ModifiedHybridMemeticAlgorithm
+from OSOL.Extremum.Optimization.Algorithms.DolphinSwarm import DolphinSwarm
+from OSOL.Extremum.Optimization.Algorithms.GradientDescent import GradientDescent
 
 
 def create_algorithm_from_json(json_data):
@@ -25,5 +27,9 @@ def create_algorithm_from_json(json_data):
         return ModifiedHybridRandomSearch.from_json(json_data)
     elif 'ModifiedHybridMemeticAlgorithm' in json_data:
         return ModifiedHybridMemeticAlgorithm.from_json(json_data)
+    elif 'DolphinSwarm' in json_data:
+        return DolphinSwarm.from_json(json_data)
+    elif 'GradientDescent' in json_data:
+        return GradientDescent.from_json(json_data)
     else:
         raise Exception('Unsupported Optimization Algorithm')
