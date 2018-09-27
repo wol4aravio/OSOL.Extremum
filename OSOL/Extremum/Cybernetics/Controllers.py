@@ -131,10 +131,11 @@ def convert(controller, **params):
     target_dict = {}
     target_dict['penalty'] = params.get('penalty', 0.0)
     target_dict['variance_power'] = params.get('variance_power', 1.0)
-    if 'type' not in params:
-        raise Exception('No type is provided')
+    if 'type' not in params or 'name' not in params:
+        raise Exception('No type or name')
     else:
         target_dict['type'] = params.get('type')
+        target_dict['name'] = params.get('name')
         if target_dict['type'] == 'explicit':
             raise Exception('Currently conversion to explicit controller is not supported')
         elif target_dict['type'] == 'piecewise_linear' or target_dict['type'] == 'piecewise_constant':
