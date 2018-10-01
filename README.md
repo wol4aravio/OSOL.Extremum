@@ -5,11 +5,13 @@
 [![Docs](https://readthedocs.org/projects/osolextremum/badge/?version=latest)](https://readthedocs.org/projects/osolextremum/badge/?version=latest)
 
 <p align="center">
-<b> [Open-Source Optimization Library - Extremum](https://osolextremum.readthedocs.io) </b>
+<b> Open-Source Optimization Library - Extremum </b>
 </p>
 
 <p align="justify">
 Optimization theory is a widely-used field of mathematics that can be applied to different tasks: pure engineering problems (e.g., obtaining optimal wing shape), control synthesis tasks (e.g., determination of optimal guidance of aircraft), and even machine learning (e.g., training procedures of neural networks). Currently mostly all applied software systems support optimization procedures in a very limited form. This fact leads to several problems: black-box effect (i.e., there is no opportunity to explore source code, modify it, or simply verify), no code reuse (i.e., implemented procedures are accessible only within software that includes it), limitation of modern optimization algorithm application (i.e., number of optimization algorithms increases but most of them were verified only on synthetic tests). Also, it should be noted that all mentioned problems lead to so‑called reproducibility crisis. The main idea of this work is to suggest an Open-Source Optimization Library Extremum (OSOL Extremum) with wide API features.
+
+[Documentation](https://osolextremum.readthedocs.io)
 </p>
 
 # Contents
