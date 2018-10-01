@@ -21,10 +21,11 @@ joblib = "*"
 torch = "==0.4.0"
 
 [dev-packages]
-jupyter = "*"
 pylint = "*"
 "flake8" = "*"
 "autopep8" = "*"
+sphinx = "*"
+sphinx-autobuild = "*"
 
 [requires]
 python_version = "3.6"
