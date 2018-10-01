@@ -5,7 +5,7 @@
 [![Docs](https://readthedocs.org/projects/osolextremum/badge/?version=latest)](https://readthedocs.org/projects/osolextremum/badge/?version=latest)
 
 <p align="center">
-<b> Open-Source Optimization Library - Extremum </b>
+<b> [Open-Source Optimization Library - Extremum](https://osolextremum.readthedocs.io) </b>
 </p>
 
 <p align="justify">
