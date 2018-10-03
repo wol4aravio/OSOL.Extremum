@@ -1,18 +1,14 @@
-Welcome to OSOL.Extremum
-===================================================
-
-Welcome to the Open Source Optimization Library "Extremum" documentation: `OSOL.Extremum
-<https://github.com/wol4aravio/OSOL.Extremum>`_.
-
-Topics
-===================================================
+Welcome to OSOL.Extremum's documentation!
+=========================================
 
 .. toctree::
-   :maxdepth: 3
-   install
+   :maxdepth: 7
+   :caption: Contents:
+   
+   source/modules
 
 Indices and tables
-===================================================
+==================
 
 * :ref:`genindex`
 * :ref:`modindex`
