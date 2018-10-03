@@ -12,7 +12,8 @@ install:
   - pip install pipenv
   - pip install twine
   - pip install codacy-coverage
-  - pipenv install
+  - pipenv install --skip-lock
+  - pipenv install --dev --skip-lock
 script:
   - pipenv run pytest -n 2 -s --cov=./
   - coverage xml

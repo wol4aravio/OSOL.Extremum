@@ -3,24 +3,19 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
-[[source]]
-url = "https://test.pypi.org/simple"
-verify_ssl = true
-name = "test_pypi"
-
 [packages]
-pytest = "*"
-pytest-cov = "*"
 numpy = "*"
 sympy = "*"
-pytest-xdist = "*"
 pandas = "*"
 grip = "*"
-pipenv-to-requirements = "*"
 joblib = "*"
 torch = "==0.4.0"
 
 [dev-packages]
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
+pipenv-to-requirements = "*"
 pylint = "*"
 "flake8" = "*"
 "autopep8" = "*"
