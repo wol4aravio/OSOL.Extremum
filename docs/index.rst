@@ -2,8 +2,9 @@ Welcome to OSOL.Extremum's documentation!
 =========================================
 
 .. toctree::
-   :maxdepth: 7
-   :caption: Contents:
+    :maxdepth: 2
+
+    OSOL.Extremum
 
 Indices and tables
 ==================
