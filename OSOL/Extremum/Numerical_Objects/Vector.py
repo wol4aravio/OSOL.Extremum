@@ -9,8 +9,6 @@ import math
 
 
 class Vector:
-    """ Vector class
-    """
 
     def __init__(self, values, is_pytorch=False):
         self._values = values

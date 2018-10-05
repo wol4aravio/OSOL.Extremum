@@ -10,15 +10,6 @@ config.read('OSOL/Extremum/Numerical_Objects/config.ini')
 
 
 class Interval:
-    """This class represents an ordinary interval object [a; b]
-
-    :param lower_bound: lower bound `a`
-    :type lower_bound: float
-
-    :param upper_bound: lower bound `b`
-    :type upper_bound: float
-    
-    """
 
     try:
         __MIN_WIDTH = float(config.get('interval', 'min_width'))
