@@ -19,8 +19,6 @@ pipenv-to-requirements = "*"
 pylint = "*"
 "flake8" = "*"
 "autopep8" = "*"
-sphinx = "*"
-sphinx-autobuild = "*"
 
 [requires]
 python_version = "3.6"
