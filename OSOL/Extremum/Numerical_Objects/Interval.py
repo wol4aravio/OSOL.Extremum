@@ -11,11 +11,7 @@ config.read('OSOL/Extremum/Numerical_Objects/config.ini')
 
 class Interval:
 
-    try:
-        __MIN_WIDTH = float(config.get('interval', 'min_width'))
-    except Exception:
-        warnings.warn('Can not parse config.ini file. Setting default __MIN_WIDTH = 1e-3')
-        __MIN_WIDTH = 1e-3
+    __MIN_WIDTH = 1e-3
 
     def __init__(self, lower_bound, upper_bound):
         self._lower_bound = lower_bound
@@ -42,7 +38,7 @@ class Interval:
             return 0.5 * (lower_bound + lower_bound)
         else:
             return Interval(lower_bound, upper_bound)
-    
+
     @property
     def left(self):
         return self._lower_bound
