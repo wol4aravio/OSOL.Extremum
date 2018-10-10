@@ -1,9 +1,6 @@
 from OSOL.Extremum.Optimization.Algorithms.Algorithm import Algorithm
 from OSOL.Extremum.Optimization.Terminators.MaxTimeTerminator import MaxTimeTerminator
-from OSOL.Extremum.Optimization.Algorithms.tools import generate_random_point_in_rectangular
-from OSOL.Extremum.Numerical_Objects.Vector import Vector
-
-import numpy as np
+from OSOL.Extremum.Optimization.Algorithms.tools import generate_random_point_in_rectangular, get_best_point_from_seed
 
 
 class ModifiedHybridRandomSearch(Algorithm):
@@ -45,14 +42,9 @@ class ModifiedHybridRandomSearch(Algorithm):
     def initialize(self, f, area, seed):
         if seed is None:
             self._x = generate_random_point_in_rectangular(area)
-            self._f_x = f(self._x)
         else:
-            if isinstance(seed, list):
-                self._x = sorted(seed, key=lambda v: f(v))[0]
-                self._f_x = f(self._x)
-            else:
-                self._x = seed
-                self._f_x = f(self._x)
+            self._x = get_best_point_from_seed(seed)
+        self._f_x = f(self._x)
 
     def make_one_run(self, f, area):
         x = self._x
