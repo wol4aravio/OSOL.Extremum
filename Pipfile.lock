@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b9788f56a09023850995de67f3ca8494e06af04ea55252a31676264a1937a72a"
+            "sha256": "cab9dd045a301d7135f365d3ceaadabfa14dd5f0974556de59601fc76c256502"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -409,11 +409,12 @@
         },
         "pipenv": {
             "hashes": [
-                "sha256:6ecf60c66187c6ca25a2dcd095036aba07539354a5011d94805fbfc5932582b0",
-                "sha256:bb6bd074f853d9bab675942226a785a64d4fc42b5847538755e9573f5b77f63a",
-                "sha256:d4b1aea904ae1488b7060137059642246baae709232f4536ad723ce216e4b540"
+                "sha256:14d52f5dfbeb71e16403909c286ffebbc750ba24f27f4d0324c0c526f632d3c2",
+                "sha256:4cfa1a524c84eba454c56eab42d7bf6e8b18046f13fe6ffdd6c3badcadaf9b75",
+                "sha256:92e0c79ed941988f817e47611eae163508dd5e658a905da9aa0677b995531a2c"
             ],
-            "version": "==2018.7.1"
+            "markers": "python_version >= '2.7' and python_version != '3.0.*' and python_version != '3.1.*' and python_version != '3.2.*' and python_version != '3.3.*'",
+            "version": "==2018.10.9"
         },
         "pipenv-to-requirements": {
             "hashes": [
@@ -490,6 +491,13 @@
             ],
             "index": "pypi",
             "version": "==1.23.2"
+        },
+        "rope": {
+            "hashes": [
+                "sha256:a108c445e1cd897fe19272ab7877d172e7faf3d4148c80e7d20faba42ea8f7b2"
+            ],
+            "index": "pypi",
+            "version": "==0.11.0"
         },
         "six": {
             "hashes": [

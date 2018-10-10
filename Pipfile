@@ -19,6 +19,7 @@ pipenv-to-requirements = "*"
 pylint = "*"
 "flake8" = "*"
 "autopep8" = "*"
+rope = "*"
 
 [requires]
 python_version = "3.6"
