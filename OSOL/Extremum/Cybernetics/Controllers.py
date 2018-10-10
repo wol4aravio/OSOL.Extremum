@@ -16,7 +16,7 @@ def piecewise_variance_measure(switch_points, controls, Lp, pytorch=False):
     return nu
 
 
-class PiecewiseConstantController:
+class PiecewiseController:
 
     def __init__(self, control_name, switch_points, controls, penalty=0.0, variance_power=1):
         self.control_name = control_name
@@ -29,6 +29,12 @@ class PiecewiseConstantController:
         param_names = ['{0}_{1}'.format(self.control_name, i) for i in range(len(self.switch_points))]
         self.controls = list(map(lambda n: parameters[n], param_names))
         return
+
+
+class PiecewiseConstantController(PiecewiseController):
+
+    def __init__(self, control_name, switch_points, controls, penalty=0.0, variance_power=1):
+        super().__init__(control_name, switch_points, controls, penalty, variance_power)
 
     def get_control(self, t, x):
         timed_control = list(zip(self.switch_points, self.controls))
@@ -39,19 +45,10 @@ class PiecewiseConstantController:
         return piecewise_variance_measure(self.switch_points, self.controls, self.variance_power, pytorch)
 
 
-class PiecewiseLinearController:
+class PiecewiseLinearController(PiecewiseController):
 
     def __init__(self, control_name, switch_points, controls, penalty=0.0, variance_power=1):
-        self.control_name = control_name
-        self.switch_points = switch_points
-        self.controls = controls
-        self.penalty = penalty
-        self.variance_power = variance_power
-
-    def set_parameters(self, parameters):
-        param_names = ['{0}_{1}'.format(self.control_name, i) for i in range(len(self.switch_points))]
-        self.controls = list(map(lambda n: parameters[n], param_names))
-        return
+        super().__init__(control_name, switch_points, controls, penalty, variance_power)
 
     def get_control(self, t, x):
         time_intervals = list(zip(self.switch_points[:-1], self.switch_points[1:]))
@@ -70,10 +67,10 @@ class PiecewiseLinearController:
 
 class ExplicitController:
 
-    def __init__(self, control_name, formula, vars, param_names, penalty=0.0, variance_power=1):
+    def __init__(self, control_name, formula, variables, param_names, penalty=0.0, variance_power=1):
         self.control_name = control_name
-        sym_vars = list(map(symbols, vars + param_names))
-        self.vars = vars
+        sym_vars = list(map(symbols, variables + param_names))
+        self.variables = variables
         self.param_names = param_names
         self.generated_controls = []
         self.parameters = None
@@ -88,7 +85,7 @@ class ExplicitController:
 
     def get_control(self, t, x):
         args = []
-        for v in self.vars:
+        for v in self.variables:
             if v == 't':
                 args.append(t)
             elif v in x:
