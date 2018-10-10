@@ -81,16 +81,13 @@ class DynamicSystem:
 
         self._phase_constraints = phase_constraints
         for i in range(len(self._phase_constraints)):
-            if self._phase_constraints[i]['penalty'][1] == "explicit":
-                self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
-                                                             parse_expr('phase({0}, {1}, {2})'.format(self._phase_constraints[i]['equation'],
-                                                                                                      self._phase_constraints[i]['penalty'][0],
-                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), libs['explicit'])
-            else:
-                self._f['phase_{}'.format(i + 1)] = lambdify(self._sym_vars,
-                                                             parse_expr('phase({0}, {1}, {2})'.format(self._phase_constraints[i]['equation'],
-                                                                                                      self._phase_constraints[i]['penalty'][0],
-                                                                                                      float(self._phase_constraints[i]['norm'][1:]))), libs['implicit'])
+            lib_id = self._phase_constraints[i]['penalty'][1]
+            self._f['phase_{}'.format(i + 1)] = lambdify(
+                self._sym_vars,
+                parse_expr('phase({0}, {1}, {2})'.format(
+                    self._phase_constraints[i]['equation'],
+                    self._phase_constraints[i]['penalty'][0],
+                    float(self._phase_constraints[i]['norm'][1:]))), libs[lib_id])
             self._initial_conditions['phase_{}'.format(i + 1)] = 0.0
 
         self._aux = aux
@@ -268,7 +265,7 @@ class DynamicSystem:
                       for v in self._state_vars])]
         controls = []
         errors_terminal_state = 0.0
-        for step_id in range(1, max_steps + 1):
+        for _ in range(1, max_steps + 1):
             t = times[-1]
             x = states[-1]
             u = dict([self._controllers[v].get_control(t, x) for v in self._control_vars])
