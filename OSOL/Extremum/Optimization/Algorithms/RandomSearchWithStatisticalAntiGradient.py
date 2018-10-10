@@ -42,7 +42,7 @@ class RandomSearchWithStatisticalAntiGradient(Algorithm):
         if seed is None:
             self._x = generate_random_point_in_rectangular(area)
         else:
-            self._x = get_best_point_from_seed(seed)
+            self._x = get_best_point_from_seed(seed, f)
         self._f_x = f(self._x)
 
     def generate_new_point(self, f, area):

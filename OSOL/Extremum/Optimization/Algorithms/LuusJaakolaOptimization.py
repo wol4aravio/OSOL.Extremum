@@ -60,7 +60,7 @@ class LuusJaakolaOptimization(Algorithm):
             self._x = generate_random_point_in_rectangular(area)
             self._f_x = f(self._x)
         else:
-            self._x = get_best_point_from_seed(seed)
+            self._x = get_best_point_from_seed(seed, f)
             self._f_x = f(self._x)
 
     def initialize_radius_on_run(self, f, area):

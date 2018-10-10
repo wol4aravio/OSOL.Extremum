@@ -17,7 +17,7 @@ def generate_random_point_in_sphere(current_point, radius, area):
 def distance_between_vectors(v1, v2):
     return math.sqrt(sum(map(lambda v: v ** 2, (v2 - v1).values)))
 
-def get_best_point_from_seed(seed):
+def get_best_point_from_seed(seed, f):
     if isinstance(seed, list):
         point = sorted(seed, key=f)[0]
     else:
