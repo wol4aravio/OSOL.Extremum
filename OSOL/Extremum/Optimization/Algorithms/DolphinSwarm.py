@@ -81,7 +81,7 @@ class DolphinSwarm(Algorithm):
             else:
                 self._dolphins = seed
             if len(self._dolphins) < self._number_of_dolphins:
-                for i in range(len(self._dolphins), self._number_of_dolphins):
+                for _ in range(len(self._dolphins), self._number_of_dolphins):
                     self._dolphins.append(generate_random_point_in_rectangular(area))
 
         self._dolphins_K = [d.copy() for d in self._dolphins]

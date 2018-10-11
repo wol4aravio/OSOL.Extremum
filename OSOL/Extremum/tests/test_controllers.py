@@ -86,16 +86,16 @@ def test_controller_conversion():
     pwl = create_dummy_pwl()
 
     pwc_reduced = convert_controller(
-        pwc, 
-        type='piecewise_constant', 
-        name=pwc.control_name, 
+        pwc,
+        type='piecewise_constant',
+        name=pwc.control_name,
         switch_points = np.linspace(0.0, 1.0, 6)[:-1])
 
     pwl_expanded = convert_controller(
-        pwl, 
-        type='piecewise_linear', 
-        name=pwc.control_name, 
+        pwl,
+        type='piecewise_linear',
+        name=pwc.control_name,
         switch_points = np.linspace(0.0, 1.0, 21))
-    
+
     assert pwc.controls[::2] == pwc_reduced.controls
     assert pwl_expanded.controls[::2] == pwl.controls

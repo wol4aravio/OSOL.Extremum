@@ -128,7 +128,7 @@ def main():
 
     print('>>> Gathering statistics')
     results = {}
-    for task_id, task in enumerate(tasks):
+    for _, task in enumerate(tasks):
         task_name = task[:-5]
         task_json = json.load(open(os.path.join(tasks_folder, task), 'r'))
         x_best = {}

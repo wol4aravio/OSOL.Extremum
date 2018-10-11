@@ -29,7 +29,7 @@ class DummyOptimization(Algorithm):
 
     def initialize(self, f, area, seed):
         self.points = []
-        for i in range(self.N):
+        for _ in range(self.N):
             point = {}
             for k, (left, right) in area.items():
                 if np.random.uniform(-1.0, 1.0) < 0.0:
@@ -38,7 +38,7 @@ class DummyOptimization(Algorithm):
                     [p1, p2] = sorted(np.random.uniform(left, right, (1, 2))[0])
                     point[k] = Interval.create_valid_interval(lower_bound=p1, upper_bound=p2)
             self.points.append(Vector(point))
-        self.points = sorted(self.points, key=lambda x: f(x))
+        self.points = sorted(self.points, key=f)
         self.best = self.points[0]
 
         self.delta_area = {}
@@ -51,7 +51,7 @@ class DummyOptimization(Algorithm):
         for x in self.points[1:]:
             delta = {k: np.random.uniform(left, right) for k, (left, right) in self.delta_area.items()}
             new_points += (x >> delta).bisect()
-        self.points = sorted(new_points + self.best.bisect(), key=lambda v: f(v))[:self.N]
+        self.points = sorted(new_points + self.best.bisect(), key=f)[:self.N]
         self.best = self.points[0]
         return self.generate_new_points
 

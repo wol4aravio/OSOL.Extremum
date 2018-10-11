@@ -3,8 +3,6 @@ from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
 import torch
 
-import json
-
 
 class UnconstrainedOptimization:
 

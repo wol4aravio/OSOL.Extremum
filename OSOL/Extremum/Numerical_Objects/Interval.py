@@ -1,7 +1,6 @@
 from OSOL.Extremum.Tools.etc import constrain_point
 
 from configparser import ConfigParser
-import warnings
 import math
 
 

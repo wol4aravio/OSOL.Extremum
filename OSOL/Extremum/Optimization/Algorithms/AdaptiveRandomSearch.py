@@ -2,8 +2,6 @@ from OSOL.Extremum.Optimization.Algorithms.Algorithm import Algorithm
 from OSOL.Extremum.Optimization.Algorithms.tools import *
 from OSOL.Extremum.Numerical_Objects.Vector import Vector
 
-import numpy as np
-
 
 class AdaptiveRandomSearch(Algorithm):
 
