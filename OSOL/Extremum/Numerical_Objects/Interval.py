@@ -45,7 +45,7 @@ class Interval:
     @property
     def right(self):
         return self._upper_bound
-    
+
     @property
     def middle_point(self):
         return 0.5 * (self.left + self.right)

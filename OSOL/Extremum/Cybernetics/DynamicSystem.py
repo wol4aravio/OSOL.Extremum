@@ -88,7 +88,7 @@ class DynamicSystem:
         self._terminal_constraints = terminal_constraints
         for i in range(len(self._terminal_constraints)):
             self._terminal_constraints[i]['equation'] = lambdify(self._sym_vars[:(len(self._sym_vars) - len(self._etc_vars) - len(self._control_vars))],
-                                                                 parse_expr(self._terminal_constraints[i]['equation']), libs['dummy'])        
+                                                                 parse_expr(self._terminal_constraints[i]['equation']), libs['dummy'])
 
     @classmethod
     def from_dict(cls, data, pytorch=False):
@@ -145,7 +145,7 @@ class DynamicSystem:
     def prolong_Euler(self, t, x, u, a, eps):
         values = [t] + list(x.values()) + list(u.values()) + list(a.values())
         new_state = {
-            v: x[v] + eq(*values) * eps 
+            v: x[v] + eq(*values) * eps
             for v, eq in self._f.items()}
         return new_state
 
@@ -175,7 +175,7 @@ class DynamicSystem:
         x_new = dict([(v, x[v] + (k1[v] + 2.0 * k2[v] + 2.0 * k3[v] + k4[v]) * (eps / 6.0)) for v in self._state_vars])
 
         return x_new
-    
+
     def simulate(self, params):
         for v in self._control_vars:
             self._controllers[v].set_parameters(params)
