@@ -41,12 +41,10 @@ class GradientDescent(Algorithm):
     def initialize(self, f, area, seed):
         if seed is None:
             self._x = generate_random_point_in_rectangular(area)
-            self._x.to_pytorch_vector()
-            self._f_x = f(self._x)
         else:
             self._x = get_best_point_from_seed(seed, f)
-            self._x.to_pytorch_vector()
-            self._f_x = f(self._x)
+        self._x.to_pytorch_vector()
+        self._f_x = f(self._x)
         self.renew_grad()
 
 
