@@ -12,7 +12,7 @@ class OpenloopControl:
         self._ds = ds
 
     def sim(self, parameters):
-        times, states, controls, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance = self._ds.simulate(parameters)
+        _, _, _, I_integral, I_terminal, errors_terminal_state, phase_errors, controller_variance = self._ds.simulate(parameters)
         return sum(I_integral) + I_terminal + sum(errors_terminal_state) + sum(phase_errors) + sum(controller_variance)
 
     def __call__(self, *args, **kwargs):

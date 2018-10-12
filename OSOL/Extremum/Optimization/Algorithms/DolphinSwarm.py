@@ -73,15 +73,15 @@ class DolphinSwarm(Algorithm):
     def initialize(self, f, area, seed):
         self._dolphins = []
         if seed is None:
-            for i in range(self._number_of_dolphins):
+            for _ in range(self._number_of_dolphins):
                 self._dolphins.append(generate_random_point_in_rectangular(area))
         else:
             if isinstance(seed, list):
-                self._dolphins = sorted(seed, key=lambda v: f(v))[:self._number_of_dolphins]
+                self._dolphins = sorted(seed, key=f)[:self._number_of_dolphins]
             else:
                 self._dolphins = seed
             if len(self._dolphins) < self._number_of_dolphins:
-                for i in range(len(self._dolphins), self._number_of_dolphins):
+                for _ in range(len(self._dolphins), self._number_of_dolphins):
                     self._dolphins.append(generate_random_point_in_rectangular(area))
 
         self._dolphins_K = [d.copy() for d in self._dolphins]

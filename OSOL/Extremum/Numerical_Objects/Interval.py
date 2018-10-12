@@ -1,11 +1,7 @@
 from OSOL.Extremum.Tools.etc import constrain_point
 
 from configparser import ConfigParser
-import warnings
-
 import math
-import json
-import os
 
 
 config = ConfigParser()
@@ -14,11 +10,7 @@ config.read('OSOL/Extremum/Numerical_Objects/config.ini')
 
 class Interval:
 
-    try:
-        __MIN_WIDTH = float(config.get('interval', 'min_width'))
-    except Exception:
-        warnings.warn('Can not parse config.ini file. Setting default __MIN_WIDTH = 1e-3')
-        __MIN_WIDTH = 1e-3
+    __MIN_WIDTH = 1e-3
 
     def __init__(self, lower_bound, upper_bound):
         self._lower_bound = lower_bound
@@ -45,7 +37,7 @@ class Interval:
             return 0.5 * (lower_bound + lower_bound)
         else:
             return Interval(lower_bound, upper_bound)
-        
+
     @property
     def left(self):
         return self._lower_bound
@@ -53,7 +45,7 @@ class Interval:
     @property
     def right(self):
         return self._upper_bound
-    
+
     @property
     def middle_point(self):
         return 0.5 * (self.left + self.right)
@@ -181,27 +173,26 @@ class Interval:
 
     def __abs__(self):
         return self.abs()
+    
+    def _get_trigonometric_points(self):
+        c = 0.5 * math.pi
+        left_bound = int(math.ceil(self.left / c))
+        right_bound = int(math.floor(self.right / c))
+        points = [self.left, self.right] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
+        return points
 
     def sin(self):
         if self.width > 2.0 * math.pi:
             return Interval(-1.0, 1.0)
         else:
-            c = 0.5 * math.pi
-            left_bound = int(math.ceil(self.left / c))
-            right_bound = int(math.floor(self.right / c))
-            points = [self.left, self.right] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
-            mapped_points = sorted(map(math.sin, points))
+            mapped_points = sorted(map(math.sin, self._get_trigonometric_points()))
             return Interval.create_valid_interval(mapped_points[0], mapped_points[-1])
 
     def cos(self):
         if self.width > 2.0 * math.pi:
             return Interval(-1.0, 1.0)
         else:
-            c = 0.5 * math.pi
-            left_bound = int(math.ceil(self.left / c))
-            right_bound = int(math.floor(self.right / c))
-            points = [self.left, self.right] + list(map(lambda v: c * v, range(left_bound, right_bound + 1)))
-            mapped_points = sorted(map(math.cos, points))
+            mapped_points = sorted(map(math.cos, self._get_trigonometric_points()))
             return Interval.create_valid_interval(mapped_points[0], mapped_points[-1])
 
     def exp(self):
@@ -209,7 +200,7 @@ class Interval:
 
     def sqrt(self):
         if self.right < 0.0:
-            raise(Exception('Can\'t perform operation to pure negative interval'))
+            raise(Exception('Can\'t perform operation over pure negative interval'))
         else:
             if self.left < 0.0:
                 return Interval.create_valid_interval(0.0, math.sqrt(self.right))
@@ -218,7 +209,7 @@ class Interval:
 
     def log(self):
         if self.right <= 0.0:
-            raise(Exception('Can\'t perform operation to pure negative interval'))
+            raise(Exception('Can\'t perform operation over pure negative interval'))
         else:
             if self.left <= 0.0:
                 return Interval.create_valid_interval(-math.inf, math.log(self.right))
@@ -226,20 +217,23 @@ class Interval:
                 return Interval.create_valid_interval(math.log(self.left), math.log(self.right))
 
     def constrain(self, min_value, max_value):
-        return Interval.create_valid_interval(constrain_point(self.left, min_value, max_value),
-                                              constrain_point(self.right, min_value, max_value))
+        return Interval.create_valid_interval(
+            lower_bound=constrain_point(self.left, min_value, max_value),
+            upper_bound=constrain_point(self.right, min_value, max_value))
 
     def split(self, ratios):
         ratio_sum = sum(ratios)
         w = self.width
         intervals = []
         for i in range(len(ratios)):
-            intervals.append(Interval.create_valid_interval(lower_bound=self.left + sum(ratios[:i]) * w / ratio_sum,
-                                                            upper_bound=self.left + sum(ratios[:(i + 1)]) * w / ratio_sum))
+            intervals.append(
+                Interval.create_valid_interval(
+                    lower_bound=self.left + sum(ratios[:i]) * w / ratio_sum,
+                    upper_bound=self.left + sum(ratios[:(i + 1)]) * w / ratio_sum))
         return intervals
 
     def bisect(self):
-        return self.split([1.0, 1.0])
+        return self.split(ratios=[1.0, 1.0])
 
 
 def sin(i):

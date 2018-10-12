@@ -271,7 +271,7 @@ def test_4():
         'a': 5
     }
 
-    t, x, u, I_integral_calc, I_terminal_calc, errors_terminal_state, phase_errors_calc, controller_variance_calc = ds.simulate(Vector(parameters))
+    t, x, _, I_integral_calc, I_terminal_calc, errors_terminal_state, phase_errors_calc, controller_variance_calc = ds.simulate(Vector(parameters))
 
     t_calc = t
     x_calc = list(map(lambda v: v['x'], x))
