@@ -1,8 +1,6 @@
 from OSOL.Extremum.Optimization.Algorithms.Algorithm import Algorithm
-from OSOL.Extremum.Optimization.Algorithms.tools import generate_random_point_in_sphere
+from OSOL.Extremum.Optimization.Algorithms.tools import *
 from OSOL.Extremum.Numerical_Objects.Vector import Vector
-
-import numpy as np
 
 
 class AdaptiveRandomSearch(Algorithm):
@@ -62,19 +60,10 @@ class AdaptiveRandomSearch(Algorithm):
         self._iteration_id = 1
         self._no_change = 0
         if seed is None:
-            point = {}
-            for k, (left, right) in area.items():
-                point[k] = np.random.uniform(left, right)
-            point = Vector(point)
-            self._x = point
-            self._f_x = f(point)
+            self._x = generate_random_point_in_rectangular(area)
         else:
-            if isinstance(seed, list):
-                self._x = sorted(seed, key=lambda v: f(v))[0]
-                self._f_x = f(self._x)
-            else:
-                self._x = seed
-                self._f_x = f(self._x)
+            self._x = get_best_point_from_seed(seed, f)
+        self._f_x = f(self._x)
 
     def generate_new_points(self, f, area):
         x = self._x

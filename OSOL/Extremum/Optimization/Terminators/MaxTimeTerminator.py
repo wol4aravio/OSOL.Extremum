@@ -3,8 +3,6 @@ from OSOL.Extremum.Optimization.Terminators.Terminator import Terminator
 from datetime import datetime as dt
 from datetime import timedelta
 
-import json
-
 
 class MaxTimeTerminator(Terminator):
 

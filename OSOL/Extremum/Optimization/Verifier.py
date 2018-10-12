@@ -2,7 +2,7 @@ from OSOL.Extremum.Optimization.Tasks.UnconstrainedOptimization import Unconstra
 from OSOL.Extremum.Optimization.Terminators.MaxTimeTerminator import MaxTimeTerminator
 from OSOL.Extremum.Numerical_Objects.Vector import Vector
 
-from math import *
+import math
 
 
 task_1 = {
@@ -47,7 +47,7 @@ def solution_delta(v1, v2):
     delta = 0.0
     for k in keys:
         delta += (s1[k] - s2[k]) ** 2
-    delta = sqrt(delta)
+    delta = math.sqrt(delta)
 
     return delta
 

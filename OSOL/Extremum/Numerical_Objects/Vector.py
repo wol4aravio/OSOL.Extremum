@@ -6,7 +6,6 @@ import numpy as np
 
 import random
 import math
-import json
 
 
 class Vector:
@@ -99,7 +98,7 @@ class Vector:
 
     def grad(self):
         derivatives = {}
-        for k, v in self._values.items():
+        for k, _ in self._values.items():
             derivatives[k] = torch.tensor(self[k].grad)
             self[k].grad.zero_()
         return Vector(derivatives, is_pytorch=True)

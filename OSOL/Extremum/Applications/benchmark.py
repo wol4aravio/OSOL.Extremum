@@ -8,12 +8,10 @@ from OSOL.Extremum.Optimization.Tasks.UnconstrainedOptimization import Unconstra
 from OSOL.Extremum.Numerical_Objects.Vector import Vector
 
 import optparse
-import os
 import shutil
 import subprocess
 from joblib import Parallel, delayed
 import json
-from threading import Thread
 from grip import export
 import numpy as np
 
@@ -115,7 +113,7 @@ def main():
     print('>>> Preparing processes')
     processes = []
     counter = 0
-    for task_id, task in enumerate(tasks):
+    for _, task in enumerate(tasks):
         task_name = task[:-5]
         for i in range(number_of_runs):
             p = process_base.copy()
@@ -130,7 +128,7 @@ def main():
 
     print('>>> Gathering statistics')
     results = {}
-    for task_id, task in enumerate(tasks):
+    for _, task in enumerate(tasks):
         task_name = task[:-5]
         task_json = json.load(open(os.path.join(tasks_folder, task), 'r'))
         x_best = {}
@@ -138,7 +136,7 @@ def main():
             x_best[kvp['name']] = kvp['value']
         x_best = Vector(x_best)
         f = UnconstrainedOptimization(
-            f=task_json['f'], 
+            f=task_json['f'],
             variables=task_json['vars'])
 
         result_files = list(
@@ -165,7 +163,7 @@ def main():
     print('>>> Dumping result')
     shutil.copyfile(options.algorithm, os.path.join(
         output_folder, 'config.json'))
-    json.dump(results, 
+    json.dump(results,
               open(os.path.join(output_folder, 'statistics.json'), 'w'), cls=CustomEncoder, indent=2)
     md = create_markdown(results)
     with open(os.path.join(output_folder, 'statistics.md'), 'w') as md_file:

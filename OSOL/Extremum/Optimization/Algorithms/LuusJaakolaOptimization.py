@@ -60,12 +60,8 @@ class LuusJaakolaOptimization(Algorithm):
             self._x = generate_random_point_in_rectangular(area)
             self._f_x = f(self._x)
         else:
-            if isinstance(seed, list):
-                self._x = sorted(seed, key=lambda v: f(v))[0]
-                self._f_x = f(self._x)
-            else:
-                self._x = seed
-                self._f_x = f(self._x)
+            self._x = get_best_point_from_seed(seed, f)
+            self._f_x = f(self._x)
 
     def initialize_radius_on_run(self, f, area):
         self._radius = np.power(self._recover_coefficient, self._run_id) * self._init_radius
@@ -75,7 +71,7 @@ class LuusJaakolaOptimization(Algorithm):
         x = self._x
         f_x = self._f_x
 
-        for i in range(self._number_of_samples):
+        for _ in range(self._number_of_samples):
             x_new = generate_random_point_in_sphere(x, self._radius, area)
             f_x_new = f(x_new)
 

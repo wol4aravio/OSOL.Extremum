@@ -89,14 +89,14 @@ class ModifiedHybridMemeticAlgorithm(Algorithm):
 
     def pool_formation(self, f, area):
         population = []
-        for i in range(self._population_size):
+        for _ in range(self._population_size):
             population.append(generate_random_point_in_rectangular(area))
         population = list(map(lambda v: (v, f(v)), population))
         population = sorted(population, key=lambda kvp: kvp[1])
         self._pool.append(population[0])
 
         if self._iteration_id == 0:
-            v_0, val_0 = population[0]
+            v_0, _ = population[0]
             for v, val in population[1:]:
                 if distance_between_vectors(v_0, v) > self._distance_bias:
                     self._pool.append((v, val))
@@ -139,7 +139,7 @@ class ModifiedHybridMemeticAlgorithm(Algorithm):
 
     def path_relinking(self, f, area):
         delta_pr = self._delta_path_relinking
-        for iteration_id in range(self._path_relinking_parameter):
+        for _ in range(self._path_relinking_parameter):
             [p, q, r] = random.sample(range(len(self._pool)), 3)
             x_p = self._pool[p][0]
             x_q = self._pool[q][0]
@@ -173,7 +173,7 @@ class ModifiedHybridMemeticAlgorithm(Algorithm):
         delta_area = {k: delta_li * (max_value - min_value) for k, (min_value, max_value) in area.items()}
         delta_area = {k: (-w, w) for k, w in delta_area.items()}
         for i in range(len(self._pool)):
-            for iteration_id in range(self._local_improvement_parameter):
+            for _ in range(self._local_improvement_parameter):
                 (x, f_x) = self._pool[i]
                 xi = {k: np.random.uniform(*interval) for k, interval in delta_area.items()}
                 x_temp = (x >> xi).constrain(area)
