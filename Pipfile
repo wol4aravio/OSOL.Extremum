@@ -7,9 +7,10 @@ name = "pypi"
 numpy = "*"
 sympy = "*"
 pandas = "*"
+pyinterval = "*"
+torch = "==0.4.0"
 grip = "*"
 joblib = "*"
-torch = "==0.4.0"
 
 [dev-packages]
 pytest = "*"
@@ -23,8 +24,3 @@ rope = "*"
 
 [requires]
 python_version = "3.6"
-
-[scripts]
-optimize = "python ./OSOL/Extremum/Applications/optimize.py"
-simulate = "python ./OSOL/Extremum/Applications/simulate.py"
-benchmark = "python ./OSOL/Extremum/Applications/benchmark.py"
