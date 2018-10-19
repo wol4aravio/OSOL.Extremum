@@ -11,16 +11,16 @@ pyinterval = "*"
 torch = "==0.4.0"
 grip = "*"
 joblib = "*"
+tqdm = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
-pipenv-to-requirements = "*"
+rope = "*"
 pylint = "*"
 "flake8" = "*"
-"autopep8" = "*"
-rope = "*"
+jupyter = "*"
 
 [requires]
 python_version = "3.6"
