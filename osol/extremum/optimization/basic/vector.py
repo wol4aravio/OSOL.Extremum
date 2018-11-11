@@ -25,13 +25,23 @@ class Vector:
         else:
             self._keys = keys
 
+    @contract
     def __str__(self):
-        """ Prints Vector """
+        """ Prints Vector
+
+            :returns: string representation of a vector
+            :rtype: str
+        """
         string = [f"{k} -> {self[k]}" for k in self._keys]
         return ", ".join(string)
 
+    @contract
     def __len__(self):
-        """ Returns number of elements stored in a vector"""
+        """ Returns number of elements stored in a vector
+
+            :returns: number of elements
+            :rtype: int
+        """
         return len(self._values)
 
     def __iter__(self):
