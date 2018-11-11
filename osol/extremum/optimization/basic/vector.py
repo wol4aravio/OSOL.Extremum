@@ -1,6 +1,6 @@
 import numpy as np
 
-from contracts import contract
+from contracts import contract, new_contract
 
 
 class Vector:
@@ -17,40 +17,73 @@ class Vector:
             :type keys: NoneType|list[N](str)
         """
         if isinstance(values, np.ndarray):
-            self._values = np.array(values)
-        else:
             self._values = values
+        else:
+            self._values = np.array(values)
         if keys is None:
             self._keys = [f"_var_{i + 1}" for i in range(len(values))]
         else:
             self._keys = keys
 
+    def __str__(self):
+        """ Prints Vector """
+        string = [f"{k} -> {self[k]}" for k in self._keys]
+        return ", ".join(string)
+
+    def __len__(self):
+        """ Returns number of elements stored in a vector"""
+        return len(self._values)
+
     def __iter__(self):
-        """ For `Iterable` """
+        """ For iteration over the elements """
         return self._values.__iter__()
 
-    def __next__(self):
-        """ For `Iterable` """
-        return self._values.__next__()
-
+    @contract
     def keys(self):
-        """ Returns list of vector keys """
-        return self._keys
+        """ Returns list of vector keys
+
+            :returns: list of keys
+            :rtype: list
+        """
+        return self._keys.copy()
 
     @contract
-    def __getitem__(self, item):
+    def __getitem__(self, key):
         """ Extracts element by key
 
-            :param item: key to extract
-            :type item: int|str
+            :param key: key to extract
+            :type key: int|str
 
             :returns: value that corresponds to the chosen key
             :rtype: number
         """
-        if isinstance(item, int):
-            return self._values[item]
-        elif isinstance(item, str):
-            return self._values[self._keys.index(item)]
+        if isinstance(key, int) and 0 <= key < self.__len__():
+            return self._values[key]
+        elif isinstance(key, str) and key in self._keys:
+            return self._values[self._keys.index(key)]
         else:
-            raise KeyError(f"The following key \"{item}\" is not supported")
+            raise KeyError(f"The following key \"{key}\" is not supported")
 
+    @contract
+    def __setitem__(self, key, value):
+        """ Sets element according to the key
+
+            :param key: chosen key
+            :type key: int|str
+
+            :param value: new value to be stored
+            :type value: number
+        """
+        if isinstance(key, int) and 0 <= key < self.__len__():
+            self._values[key] = value
+        elif isinstance(key, str) and key in self._keys:
+            self._values[self._keys.index(key)] = value
+        else:
+            raise KeyError(f"The following key \"{key}\" is not supported")
+
+    def copy(self):
+        """ Gets copy of the current vector
+
+            :returns copy of the vector
+        """
+        return Vector(np.copy(self._values), self.keys())
