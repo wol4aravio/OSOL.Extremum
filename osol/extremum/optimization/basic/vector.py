@@ -3,7 +3,11 @@ import numpy as np
 from contracts import contract, new_contract
 
 
-new_contract("Vector", lambda v_: isinstance(v_, Vector))
+new_contract("Vector",
+             lambda v_: isinstance(v_, Vector))
+
+new_contract("valid_move_tuples",
+             lambda v_: all([isinstance(k, (int, str)) and isinstance(d, (int, float)) for k, d in v_]))
 
 
 class Vector:
@@ -44,13 +48,22 @@ class Vector:
         return self.__str__()
 
     @contract
+    def to_tuples(self):
+        """ Returns tuples of key-values
+
+            :returns: list of tuples
+            :rtype: list(tuple(str, float))
+        """
+        return [(k, float(v)) for k, v in zip(self._keys, self._values)]
+
+    @contract
     def to_dict(self):
         """ Returns dictionary
 
             :returns: json dictionary
             :rtype: dict[1](str: dict(str: float))
         """
-        return {"Vector": {k: float(v) for k, v in zip(self._keys, self._values)}}
+        return {"Vector": {k: float(v) for k, v in self.to_tuples()}}
 
     @classmethod
     @contract
@@ -108,6 +121,12 @@ class Vector:
         else:
             raise KeyError(f"The following key \"{key}\" is not supported")
 
+    def __valid_int_key(self, int_key):
+        return isinstance(int_key, int) and 0 <= int_key < self.__len__()
+
+    def __valid_str_key(self, str_key):
+        return isinstance(str_key, str) and str_key in self._keys
+
     @contract
     def __setitem__(self, key, value):
         """ Sets element according to the key
@@ -118,9 +137,9 @@ class Vector:
             :param value: new value to be stored
             :type value: number
         """
-        if isinstance(key, int) and 0 <= key < self.__len__():
+        if self.__valid_int_key(key):
             self._values[key] = value
-        elif isinstance(key, str) and key in self._keys:
+        elif self.__valid_str_key(key):
             self._values[self._keys.index(key)] = value
         else:
             raise KeyError(f"The following key \"{key}\" is not supported")
@@ -182,6 +201,27 @@ class Vector:
                 else:
                     raise VectorExceptions.DifferentKeysException
             return Vector(new_values, self._keys)
+
+    @contract
+    def move(self, *args, **kwargs):
+        """ Moves vector according to the arguments
+
+            :param args: list of tuples `<key, moving distance>`
+            :type args: valid_move_tuples
+
+            :param kwargs: list of named pairs `<key: moving distance>`
+            :type kwargs: dict(str|int: number)
+
+            :returns: moved vector
+            :rtype: Vector
+        """
+        moved_vector = self.copy()
+        for key, distance in list(args) + list(kwargs.items()):
+            if self.__valid_int_key(key):
+                moved_vector._values[key] += distance
+            elif self.__valid_str_key(key):
+                moved_vector._values[self._keys.index(key)] += distance
+        return moved_vector
 
 
 class VectorExceptions:

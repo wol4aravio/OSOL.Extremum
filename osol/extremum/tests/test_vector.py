@@ -121,4 +121,11 @@ def test_addition(v1_explicit_keys, v2_explicit_keys, v1_plus_2_explicit_keys):
     assert v1_explicit_keys + v1_explicit_keys == v1_explicit_keys * 2
     assert v1_explicit_keys + 2 == v1_plus_2_explicit_keys
     with pytest.raises(VectorExceptions.DifferentKeysException):
-        sum_ = v1_explicit_keys + v2_explicit_keys
+        _ = v1_explicit_keys + v2_explicit_keys
+
+
+def test_move(v1_no_explicit_keys):
+    assert v1_no_explicit_keys.move((0, 1)) == Vector([2, 2, 3])
+    assert v1_no_explicit_keys.move((0, 1), (0, 1), (0, 1)) == Vector([4, 2, 3])
+    assert v1_no_explicit_keys.move(*v1_no_explicit_keys.to_tuples()) == v1_no_explicit_keys * 2
+    assert v1_no_explicit_keys.move(**v1_no_explicit_keys) == v1_no_explicit_keys * 2
