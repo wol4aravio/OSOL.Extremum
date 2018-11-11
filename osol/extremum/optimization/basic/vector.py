@@ -22,8 +22,10 @@ class Vector:
             self._values = np.array(values)
         if keys is None:
             self._keys = [f"_var_{i + 1}" for i in range(len(values))]
+            self._explicit_keys = False
         else:
             self._keys = keys
+            self._explicit_keys = True
 
     @contract
     def __str__(self):

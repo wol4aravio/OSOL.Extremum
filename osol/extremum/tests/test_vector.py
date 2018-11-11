@@ -83,3 +83,9 @@ def test_set_element(v1_explicit_keys):
         v1_copy[5] = -1
     with pytest.raises(KeyError):
         v1_copy["___"] = -1
+
+
+def test_keys_type(v1_no_explicit_keys, v1_explicit_keys):
+    assert v1_no_explicit_keys._explicit_keys is False
+    assert v1_explicit_keys._explicit_keys is True
+
