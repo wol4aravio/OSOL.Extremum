@@ -38,9 +38,9 @@ def test_indexer(v1_no_explicit_keys):
     assert v1_no_explicit_keys["_var_1"] == 1
     assert v1_no_explicit_keys[1] == v1_no_explicit_keys["_var_2"]
     with pytest.raises(KeyError):
-        v1_no_explicit_keys[5]
+        _ = v1_no_explicit_keys[5]
     with pytest.raises(KeyError):
-        v1_no_explicit_keys["_var_10"]
+        _ = v1_no_explicit_keys["_var_10"]
 
 
 def test_str(v1_explicit_keys, v3_explicit_keys):

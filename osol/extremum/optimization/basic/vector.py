@@ -1,6 +1,6 @@
 import numpy as np
 
-from contracts import contract, new_contract
+from contracts import contract
 
 
 class Vector:
