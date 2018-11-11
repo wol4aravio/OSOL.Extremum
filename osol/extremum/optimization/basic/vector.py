@@ -27,10 +27,8 @@ class Vector:
             self._values = np.array(values)
         if keys is None:
             self._keys = [f"_var_{i + 1}" for i in range(len(values))]
-            self._explicit_keys = False
         else:
             self._keys = keys
-            self._explicit_keys = True
 
     @contract
     def __str__(self):
@@ -163,3 +161,30 @@ class Vector:
             :rtype: Vector
         """
         return Vector(self._values * coefficient, self._keys)
+
+    @contract
+    def __add__(self, other):
+        """ Addition of a vector or number to current one
+
+            :param other: vector or number to be added
+            :type other: Vector|number
+
+            :returns: sum of vector or vector and number
+            :rtype: Vector
+        """
+        if isinstance(other, (float, int)):
+            return Vector(self._values + other, self._keys)
+        else:
+            new_values = []
+            for i, k in enumerate(self._keys):
+                if k in other._keys:
+                    new_values.append(self._values[i] + other._values[i])
+                else:
+                    raise VectorExceptions.DifferentKeysException
+            return Vector(new_values, self._keys)
+
+
+class VectorExceptions:
+
+    class DifferentKeysException(Exception):
+        pass

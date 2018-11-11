@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from osol.extremum.optimization.basic.vector import Vector
+from osol.extremum.optimization.basic.vector import VectorExceptions
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -17,6 +18,11 @@ def v1_explicit_keys():
 @pytest.fixture(scope="session", autouse=True)
 def v1_times_2_explicit_keys():
     return Vector(np.array([2, 4, 6]), ["x", "y", "z"])
+
+
+@pytest.fixture(scope="session", autouse=True)
+def v1_plus_2_explicit_keys():
+    return Vector(np.array([3, 4, 5]), ["x", "y", "z"])
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -87,11 +93,6 @@ def test_set_element(v1_explicit_keys):
         v1_copy["___"] = -1
 
 
-def test_keys_type(v1_no_explicit_keys, v1_explicit_keys):
-    assert v1_no_explicit_keys._explicit_keys is False
-    assert v1_explicit_keys._explicit_keys is True
-
-
 def test_eq(v1_explicit_keys, v2_explicit_keys):
     assert v1_explicit_keys == v1_explicit_keys
     assert v1_explicit_keys != v2_explicit_keys
@@ -112,5 +113,12 @@ def test_serialization(v1_explicit_keys):
         }
     }
     serialized = v1_explicit_keys.to_dict()
-    assert  serialized == target_dict
+    assert serialized == target_dict
     assert Vector.from_dict(serialized) == v1_explicit_keys
+
+
+def test_addition(v1_explicit_keys, v2_explicit_keys, v1_plus_2_explicit_keys):
+    assert v1_explicit_keys + v1_explicit_keys == v1_explicit_keys * 2
+    assert v1_explicit_keys + 2 == v1_plus_2_explicit_keys
+    with pytest.raises(VectorExceptions.DifferentKeysException):
+        sum_ = v1_explicit_keys + v2_explicit_keys
