@@ -9,6 +9,7 @@ class Vector:
     @contract
     def __init__(self, values, keys=None):
         """ Interval initialization
+
             :param values: values to be stored
             :type values: list[N](number)|array[N]
 
@@ -19,12 +20,37 @@ class Vector:
             self._values = np.array(values)
         else:
             self._values = values
-        self._keys = keys
-        self._no_keys = keys is None
+        if keys is None:
+            self._keys = [f"_var_{i + 1}" for i in range(len(values))]
+        else:
+            self._keys = keys
 
+    def __iter__(self):
+        """ For `Iterable` """
+        return self._values.__iter__()
 
-v1 = Vector([1, 2.0, 3])
-v2 = Vector([1, 2.0, 3], keys=['x', 'y', 'z'])
+    def __next__(self):
+        """ For `Iterable` """
+        return self._values.__next__()
 
-print(v1._values, v1._keys, v1._no_keys)
-print(v2._values, v2._keys, v2._no_keys)
+    def keys(self):
+        """ Returns list of vector keys """
+        return self._keys
+
+    @contract
+    def __getitem__(self, item):
+        """ Extracts element by key
+
+            :param item: key to extract
+            :type item: int|str
+
+            :returns: value that corresponds to the chosen key
+            :rtype: number
+        """
+        if isinstance(item, int):
+            return self._values[item]
+        elif isinstance(item, str):
+            return self._values[self._keys.index(item)]
+        else:
+            raise KeyError(f"The following key \"{item}\" is not supported")
+
