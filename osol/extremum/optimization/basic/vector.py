@@ -1,10 +1,15 @@
 import numpy as np
 
-from contracts import contract
+from contracts import contract, new_contract
+
+
+new_contract("Vector", lambda v_: isinstance(v_, Vector))
 
 
 class Vector:
     """ Wrapper for more convenient usage of vectors """
+
+    _eq_error = 1e-7
 
     @contract
     def __init__(self, values, keys=None):
@@ -36,6 +41,9 @@ class Vector:
         """
         string = [f"{k} -> {self[k]}" for k in self._keys]
         return ", ".join(string)
+
+    def __repr__(self):
+        return self.__str__()
 
     @contract
     def __len__(self):
@@ -97,5 +105,37 @@ class Vector:
         """ Gets copy of the current vector
 
             :returns copy of the vector
+            :rtype: Vector
         """
         return Vector(np.copy(self._values), self.keys())
+
+    def __eq__(self, other):
+        """ Equality of vectors
+
+            :param other: second vector
+            :type other: Vector
+
+            :returns: `True` for equal vectors, `False` - otherwise
+            :rtype: bool
+        """
+        print('A')
+        print(self, other)
+        if self._keys == other._keys:
+            for i in range(len(self)):
+                if np.abs(self[i] - other[i]) > Vector._eq_error:
+                    return False
+            return True
+        else:
+            return False
+
+    @contract
+    def __mul__(self, coefficient):
+        """ Multiplication of a vector by a coefficient
+
+            :param coefficient: multiplier
+            :type coefficient: number
+
+            :returns: vector with all values multiplied by coefficient
+            :rtype: Vector
+        """
+        return Vector(self._values * coefficient, self._keys)

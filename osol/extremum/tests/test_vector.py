@@ -15,6 +15,11 @@ def v1_explicit_keys():
 
 
 @pytest.fixture(scope="session", autouse=True)
+def v1_times_2_explicit_keys():
+    return Vector(np.array([2, 4, 6]), ["x", "y", "z"])
+
+
+@pytest.fixture(scope="session", autouse=True)
 def v2_explicit_keys():
     return Vector(np.array([1, 2]), ["x", "y"])
 
@@ -45,7 +50,7 @@ def test_indexer(v1_no_explicit_keys):
 
 def test_str(v1_explicit_keys, v3_explicit_keys):
     assert v1_explicit_keys.__str__() == "x -> 1, y -> 2, z -> 3"
-    assert v3_explicit_keys.__str__() == "x -> 1"
+    assert v3_explicit_keys.__repr__() == "x -> 1"
 
 
 def test_iteration(v1_no_explicit_keys):
@@ -75,9 +80,6 @@ def test_set_element(v1_explicit_keys):
     v1_copy["y"] = 3
     assert v1_copy[0] == 2
     assert v1_copy["y"] == 3
-    assert v1_explicit_keys[0] == 1
-    v1_explicit_keys[0] = 2
-    assert v1_explicit_keys[0] == 2
 
     with pytest.raises(KeyError):
         v1_copy[5] = -1
@@ -89,3 +91,13 @@ def test_keys_type(v1_no_explicit_keys, v1_explicit_keys):
     assert v1_no_explicit_keys._explicit_keys is False
     assert v1_explicit_keys._explicit_keys is True
 
+
+def test_eq(v1_explicit_keys, v2_explicit_keys):
+    assert v1_explicit_keys == v1_explicit_keys
+    assert v1_explicit_keys != v2_explicit_keys
+    assert v1_explicit_keys != v1_explicit_keys * 2
+
+
+def test_multiplication(v1_explicit_keys, v1_times_2_explicit_keys):
+    assert v1_explicit_keys * 2.0 == v1_times_2_explicit_keys
+    assert (v1_explicit_keys * 2.0) * 3 == v1_times_2_explicit_keys * 3
