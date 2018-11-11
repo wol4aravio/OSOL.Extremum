@@ -118,10 +118,8 @@ class Vector:
             :returns: `True` for equal vectors, `False` - otherwise
             :rtype: bool
         """
-        print('A')
-        print(self, other)
         if self._keys == other._keys:
-            for i in range(len(self)):
+            for i, _ in enumerate(self):
                 if np.abs(self[i] - other[i]) > Vector._eq_error:
                     return False
             return True
