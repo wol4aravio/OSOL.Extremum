@@ -101,3 +101,16 @@ def test_eq(v1_explicit_keys, v2_explicit_keys):
 def test_multiplication(v1_explicit_keys, v1_times_2_explicit_keys):
     assert v1_explicit_keys * 2.0 == v1_times_2_explicit_keys
     assert (v1_explicit_keys * 2.0) * 3 == v1_times_2_explicit_keys * 3
+
+
+def test_serialization(v1_explicit_keys):
+    target_dict = {
+        "Vector": {
+            "x": 1.0,
+            "y": 2.0,
+            "z": 3.0
+        }
+    }
+    serialized = v1_explicit_keys.to_dict()
+    assert  serialized == target_dict
+    assert Vector.from_dict(serialized) == v1_explicit_keys

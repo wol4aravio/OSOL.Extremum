@@ -46,6 +46,32 @@ class Vector:
         return self.__str__()
 
     @contract
+    def to_dict(self):
+        """ Returns dictionary
+
+            :returns: json dictionary
+            :rtype: dict[1](str: dict(str: float))
+        """
+        return {"Vector": {k: float(v) for k, v in zip(self._keys, self._values)}}
+
+    @classmethod
+    @contract
+    def from_dict(cls, dict_):
+        """ Constructs vector from json-dictionary
+
+            :param dict_: dictionary with all parameters
+            :type dict_: dict[1](str: dict(str: float))
+
+            :returns: Vector
+            :rtype: Vector
+        """
+        keys, values = [], []
+        for k, v in dict_["Vector"].items():
+            keys.append(k)
+            values.append(v)
+        return cls(values, keys)
+
+    @contract
     def __len__(self):
         """ Returns number of elements stored in a vector
 
