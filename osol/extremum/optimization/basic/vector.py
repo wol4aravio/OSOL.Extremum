@@ -7,13 +7,21 @@ new_contract("Vector",
              lambda v_: isinstance(v_, Vector))
 
 new_contract("valid_move_tuples",
-             lambda v_: all([isinstance(k, (int, str)) and isinstance(d, (int, float)) for k, d in v_]))
+             lambda v_: all([isinstance(k, (int, str))
+                             and isinstance(d, (int, float)) for k, d in v_]))
+
+new_contract("valid_constrain_tuples",
+             lambda v_: all([isinstance(k, (int, str)) and
+                             isinstance(min_, (int, float)) and
+                             isinstance(max_, (int, float)) for k, (min_, max_) in v_]))
 
 
 class Vector:
     """ Wrapper for more convenient usage of vectors """
 
     _eq_error = 1e-7
+
+    __slots__ = ['_values', '_keys']
 
     @contract
     def __init__(self, values, keys=None):
@@ -25,10 +33,8 @@ class Vector:
             :param keys: indexing keys
             :type keys: NoneType|list[N](str)
         """
-        if isinstance(values, np.ndarray):
-            self._values = values
-        else:
-            self._values = np.array(values)
+        self._values = np.array(values, dtype=np.float32)
+
         if keys is None:
             self._keys = [f"_var_{i + 1}" for i in range(len(values))]
         else:
@@ -222,6 +228,28 @@ class Vector:
             elif self.__valid_str_key(key):
                 moved_vector._values[self._keys.index(key)] += distance
         return moved_vector
+
+    @contract
+    def constrain(self, *args, **kwargs):
+        """ Constrains vector according to the arguments
+
+            :param args: list of tuples `<key, (min, max)>`
+            :type args: valid_constrain_tuples
+
+            :param kwargs: list of named pairs `<key: (min, max)>`
+            :type kwargs: dict(str|int: tuple(number, number))
+
+            :returns: constrained vector
+            :rtype: Vector
+        """
+        constrained_vector = self.copy()
+        for key, (min_, max_) in list(args) + list(kwargs.items()):
+            if self.__valid_int_key(key):
+                constrained_vector._values[key] = np.clip(constrained_vector._values[key], min_, max_)
+            elif self.__valid_str_key(key):
+                id_ = self._keys.index(key)
+                constrained_vector._values[id_] = np.clip(constrained_vector._values[id_], min_, max_)
+        return constrained_vector
 
 
 class VectorExceptions:
