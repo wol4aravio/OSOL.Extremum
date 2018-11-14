@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from contracts import contract, new_contract
+from contracts import contract, new_contract, with_metaclass, ContractsMeta
 from typing import Callable
 
 from datetime import datetime as dt
@@ -9,22 +9,27 @@ from datetime import timedelta
 new_contract("function", Callable)
 
 
-class Terminator(ABC):
+class Terminator(with_metaclass(ContractsMeta, ABC)):
     """ Abstract class for terminators """
+
+    __metaclass__ = ContractsMeta
 
     @contract
     def __init__(self, f):
         """ Initialization of a Terminator
 
             :param f: target function
-            :type f: Callable
+            :type f: function
         """
         self._f = f
 
     @abstractmethod
-    @contract(returns=None)
+    @contract
     def reset(self):
-        """ Resets Terminator state """
+        """ Resets Terminator state
+
+            :rtype: None
+        """
 
     @abstractmethod
     def __call__(self, *args, **kwargs):
