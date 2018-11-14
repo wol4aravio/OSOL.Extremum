@@ -5,37 +5,37 @@ from osol.extremum.optimization.basic.vector import Vector
 from osol.extremum.optimization.basic.vector import VectorExceptions
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def v1_no_explicit_keys():
     return Vector.create(1, 2, _var_3=3)
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def v1_explicit_keys():
     return Vector(np.array([1, 2, 3]), ["x", "y", "z"])
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def v1_times_2_explicit_keys():
     return Vector(np.array([2, 4, 6]), ["x", "y", "z"])
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def v1_plus_2_explicit_keys():
     return Vector(np.array([3, 4, 5]), ["x", "y", "z"])
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def v2_explicit_keys():
     return Vector(np.array([1, 2]), ["x", "y"])
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def v3_explicit_keys():
     return Vector(np.array([1]), ["x"])
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def eps():
     return 1e-7
 
