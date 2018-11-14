@@ -24,11 +24,10 @@ class Terminator(ABC):
     @contract(returns=None)
     def reset(self):
         """ Resets Terminator state """
-        pass
 
     @abstractmethod
     def __call__(self, *args, **kwargs):
-        pass
+        """ Calls the function stored in terminator """
 
 
 class MaxCallsTerminator(Terminator):
