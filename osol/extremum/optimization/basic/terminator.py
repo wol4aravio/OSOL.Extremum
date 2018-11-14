@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
 from contracts import contract, new_contract
+from typing import Callable
 
 from datetime import datetime as dt
 from datetime import timedelta
 
 
-new_contract("function", lambda v_: callable(v_))
+new_contract("function", Callable)
 
 
 class Terminator(ABC):
@@ -16,7 +17,7 @@ class Terminator(ABC):
         """ Initialization of a Terminator
 
             :param f: target function
-            :type f: function
+            :type f: Callable
         """
         self._f = f
 
