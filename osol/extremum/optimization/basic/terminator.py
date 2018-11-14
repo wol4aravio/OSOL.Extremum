@@ -26,7 +26,6 @@ class Terminator(ABC):
         """ Resets Terminator state """
         pass
 
-
     @abstractmethod
     def __call__(self, *args, **kwargs):
         pass
