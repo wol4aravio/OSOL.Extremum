@@ -3,7 +3,7 @@ import numpy as np
 from contracts import contract, new_contract
 
 
-new_contract("Vector",
+new_contract("vector",
              lambda v_: isinstance(v_, Vector))
 
 new_contract("valid_args_tuple",
@@ -55,7 +55,7 @@ class Vector:
             :type kwargs: dict(str:number)
 
             :returns: Vector that stores all desired values
-            :rtype: Vector
+            :rtype: vector
         """
         keys = [f"_var_{i + 1}" for i in range(len(args))]
         values = list(args)
@@ -105,7 +105,7 @@ class Vector:
             :type dict_: dict[1](str: dict(str: float))
 
             :returns: Vector
-            :rtype: Vector
+            :rtype: vector
         """
         keys, values = [], []
         for k, v in dict_["Vector"].items():
@@ -179,7 +179,7 @@ class Vector:
         """ Gets copy of the current vector
 
             :returns copy of the vector
-            :rtype: Vector
+            :rtype: vector
         """
         return Vector(np.copy(self._values), self.keys())
 
@@ -187,7 +187,7 @@ class Vector:
         """ Equality of vectors
 
             :param other: second vector
-            :type other: Vector
+            :type other: vector
 
             :returns: `True` for equal vectors, `False` - otherwise
             :rtype: bool
@@ -208,7 +208,7 @@ class Vector:
             :type coefficient: number
 
             :returns: vector with all values multiplied by coefficient
-            :rtype: Vector
+            :rtype: vector
         """
         return Vector(self._values * coefficient, self._keys)
 
@@ -217,10 +217,10 @@ class Vector:
         """ Addition of a vector or number to current one
 
             :param other: vector or number to be added
-            :type other: Vector|number
+            :type other: vector|number
 
             :returns: sum of vector or vector and number
-            :rtype: Vector
+            :rtype: vector
         """
         if isinstance(other, (float, int)):
             return Vector(self._values + other, self._keys)
@@ -244,7 +244,7 @@ class Vector:
             :type kwargs: dict(str|int: number)
 
             :returns: moved vector
-            :rtype: Vector
+            :rtype: vector
         """
         moved_vector = self.copy()
         for key, distance in list(args) + list(kwargs.items()):
@@ -265,7 +265,7 @@ class Vector:
             :type kwargs: dict(str|int: tuple(number, number))
 
             :returns: constrained vector
-            :rtype: Vector
+            :rtype: vector
         """
         constrained_vector = self.copy()
         for key, (min_, max_) in list(args) + list(kwargs.items()):
