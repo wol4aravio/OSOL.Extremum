@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from contracts import contract, new_contract, with_metaclass, ContractsMeta
+from contracts import contract, new_contract, ContractsMeta
 
 
-class Algorithm(with_metaclass(ContractsMeta, ABC)):
+class Algorithm(ABC, metaclass=ContractsMeta):
     """ Abstract class that describes desired interface for optimization algorithm """
     __metaclass__ = ContractsMeta
