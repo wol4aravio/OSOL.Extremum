@@ -7,7 +7,7 @@ from osol.extremum.optimization.basic.vector import VectorExceptions
 
 @pytest.fixture(scope="session", autouse=True)
 def v1_no_explicit_keys():
-    return Vector([1, 2, 3])
+    return Vector.create(1, 2, _var_3=3)
 
 
 @pytest.fixture(scope="session", autouse=True)

@@ -6,6 +6,9 @@ from contracts import contract, new_contract
 new_contract("Vector",
              lambda v_: isinstance(v_, Vector))
 
+new_contract("valid_args_tuple",
+             lambda v_: all([isinstance(v, int) or isinstance(v, float) for v in v_]))
+
 new_contract("valid_move_tuples",
              lambda v_: all([isinstance(k, (int, str))
                              and isinstance(d, (int, float)) for k, d in v_]))
@@ -39,6 +42,28 @@ class Vector:
             self._keys = [f"_var_{i + 1}" for i in range(len(values))]
         else:
             self._keys = keys
+
+    @classmethod
+    @contract
+    def create(cls, *args, **kwargs):
+        """ More general method for Vector creation
+
+            :param args: values without explicitly specified keys
+            :type args: valid_args_tuple
+
+            :param kwargs: values with explicitly specified keys
+            :type kwargs: dict(str:number)
+
+            :returns: Vector that stores all desired values
+            :rtype: Vector
+        """
+        keys = [f"_var_{i + 1}" for i in range(len(args))]
+        values = list(args)
+        for k, v in kwargs.items():
+            keys.append(k)
+            values.append(v)
+        return cls(values, keys)
+
 
     @contract
     def __str__(self):
