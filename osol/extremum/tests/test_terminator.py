@@ -18,7 +18,7 @@ def f():
 
 @pytest.fixture(scope="session")
 def eps():
-    return 1e-3
+    return 1e-2
 
 
 @pytest.fixture
@@ -28,7 +28,7 @@ def max_calls_terminator(f):
 
 @pytest.fixture
 def max_time_terminator(f):
-    return MaxTimeTerminator(f, max_time="s:0.1")
+    return MaxTimeTerminator(f, max_time="s:1.0")
 
 
 def test_max_calls(v, f, max_calls_terminator):
