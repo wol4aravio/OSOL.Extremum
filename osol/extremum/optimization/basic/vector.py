@@ -253,6 +253,7 @@ class Vector:
 
 
 class VectorExceptions:
-
+    """ New Exceptions for Vector Class """
     class DifferentKeysException(Exception):
+        """ Raised when processing vectors need to have the same keys"""
         pass
