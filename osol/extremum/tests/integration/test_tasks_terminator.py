@@ -11,7 +11,7 @@ from osol.extremum.optimization.tasks.unconstrained_optimization import Unconstr
 
 @pytest.fixture(scope="session")
 def eps_error():
-    return 1e-7
+    return 1e-5
 
 
 @pytest.fixture(scope="session")
