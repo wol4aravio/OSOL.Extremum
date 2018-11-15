@@ -241,11 +241,13 @@ class Vector:
             :type args: valid_move_tuples
 
             :param kwargs: list of named pairs `<key: moving distance>`
-            :type kwargs: dict(str|int: number)
+            :type kwargs: dict(str|int: number)|dict[1](str: dict(str: number))
 
             :returns: moved vector
             :rtype: vector
         """
+        if "distance" in kwargs:
+            return self.move(**kwargs["distance"])
         moved_vector = self.copy()
         for key, distance in list(args) + list(kwargs.items()):
             if self.__valid_int_key(key):
@@ -262,11 +264,13 @@ class Vector:
             :type args: valid_constrain_tuples
 
             :param kwargs: list of named pairs `<key: (min, max)>`
-            :type kwargs: dict(str|int: tuple(number, number))
+            :type kwargs: dict(str|int: tuple(number, number))|dict[1](str:dict(str: tuple(number, number)))
 
             :returns: constrained vector
             :rtype: vector
         """
+        if "area" in kwargs:
+            return self.constrain(**kwargs["area"])
         constrained_vector = self.copy()
         for key, (min_, max_) in list(args) + list(kwargs.items()):
             if self.__valid_int_key(key):
