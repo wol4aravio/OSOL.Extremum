@@ -7,6 +7,7 @@ name = "pypi"
 pycontracts = "*"
 numpy = "*"
 sympy = "*"
+tqdm = "*"
 
 [dev-packages]
 pytest = "*"
