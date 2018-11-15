@@ -137,3 +137,13 @@ def test_constrain(v1_explicit_keys):
     assert v1_explicit_keys.constrain(("x", (-1, 2.0))) == v1_explicit_keys
     assert v1_explicit_keys.constrain(("x", (-1, 0.3))) == Vector([0.3, 2, 3], v1_explicit_keys.keys())
     assert v1_explicit_keys.constrain(("x", (-1, 0.3)), (0, (1.0, 2.0))) == Vector([1, 2, 3], v1_explicit_keys.keys())
+
+
+def test_length(v1_explicit_keys, v2_explicit_keys, v3_explicit_keys, eps):
+    v1_length = np.sqrt(1 + 4 + 9)
+    v2_length = np.sqrt(1 + 4)
+    v3_length = np.sqrt(1)
+
+    assert small_error(v1_explicit_keys.length, v1_length, eps)
+    assert small_error(v2_explicit_keys.length, v2_length, eps)
+    assert small_error(v3_explicit_keys.length, v3_length, eps)

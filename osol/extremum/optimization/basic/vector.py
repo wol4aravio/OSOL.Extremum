@@ -280,6 +280,16 @@ class Vector:
                 constrained_vector._values[id_] = np.clip(constrained_vector._values[id_], min_, max_)
         return constrained_vector
 
+    @property
+    @contract
+    def length(self):
+        """ Returns vector's length
+
+            :returns: length of the vector
+            :rtype: number
+        """
+        return np.sqrt(np.sum(np.power(self._values, 2.0)), dtype=np.float64)
+
 
 class VectorExceptions:
     """ New Exceptions for Vector Class """
