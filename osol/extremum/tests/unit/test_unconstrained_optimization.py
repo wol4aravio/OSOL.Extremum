@@ -16,7 +16,7 @@ def f_a():
 
 @pytest.fixture(scope="session")
 def f_uo():
-    return UnconstrainedOptimization(f='sin(x) + cos(y) - z', variables=['x', 'y', 'z'])
+    return UnconstrainedOptimization(f="sin(x) + cos(y) - z", variables=["x", "y", "z"])
 
 
 def test(eps, f_a, f_uo):
