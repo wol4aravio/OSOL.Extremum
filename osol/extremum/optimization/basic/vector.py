@@ -221,7 +221,7 @@ class Vector:
             :param other: vector or number to be added
             :type other: vector|number
 
-            :returns: sum of vector or vector and number
+            :returns: sum of vector and vector or vector and number
             :rtype: vector
         """
         if isinstance(other, (float, int)):
@@ -234,6 +234,27 @@ class Vector:
                 else:
                     raise VectorExceptions.DifferentKeysException
             return Vector(new_values, self._keys)
+
+    @contract
+    def __neg__(self):
+        """ Returns the negation of vector
+
+            :returns: vector which elements have opposite sign
+            :rtype: vector
+        """
+        return Vector(-self._values, self._keys)
+
+    @contract
+    def __sub__(self, other):
+        """ Subtraction of two vectors
+
+            :param other: vector or number to be subtracted
+            :type other: vector|number
+
+            :returns: difference between vector and vector or vector and number
+            :rtype: vector
+        """
+        return self + (other * (-1))
 
     @contract
     def move(self, *args, **kwargs):

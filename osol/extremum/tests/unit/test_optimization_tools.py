@@ -5,7 +5,7 @@ from osol.extremum.optimization.algorithms.tools import *
 
 @pytest.fixture(scope="session")
 def number_of_vectors():
-    return int(1e3)
+    return int(2.5e3)
 
 
 @pytest.fixture(scope="session")
