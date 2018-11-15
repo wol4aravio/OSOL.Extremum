@@ -24,7 +24,7 @@ class Vector:
 
     _eq_error = 1e-7
 
-    __slots__ = ['_values', '_keys']
+    __slots__ = ["_values", "_keys"]
 
     @contract
     def __init__(self, values, keys=None):
@@ -254,7 +254,7 @@ class Vector:
             :returns: difference between vector and vector or vector and number
             :rtype: vector
         """
-        return self + (other * (-1))
+        return self + (-other)
 
     @contract
     def move(self, *args, **kwargs):
