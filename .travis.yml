@@ -15,7 +15,7 @@ install:
   - pipenv install
   - pipenv install --dev
 script:
-  - pipenv run pytest -n 2 -s --cov=./
+  - pipenv run pytest -v -n 2 -s --cov=./
   - coverage xml
   - python-codacy-coverage -r coverage.xml
 after_success:
