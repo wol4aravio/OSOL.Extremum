@@ -7,7 +7,6 @@ from osol.extremum.optimization.basic.terminator import Terminator, TerminatorEx
 
 
 new_contract("terminator", Terminator)
-new_contract("vector", Vector)
 
 
 class Algorithm(ABC, metaclass=ContractsMeta):
@@ -68,7 +67,7 @@ class Algorithm(ABC, metaclass=ContractsMeta):
         """
 
     @contract
-    def optimize(self, f, search_area, seed_state=None, max_iter=None):
+    def optimize(self, f, search_area, seed_state=None, max_iterations=None):
         """ Optimization procedure
 
             :param f: objective function
@@ -80,15 +79,16 @@ class Algorithm(ABC, metaclass=ContractsMeta):
             :param seed_state: seed state for the algorithm
             :type seed_state: dict(str:*)|None
 
-            :param max_iter: maximum allowed number of iterations
-            :type max_iter: int|None
+            :param max_iterations: maximum allowed number of iterations
+            :type max_iterations: int|None
 
             :returns: solution
             :rtype: vector
         """
+        f.reset()
         current_state = self.initialize(f, search_area, seed_state)
         try:
-            for _ in range(max_iter or sys.maxsize):
+            for _ in range(max_iterations or sys.maxsize):
                 current_state = self.main_cycle(f, search_area, **current_state)
         except TerminatorExceptions.StopWorkException:
             pass
