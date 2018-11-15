@@ -125,6 +125,7 @@ def test_addition(v1_explicit_keys, v2_explicit_keys, v1_plus_2_explicit_keys):
 
 
 def test_move(v1_no_explicit_keys):
+    assert v1_no_explicit_keys.move(distance={"_var_1": 1}) == Vector([2, 2, 3])
     assert v1_no_explicit_keys.move((0, 1)) == Vector([2, 2, 3])
     assert v1_no_explicit_keys.move((0, 1), ("_var_1", 1), (0, 1)) == Vector([4, 2, 3])
     assert v1_no_explicit_keys.move(*v1_no_explicit_keys.to_tuples()) == v1_no_explicit_keys * 2
@@ -132,6 +133,7 @@ def test_move(v1_no_explicit_keys):
 
 
 def test_constrain(v1_explicit_keys):
+    assert v1_explicit_keys.constrain(area={"x": (-1, 2.0)}) == v1_explicit_keys
     assert v1_explicit_keys.constrain(("x", (-1, 2.0))) == v1_explicit_keys
     assert v1_explicit_keys.constrain(("x", (-1, 0.3))) == Vector([0.3, 2, 3], v1_explicit_keys.keys())
     assert v1_explicit_keys.constrain(("x", (-1, 0.3)), (0, (1.0, 2.0))) == Vector([1, 2, 3], v1_explicit_keys.keys())
