@@ -52,11 +52,13 @@ class Vector:
             :type args: valid_args_tuple
 
             :param kwargs: values with explicitly specified keys
-            :type kwargs: dict(str:number)
+            :type kwargs: dict(str:number)|dict[1](str:dict(str:number))
 
             :returns: Vector that stores all desired values
             :rtype: vector
         """
+        if "values" in kwargs:
+            return Vector.create(**kwargs["values"])
         keys = [f"_var_{i + 1}" for i in range(len(args))]
         values = list(args)
         for k, v in kwargs.items():
