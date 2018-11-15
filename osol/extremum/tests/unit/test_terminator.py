@@ -48,8 +48,6 @@ def test_wrong_mode(f_dummy):
 
 
 def test_dummy(v, f_dummy, dummy_terminator):
-    a = f_dummy(v)
-    b = dummy_terminator(v)
     assert f_dummy(v) == dummy_terminator(v)
 
 
