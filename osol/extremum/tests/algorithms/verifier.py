@@ -10,7 +10,7 @@ new_contract("algorithm", Algorithm)
 
 
 @contract
-def verify(algorithm, number_of_attempts=5, max_iterations=int(5e3), max_calls=int(5e3), max_time="s:10", eps=1e-2):
+def verify(algorithm, number_of_attempts=5, max_iterations=int(5e3), max_calls=int(5e3), max_time="s:1", eps=1e-2):
     """ Verification procedure of optimization algorithms
 
         :param algorithm: algorithm to be verified
