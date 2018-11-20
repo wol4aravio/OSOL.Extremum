@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 pycontracts = "*"
 numpy = "*"
-ompython = "*"
 
 [dev-packages]
 pytest = "*"
