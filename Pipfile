@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 pycontracts = "*"
 numpy = "*"
-pyfmi = {git = "https://github.com/modelon/PyFMI"}
 
 [dev-packages]
 pytest = "*"
