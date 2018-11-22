@@ -6,14 +6,17 @@ name = "pypi"
 [packages]
 pycontracts = "*"
 numpy = "*"
+fmpy = {extras = ["complete"],version = "*"}
 sympy = "*"
-tqdm = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
 pipenv-to-requirements = "*"
+jupyter = "*"
+jupyter-contrib-nbextensions = "*"
+jupyter-nbextensions-configurator = "*"
 
 [requires]
 python_version = "3.6"
