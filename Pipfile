@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 pycontracts = "*"
 numpy = "*"
+fmpy = {extras = ["complete"],version = "*"}
+sympy = "*"
 
 [dev-packages]
 pytest = "*"
