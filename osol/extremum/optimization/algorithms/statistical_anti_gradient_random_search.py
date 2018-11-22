@@ -73,12 +73,3 @@ class StatisticalAntiGradientRandomSearch(Algorithm):
 
     def terminate(self, f, search_area, **kwargs):
         return kwargs["x"]
-
-
-from osol.extremum.tests.algorithms.verifier import verify
-
-import contracts
-contracts.disable_all()
-
-sag_rs = StatisticalAntiGradientRandomSearch(radius=0.1, number_of_samples=1)
-verify(sag_rs)
