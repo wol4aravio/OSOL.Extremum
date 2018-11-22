@@ -119,7 +119,7 @@
         },
         "locket": {
             "hashes": [
-                "sha256:3d86335cecd36cb5136ca5ebbed63495990a25d74f811221fed2962c97d3da70"
+                "sha256:1fee63c1153db602b50154684f5725564e63a0f6d09366a1cb13dffcec179fb4"
             ],
             "version": "==0.2.0"
         },
