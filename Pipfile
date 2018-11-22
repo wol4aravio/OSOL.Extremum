@@ -4,27 +4,19 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pycontracts = "*"
 numpy = "*"
+fmpy = {extras = ["complete"],version = "*"}
 sympy = "*"
-pandas = "*"
-grip = "*"
-joblib = "*"
-torch = "==0.4.0"
 
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
 pipenv-to-requirements = "*"
-pylint = "*"
-"flake8" = "*"
-"autopep8" = "*"
-rope = "*"
+jupyter = "*"
+jupyter-contrib-nbextensions = "*"
+jupyter-nbextensions-configurator = "*"
 
 [requires]
 python_version = "3.6"
-
-[scripts]
-optimize = "python ./OSOL/Extremum/Applications/optimize.py"
-simulate = "python ./OSOL/Extremum/Applications/simulate.py"
-benchmark = "python ./OSOL/Extremum/Applications/benchmark.py"
