@@ -53,7 +53,9 @@ class StatisticalAntiGradientRandomSearch(Algorithm):
         anti_gradient = Vector.create(values={k: 0.0 for k in x.keys()})
         for point, f_point in zip(new_points, new_values):
             anti_gradient -= (point - x) * (f_point - f_x)
-        anti_gradient *= (1.0 / anti_gradient.length)
+        anti_grad_length = anti_gradient.length
+        if anti_grad_length > 0.0:
+            anti_gradient *= 1.0 / anti_grad_length
 
         x_new = x + anti_gradient * np.random.uniform(0.0, r)
         f_x_new = f(x_new)
