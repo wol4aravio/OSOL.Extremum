@@ -187,12 +187,3 @@ class FMUProgramControl:
     def criteria(self):
         """ Criterion Settings """
         return self._settings["criteria"]
-
-
-m = FMUProgramControl("/Users/wol4aravio/Wol4araVio/Projects/OSOL.Extremum/osol/extremum/tests/test_files/spacecraft_fmu")
-
-sim_results = m.simulate(initial_state={"x1_0": 0.0, "x2_0": 0.0}, parameters={"a": -np.pi * 12, "b": np.pi * 6}, step=1e-5)
-criterion = m.get_criterion_value(sim_results)
-
-
-m.purge()
