@@ -9,7 +9,7 @@ from contracts import contract
 import numpy as np
 
 
-class ProgramControl:
+class FMUProgramControl:
     """ Task: generation of a program control for a FMU defined dynamic system """
 
     @contract
