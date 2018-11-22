@@ -40,7 +40,7 @@ class FMUProgramControl:
         self._model_description = read_model_description(self._platform_compiled_fmu)
 
         self._output_connectors = {"_t": 0}
-        for settings_output_name in self._settings["outputs"]:
+        for settings_output_name in [settings["var_name"] for settings in self._settings["criteria"]]:
             for i, fmu_output_name in enumerate(self._model_description.outputs):
                 if settings_output_name in str(fmu_output_name):
                     self._output_connectors[settings_output_name] = i + 1
@@ -83,6 +83,73 @@ class FMUProgramControl:
 
         return {k: np.array([r[i] for r in result]) for k, i in self._output_connectors.items()}
 
+    @staticmethod
+    @contract
+    def _process_integral_criterion(sim_result, criterion_settings):
+        """ Processes `integral` type of criterion
+
+        :param sim_result: simulation results
+        :type sim_result: dict(str:array)
+
+        :param criterion_settings: criterion settings
+        :type criterion_settings: dict(str:str|number)
+
+        :returns: criterion value
+        :rtype: number
+        """
+        var_name = criterion_settings["var_name"]
+        weight = criterion_settings["weight"]
+        return weight * sim_result[var_name][-1]
+
+    @staticmethod
+    @contract
+    def _process_terminal_criterion(sim_result, criterion_settings):
+        """ Processes `terminal` type of criterion
+
+        :param sim_result: simulation results
+        :type sim_result: dict(str:array)
+
+        :param criterion_settings: criterion settings
+        :type criterion_settings: dict(str:str|number)
+
+        :returns: criterion value
+        :rtype: number
+        """
+        var_name = criterion_settings["var_name"]
+        weight = criterion_settings["weight"]
+        target = criterion_settings["target"]
+        tolerance = criterion_settings["tolerance"]
+        metric_type = criterion_settings["metric_type"]
+
+        error = np.abs(sim_result[var_name][-1] - target)
+        error = np.power(error, int(metric_type[1:]))
+        error = error - np.clip(error, a_min=0.0, a_max=tolerance)
+
+        return weight * error
+
+    @contract
+    def get_criterion_value(self, sim_results):
+        """ Extracts unified criterion value from simulation results
+
+        :param sim_results: simulation results
+        :type sim_results: dict(str:array)
+
+        :returns: criterion value
+        :rtype: number
+        """
+        criterion_values = []
+
+        for criterion_settings in self.criteria:
+            criterion_type = criterion_settings["type"]
+            if criterion_type == "integral":
+                criterion_values.append(FMUProgramControl._process_integral_criterion(sim_results, criterion_settings))
+            elif criterion_type == "terminal":
+                criterion_values.append(FMUProgramControl._process_terminal_criterion(sim_results, criterion_settings))
+            else:
+                raise Exception(f"Unsupported criterion type: {criterion_type}")
+
+        return sum(criterion_values)
+
     @contract
     def purge(self):
         """ Removes created files
@@ -114,3 +181,18 @@ class FMUProgramControl:
     def alias(self):
         """ Step size """
         return self._settings["alias"]
+
+    @property
+    @contract(returns="list(dict(str:*))")
+    def criteria(self):
+        """ Criterion Settings """
+        return self._settings["criteria"]
+
+
+m = FMUProgramControl("/Users/wol4aravio/Wol4araVio/Projects/OSOL.Extremum/osol/extremum/tests/test_files/spacecraft_fmu")
+
+sim_results = m.simulate(initial_state={"x1_0": 0.0, "x2_0": 0.0}, parameters={"a": -np.pi * 12, "b": np.pi * 6}, step=1e-5)
+criterion = m.get_criterion_value(sim_results)
+
+
+m.purge()

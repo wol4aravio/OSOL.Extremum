@@ -11,5 +11,27 @@
     "x1_0": "spacecraft.state_x1.y_start",
     "x2_0": "spacecraft.state_x2.y_start"
   },
-  "outputs": ["x1", "x2"]
+  "criteria": [
+    {
+      "type": "integral",
+      "var_name": "criterion",
+      "weight": 1.0
+    },
+    {
+      "type": "terminal",
+      "var_name": "x1",
+      "target": 3.141592653589793,
+      "tolerance": 1e-3,
+      "metric_type": "L1",
+      "weight": 1e3
+    },
+    {
+      "type": "terminal",
+      "var_name": "x2",
+      "target": 0.0,
+      "tolerance": 1e-3,
+      "metric_type": "L1",
+      "weight": 1e3
+    }
+  ]
 }

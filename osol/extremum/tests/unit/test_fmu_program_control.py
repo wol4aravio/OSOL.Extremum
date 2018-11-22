@@ -39,10 +39,15 @@ def target_values():
 
 @pytest.fixture(scope="session")
 def eps():
-    return 1e-5
+    return 1e-3
 
 
-def test_simulation(model, initial_state, best_control, steps, target_values, eps):
+@pytest.fixture(scope="session")
+def target_criterion():
+    return 12.0 * np.pi * np.pi
+
+
+def test_simulation(model, initial_state, best_control, steps, target_values, target_criterion, eps):
     errors = []
     x1_last_target, x2_last_target = target_values
     for step in steps:
@@ -60,3 +65,7 @@ def test_simulation(model, initial_state, best_control, steps, target_values, ep
         assert e > errors[i + 1]
 
     assert errors[-1] < eps
+
+    criterion = model.get_criterion_value(sim_result)
+
+    assert np.abs(criterion - target_criterion) < eps
