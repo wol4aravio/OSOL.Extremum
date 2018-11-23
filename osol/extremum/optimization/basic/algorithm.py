@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 from contracts import contract, new_contract, ContractsMeta
 import sys
 
-from osol.extremum.optimization.basic.vector import Vector
 from osol.extremum.optimization.basic.terminator import Terminator, TerminatorExceptions
 
 
