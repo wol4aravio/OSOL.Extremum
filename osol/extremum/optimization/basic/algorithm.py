@@ -67,7 +67,7 @@ class Algorithm(ABC, metaclass=ContractsMeta):
         """
 
     @contract
-    def optimize(self, f, search_area, seed_state=None, max_iterations=None):
+    def optimize(self, f, search_area, seed_state=None, max_iterations=None, callbacks=None):
         """ Optimization procedure
 
             :param f: objective function
@@ -82,14 +82,28 @@ class Algorithm(ABC, metaclass=ContractsMeta):
             :param max_iterations: maximum allowed number of iterations
             :type max_iterations: int|None
 
+            :param callbacks: callbacks that are performed after each state update
+            :type callbacks: None|list(function)
+
             :returns: solution
             :rtype: vector
         """
+        if callbacks is not None:
+            def process_callbacks(algorithm, state):
+                for c in callbacks:
+                    c(algorithm, state)
+        else:
+            def process_callbacks(algorithm, state):
+                pass
+
         f.reset()
         current_state = self.initialize(f, search_area, seed_state)
+        process_callbacks(self, current_state)
         try:
             for _ in range(max_iterations or sys.maxsize):
                 current_state = self.main_cycle(f, search_area, **current_state)
+                process_callbacks(self, current_state)
         except TerminatorExceptions.StopWorkException:
             pass
+
         return self.terminate(f, search_area, **current_state)
