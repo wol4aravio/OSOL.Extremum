@@ -8,8 +8,8 @@ class RandomSearch(Algorithm):
     """ Dummy version of random search
 
         State description:
-            - `x`   => current best vector
-            - `f_x` => function value that corresponds to the current best vector
+            - `x`       =>     current best vector
+            - `f_x`     =>     function value that corresponds to the current best vector
     """
 
     @contract
