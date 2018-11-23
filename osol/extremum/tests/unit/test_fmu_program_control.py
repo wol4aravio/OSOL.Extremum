@@ -66,6 +66,6 @@ def test_simulation(model, initial_state, best_control, steps, target_values, ta
 
     assert errors[-1] < eps
 
-    criterion = model.get_criterion_value(sim_result)
+    criterion = sum(model.get_criterion_value(sim_result).values())
 
     assert np.abs(criterion - target_criterion) < eps

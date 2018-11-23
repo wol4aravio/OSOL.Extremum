@@ -13,11 +13,13 @@
   },
   "criteria": [
     {
+      "name": "I",
       "type": "integral",
       "var_name": "criterion",
       "weight": 1.0
     },
     {
+      "name": "x1_penalty",
       "type": "terminal",
       "var_name": "x1",
       "target": 3.141592653589793,
@@ -26,6 +28,7 @@
       "weight": 1e3
     },
     {
+      "name": "x2_penalty",
       "type": "terminal",
       "var_name": "x2",
       "target": 0.0,
