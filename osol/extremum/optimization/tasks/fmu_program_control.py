@@ -123,8 +123,9 @@ class FMUProgramControl:
 
         error = np.abs(sim_result[var_name][-1] - target)
         error = np.power(error, int(metric_type[1:]))
-        error = error - np.clip(error, a_min=0.0, a_max=tolerance)
 
+        if error <= tolerance:
+            return error
         return weight * error
 
     @contract
