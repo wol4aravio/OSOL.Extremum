@@ -112,9 +112,9 @@ def test_serialization(v1_explicit_keys):
             "z": 3.0
         }
     }
-    serialized = v1_explicit_keys.to_dict()
+    serialized = v1_explicit_keys.to_json_dict()
     assert serialized == target_dict
-    assert Vector.from_dict(serialized) == v1_explicit_keys
+    assert Vector.from_json_dict(serialized) == v1_explicit_keys
 
 
 def test_addition(v1_explicit_keys, v2_explicit_keys, v1_plus_2_explicit_keys):

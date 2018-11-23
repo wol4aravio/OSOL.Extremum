@@ -93,14 +93,23 @@ class Vector:
     def to_dict(self):
         """ Returns dictionary
 
+            :returns: dictionary
+            :rtype: dict(str: float)
+        """
+        return {k: float(v) for k, v in self.to_tuples()}
+
+    @contract
+    def to_json_dict(self):
+        """ Returns dictionary
+
             :returns: json dictionary
             :rtype: dict[1](str: dict(str: float))
         """
-        return {"Vector": {k: float(v) for k, v in self.to_tuples()}}
+        return {"Vector": self.to_dict()}
 
     @classmethod
     @contract
-    def from_dict(cls, dict_):
+    def from_json_dict(cls, dict_):
         """ Constructs vector from json-dictionary
 
             :param dict_: dictionary with all parameters

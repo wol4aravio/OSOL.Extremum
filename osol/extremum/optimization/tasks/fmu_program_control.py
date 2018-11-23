@@ -137,18 +137,20 @@ class FMUProgramControl:
         :returns: criterion value
         :rtype: number
         """
-        criterion_values = []
+        criterion_values = dict()
 
         for criterion_settings in self.criteria:
+            name = criterion_settings["name"]
             criterion_type = criterion_settings["type"]
-            if criterion_type == "integral":
-                criterion_values.append(FMUProgramControl._process_integral_criterion(sim_results, criterion_settings))
-            elif criterion_type == "terminal":
-                criterion_values.append(FMUProgramControl._process_terminal_criterion(sim_results, criterion_settings))
-            else:
-                raise Exception(f"Unsupported criterion type: {criterion_type}")
 
-        return sum(criterion_values)
+            if criterion_type == "integral":
+                criterion_values[name] = FMUProgramControl._process_integral_criterion(sim_results, criterion_settings)
+            elif criterion_type == "terminal":
+                criterion_values[name] = FMUProgramControl._process_terminal_criterion(sim_results, criterion_settings)
+            else:
+                raise Exception(f"Unsupported criterion type: {criterion_type} for {name}")
+
+        return criterion_values
 
     @contract
     def purge(self):
