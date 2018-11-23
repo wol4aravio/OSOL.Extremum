@@ -14,9 +14,11 @@ __pycache__
 
 # Notebooks
 .ipynb_checkpoints
+_notebooks
 
 # Temp
 .coverage
+coverage.xml
 
 # Sphinx
 
