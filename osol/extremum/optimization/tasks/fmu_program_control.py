@@ -122,11 +122,9 @@ class FMUProgramControl:
         metric_type = criterion_settings["metric_type"]
 
         error = np.abs(sim_result[var_name][-1] - target)
-        error = np.power(error, int(metric_type[1:]))
-
         if error <= tolerance:
             return error
-        return weight * error
+        return weight * np.power(error, int(metric_type[1:]))
 
     @contract
     def get_criterion_value(self, sim_results):
