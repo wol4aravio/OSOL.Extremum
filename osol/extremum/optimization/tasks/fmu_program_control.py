@@ -135,7 +135,7 @@ class FMUProgramControl:
         :type sim_results: dict(str:array)
 
         :returns: criterion value
-        :rtype: number
+        :rtype: dict(str:number)
         """
         criterion_values = dict()
 
