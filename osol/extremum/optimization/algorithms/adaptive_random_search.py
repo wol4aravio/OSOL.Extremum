@@ -8,8 +8,11 @@ class AdaptiveRandomSearch(Algorithm):
     """ Adaptive random search
 
         State description:
-            - `x`   => current best vector
-            - `f_x` => function value that corresponds to the current best vector
+            - `x`             =>     current best vector
+            - `f_x`           =>     function value that corresponds to the current best vector
+            - `r`             =>     current radius for point generation
+            - `iter_id`       =>     current iteration number
+            - `no_change`     =>     number of iterations without `x` modification
     """
 
     @contract
