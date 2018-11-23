@@ -2,6 +2,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6d29733e0b2d4faea9b99306ecff0f91)](https://www.codacy.com/app/wol4aravio/OSOL.Extremum?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wol4aravio/OSOL.Extremum&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/6d29733e0b2d4faea9b99306ecff0f91)](https://www.codacy.com/app/wol4aravio/OSOL.Extremum?utm_source=github.com&utm_medium=referral&utm_content=wol4aravio/OSOL.Extremum&utm_campaign=Badge_Coverage)
 [![PyPI version](https://badge.fury.io/py/osol.extremum.svg)](https://badge.fury.io/py/osol.extremum)
+[![Docs](https://readthedocs.org/projects/osolextremum/badge/?version=latest)](https://readthedocs.org/projects/osolextremum/badge/?version=latest)
 
 <p align="center">
 <b> Open-Source Optimization Library - Extremum </b>
