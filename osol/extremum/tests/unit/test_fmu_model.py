@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 
-from osol.extremum.cybernetics.fmu_model import FMUModel
+from osol.extremum.cybernetics.models.fmu_model import FMUModel
 
 
 @pytest.fixture(scope="session")
