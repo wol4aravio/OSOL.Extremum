@@ -1,14 +1,17 @@
 import pytest
 import numpy as np
 
-from osol.extremum.optimization.tasks.fmu_program_control import FMUProgramControl
+from osol.extremum.cybernetics.models.fmu_model import FMUModel
 
 
 @pytest.fixture(scope="session")
 def model():
-    model = FMUProgramControl(source_dir="osol/extremum/tests/test_files/spacecraft_fmu")
+    model = FMUModel(
+        model="osol/extremum/tests/test_files/spacecraft_fmu/spacecraft.fmu",
+        description="osol/extremum/tests/test_files/spacecraft_fmu/spacecraft.json",
+        needs_compilation=True)
     yield model
-    model.purge()
+    model._purge()
 
 
 @pytest.fixture(scope="session")
@@ -29,7 +32,7 @@ def best_control():
 
 @pytest.fixture(scope="session")
 def steps():
-    return [1e-3, 1e-5, 1e-7]
+    return [1e-3, 1e-5]
 
 
 @pytest.fixture(scope="session")
@@ -42,19 +45,20 @@ def eps():
     return 1e-3
 
 
-@pytest.fixture(scope="session")
-def target_criterion():
-    return 12.0 * np.pi * np.pi
-
-
-def test_simulation(model, initial_state, best_control, steps, target_values, target_criterion, eps):
+def test_simulation(model, initial_state, best_control, steps, target_values, eps):
     errors = []
     x1_last_target, x2_last_target = target_values
     for step in steps:
         sim_result = model.simulate(
             initial_state=initial_state,
-            parameters=best_control,
-            step=step)
+            termination_time=1.0,
+            dt=step,
+            controllers={
+                "u": {
+                    "f": lambda t: best_control["a"] * t + best_control["b"],
+                    "inputs": ["t"]
+                }
+            })
 
         x1_last = sim_result["x1"][-1]
         x2_last = sim_result["x2"][-1]
@@ -66,6 +70,3 @@ def test_simulation(model, initial_state, best_control, steps, target_values, ta
 
     assert errors[-1] < eps
 
-    criterion = sum(model.get_criterion_value(sim_result).values())
-
-    assert np.abs(criterion - target_criterion) < eps
