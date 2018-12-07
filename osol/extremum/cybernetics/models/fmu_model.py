@@ -158,7 +158,7 @@ class FMUModel:
 
         control_history = {control_name: [] for control_name in controllers.keys()}
         while time < termination_time:
-            recorder.sample(time)
+            recorder.sample(time, force=True)
             input_.apply(time)
             controls = dict()
             for control_name, control_params in controllers.items():
