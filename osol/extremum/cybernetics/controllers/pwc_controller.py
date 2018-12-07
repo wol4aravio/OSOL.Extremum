@@ -9,7 +9,7 @@ class PWCController:
 
     @contract
     def __init__(self, time_grid, values):
-        """ PWCController initialization
+        """ PWC Controller initialization
 
             :param time_grid: switching points
             :type time_grid: list[N](number)|array[N]
