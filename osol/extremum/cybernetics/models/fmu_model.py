@@ -125,7 +125,7 @@ class FMUModel:
             :type controllers: dict(str:dict(str:*))
 
             :returns: list of trajectories
-            :rtype: dict(str:array)
+            :rtype: tuple(dict(str:array), dict(str:array))
         """
         fmu = FMU2Slave(**self._fmu_args)
         fmu.instantiate(callbacks=self._callbacks, loggingOn=False)
@@ -156,6 +156,7 @@ class FMUModel:
             variableNames=self._settings["state_variables"],
             interval=dt)
 
+        control_history = {control_name: [] for control_name in controllers.keys()}
         while time < termination_time:
             recorder.sample(time)
             input_.apply(time)
@@ -164,6 +165,7 @@ class FMUModel:
                 u = control_params["f"]
                 input_vars = fmu.getReal([vars_ref[n] for n in control_params["inputs"]])
                 controls[vars_ref[control_name]] = u(*input_vars)
+                control_history[control_name].append(controls[vars_ref[control_name]])
             fmu.setReal(*zip(*list(controls.items())))
             fmu.doStep(currentCommunicationPoint=time, communicationStepSize=dt)
             time += dt
@@ -173,7 +175,9 @@ class FMUModel:
         fmu.terminate()
         fmu.freeInstance()
         recorded = recorder.result()
-        result = dict()
+        states = dict()
         for i, n in enumerate(["t"] + self._settings["state_variables"]):
-            result[n] = np.array([r[i] for r in recorded])
-        return result
+            states[n] = np.array([r[i] for r in recorded])
+        for control_name, control_values in control_history.items():
+            control_history[control_name] = np.array(control_values)
+        return states, control_history
