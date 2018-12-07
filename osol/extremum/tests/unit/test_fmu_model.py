@@ -49,7 +49,7 @@ def test_simulation(model, initial_state, best_control, steps, target_values, ep
     errors = []
     x1_last_target, x2_last_target = target_values
     for step in steps:
-        sim_result = model.simulate(
+        sim_result, _ = model.simulate(
             initial_state=initial_state,
             termination_time=1.0,
             dt=step,
@@ -69,4 +69,3 @@ def test_simulation(model, initial_state, best_control, steps, target_values, ep
         assert e > errors[i + 1]
 
     assert errors[-1] < eps
-
