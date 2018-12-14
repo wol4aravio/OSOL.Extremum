@@ -10,7 +10,10 @@ def n():
 
 
 def verify_benchmark(bf):
-    np_t.assert_almost_equal(bf(bf.solution[0]), bf.solution[1])
+    x_best, y_best = bf.solution
+    np_t.assert_almost_equal(bf(x_best), y_best)
+    assert x_best.belongs_to(bf.search_area)
+
 
 
 def test_Ackley(n):
