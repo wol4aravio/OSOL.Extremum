@@ -80,4 +80,8 @@ def test_CosineMixture(n):
     verify_benchmark(CosineMixture(n))
 
 
+def test_Csendes(n):
+    verify_benchmark(Csendes(n))
+
+
 

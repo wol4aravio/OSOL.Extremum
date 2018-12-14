@@ -281,3 +281,18 @@ class CosineMixture(VariableDimFunction, OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), -0.1 * self._n
+
+
+class Csendes(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        return (np.power(v_, 6.0) * (2.0 + np.sin(1.0 / v_))).sum()
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 1e-9 for i in range(self._n)}), 0.0
