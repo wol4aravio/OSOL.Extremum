@@ -7,6 +7,9 @@ from osol.extremum.optimization.basic.vector import Vector # Required for `vecto
 class OptimizationBenchmark(ABC, metaclass=ContractsMeta):
     """ Abstract class that describes desired interface to benchmark functions """
 
+    def __init__(self, n):
+        self._n = n
+
     @abstractmethod
     @contract
     def call(self, v):
@@ -19,8 +22,8 @@ class OptimizationBenchmark(ABC, metaclass=ContractsMeta):
     def __call__(self, *args, **kwargs):
         return self.call(args[0])
 
-    @abstractmethod
     @property
+    @abstractmethod
     @contract
     def search_area(self):
         """ Returns search area for current benchmark
@@ -28,11 +31,11 @@ class OptimizationBenchmark(ABC, metaclass=ContractsMeta):
             :rtype: dict(str:tuple(number, number))
         """
 
-    @abstractmethod
     @property
+    @abstractmethod
     @contract
     def solution(self):
         """ Returns solution current benchmark
 
-            :rtype: vector
+            :rtype: tuple(vector, number)
         """
