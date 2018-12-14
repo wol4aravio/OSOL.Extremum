@@ -7,9 +7,6 @@ from osol.extremum.optimization.basic.vector import Vector # Required for `vecto
 class OptimizationBenchmark(ABC, metaclass=ContractsMeta):
     """ Abstract class that describes desired interface to benchmark functions """
 
-    def __init__(self, n):
-        self._n = n
-
     @abstractmethod
     @contract
     def call(self, v):

@@ -20,3 +20,7 @@ def test_Ackley(n):
 def test_Alpine(n):
     verify_benchmark(Alpine(n))
 
+
+def test_Bartels_Conn(n):
+    verify_benchmark(Bartels_Conn())
+
