@@ -28,3 +28,7 @@ def test_Bartels_Conn(n):
 def test_Beale(n):
     verify_benchmark(Beale())
 
+
+def test_Bird(n):
+    verify_benchmark(Bird())
+
