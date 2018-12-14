@@ -24,3 +24,7 @@ def test_Alpine(n):
 def test_Bartels_Conn(n):
     verify_benchmark(Bartels_Conn())
 
+
+def test_Beale(n):
+    verify_benchmark(Beale())
+
