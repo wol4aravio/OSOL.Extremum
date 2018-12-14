@@ -39,3 +39,7 @@ def test_Bird(n):
 def test_Bohachevsky(n):
     verify_benchmark(Bohachevsky())
 
+
+def test_Booth(n):
+    verify_benchmark(Booth())
+

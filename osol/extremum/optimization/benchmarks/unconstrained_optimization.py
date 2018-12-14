@@ -102,3 +102,17 @@ class Bohachevsky(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=0.0, x_2=0.0), 0.0
+
+
+class Booth(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return (v[0] + 2.0 * v[1] - 7.0) * (v[0] + 2.0 * v[1] - 7.0) + (2.0 * v[0] + v[1] - 5.0) * (2.0 * v[0] + v[1] - 5.0)
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=1.0, x_2=3.0), 0.0
