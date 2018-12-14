@@ -15,3 +15,8 @@ def verify_benchmark(bf):
 
 def test_Ackley(n):
     verify_benchmark(Ackley(n))
+
+
+def test_Alpine(n):
+    verify_benchmark(Alpine(n))
+

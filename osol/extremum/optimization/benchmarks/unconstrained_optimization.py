@@ -19,3 +19,19 @@ class Ackley(OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+
+
+class Alpine(OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        return np.abs(v_ * np.sin(v_) + 0.1 * v_).sum()
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+
