@@ -116,3 +116,22 @@ class Booth(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=1.0, x_2=3.0), 0.0
+
+
+class Box_Betts_Quadratic_Sum(create_fix_dim_function(3), OptimizationBenchmark):
+
+    def g(self, i, v):
+        return np.exp(-0.1 * (i + 1) * v[0]) - np.exp(-0.1 * (i + 1) * v[1]) - (np.exp(-0.1 * (i + 1)) - np.exp(-(i + 1)) * v[2])
+
+    def call(self, v):
+        D = 10
+        temp = np.array([self.g(i, v) for i in range(D)])
+        return np.square(temp).sum()
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=1.0, x_2=10.0, x_3=1.0), 0.0

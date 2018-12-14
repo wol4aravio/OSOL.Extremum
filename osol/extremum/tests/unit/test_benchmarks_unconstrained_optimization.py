@@ -43,3 +43,7 @@ def test_Bohachevsky(n):
 def test_Booth(n):
     verify_benchmark(Booth())
 
+
+def test_Box_Betts_Quadratic_Sum(n):
+    verify_benchmark(Box_Betts_Quadratic_Sum())
+
