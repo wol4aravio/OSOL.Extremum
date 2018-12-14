@@ -245,3 +245,24 @@ class Colville(create_fix_dim_function(4), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 1.0 for i in range(self._n)}), 0.0
+
+
+class Corana(create_fix_dim_function(4), OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        d = np.array([1.0, 1000.0, 10.0, 100.0])
+        z = 0.2 * (np.abs(v_ / 0.2) + 0.49999) * np.sign(v_)
+        v = np.abs(v_ - z)
+        A = 0.05
+        part_1 = (np.abs(v) < A) * (0.15 * (z - 0.05 * np.sign(z)) * (z - 0.05 * np.sign(z)) * d)
+        part_2 = (np.abs(v) >= A) * (d * np.square(v_))
+        return np.sum(part_1 + part_2)
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-500.0, 500.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0

@@ -72,4 +72,8 @@ def test_Colville():
     verify_benchmark(Colville())
 
 
+def test_Corana():
+    verify_benchmark(Corana())
+
+
 
