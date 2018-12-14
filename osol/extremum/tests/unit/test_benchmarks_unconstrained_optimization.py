@@ -25,7 +25,7 @@ def test_Alpine(n):
 
 
 def test_Bartels_Conn(n):
-    verify_benchmark(Bartels_Conn())
+    verify_benchmark(BartelsConn())
 
 
 def test_Beale(n):
@@ -45,5 +45,5 @@ def test_Booth(n):
 
 
 def test_Box_Betts_Quadratic_Sum(n):
-    verify_benchmark(Box_Betts_Quadratic_Sum())
+    verify_benchmark(BoxBettsQuadraticSum())
 

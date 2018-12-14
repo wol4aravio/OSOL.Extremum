@@ -48,7 +48,7 @@ class Alpine(VariableDimFunction, OptimizationBenchmark):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
 
 
-class Bartels_Conn(create_fix_dim_function(2), OptimizationBenchmark):
+class BartelsConn(create_fix_dim_function(2), OptimizationBenchmark):
 
     def call(self, v):
         return np.abs(v[0] * v[0] + v[1] * v[1] + v[0] * v[1]) + np.abs(np.sin(v[0])) + np.abs(np.cos(v[1]))
@@ -118,7 +118,7 @@ class Booth(create_fix_dim_function(2), OptimizationBenchmark):
         return Vector.create(x_1=1.0, x_2=3.0), 0.0
 
 
-class Box_Betts_Quadratic_Sum(create_fix_dim_function(3), OptimizationBenchmark):
+class BoxBettsQuadraticSum(create_fix_dim_function(3), OptimizationBenchmark):
 
     def g(self, i, v):
         return np.exp(-0.1 * (i + 1) * v[0]) - np.exp(-0.1 * (i + 1) * v[1]) - (np.exp(-0.1 * (i + 1)) - np.exp(-(i + 1)) * v[2])
