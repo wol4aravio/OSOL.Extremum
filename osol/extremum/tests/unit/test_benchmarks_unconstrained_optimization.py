@@ -59,3 +59,6 @@ def test_BoxBettsQuadraticSum(n):
 def test_BraninRCOS(n):
     verify_benchmark(BraninRCOS())
 
+
+def test_Bukin():
+    verify_benchmark(Bukin())
