@@ -83,7 +83,7 @@ class Bird(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-4.5, 4.5) for i in range(self._n)}
+        return {f"x_{i + 1}": (-2.0 * np.pi, 2.0 * np.pi) for i in range(self._n)}
 
     @property
     def solution(self):
