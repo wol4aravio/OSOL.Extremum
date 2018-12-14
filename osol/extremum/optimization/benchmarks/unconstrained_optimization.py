@@ -217,3 +217,17 @@ class CamelThreeHumps(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+
+
+class Chichinadze(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return v[0] * v[0] - 12.0 * v[0] + 11.0 + 10.0 * np.cos(np.pi * v[0] / 2.0) + 8.0 * np.sin(5.0 * np.pi * v[0] / 2.0) - np.sqrt(0.2) * np.exp(-0.5 * (v[1] - 0.5) * (v[1] - 0.5))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-30.0, 30.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=6.1898665869658, x_2=0.5), -42.94438552656265
