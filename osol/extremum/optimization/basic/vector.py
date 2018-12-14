@@ -193,6 +193,24 @@ class Vector:
         """
         return Vector(np.copy(self._values), self.keys())
 
+    def belongs_to(self, area):
+        """ Checks whether vector belongs to area
+
+            :param area: checking area
+            :type area: dict(str:tuple(number, number))
+
+            :returns: check status
+            :rtype: bool
+        """
+        for k in self._keys:
+            if k in area:
+                v = self[k]
+                if v < area[k][0] or v > area[k][1]:
+                    return False
+            else:
+                raise VectorExceptions.DifferentKeysException(f"Key {k} is not present in area")
+        return True
+
     def __eq__(self, other):
         """ Equality of vectors
 

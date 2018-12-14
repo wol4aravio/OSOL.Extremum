@@ -159,3 +159,19 @@ def test_length(v1_explicit_keys, v2_explicit_keys, v3_explicit_keys, eps):
 def test_to_numpy(v1_explicit_keys, eps):
     for a, b in zip(v1_explicit_keys._values, v1_explicit_keys.to_numpy_array()):
         assert small_error(a, b, eps)
+
+
+def test_belongs_to(v1_explicit_keys):
+    area = {
+        "x": (0, 5),
+        "y": (0, 5),
+        "z": (0, 5)
+    }
+    assert v1_explicit_keys.belongs_to(area=area)
+
+    area["z"] = (-5, 0)
+    assert not v1_explicit_keys.belongs_to(area=area)
+
+    del area["z"]
+    with pytest.raises(VectorExceptions.DifferentKeysException):
+        _ = v1_explicit_keys.belongs_to(area)
