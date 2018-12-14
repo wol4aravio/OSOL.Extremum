@@ -35,3 +35,7 @@ def test_Beale(n):
 def test_Bird(n):
     verify_benchmark(Bird())
 
+
+def test_Bohachevsky(n):
+    verify_benchmark(Bohachevsky())
+

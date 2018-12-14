@@ -90,3 +90,15 @@ class Bird(create_fix_dim_function(2), OptimizationBenchmark):
         return Vector.create(x_1=4.70105575198105, x_2=3.152946019601391), -106.7645488423886
 
 
+class Bohachevsky(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return v[0] * v[0] + 2 * v[1] * v[1] - 0.3 * np.cos(3.0 * np.pi * v[0]) - 0.4 * np.cos(4 * np.pi * v[1]) + 0.7
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.0, x_2=0.0), 0.0
