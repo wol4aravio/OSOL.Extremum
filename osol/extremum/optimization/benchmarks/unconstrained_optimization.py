@@ -130,8 +130,29 @@ class BoxBettsQuadraticSum(create_fix_dim_function(3), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return {
+            "x_1": (0.9, 1.2),
+            "x_2": (9.0, 11.2),
+            "x_3": (0.9, 1.2)
+        }
 
     @property
     def solution(self):
         return Vector.create(x_1=1.0, x_2=10.0, x_3=1.0), 0.0
+
+
+class BraninRCOS(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return (v[1] - 5.1 * v[0] * v[0] / (4 * np.pi * np.pi) + 5 * v[0] / np.pi - 6) * (v[1] - 5.1 * v[0] * v[0] / (4 * np.pi * np.pi) + 5 * v[0] / np.pi - 6) + 10.0 * (1.0 - 1.0 / (8.0 * np.pi)) * np.cos(v[0]) + 10.0
+
+    @property
+    def search_area(self):
+        return {
+            "x_1": (-5.0, 10.0),
+            "x_2": (0.0, 15.0)
+        }
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=-np.pi, x_2=12.275), 0.39788735772973816

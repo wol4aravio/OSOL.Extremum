@@ -24,7 +24,7 @@ def test_Alpine(n):
     verify_benchmark(Alpine(n))
 
 
-def test_Bartels_Conn(n):
+def test_BartelssConn(n):
     verify_benchmark(BartelsConn())
 
 
@@ -44,6 +44,10 @@ def test_Booth(n):
     verify_benchmark(Booth())
 
 
-def test_Box_Betts_Quadratic_Sum(n):
+def test_BoxBettsQuadraticSum(n):
     verify_benchmark(BoxBettsQuadraticSum())
+
+
+def test_BraninRCOS(n):
+    verify_benchmark(BraninRCOS())
 
