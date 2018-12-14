@@ -66,7 +66,6 @@ class Vector:
             values.append(v)
         return cls(values, keys)
 
-
     @contract
     def __str__(self):
         """ Prints Vector
@@ -321,6 +320,15 @@ class Vector:
             :rtype: number
         """
         return np.sqrt(np.sum(np.power(self._values, 2.0)), dtype=np.float64)
+
+    @contract
+    def to_numpy_array(self):
+        """ Returns numpy array from vector
+
+            :returns: array of values
+            :rtype: array
+        """
+        return self._values
 
 
 class VectorExceptions:

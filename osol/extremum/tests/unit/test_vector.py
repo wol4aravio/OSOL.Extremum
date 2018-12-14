@@ -154,3 +154,8 @@ def test_length(v1_explicit_keys, v2_explicit_keys, v3_explicit_keys, eps):
     assert small_error(v1_explicit_keys.length, v1_length, eps)
     assert small_error(v2_explicit_keys.length, v2_length, eps)
     assert small_error(v3_explicit_keys.length, v3_length, eps)
+
+
+def test_to_numpy(v1_explicit_keys, eps):
+    for a, b in zip(v1_explicit_keys._values, v1_explicit_keys.to_numpy_array()):
+        assert small_error(a, b, eps)
