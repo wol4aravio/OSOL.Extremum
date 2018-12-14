@@ -4,10 +4,19 @@ from osol.extremum.optimization.basic.vector import Vector
 from osol.extremum.optimization.benchmarks.optimization_benchmark import OptimizationBenchmark
 
 
-class Ackley(OptimizationBenchmark):
-
+class VariableDimFunction:
     def __init__(self, n):
         self._n = n
+
+
+def create_fix_dim_function(n):
+    class FixDimFunction:
+        def __init__(self):
+            self._n = n
+    return FixDimFunction
+
+
+class Ackley(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
         v_ = v.to_numpy_array()
@@ -24,10 +33,7 @@ class Ackley(OptimizationBenchmark):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
 
 
-class Alpine(OptimizationBenchmark):
-
-    def __init__(self, n):
-        self._n = n
+class Alpine(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
         v_ = v.to_numpy_array()
@@ -42,10 +48,7 @@ class Alpine(OptimizationBenchmark):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
 
 
-class Bartels_Conn(OptimizationBenchmark):
-
-    def __init__(self):
-        self._n = 2
+class Bartels_Conn(create_fix_dim_function(2), OptimizationBenchmark):
 
     def call(self, v):
         return np.abs(v[0] * v[0] + v[1] * v[1] + v[0] * v[1]) + np.abs(np.sin(v[0])) + np.abs(np.cos(v[1]))
@@ -59,10 +62,7 @@ class Bartels_Conn(OptimizationBenchmark):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 1.0
 
 
-class Beale(OptimizationBenchmark):
-
-    def __init__(self):
-        self._n = 2
+class Beale(create_fix_dim_function(2), OptimizationBenchmark):
 
     def call(self, v):
         return (1.5 - v[0] + v[0] * v[1]) * (1.5 - v[0] + v[0] * v[1]) + (2.25 - v[0] + v[0] * v[1] * v[1]) * (2.25 - v[0] + v[0] * v[1] * v[1]) + (2.625 - v[0] + v[0] * v[1] * v[1] * v[1]) * (2.625 - v[0] + v[0] * v[1] * v[1] * v[1])
@@ -76,10 +76,7 @@ class Beale(OptimizationBenchmark):
         return Vector.create(x_1=3.0, x_2=0.5), 0.0
 
 
-class Bird(OptimizationBenchmark):
-
-    def __init__(self):
-        self._n = 2
+class Bird(create_fix_dim_function(2), OptimizationBenchmark):
 
     def call(self, v):
         return np.sin(v[0]) * np.exp((1.0 - np.cos(v[1])) * (1.0 - np.cos(v[1]))) + np.cos(v[1]) * np.exp((1.0 - np.sin(v[0])) * (1.0 - np.sin(v[0]))) + (v[0] - v[1]) * (v[0] - v[1])
