@@ -68,4 +68,8 @@ def test_Chichinadze():
     verify_benchmark(Chichinadze())
 
 
+def test_Colville():
+    verify_benchmark(Colville())
+
+
 

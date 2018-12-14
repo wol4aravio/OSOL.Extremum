@@ -231,3 +231,17 @@ class Chichinadze(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=6.1898665869658, x_2=0.5), -42.94438552656265
+
+
+class Colville(create_fix_dim_function(4), OptimizationBenchmark):
+
+    def call(self, v):
+        return 100.0 * (v[0] - v[1] * v[1]) * (v[0] - v[1] * v[1]) + (1.0 - v[0]) * (1.0 - v[0]) + 90.0 * (v[3] - v[2] * v[2]) * (v[3] - v[2] * v[2]) + (1.0 - v[2]) * (1.0 - v[2]) + 10.1 * ((v[1] - 1.0) * (v[1] - 1.0) + (v[3] - 1.0) * (v[3] - 1.0)) + 19.8 * (v[1] - 1.0) * (v[3] - 1.0)
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 1.0 for i in range(self._n)}), 0.0
