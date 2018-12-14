@@ -44,6 +44,10 @@ def test_Booth(n):
     verify_benchmark(Booth())
 
 
+def test_Brent(n):
+    verify_benchmark(Brent())
+
+
 def test_BoxBettsQuadraticSum(n):
     verify_benchmark(BoxBettsQuadraticSum())
 

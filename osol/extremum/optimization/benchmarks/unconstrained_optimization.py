@@ -156,3 +156,17 @@ class BraninRCOS(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=-np.pi, x_2=12.275), 0.39788735772973816
+
+
+class Brent(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return (v[0] + 10.0) * (v[0] + 10.0) + (v[1] + 10.0) * (v[1] + 10.0) + np.exp(-v[0] * v[0] - v[1] * v[1])
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=-10.0, x_2=-10.0), 0.0
