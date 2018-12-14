@@ -62,3 +62,7 @@ def test_BraninRCOS(n):
 
 def test_Bukin():
     verify_benchmark(Bukin())
+
+
+def test_CamelThreeHumps():
+    verify_benchmark(CamelThreeHumps())
