@@ -296,3 +296,17 @@ class Csendes(VariableDimFunction, OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 1e-9 for i in range(self._n)}), 0.0
+
+
+class Cube(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return 100.0 * (v[1] - v[0] * v[0] * v[0]) * (v[1] - v[0] * v[0] * v[0]) + (1.0 - v[0]) * (1.0 - v[0])
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 1.0 for i in range(self._n)}), 0.0

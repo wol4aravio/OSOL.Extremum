@@ -84,4 +84,6 @@ def test_Csendes(n):
     verify_benchmark(Csendes(n))
 
 
+def test_Cube():
+    verify_benchmark(Cube())
 
