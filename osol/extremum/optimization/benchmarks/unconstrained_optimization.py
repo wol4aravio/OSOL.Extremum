@@ -170,3 +170,19 @@ class Brent(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=-10.0, x_2=-10.0), 0.0
+
+
+class Brown(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v1_ = v.to_numpy_array()[:-1]
+        v2_ = v.to_numpy_array()[1:]
+        return np.sum(np.power(np.square(v1_), v2_ * v2_ + 1.0) + np.power(np.square(v2_), v1_ * v1_ + 1.0))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-1.0, 4.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0

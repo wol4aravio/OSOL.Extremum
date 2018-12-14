@@ -24,28 +24,32 @@ def test_Alpine(n):
     verify_benchmark(Alpine(n))
 
 
-def test_BartelssConn(n):
+def test_BartelssConn():
     verify_benchmark(BartelsConn())
 
 
-def test_Beale(n):
+def test_Beale():
     verify_benchmark(Beale())
 
 
-def test_Bird(n):
+def test_Bird():
     verify_benchmark(Bird())
 
 
-def test_Bohachevsky(n):
+def test_Bohachevsky():
     verify_benchmark(Bohachevsky())
 
 
-def test_Booth(n):
+def test_Booth():
     verify_benchmark(Booth())
 
 
-def test_Brent(n):
+def test_Brent():
     verify_benchmark(Brent())
+
+
+def test_Brown(n):
+    verify_benchmark(Brown(n))
 
 
 def test_BoxBettsQuadraticSum(n):
