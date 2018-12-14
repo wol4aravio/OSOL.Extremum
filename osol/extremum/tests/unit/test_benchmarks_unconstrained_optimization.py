@@ -6,7 +6,7 @@ from osol.extremum.optimization.benchmarks.unconstrained_optimization import *
 
 @pytest.fixture(scope="session")
 def n():
-    return 5
+    return 17
 
 
 def verify_benchmark(bf):
@@ -74,6 +74,10 @@ def test_Colville():
 
 def test_Corana():
     verify_benchmark(Corana())
+
+
+def test_CosineMixture(n):
+    verify_benchmark(CosineMixture(n))
 
 
 

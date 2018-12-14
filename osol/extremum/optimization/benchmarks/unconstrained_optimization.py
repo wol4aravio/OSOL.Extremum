@@ -266,3 +266,18 @@ class Corana(create_fix_dim_function(4), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+
+
+class CosineMixture(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        return np.sum(-(0.1 * np.cos(5.0 * np.pi * v_) - v_ * v_))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), -0.1 * self._n
