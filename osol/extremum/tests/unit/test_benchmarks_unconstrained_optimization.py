@@ -130,3 +130,7 @@ def test_Goldstein():
 
 def test_Griewank(n):
     verify_benchmark(Griewank(n))
+
+
+def test_GulfResearch():
+    verify_benchmark(GulfResearch())

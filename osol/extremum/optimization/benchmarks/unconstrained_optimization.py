@@ -469,3 +469,23 @@ class Griewank(VariableDimFunction, OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+
+
+class GulfResearch(create_fix_dim_function(3), OptimizationBenchmark):
+
+    def call(self, v):
+        i = np.arange(1, 100)
+        u = 25.0 + np.power(-50.0 * np.log(0.01 * i), 1.0 / 1.5)
+        return np.square(np.exp(-np.power(u - v[1], v[2]) / v[0]) - 0.01 * i).sum()
+
+    @property
+    def search_area(self):
+        return {
+            "x_1": (0.1, 100.0),
+            "x_2": (0.0, 25.6),
+            "x_3": (0.0, 5.0)
+        }
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=50.0, x_2=25.0, x_3=1.5), 0.0
