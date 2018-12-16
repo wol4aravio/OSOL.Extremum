@@ -166,3 +166,7 @@ def test_Langermann():
 
 def test_Leon():
     verify_benchmark(Leon())
+
+
+def test_Matyas():
+    verify_benchmark(Matyas())
