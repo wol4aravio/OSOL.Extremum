@@ -720,3 +720,20 @@ class Pathological(VariableDimFunction, OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+
+
+class Paviani(create_fix_dim_function(10), OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        p1 = np.sum(np.square(np.log(v_ - 2.0)) + np.square(np.log(10.0 - v_)))
+        p2 = np.prod(v_)
+        return p1 - np.power(p2, 0.2)
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (2.0001, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 9.351 for i in range(self._n)}), -45.778451456928394

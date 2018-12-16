@@ -194,3 +194,7 @@ def test_PenHolder():
 
 def test_Pathological(n):
     verify_benchmark(Pathological(n))
+
+
+def test_Paviani():
+    verify_benchmark(Paviani())
