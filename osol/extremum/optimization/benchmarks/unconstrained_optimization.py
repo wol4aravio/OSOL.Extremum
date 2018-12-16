@@ -909,7 +909,7 @@ class Sargan(VariableDimFunction, OptimizationBenchmark):
 class SchaffersFirst(create_fix_dim_function(2), OptimizationBenchmark):
 
     def call(self, v):
-        return 0.5 + (np.square(np.sin(np.square(v[0] * v[0] + v[1] * v[1]))) - 0.5) / (1.0 + 0.001 * np.square(v[0] * v[0] + v[1] * v[1]))
+        return 0.5 + (np.square(np.sin(np.square(v[0] * v[0] + v[1] * v[1]))) - 0.5) / np.square(1.0 + 0.001 * (v[0] * v[0] + v[1] * v[1]))
 
     @property
     def search_area(self):
@@ -923,7 +923,7 @@ class SchaffersFirst(create_fix_dim_function(2), OptimizationBenchmark):
 class SchaffersSecond(create_fix_dim_function(2), OptimizationBenchmark):
 
     def call(self, v):
-        return 0.5 + (np.square(np.sin(np.square(v[0] * v[0] - v[1] * v[1]))) - 0.5) / (1.0 + 0.001 * np.square(v[0] * v[0] + v[1] * v[1]))
+        return 0.5 + (np.square(np.sin(np.square(v[0] * v[0] - v[1] * v[1]))) - 0.5) / np.square(1.0 + 0.001 * (v[0] * v[0] + v[1] * v[1]))
 
     @property
     def search_area(self):
@@ -932,3 +932,17 @@ class SchaffersSecond(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=0.0, x_2=0.0), 0.0
+
+
+class SchaffersThird(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return 0.5 + (np.square(np.sin(np.cos(np.abs(v[0] * v[0] - v[1] * v[1])))) - 0.5) / np.square(1.0 + 0.001 * (v[0] * v[0] + v[1] * v[1]))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.0, x_2=1.253114962205510), 0.001566854526004

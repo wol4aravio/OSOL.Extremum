@@ -250,3 +250,7 @@ def test_SchaffersFirst():
 
 def test_SchaffersSecond():
     verify_benchmark(SchaffersSecond())
+
+
+def test_SchaffersThird():
+    verify_benchmark(SchaffersThird())
