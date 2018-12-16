@@ -126,3 +126,7 @@ def test_Exponential(n):
 
 def test_Goldstein():
     verify_benchmark(Goldstein())
+
+
+def test_Griewank(n):
+    verify_benchmark(Griewank(n))
