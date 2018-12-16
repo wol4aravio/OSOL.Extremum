@@ -765,3 +765,17 @@ class Price(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=5.0, x_2=5.0), 0.0
+
+
+class Quadratic(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return -3803.84 - 138.08 * v[0] - 232.92 * v[1] + 128.08 * v[0] * v[0] + 203.64 * v[1] * v[1] + 182.25 * v[0] * v[1]
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.19388, x_2=0.48513), -3873.724182183056

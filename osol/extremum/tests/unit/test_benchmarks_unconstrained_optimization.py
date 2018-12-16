@@ -206,3 +206,7 @@ def test_Periodic():
 
 def test_Price():
     verify_benchmark(Price())
+
+
+def test_Quadratic():
+    verify_benchmark(Quadratic())
