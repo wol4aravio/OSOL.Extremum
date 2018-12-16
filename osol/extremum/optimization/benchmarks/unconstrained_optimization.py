@@ -425,3 +425,18 @@ class EggHolder(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=512.0, x_2=404.2319), -959.640662709941
+
+
+class Exponential(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        return -np.exp((-0.5 * np.square(v_)).sum())
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), -1.0

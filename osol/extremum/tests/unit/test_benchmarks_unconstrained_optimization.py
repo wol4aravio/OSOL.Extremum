@@ -118,3 +118,7 @@ def test_EggCrate():
 
 def test_EggHolder():
     verify_benchmark(EggHolder())
+
+
+def test_Exponential(n):
+    verify_benchmark(Exponential(n))
