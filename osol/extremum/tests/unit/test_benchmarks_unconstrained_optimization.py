@@ -270,3 +270,7 @@ def test_Trefethen():
 
 def test_Ursem():
     verify_benchmark(Ursem())
+
+
+def test_Zakharov(n):
+    verify_benchmark(Zakharov(n))

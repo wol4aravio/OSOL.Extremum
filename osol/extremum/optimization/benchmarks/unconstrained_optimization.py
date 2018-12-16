@@ -1008,3 +1008,20 @@ class Ursem(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=1.697136443570341, x_2=0.0), -4.816814063734823
+
+
+class Zakharov(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        p1 = np.square(v_).sum()
+        p2 = np.sum((np.arange(self._n) + 1) * v_)
+        return p1 + np.square(0.5 * p2) + np.power(0.5 * p2, 4)
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-5.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
