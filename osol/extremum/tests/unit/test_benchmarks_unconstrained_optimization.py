@@ -254,3 +254,11 @@ def test_SchaffersSecond():
 
 def test_SchaffersThird():
     verify_benchmark(SchaffersThird())
+
+
+def test_Trecanni():
+    verify_benchmark(Trecanni())
+
+
+def test_Trid():
+    verify_benchmark(Trid())

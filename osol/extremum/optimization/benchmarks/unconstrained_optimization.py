@@ -946,3 +946,34 @@ class SchaffersThird(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=0.0, x_2=1.253114962205510), 0.001566854526004
+
+
+class Trecanni(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return v[0] * v[0] * v[0] * v[0] - 4 * v[0] * v[0] * v[0] + 4 * v[0] + v[1] * v[1]
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-5.0, 5.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.0, x_2=0.0), 0.0
+
+
+class Trid(create_fix_dim_function(6), OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        p1 = np.square(v_ - 1.0).sum()
+        p2 = np.sum(v_[1:] * v_[:-1])
+        return p1 - p2
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-20.0, 20.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=6.0, x_2=10.0, x_3=12.0, x_4=12.0, x_5=10.0, x_6=6.0), -50.0
