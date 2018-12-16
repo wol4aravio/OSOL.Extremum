@@ -134,3 +134,7 @@ def test_Griewank(n):
 
 def test_GulfResearch():
     verify_benchmark(GulfResearch())
+
+
+def test_Hansen():
+    verify_benchmark(Hansen())

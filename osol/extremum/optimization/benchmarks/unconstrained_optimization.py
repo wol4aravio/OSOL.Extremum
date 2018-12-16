@@ -489,3 +489,20 @@ class GulfResearch(create_fix_dim_function(3), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=50.0, x_2=25.0, x_3=1.5), 0.0
+
+
+class Hansen(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        i = np.arange(5)
+        p1 = (i + 1) * np.cos(i * v[0] + i + 1.0)
+        p2 = (i + 1) * np.cos((i + 2) * v[1] + i + 1.0)
+        return p1.sum() * p2.sum()
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=-7.58989583, x_2=-7.70831466), -176.54179313664181
