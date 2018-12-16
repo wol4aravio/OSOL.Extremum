@@ -242,3 +242,7 @@ def test_Salomon(n):
 
 def test_Sargan(n):
     verify_benchmark(Sargan(n))
+
+
+def test_SchaffersFirst():
+    verify_benchmark(SchaffersFirst())
