@@ -138,3 +138,7 @@ def test_GulfResearch():
 
 def test_Hansen():
     verify_benchmark(Hansen())
+
+
+def test_HelicalValley():
+    verify_benchmark(HelicalValley())

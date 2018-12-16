@@ -506,3 +506,21 @@ class Hansen(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=-7.58989583, x_2=-7.70831466), -176.54179313664181
+
+
+class HelicalValley(create_fix_dim_function(3), OptimizationBenchmark):
+
+    def call(self, v):
+        if v[0] >= 0.0:
+            theta = np.arctan(v[1] / v[0]) / (2.0 * np.pi)
+        else:
+            theta = (np.pi + np.arctan(v[1] / v[0])) / (2.0 * np.pi)
+        return 100.0 * (np.square(v[2] - 10.0 * theta) + np.square(np.sqrt(v[0] * v[0] + v[1] * v[1]) - 1.0)) + v[2] * v[2]
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=1.0, x_2=0.0000000001, x_3=0.0), 0.0
