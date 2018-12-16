@@ -198,3 +198,7 @@ def test_Pathological(n):
 
 def test_Paviani():
     verify_benchmark(Paviani())
+
+
+def test_Periodic():
+    verify_benchmark(Periodic())

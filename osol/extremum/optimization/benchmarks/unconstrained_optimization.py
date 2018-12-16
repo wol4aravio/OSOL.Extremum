@@ -737,3 +737,17 @@ class Paviani(create_fix_dim_function(10), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 9.351 for i in range(self._n)}), -45.778451456928394
+
+
+class Periodic(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return 1.0 + np.square(np.sin(v[0])) + np.square(np.sin(v[1])) - 0.1 * np.exp(-(v[0] * v[0] + v[1] * v[1]))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.0, x_2=0.0), 0.9
