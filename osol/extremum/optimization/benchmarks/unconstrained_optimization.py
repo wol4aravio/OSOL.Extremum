@@ -690,3 +690,17 @@ class Parsopoulos(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=np.pi/2.0, x_2=0.0), 0.0
+
+
+class PenHolder(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return -np.exp(-1.0 / np.abs(np.cos(v[0]) * np.cos(v[1]) * np.exp(np.abs(1.0 - np.sqrt(v[0] * v[0] + v[1] * v[1]) / np.pi))))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-11.0, 11.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=9.646167671043401, x_2=9.646167671043401), -0.9635348327265058

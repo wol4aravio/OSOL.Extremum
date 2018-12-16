@@ -186,3 +186,7 @@ def test_MishraZeroSum(n):
 
 def test_Parsopoulos():
     verify_benchmark(Parsopoulos())
+
+
+def test_PenHolder():
+    verify_benchmark(PenHolder())
