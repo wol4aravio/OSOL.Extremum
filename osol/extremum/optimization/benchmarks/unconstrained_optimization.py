@@ -440,3 +440,17 @@ class Exponential(VariableDimFunction, OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), -1.0
+
+
+class Goldstein(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return (1.0 + (v[0] + v[1] + 1.0) * (v[0] + v[1] + 1.0) * (19.0 - 14.0 * v[0] + 3.0 * v[0] * v[0] - 14.0 * v[1] + 6.0 * v[0] * v[1] + 3.0 * v[1] * v[1])) * (30.0 + (2.0 * v[0] - 3 * v[1]) * (2.0 * v[0] - 3 * v[1]) * (18.0 - 32.0 * v[0] + 12.0 * v[0] * v[0] + 48.0 * v[1] - 36 * v[0] * v[1] + 27.0 * v[1] * v[1]))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-2.0, 2.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.0, x_2=-1.0), 3.0

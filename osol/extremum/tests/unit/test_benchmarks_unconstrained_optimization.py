@@ -122,3 +122,7 @@ def test_EggHolder():
 
 def test_Exponential(n):
     verify_benchmark(Exponential(n))
+
+
+def test_Goldstein():
+    verify_benchmark(Goldstein())
