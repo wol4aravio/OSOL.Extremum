@@ -170,3 +170,7 @@ def test_Leon():
 
 def test_Matyas():
     verify_benchmark(Matyas())
+
+
+def test_McCormick():
+    verify_benchmark(McCormick())

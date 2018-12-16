@@ -630,3 +630,20 @@ class Matyas(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=0.0, x_2=0.0), 0.0
+
+
+class McCormick(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return np.sin(v[0] + v[1]) + (v[0] - v[1]) * (v[0] - v[1]) - v[0] + 2.0 * v[1] + 1.0
+
+    @property
+    def search_area(self):
+        return {
+            "x_1": (-1.5, 4.0),
+            "x_2": (-3.0, 3.0)
+        }
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=-0.5471975602214493, x_2=-1.547197559268372), -1.413222955457575
