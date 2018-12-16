@@ -182,3 +182,7 @@ def test_MieleCantrell():
 
 def test_MishraZeroSum(n):
     verify_benchmark(MishraZeroSum(n))
+
+
+def test_Parsopoulos():
+    verify_benchmark(Parsopoulos())
