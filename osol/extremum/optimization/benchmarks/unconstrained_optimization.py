@@ -555,3 +555,18 @@ class Hosaki(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=4.0, x_2=2.0), -2.3458115458488518
+
+
+class JennrichSampson(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        i = np.arange(1, 11)
+        return np.square(2.0 + 2.0 * i - (np.exp(i * v[0]) + np.exp(i * v[1]))).sum()
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.257825, x_2=0.257825),  124.36218236258078

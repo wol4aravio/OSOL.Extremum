@@ -150,3 +150,7 @@ def test_Himmelblau():
 
 def test_Hosaki():
     verify_benchmark(Hosaki())
+
+
+def test_JennrichSampson():
+    verify_benchmark(JennrichSampson())
