@@ -825,3 +825,17 @@ class Rosenbrock(VariableDimFunction, OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 1.0 for i in range(self._n)}), 0.0
+
+
+class RosenbrocksModified(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return 74.0 + 100.0 * (v[1] - v[0] * v[0]) * (v[1] - v[0] * v[0]) + (1.0 - v[0]) * (1.0 - v[0]) - 400.0 * np.exp(-((v[0] + 1) * (v[0] + 1) + (v[1] + 1) * (v[1] + 1)) / 0.1)
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-2.0, 2.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=-0.9, x_2=-0.95), 34.37125655899683

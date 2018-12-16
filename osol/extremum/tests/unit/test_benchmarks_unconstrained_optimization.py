@@ -222,3 +222,7 @@ def test_Ripple():
 
 def test_Rosenbrock(n):
     verify_benchmark(Rosenbrock(n))
+
+
+def test_RosenbrocksModified():
+    verify_benchmark(RosenbrocksModified())
