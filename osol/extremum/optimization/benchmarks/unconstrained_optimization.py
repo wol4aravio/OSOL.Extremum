@@ -794,3 +794,18 @@ class Quintic(VariableDimFunction, OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": -1.0 for i in range(self._n)}), 0.0
+
+
+class Ripple(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        return -(np.exp(-2 * np.log(2) * np.square((v_ - 0.1) / 0.8)) * (np.power(np.sin(5.0 * np.pi * v_), 6) + 0.1 * np.square(np.cos(500.0 * np.pi * v_)))).sum()
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (0.0, 1.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 0.1 for i in range(self._n)}), -self._n * 1.1

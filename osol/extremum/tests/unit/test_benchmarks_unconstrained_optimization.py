@@ -214,3 +214,7 @@ def test_Quadratic():
 
 def test_Quintic(n):
     verify_benchmark(Quintic(n))
+
+
+def test_Ripple():
+    verify_benchmark(Ripple(5))
