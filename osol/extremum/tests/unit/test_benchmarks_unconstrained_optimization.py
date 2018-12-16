@@ -246,3 +246,7 @@ def test_Sargan(n):
 
 def test_SchaffersFirst():
     verify_benchmark(SchaffersFirst())
+
+
+def test_SchaffersSecond():
+    verify_benchmark(SchaffersSecond())
