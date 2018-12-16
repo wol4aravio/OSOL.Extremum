@@ -142,3 +142,7 @@ def test_Hansen():
 
 def test_HelicalValley():
     verify_benchmark(HelicalValley())
+
+
+def test_Himmelblau():
+    verify_benchmark(Himmelblau())

@@ -524,3 +524,17 @@ class HelicalValley(create_fix_dim_function(3), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=1.0, x_2=0.0000000001, x_3=0.0), 0.0
+
+
+class Himmelblau(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return np.square(v[0] * v[0] + v[1] - 11.0) + np.square(v[0] + v[1] * v[1] - 7.0)
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-5.0, 5.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=3.0, x_2=2.0), 0.0
