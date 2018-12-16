@@ -647,3 +647,17 @@ class McCormick(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=-0.5471975602214493, x_2=-1.547197559268372), -1.413222955457575
+
+
+class MieleCantrell(create_fix_dim_function(4), OptimizationBenchmark):
+
+    def call(self, v):
+        return np.power(np.exp(-v[0]) - v[1], 4) + 100.0 * np.power(v[1] - v[2], 6) + np.power(np.tan(v[2] - v[3]), 4) + np.power(v[0], 8)
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.0, x_2=1.0, x_3=1.0, x_4=1.0), 0.0
