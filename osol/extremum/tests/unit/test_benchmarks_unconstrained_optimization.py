@@ -94,3 +94,7 @@ def test_Damavandi():
 
 def test_Deb(n):
     verify_benchmark(Deb(n))
+
+
+def test_DeckkersAarts():
+    verify_benchmark(DeckkersAarts())

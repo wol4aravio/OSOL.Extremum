@@ -339,3 +339,17 @@ class Deb(VariableDimFunction, OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": -0.9 for i in range(self._n)}), -1.0
+
+
+class DeckkersAarts(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return 100000.0 * v[0] * v[0] + v[1] * v[1] - (v[0] * v[0] + v[1] * v[1]) * (v[0] * v[0] + v[1] * v[1]) + 0.00001 * np.power(v[0] * v[0] + v[1] * v[1], 4)
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-20.0, 20.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.0, x_2=15.0), -24771.09375
