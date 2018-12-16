@@ -114,3 +114,7 @@ def test_Easom():
 
 def test_EggCrate():
     verify_benchmark(EggCrate())
+
+
+def test_EggHolder():
+    verify_benchmark(EggHolder())
