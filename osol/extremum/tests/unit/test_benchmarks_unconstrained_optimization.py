@@ -190,3 +190,7 @@ def test_Parsopoulos():
 
 def test_PenHolder():
     verify_benchmark(PenHolder())
+
+
+def test_Pathological(n):
+    verify_benchmark(Pathological(n))

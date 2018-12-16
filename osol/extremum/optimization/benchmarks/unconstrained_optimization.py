@@ -704,3 +704,19 @@ class PenHolder(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=9.646167671043401, x_2=9.646167671043401), -0.9635348327265058
+
+
+class Pathological(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v1 = v.to_numpy_array()[:-1]
+        v2 = v.to_numpy_array()[1:]
+        return np.sum(0.5 + (np.square(np.sin(np.sqrt(100.0 * v1 * v1 + v2 * v2))) - 0.5) / (1.0 + 0.001 * np.square(v1 * v1 - 2 * v1 * v2 + v2 * v2)))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
