@@ -572,6 +572,20 @@ class JennrichSampson(create_fix_dim_function(2), OptimizationBenchmark):
         return Vector.create(x_1=0.257825, x_2=0.257825), 124.36218236258078
 
 
+class Keane(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return np.square(np.sin(v[0] - v[1]) * np.sin(v[0] + v[1])) / np.sqrt(v[0] * v[0] + v[1] * v[1])
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (0.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.0, x_2=1.39325), 0.6736675
+
+
 class Langermann(create_fix_dim_function(2), OptimizationBenchmark):
 
     def call(self, v):
