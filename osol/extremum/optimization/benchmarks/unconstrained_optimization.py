@@ -310,3 +310,32 @@ class Cube(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 1.0 for i in range(self._n)}), 0.0
+
+
+class Damavandi(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return (1.0 - np.power(np.abs(((np.sin(np.pi * (v[0] - 2))) * np.sin(np.pi * (v[0] - 2))) / (np.pi * np.pi * (v[0] - 2.0) * (v[1] - 2.0))), 5)) * (2.0 + (v[0] - 7.0) * (v[0] - 7.0) + 2.0 * (v[1] - 7.0) * (v[1] - 7.0))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (0.0, 14.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": (2.0 + 1e-5) for i in range(self._n)}), 0.0
+
+
+class Deb(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        return (-np.power(np.sin(5.0 * np.pi * v_), 6.0) / self._n).sum()
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": -0.9 for i in range(self._n)}), -1.0

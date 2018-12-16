@@ -87,3 +87,10 @@ def test_Csendes(n):
 def test_Cube():
     verify_benchmark(Cube())
 
+
+def test_Damavandi():
+    verify_benchmark(Damavandi())
+
+
+def test_Deb(n):
+    verify_benchmark(Deb(n))
