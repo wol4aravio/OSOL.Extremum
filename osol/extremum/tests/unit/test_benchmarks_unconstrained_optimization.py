@@ -162,3 +162,7 @@ def test_Keane():
 
 def test_Langermann():
     verify_benchmark(Langermann())
+
+
+def test_Leon():
+    verify_benchmark(Leon())

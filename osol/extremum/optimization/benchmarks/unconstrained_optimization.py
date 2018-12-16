@@ -602,3 +602,17 @@ class Langermann(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=9.6810707, x_2=0.6666515), -1.08093846723926811925764468469
+
+
+class Leon(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return 100.0 * (v[1] - v[0] * v[0]) * (v[1] - v[0] * v[0]) + (1.0 - v[0]) * (1.0 - v[0])
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-1.2, 1.2) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=1.0, x_2=1.0), 0.0
