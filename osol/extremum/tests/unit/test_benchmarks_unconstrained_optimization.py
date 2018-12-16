@@ -110,3 +110,7 @@ def test_Dolan():
 
 def test_Easom():
     verify_benchmark(Easom())
+
+
+def test_EggCrate():
+    verify_benchmark(EggCrate())

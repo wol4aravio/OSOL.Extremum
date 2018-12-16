@@ -397,3 +397,17 @@ class Easom(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=np.pi, x_2=np.pi), -1.0
+
+
+class EggCrate(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return v[0] * v[0] + v[1] * v[1] + 25.0 * (np.sin(v[0]) * np.sin(v[0]) + np.sin(v[1]) * np.sin(v[1]))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-5.0, 5.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.0, x_2=0.0), 0.0
