@@ -234,3 +234,7 @@ def test_RotatedEllipse():
 
 def test_Rump():
     verify_benchmark(Rump())
+
+
+def test_Salomon(n):
+    verify_benchmark(Salomon(n))
