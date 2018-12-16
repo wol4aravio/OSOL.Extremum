@@ -178,3 +178,7 @@ def test_McCormick():
 
 def test_MieleCantrell():
     verify_benchmark(MieleCantrell())
+
+
+def test_MishraZeroSum(n):
+    verify_benchmark(MishraZeroSum(n))

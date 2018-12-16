@@ -661,3 +661,18 @@ class MieleCantrell(create_fix_dim_function(4), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=0.0, x_2=1.0, x_3=1.0, x_4=1.0), 0.0
+
+
+class MishraZeroSum(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        return 100.0 * np.sqrt(np.abs(v_.sum()))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
