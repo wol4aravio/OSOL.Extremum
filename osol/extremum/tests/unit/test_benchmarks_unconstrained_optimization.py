@@ -154,3 +154,7 @@ def test_Hosaki():
 
 def test_JennrichSampson():
     verify_benchmark(JennrichSampson())
+
+
+def test_Langermann():
+    verify_benchmark(Langermann())

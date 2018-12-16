@@ -569,4 +569,22 @@ class JennrichSampson(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.257825, x_2=0.257825),  124.36218236258078
+        return Vector.create(x_1=0.257825, x_2=0.257825), 124.36218236258078
+
+
+class Langermann(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        a = np.array([9.681, 9.4, 8.025, 2.196, 8.074])
+        b = np.array([0.667, 2.041, 9.152, 0.415, 8.777])
+        c = np.array([0.806, 0.517, 0.1, 0.908, 0.965])
+        result = c * np.cos(np.pi * ((v[0] - a) * (v[0] - a) + (v[1] - b) * (v[1] - b))) / np.exp(((v[0] - a) * (v[0] - a) + (v[1] - b) * (v[1] - b)) / np.pi)
+        return np.sum(-result)
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (0.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=9.6810707, x_2=0.6666515), -1.08093846723926811925764468469
