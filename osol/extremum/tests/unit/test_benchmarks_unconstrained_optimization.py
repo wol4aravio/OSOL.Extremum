@@ -202,3 +202,7 @@ def test_Paviani():
 
 def test_Periodic():
     verify_benchmark(Periodic())
+
+
+def test_Price():
+    verify_benchmark(Price())
