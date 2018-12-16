@@ -230,3 +230,7 @@ def test_RosenbrockModified():
 
 def test_RotatedEllipse():
     verify_benchmark(RotatedEllipse())
+
+
+def test_Rump():
+    verify_benchmark(Rump())

@@ -853,3 +853,17 @@ class RotatedEllipse(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=0.0, x_2=0.0), 0.0
+
+
+class Rump(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return (333.75 - v[0] * v[0]) * np.power(v[1], 6) + v[0] * v[0] * (11.0 * v[0] * v[0] * v[1] * v[1] - 121.0 * v[1] * v[1] * v[1] * v[1] - 2.0) + 5.5 * np.power(v[1], 8) + v[0] / (2.0 * v[1])
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-500.0, 500.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=0.0, x_2=1e-17), 0.0
