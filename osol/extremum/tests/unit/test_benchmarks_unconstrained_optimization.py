@@ -266,3 +266,7 @@ def test_Trid():
 
 def test_Trefethen():
     verify_benchmark(Trefethen())
+
+
+def test_Ursem():
+    verify_benchmark(Ursem())

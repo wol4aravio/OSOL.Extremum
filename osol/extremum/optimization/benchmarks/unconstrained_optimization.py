@@ -992,3 +992,19 @@ class Trefethen(create_fix_dim_function(2), OptimizationBenchmark):
     def solution(self):
         return Vector.create(x_1=-0.02440307923, x_2=0.2106124261), -3.3068678655394708
 
+
+class Ursem(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return -np.sin(2 * v[0] - 0.5 * np.pi) - 3.0 * np.cos(v[1]) - 0.5 * v[0]
+
+    @property
+    def search_area(self):
+        return {
+            "x_1": (-2.5, 3.0),
+            "x_2": (-2.0, 2.0)
+        }
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=1.697136443570341, x_2=0.0), -4.816814063734823
