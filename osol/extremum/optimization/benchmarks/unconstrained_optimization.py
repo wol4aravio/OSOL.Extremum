@@ -809,3 +809,19 @@ class Ripple(VariableDimFunction, OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 0.1 for i in range(self._n)}), -self._n * 1.1
+
+
+class Rosenbrock(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v1 = v.to_numpy_array()[1:]
+        v2 = v.to_numpy_array()[:-1]
+        return (100.0 * (v1 - v2 * v2) * (v1 - v2 * v2) + (v2 - 1.0) * (v2 - 1.0)).sum()
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-30.0, 30.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 1.0 for i in range(self._n)}), 0.0

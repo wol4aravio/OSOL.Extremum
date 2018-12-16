@@ -218,3 +218,7 @@ def test_Quintic(n):
 
 def test_Ripple():
     verify_benchmark(Ripple(5))
+
+
+def test_Rosenbrock(n):
+    verify_benchmark(Rosenbrock(n))
