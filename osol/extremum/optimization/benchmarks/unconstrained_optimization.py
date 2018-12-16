@@ -977,3 +977,18 @@ class Trid(create_fix_dim_function(6), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=6.0, x_2=10.0, x_3=12.0, x_4=12.0, x_5=10.0, x_6=6.0), -50.0
+
+
+class Trefethen(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return np.exp(np.sin(50.0 * v[0])) + np.sin(60.0 * np.exp(v[1])) + np.sin(70.0 * np.sin(v[0])) + np.sin(np.sin(80.0 * v[1])) - np.sin(10.0 * (v[0] + v[1])) + 0.25 * (v[0] * v[0] + v[1] * v[1])
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=-0.02440307923, x_2=0.2106124261), -3.3068678655394708
+

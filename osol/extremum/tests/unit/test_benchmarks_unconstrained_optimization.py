@@ -262,3 +262,7 @@ def test_Trecanni():
 
 def test_Trid():
     verify_benchmark(Trid())
+
+
+def test_Trefethen():
+    verify_benchmark(Trefethen())
