@@ -226,3 +226,7 @@ def test_Rosenbrock(n):
 
 def test_RosenbrockModified():
     verify_benchmark(RosenbrockModified())
+
+
+def test_RotatedEllipse():
+    verify_benchmark(RotatedEllipse())
