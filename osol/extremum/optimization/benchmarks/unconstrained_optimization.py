@@ -779,3 +779,18 @@ class Quadratic(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=0.19388, x_2=0.48513), -3873.724182183056
+
+
+class Quintic(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v_ = v.to_numpy_array()
+        return np.abs(np.power(v_, 5) - 3.0 * np.power(v_, 4) + 4.0 * np.power(v_, 3) + 2.0 * np.square(v_) - 10.0 * v_ - 4.0)
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": -1.0 for i in range(self._n)}), 0.0

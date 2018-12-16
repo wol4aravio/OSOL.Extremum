@@ -210,3 +210,7 @@ def test_Price():
 
 def test_Quadratic():
     verify_benchmark(Quadratic())
+
+
+def test_Quintic(n):
+    verify_benchmark(Quintic(n))
