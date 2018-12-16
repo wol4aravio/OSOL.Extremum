@@ -383,3 +383,17 @@ class Dolan(create_fix_dim_function(5), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=98.964258312237106, x_2=100, x_3=100, x_4=99.224323672554704, x_5=-0.249987527588471), -529.8714413460193
+
+
+class Easom(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return -np.cos(v[0]) * np.cos(v[1]) * np.exp(-(v[0] - np.pi) * (v[0] - np.pi) - (v[1] - np.pi) * (v[1] - np.pi))
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=np.pi, x_2=np.pi), -1.0

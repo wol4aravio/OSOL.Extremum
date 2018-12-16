@@ -106,3 +106,7 @@ def test_DixonAndPrice(n):
 
 def test_Dolan():
     verify_benchmark(Dolan())
+
+
+def test_Easom():
+    verify_benchmark(Easom())
