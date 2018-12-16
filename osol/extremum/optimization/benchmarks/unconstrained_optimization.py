@@ -883,3 +883,24 @@ class Salomon(VariableDimFunction, OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+
+
+class Sargan(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        result = 0.0
+        for i in range(self._n):
+            temp_result = 0.0
+            for j in range(self._n):
+                if j != i:
+                    temp_result += v[i] * v[j]
+            result += v[i] * v[i] + 0.4 * temp_result
+        return result
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0

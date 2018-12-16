@@ -238,3 +238,7 @@ def test_Rump():
 
 def test_Salomon(n):
     verify_benchmark(Salomon(n))
+
+
+def test_Sargan(n):
+    verify_benchmark(Sargan(n))
