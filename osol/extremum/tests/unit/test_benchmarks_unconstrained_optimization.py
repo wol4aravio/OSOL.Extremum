@@ -98,3 +98,7 @@ def test_Deb(n):
 
 def test_DeckkersAarts():
     verify_benchmark(DeckkersAarts())
+
+
+def test_DixonAndPrice(n):
+    verify_benchmark(DixonAndPrice(n))

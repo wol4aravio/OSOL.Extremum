@@ -353,3 +353,19 @@ class DeckkersAarts(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=0.0, x_2=15.0), -24771.09375
+
+
+class DixonAndPrice(VariableDimFunction, OptimizationBenchmark):
+
+    def call(self, v):
+        v1 = v.to_numpy_array()[1:]
+        v2 = v.to_numpy_array()[:-1]
+        return (v[0] - 1.0) * (v[0] - 1.0) + (np.arange(2, self._n + 1) * np.square(2.0 * np.square(v1) - v2)).sum()
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(**{f"x_{i + 1}": np.power(2.0, -(np.power(2.0, i + 1) - 2.0) / np.power(2.0, i + 1)) for i in range(self._n)}), 0.0
