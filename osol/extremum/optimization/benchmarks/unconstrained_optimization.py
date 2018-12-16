@@ -369,3 +369,17 @@ class DixonAndPrice(VariableDimFunction, OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(**{f"x_{i + 1}": np.power(2.0, -(np.power(2.0, i + 1) - 2.0) / np.power(2.0, i + 1)) for i in range(self._n)}), 0.0
+
+
+class Dolan(create_fix_dim_function(5), OptimizationBenchmark):
+
+    def call(self, v):
+        return (v[0] + 1.7 * v[1]) * np.sin(v[0]) - 1.5 * v[2] - 0.1 * v[3] * np.cos(v[4] + v[3] - v[0]) + 0.2 * v[4] * v[4] - v[1] - 1.0
+
+    @property
+    def search_area(self):
+        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=98.964258312237106, x_2=100, x_3=100, x_4=99.224323672554704, x_5=-0.249987527588471), -529.8714413460193

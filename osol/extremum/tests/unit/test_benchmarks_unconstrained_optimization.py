@@ -102,3 +102,7 @@ def test_DeckkersAarts():
 
 def test_DixonAndPrice(n):
     verify_benchmark(DixonAndPrice(n))
+
+
+def test_Dolan():
+    verify_benchmark(Dolan())
