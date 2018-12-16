@@ -146,3 +146,7 @@ def test_HelicalValley():
 
 def test_Himmelblau():
     verify_benchmark(Himmelblau())
+
+
+def test_Hosaki():
+    verify_benchmark(Hosaki())

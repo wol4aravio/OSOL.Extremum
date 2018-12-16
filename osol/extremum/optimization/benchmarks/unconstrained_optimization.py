@@ -538,3 +538,20 @@ class Himmelblau(create_fix_dim_function(2), OptimizationBenchmark):
     @property
     def solution(self):
         return Vector.create(x_1=3.0, x_2=2.0), 0.0
+
+
+class Hosaki(create_fix_dim_function(2), OptimizationBenchmark):
+
+    def call(self, v):
+        return (1.0 - 8.0 * v[0] + 7 * v[0] * v[0] - 7.0 * v[0] * v[0] * v[0] / 3.0 + 0.25 * v[0] * v[0] * v[0] * v[0]) * v[1] * v[1] * np.exp(-v[1])
+
+    @property
+    def search_area(self):
+        return {
+            "x_1": (0.0, 5.0),
+            "x_2": (0.0, 6.0)
+        }
+
+    @property
+    def solution(self):
+        return Vector.create(x_1=4.0, x_2=2.0), -2.3458115458488518
