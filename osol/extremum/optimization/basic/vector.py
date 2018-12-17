@@ -66,7 +66,6 @@ class Vector:
             values.append(v)
         return cls(values, keys)
 
-
     @contract
     def __str__(self):
         """ Prints Vector
@@ -193,6 +192,24 @@ class Vector:
             :rtype: vector
         """
         return Vector(np.copy(self._values), self.keys())
+
+    def belongs_to(self, area):
+        """ Checks whether vector belongs to area
+
+            :param area: checking area
+            :type area: dict(str:tuple(number, number))
+
+            :returns: check status
+            :rtype: bool
+        """
+        for k in self._keys:
+            if k in area:
+                v = self[k]
+                if v < area[k][0] or v > area[k][1]:
+                    return False
+            else:
+                raise VectorExceptions.DifferentKeysException(f"Key {k} is not present in area")
+        return True
 
     def __eq__(self, other):
         """ Equality of vectors
@@ -321,6 +338,15 @@ class Vector:
             :rtype: number
         """
         return np.sqrt(np.sum(np.power(self._values, 2.0)), dtype=np.float64)
+
+    @contract
+    def to_numpy_array(self):
+        """ Returns numpy array from vector
+
+            :returns: array of values
+            :rtype: array
+        """
+        return self._values
 
 
 class VectorExceptions:
