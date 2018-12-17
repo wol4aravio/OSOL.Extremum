@@ -48,14 +48,14 @@ def benchmark_algorithm(algorithm, benchmarks, terminator, number_of_runs):
     :param benchmarks: benchmarks to be used
     :type benchmarks: dict(str:Benchmark)
 
-    :param terminator: termination criterion for the algorithm
-    :type terminator: Terminator
+    :param terminator: termination criterion generator
+    :type terminator: *
 
     :param number_of_runs: how many times the algorithm should be tested
     :type number_of_runs: int
 
     :returns: algorithm application results
-    :rtype: dict(str:list(tuple(Vector, number)))
+    :rtype: dict(str:tuple(list(tuple(Vector, number)),number))
     """
     results = dict()
     for b_name, b_func in benchmarks.items():
@@ -66,22 +66,5 @@ def benchmark_algorithm(algorithm, benchmarks, terminator, number_of_runs):
             x = algorithm.optimize(bt, search_area)
             y = b_func(x)
             results[b_name].append((x, y))
+        results[b_name] = (results[b_name], b_func.solution[1])
     return results
-
-
-# from osol.extremum.optimization.benchmarks.unconstrained_optimization import *
-# from osol.extremum.optimization.algorithms.statistical_anti_gradient_random_search import StatisticalAntiGradientRandomSearch
-# from osol.extremum.optimization.basic.terminator import MaxTimeTerminator
-# from functools import partial
-#
-# test_set = {
-#     "Beale": Beale(),
-#     "Bird": Bird(),
-#     "Easom": Easom()
-# }
-# sag_rs = StatisticalAntiGradientRandomSearch(radius=0.1, number_of_samples=10)
-# termination = partial(MaxTimeTerminator, mode="dummy", max_time="s:1")
-#
-# stats = benchmark_algorithm(sag_rs, test_set, termination, number_of_runs=3)
-#
-# print("Done")
