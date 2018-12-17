@@ -1,7 +1,12 @@
+from contracts import contract
+
+from osol.extremum.optimization.benchmarks.optimization_benchmark import *  # Required for `Benchmark` contract inclusion
 from osol.extremum.optimization.benchmarks.unconstrained_optimization import *
 
 
+@contract(returns="dict(str:Benchmark)")
 def dim_2():
+    """ Returns all 2D benchmark functions """
     return {
         "BartelsConn": BartelsConn(),
         "Beale": Beale(),

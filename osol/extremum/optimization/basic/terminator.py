@@ -1,12 +1,10 @@
 from abc import ABC, abstractmethod
-from contracts import contract, new_contract, ContractsMeta
-from typing import Callable
+from contracts import contract, ContractsMeta
 
 from datetime import datetime as dt
 from datetime import timedelta
 
-
-new_contract("function", Callable)
+from osol.extremum.etc.new_contracts import * # Inclusion of user defined contracts
 
 
 class Terminator(ABC, metaclass=ContractsMeta):
@@ -17,7 +15,7 @@ class Terminator(ABC, metaclass=ContractsMeta):
         """ Initialization of a Terminator
 
             :param f: target function
-            :type f: function
+            :type f: Function
 
             :param mode: initialization mode
             :type mode: str
@@ -54,7 +52,7 @@ class DummyTerminator(Terminator):
         """ Initialization of a DummyTerminator
 
             :param f: target function
-            :type f: function
+            :type f: Function
 
             :param mode: initialization mode
             :type mode: str
@@ -76,7 +74,7 @@ class MaxCallsTerminator(Terminator):
         """ Initialization of a MaxCallsTerminator
 
             :param f: target function
-            :type f: function
+            :type f: Function
 
             :param mode: initialization mode
             :type mode: str
@@ -106,7 +104,7 @@ class MaxTimeTerminator(Terminator):
         """ Initialization of a MaxTimeTerminator
 
             :param f: target function
-            :type f: function
+            :type f: Function
 
             :param mode: initialization mode
             :type mode: str
@@ -142,6 +140,7 @@ class TerminatorExceptions:
     class UnsupportedModeException(Exception):
         """ Exception that is used as a flag for unsupported mode """
         pass
+
     class StopWorkException(Exception):
         """ Exception that is used as a flag to stop current execution """
         pass
