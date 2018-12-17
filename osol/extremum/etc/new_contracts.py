@@ -17,6 +17,11 @@ new_contract("valid_constrain_tuples",
                              isinstance(max_, (int, float)) for k, (min_, max_) in v_]))
 
 new_contract("Function", Callable)
-new_contract("Algorithm", lambda v: type(v).__name__ == "Algorithm" or type(v).__bases__[0].__name__ == "Algorithm")
-new_contract("Terminator", lambda v: type(v).__name__ == "Terminator" or type(v).__bases__[0].__name__ == "Terminator")
-new_contract("Benchmark", lambda v: type(v).__name__ == "OptimizationBenchmark")
+new_contract("Algorithm", lambda v: type(v).__name__ == "Algorithm" or
+                                    type(v).__bases__[0].__name__ == "Algorithm")
+
+new_contract("Terminator", lambda v: type(v).__name__ == "Terminator" or
+                                     type(v).__bases__[0].__name__ == "Terminator")
+
+new_contract("Benchmark", lambda v: type(v).__name__ == "OptimizationBenchmark" or
+                                    "OptimizationBenchmark" in [t.__name__ for t in type(v).__bases__])

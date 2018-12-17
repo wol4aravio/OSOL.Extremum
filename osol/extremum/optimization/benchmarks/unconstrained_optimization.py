@@ -401,11 +401,11 @@ class Dolan(create_fix_dim_function(5), OptimizationBenchmark):
 class Easom(create_fix_dim_function(2), OptimizationBenchmark):
 
     def call(self, v):
-        return -np.cos(v[0]) * np.cos(v[1]) * np.exp(-(v[0] - np.pi) * (v[0] - np.pi) - (v[1] - np.pi) * (v[1] - np.pi))
+        return -np.cos(v[0]) * np.cos(v[1]) * np.exp(-np.square(v[0] - np.pi) - np.square(v[1] - np.pi))
 
     @property
     def search_area(self):
-        return create_symmetric_search_area(100.0, self._n)
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
