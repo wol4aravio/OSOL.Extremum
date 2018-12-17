@@ -1,12 +1,9 @@
-from contracts import contract, new_contract
+from contracts import contract
 import numpy as np
 
+from osol.extremum.etc.new_contracts import *  # Inclusion of user defined contracts
 from osol.extremum.optimization.basic.vector import Vector
-from osol.extremum.optimization.basic.algorithm import Algorithm
 from osol.extremum.optimization.basic.terminator import DummyTerminator, MaxCallsTerminator, MaxTimeTerminator
-
-
-new_contract("algorithm", Algorithm)
 
 
 @contract
@@ -14,7 +11,7 @@ def verify(algorithm, number_of_attempts=5, max_iterations=int(5e3), max_calls=i
     """ Verification procedure of optimization algorithms
 
         :param algorithm: algorithm to be verified
-        :type algorithm: algorithm
+        :type algorithm: Algorithm
 
         :param number_of_attempts: number of runs if algorithm fails
         :type number_of_attempts: int
