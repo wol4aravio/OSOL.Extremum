@@ -120,12 +120,13 @@ class Booth(create_fix_dim_function(2), OptimizationBenchmark):
 
 class BoxBettsQuadraticSum(create_fix_dim_function(3), OptimizationBenchmark):
 
-    def g(self, i, v):
+    @staticmethod
+    def g(i, v):
         return np.exp(-0.1 * (i + 1) * v[0]) - np.exp(-0.1 * (i + 1) * v[1]) - (np.exp(-0.1 * (i + 1)) - np.exp(-(i + 1)) * v[2])
 
     def call(self, v):
         D = 10
-        temp = np.array([self.g(i, v) for i in range(D)])
+        temp = np.array([BoxBettsQuadraticSum.g(i, v) for i in range(D)])
         return np.square(temp).sum()
 
     @property
