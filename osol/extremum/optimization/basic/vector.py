@@ -261,7 +261,7 @@ class Vector:
         """ Subtraction of two vectors
 
             :param other: vector or number to be subtracted
-            :type other: vector|number
+            :type other: Vector|number
 
             :returns: difference between vector and vector or vector and number
             :rtype: Vector

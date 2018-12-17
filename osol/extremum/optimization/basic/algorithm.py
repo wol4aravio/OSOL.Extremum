@@ -60,7 +60,7 @@ class Algorithm(ABC, metaclass=ContractsMeta):
             :type kwargs: dict(str:*)
 
             :returns: solution
-            :rtype: vector
+            :rtype: Vector
         """
 
     @contract
@@ -80,10 +80,10 @@ class Algorithm(ABC, metaclass=ContractsMeta):
             :type max_iterations: int|None
 
             :param callbacks: callbacks that are performed after each state update
-            :type callbacks: None|list(function)
+            :type callbacks: None|list(Function)
 
             :returns: solution
-            :rtype: vector
+            :rtype: Vector
         """
         if callbacks is not None:
             def process_callbacks(algorithm, state):
