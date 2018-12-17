@@ -1,7 +1,45 @@
 from contracts import contract
+from joblib import Parallel, delayed
 
 from osol.extremum.optimization.benchmarks.optimization_benchmark import *  # Required for `Benchmark` contract inclusion
 from osol.extremum.optimization.benchmarks.unconstrained_optimization import *
+
+
+@contract
+def benchmark_algorithm(algorithm, benchmarks, terminator, number_of_runs, n_jobs=1):
+    """ Performs benchmarking process
+
+    :param algorithm: target algorithm
+    :type algorithm: Algorithm
+
+    :param benchmarks: benchmarks to be used
+    :type benchmarks: dict(str:Benchmark)
+
+    :param terminator: termination criterion generator
+    :type terminator: *
+
+    :param number_of_runs: how many times the algorithm should be tested
+    :type number_of_runs: int
+
+    :param n_jobs: parameter for parallelization
+    :type n_jobs: int
+
+    :returns: algorithm application results
+    :rtype: dict(str:tuple(list(Vector), list(number),number))
+    """
+    results = dict()
+    for b_name, b_func in benchmarks.items():
+        search_area = b_func.search_area
+        bt = terminator(b_func)
+        results[b_name] = []
+
+        def run_algorithm(_):
+            return algorithm.optimize(bt, search_area)
+
+        x = Parallel(n_jobs=n_jobs)(delayed(run_algorithm)(_) for _ in range(number_of_runs))
+        y = [b_func(x_) for x_ in x]
+        results[b_name] = (x, y, b_func.solution[1])
+    return results
 
 
 @contract(returns="dict(str:Benchmark)")
