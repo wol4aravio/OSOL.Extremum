@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
 
 setup(
     name="osol.extremum",
-    version="2.1.0",
+    version="2.1.1",
 
     description="OSOL.Extermum",
 
