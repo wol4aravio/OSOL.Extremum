@@ -24,6 +24,10 @@ def create_symmetric_search_area(v, n):
     return create_search_area(v1=-v, v2=v, n=n)
 
 
+def create_solution_vector(v, n):
+    return Vector.create(**{f"x_{i + 1}": v for i in range(n)})
+
+
 class Ackley(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
@@ -38,7 +42,7 @@ class Ackley(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class Alpine(VariableDimFunction, OptimizationBenchmark):
@@ -53,7 +57,7 @@ class Alpine(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class BartelsConn(create_fix_dim_function(2), OptimizationBenchmark):
@@ -67,7 +71,7 @@ class BartelsConn(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 1.0
+        return create_solution_vector(0.0, self._n), 1.0
 
 
 class Beale(create_fix_dim_function(2), OptimizationBenchmark):
@@ -109,7 +113,7 @@ class Bohachevsky(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=0.0), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class Booth(create_fix_dim_function(2), OptimizationBenchmark):
@@ -178,7 +182,7 @@ class Brent(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=-10.0, x_2=-10.0), 0.0
+        return create_solution_vector(-10.0, self._n), 0.0
 
 
 class Brown(VariableDimFunction, OptimizationBenchmark):
@@ -194,7 +198,7 @@ class Brown(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class Bukin(create_fix_dim_function(2), OptimizationBenchmark):
@@ -225,7 +229,7 @@ class CamelThreeHumps(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class Chichinadze(create_fix_dim_function(2), OptimizationBenchmark):
@@ -253,7 +257,7 @@ class Colville(create_fix_dim_function(4), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 1.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(1.0, self._n), 0.0
 
 
 class Corana(create_fix_dim_function(4), OptimizationBenchmark):
@@ -274,7 +278,7 @@ class Corana(create_fix_dim_function(4), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class CosineMixture(VariableDimFunction, OptimizationBenchmark):
@@ -289,7 +293,7 @@ class CosineMixture(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), -0.1 * self._n
+        return create_solution_vector(0.0, self._n), -0.1 * self._n
 
 
 class Csendes(VariableDimFunction, OptimizationBenchmark):
@@ -304,7 +308,7 @@ class Csendes(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 1e-9 for i in range(self._n)}), 0.0
+        return create_solution_vector(1e-9, self._n), 0.0
 
 
 class Cube(create_fix_dim_function(2), OptimizationBenchmark):
@@ -318,7 +322,7 @@ class Cube(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 1.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(1.0, self._n), 0.0
 
 
 class Damavandi(create_fix_dim_function(2), OptimizationBenchmark):
@@ -332,7 +336,7 @@ class Damavandi(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": (2.0 + 1e-5) for i in range(self._n)}), 0.0
+        return create_solution_vector(2.0 + 1e-5, self._n), 0.0
 
 
 class Deb(VariableDimFunction, OptimizationBenchmark):
@@ -347,7 +351,7 @@ class Deb(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": -0.9 for i in range(self._n)}), -1.0
+        return create_solution_vector(-0.9, self._n), -1.0
 
 
 class DeckkersAarts(create_fix_dim_function(2), OptimizationBenchmark):
@@ -405,7 +409,7 @@ class Easom(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=np.pi, x_2=np.pi), -1.0
+        return create_solution_vector(np.pi, self._n), -1.0
 
 
 class EggCrate(create_fix_dim_function(2), OptimizationBenchmark):
@@ -419,7 +423,7 @@ class EggCrate(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=0.0), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class EggHolder(create_fix_dim_function(2), OptimizationBenchmark):
@@ -448,7 +452,7 @@ class Exponential(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), -1.0
+        return create_solution_vector(0.0, self._n), -1.0
 
 
 class Goldstein(create_fix_dim_function(2), OptimizationBenchmark):
@@ -477,7 +481,7 @@ class Griewank(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class GulfResearch(create_fix_dim_function(3), OptimizationBenchmark):
@@ -624,7 +628,7 @@ class Leon(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=1.0, x_2=1.0), 0.0
+        return create_solution_vector(1.0, self._n), 0.0
 
 
 class Matyas(create_fix_dim_function(2), OptimizationBenchmark):
@@ -638,7 +642,7 @@ class Matyas(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=0.0), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class McCormick(create_fix_dim_function(2), OptimizationBenchmark):
@@ -684,7 +688,7 @@ class MishraZeroSum(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class Parsopoulos(create_fix_dim_function(2), OptimizationBenchmark):
@@ -712,7 +716,7 @@ class PenHolder(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=9.646167671043401, x_2=9.646167671043401), -0.9635348327265058
+        return create_solution_vector(9.646167671043401, self._n), -0.9635348327265058
 
 
 class Pathological(VariableDimFunction, OptimizationBenchmark):
@@ -728,7 +732,7 @@ class Pathological(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class Paviani(create_fix_dim_function(10), OptimizationBenchmark):
@@ -745,7 +749,7 @@ class Paviani(create_fix_dim_function(10), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 9.351 for i in range(self._n)}), -45.778451456928394
+        return create_solution_vector(9.351, self._n), -45.778451456928394
 
 
 class Periodic(create_fix_dim_function(2), OptimizationBenchmark):
@@ -759,7 +763,7 @@ class Periodic(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=0.0), 0.9
+        return create_solution_vector(0.0, self._n), 0.9
 
 
 class Price(create_fix_dim_function(2), OptimizationBenchmark):
@@ -773,7 +777,7 @@ class Price(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=5.0, x_2=5.0), 0.0
+        return create_solution_vector(5.0, self._n), 0.0
 
 
 class Quadratic(create_fix_dim_function(2), OptimizationBenchmark):
@@ -802,7 +806,7 @@ class Quintic(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": -1.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(-1.0, self._n), 0.0
 
 
 class Ripple(VariableDimFunction, OptimizationBenchmark):
@@ -817,7 +821,7 @@ class Ripple(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.1 for i in range(self._n)}), -self._n * 1.1
+        return create_solution_vector(0.1, self._n), -self._n * 1.1
 
 
 class Rosenbrock(VariableDimFunction, OptimizationBenchmark):
@@ -833,7 +837,7 @@ class Rosenbrock(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 1.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(1.0, self._n), 0.0
 
 
 class RosenbrockModified(create_fix_dim_function(2), OptimizationBenchmark):
@@ -861,7 +865,7 @@ class RotatedEllipse(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=0.0), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class Rump(create_fix_dim_function(2), OptimizationBenchmark):
@@ -891,7 +895,7 @@ class Salomon(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class Sargan(VariableDimFunction, OptimizationBenchmark):
@@ -912,7 +916,7 @@ class Sargan(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class SchaffersFirst(create_fix_dim_function(2), OptimizationBenchmark):
@@ -926,7 +930,7 @@ class SchaffersFirst(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=0.0), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class SchaffersSecond(create_fix_dim_function(2), OptimizationBenchmark):
@@ -940,7 +944,7 @@ class SchaffersSecond(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=0.0), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class SchaffersThird(create_fix_dim_function(2), OptimizationBenchmark):
@@ -968,7 +972,7 @@ class Trecanni(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=0.0), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
 
 
 class Trid(create_fix_dim_function(6), OptimizationBenchmark):
@@ -1033,4 +1037,4 @@ class Zakharov(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": 0.0 for i in range(self._n)}), 0.0
+        return create_solution_vector(0.0, self._n), 0.0
