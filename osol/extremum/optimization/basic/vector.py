@@ -1,22 +1,8 @@
 import numpy as np
 
-from contracts import contract, new_contract
+from contracts import contract
 
-
-new_contract("vector",
-             lambda v_: isinstance(v_, Vector))
-
-new_contract("valid_args_tuple",
-             lambda v_: all([isinstance(v, int) or isinstance(v, float) for v in v_]))
-
-new_contract("valid_move_tuples",
-             lambda v_: all([isinstance(k, (int, str))
-                             and isinstance(d, (int, float)) for k, d in v_]))
-
-new_contract("valid_constrain_tuples",
-             lambda v_: all([isinstance(k, (int, str)) and
-                             isinstance(min_, (int, float)) and
-                             isinstance(max_, (int, float)) for k, (min_, max_) in v_]))
+from osol.extremum.etc.new_contracts import * # Inclusion of user defined contracts
 
 
 class Vector:
@@ -55,7 +41,7 @@ class Vector:
             :type kwargs: dict(str:number)|dict[1](str:dict(str:number))
 
             :returns: Vector that stores all desired values
-            :rtype: vector
+            :rtype: Vector
         """
         if "values" in kwargs:
             return Vector.create(**kwargs["values"])
@@ -115,7 +101,7 @@ class Vector:
             :type dict_: dict[1](str: dict(str: float))
 
             :returns: Vector
-            :rtype: vector
+            :rtype: Vector
         """
         keys, values = [], []
         for k, v in dict_["Vector"].items():
@@ -189,7 +175,7 @@ class Vector:
         """ Gets copy of the current vector
 
             :returns copy of the vector
-            :rtype: vector
+            :rtype: Vector
         """
         return Vector(np.copy(self._values), self.keys())
 
@@ -215,7 +201,7 @@ class Vector:
         """ Equality of vectors
 
             :param other: second vector
-            :type other: vector
+            :type other: Vector
 
             :returns: `True` for equal vectors, `False` - otherwise
             :rtype: bool
@@ -236,7 +222,7 @@ class Vector:
             :type coefficient: number
 
             :returns: vector with all values multiplied by coefficient
-            :rtype: vector
+            :rtype: Vector
         """
         return Vector(self._values * coefficient, self._keys)
 
@@ -245,10 +231,10 @@ class Vector:
         """ Addition of a vector or number to current one
 
             :param other: vector or number to be added
-            :type other: vector|number
+            :type other: Vector|number
 
             :returns: sum of vector and vector or vector and number
-            :rtype: vector
+            :rtype: Vector
         """
         if isinstance(other, (float, int)):
             return Vector(self._values + other, self._keys)
@@ -266,7 +252,7 @@ class Vector:
         """ Returns the negation of vector
 
             :returns: vector which elements have opposite sign
-            :rtype: vector
+            :rtype: Vector
         """
         return Vector(-self._values, self._keys)
 
@@ -275,10 +261,10 @@ class Vector:
         """ Subtraction of two vectors
 
             :param other: vector or number to be subtracted
-            :type other: vector|number
+            :type other: Vector|number
 
             :returns: difference between vector and vector or vector and number
-            :rtype: vector
+            :rtype: Vector
         """
         return self + (-other)
 
@@ -293,7 +279,7 @@ class Vector:
             :type kwargs: dict(str|int: number)|dict[1](str: dict(str: number))
 
             :returns: moved vector
-            :rtype: vector
+            :rtype: Vector
         """
         if "distance" in kwargs:
             return self.move(**kwargs["distance"])
@@ -316,7 +302,7 @@ class Vector:
             :type kwargs: dict(str|int: tuple(number, number))|dict[1](str:dict(str: tuple(number, number)))
 
             :returns: constrained vector
-            :rtype: vector
+            :rtype: Vector
         """
         if "area" in kwargs:
             return self.constrain(**kwargs["area"])

@@ -1,12 +1,9 @@
 from abc import ABC, abstractmethod
-from contracts import contract, new_contract, ContractsMeta
+from contracts import contract, ContractsMeta
 import sys
 
-from osol.extremum.optimization.basic.vector import Vector # Required for `vector` contract inclusion
+from osol.extremum.etc.new_contracts import * # Inclusion of user defined contracts
 from osol.extremum.optimization.basic.terminator import Terminator, TerminatorExceptions
-
-
-new_contract("terminator", Terminator)
 
 
 class Algorithm(ABC, metaclass=ContractsMeta):
@@ -18,7 +15,7 @@ class Algorithm(ABC, metaclass=ContractsMeta):
         """ Procedure that initializes optimization algorithm
 
             :param f: objective function
-            :type f: terminator
+            :type f: Terminator
 
             :param search_area: search area
             :type search_area: dict(str:tuple(number, number))
@@ -36,7 +33,7 @@ class Algorithm(ABC, metaclass=ContractsMeta):
         """ Main cycle of the algorithm
 
             :param f: objective function
-            :type f: terminator
+            :type f: Terminator
 
             :param search_area: search area
             :type search_area: dict(str:tuple(number, number))
@@ -54,7 +51,7 @@ class Algorithm(ABC, metaclass=ContractsMeta):
         """ Termination part of the algorithm
 
             :param f: objective function
-            :type f: terminator
+            :type f: Terminator
 
             :param search_area: search area
             :type search_area: dict(str:tuple(number, number))
@@ -63,7 +60,7 @@ class Algorithm(ABC, metaclass=ContractsMeta):
             :type kwargs: dict(str:*)
 
             :returns: solution
-            :rtype: vector
+            :rtype: Vector
         """
 
     @contract
@@ -71,7 +68,7 @@ class Algorithm(ABC, metaclass=ContractsMeta):
         """ Optimization procedure
 
             :param f: objective function
-            :type f: terminator
+            :type f: Terminator
 
             :param search_area: search area
             :type search_area: dict(str:tuple(number, number))
@@ -83,10 +80,10 @@ class Algorithm(ABC, metaclass=ContractsMeta):
             :type max_iterations: int|None
 
             :param callbacks: callbacks that are performed after each state update
-            :type callbacks: None|list(function)
+            :type callbacks: None|list(Function)
 
             :returns: solution
-            :rtype: vector
+            :rtype: Vector
         """
         if callbacks is not None:
             def process_callbacks(algorithm, state):
