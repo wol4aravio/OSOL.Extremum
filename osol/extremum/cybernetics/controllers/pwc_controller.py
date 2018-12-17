@@ -18,7 +18,7 @@ class PWCController:
             :type values: list[N](number)|array[N]
         """
         self._time_grid = time_grid
-        if type(time_grid) == list:
+        if isinstance(time_grid, list):
             self._time_grid.append(np.inf)
         else:
             self._time_grid = np.append(self._time_grid, np.inf)

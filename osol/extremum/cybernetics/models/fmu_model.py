@@ -58,7 +58,7 @@ class FMUModel:
         fmu_args = {"guid": model_description.guid,
                     "unzipDirectory": unzipdir,
                     "instanceName": None,
-                    "fmiCallLogger": None, 
+                    "fmiCallLogger": None,
                     "modelIdentifier": model_description.coSimulation.modelIdentifier}
         self._fmu_args = fmu_args
 
