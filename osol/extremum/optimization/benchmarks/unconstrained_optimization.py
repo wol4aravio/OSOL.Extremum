@@ -16,6 +16,14 @@ def create_fix_dim_function(n):
     return FixDimFunction
 
 
+def create_search_area(v1, v2, n):
+    return {f"x_{i + 1}": (v1, v2) for i in range(n)}
+
+
+def create_symmetric_search_area(v, n):
+    return create_search_area(v1=-v, v2=v, n=n)
+
+
 class Ackley(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
@@ -26,7 +34,7 @@ class Ackley(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-35.0, 35.0) for i in range(self._n)}
+        return create_symmetric_search_area(35.0, self._n)
 
     @property
     def solution(self):
@@ -41,7 +49,7 @@ class Alpine(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -55,7 +63,7 @@ class BartelsConn(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-500.0, 500.0) for i in range(self._n)}
+        return create_symmetric_search_area(500.0, self._n)
 
     @property
     def solution(self):
@@ -69,7 +77,7 @@ class Beale(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-4.5, 4.5) for i in range(self._n)}
+        return create_symmetric_search_area(4.5, self._n)
 
     @property
     def solution(self):
@@ -83,7 +91,7 @@ class Bird(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-2.0 * np.pi, 2.0 * np.pi) for i in range(self._n)}
+        return create_symmetric_search_area(2.0 * np.pi, self._n)
 
     @property
     def solution(self):
@@ -97,7 +105,7 @@ class Bohachevsky(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+        return create_symmetric_search_area(100.0, self._n)
 
     @property
     def solution(self):
@@ -111,7 +119,7 @@ class Booth(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -166,7 +174,7 @@ class Brent(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -182,7 +190,7 @@ class Brown(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-1.0, 4.0) for i in range(self._n)}
+        return create_search_area(-1.0, 4.0, self._n)
 
     @property
     def solution(self):
@@ -213,7 +221,7 @@ class CamelThreeHumps(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-5.0, 5.0) for i in range(self._n)}
+        return create_symmetric_search_area(5.0, self._n)
 
     @property
     def solution(self):
@@ -227,7 +235,7 @@ class Chichinadze(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-30.0, 30.0) for i in range(self._n)}
+        return create_symmetric_search_area(30.0, self._n)
 
     @property
     def solution(self):
@@ -241,7 +249,7 @@ class Colville(create_fix_dim_function(4), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -262,7 +270,7 @@ class Corana(create_fix_dim_function(4), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-500.0, 500.0) for i in range(self._n)}
+        return create_symmetric_search_area(500.0, self._n)
 
     @property
     def solution(self):
@@ -277,7 +285,7 @@ class CosineMixture(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+        return create_symmetric_search_area(1.0, self._n)
 
     @property
     def solution(self):
@@ -292,7 +300,7 @@ class Csendes(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+        return create_symmetric_search_area(1.0, self._n)
 
     @property
     def solution(self):
@@ -306,7 +314,7 @@ class Cube(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -320,7 +328,7 @@ class Damavandi(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (0.0, 14.0) for i in range(self._n)}
+        return create_search_area(0.0, 14.0, self._n)
 
     @property
     def solution(self):
@@ -335,7 +343,7 @@ class Deb(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+        return create_symmetric_search_area(1.0, self._n)
 
     @property
     def solution(self):
@@ -349,7 +357,7 @@ class DeckkersAarts(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-20.0, 20.0) for i in range(self._n)}
+        return create_symmetric_search_area(20.0, self._n)
 
     @property
     def solution(self):
@@ -365,7 +373,7 @@ class DixonAndPrice(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -379,7 +387,7 @@ class Dolan(create_fix_dim_function(5), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+        return create_symmetric_search_area(100.0, self._n)
 
     @property
     def solution(self):
@@ -393,7 +401,7 @@ class Easom(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+        return create_symmetric_search_area(100.0, self._n)
 
     @property
     def solution(self):
@@ -407,7 +415,7 @@ class EggCrate(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-5.0, 5.0) for i in range(self._n)}
+        return create_symmetric_search_area(5.0, self._n)
 
     @property
     def solution(self):
@@ -421,7 +429,7 @@ class EggHolder(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-512.0, 512.0) for i in range(self._n)}
+        return create_symmetric_search_area(512.0, self._n)
 
     @property
     def solution(self):
@@ -436,7 +444,7 @@ class Exponential(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+        return create_symmetric_search_area(1.0, self._n)
 
     @property
     def solution(self):
@@ -450,7 +458,7 @@ class Goldstein(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-2.0, 2.0) for i in range(self._n)}
+        return create_symmetric_search_area(2.0, self._n)
 
     @property
     def solution(self):
@@ -465,7 +473,7 @@ class Griewank(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+        return create_symmetric_search_area(100.0, self._n)
 
     @property
     def solution(self):
@@ -502,7 +510,7 @@ class Hansen(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -520,7 +528,7 @@ class HelicalValley(create_fix_dim_function(3), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+        return create_symmetric_search_area(100.0, self._n)
 
     @property
     def solution(self):
@@ -534,7 +542,7 @@ class Himmelblau(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-5.0, 5.0) for i in range(self._n)}
+        return create_symmetric_search_area(5.0, self._n)
 
     @property
     def solution(self):
@@ -566,7 +574,7 @@ class JennrichSampson(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+        return create_symmetric_search_area(1.0, self._n)
 
     @property
     def solution(self):
@@ -580,7 +588,7 @@ class Keane(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (0.0, 10.0) for i in range(self._n)}
+        return create_search_area(0.0, 10.0, self._n)
 
     @property
     def solution(self):
@@ -598,7 +606,7 @@ class Langermann(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (0.0, 10.0) for i in range(self._n)}
+        return create_search_area(0.0, 10.0, self._n)
 
     @property
     def solution(self):
@@ -612,7 +620,7 @@ class Leon(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-1.2, 1.2) for i in range(self._n)}
+        return create_symmetric_search_area(1.2, self._n)
 
     @property
     def solution(self):
@@ -626,7 +634,7 @@ class Matyas(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -657,7 +665,7 @@ class MieleCantrell(create_fix_dim_function(4), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-1.0, 1.0) for i in range(self._n)}
+        return create_symmetric_search_area(1.0, self._n)
 
     @property
     def solution(self):
@@ -672,7 +680,7 @@ class MishraZeroSum(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -686,7 +694,7 @@ class Parsopoulos(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-5.0, 5.0) for i in range(self._n)}
+        return create_symmetric_search_area(5.0, self._n)
 
     @property
     def solution(self):
@@ -700,7 +708,7 @@ class PenHolder(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-11.0, 11.0) for i in range(self._n)}
+        return create_symmetric_search_area(11.0, self._n)
 
     @property
     def solution(self):
@@ -716,7 +724,7 @@ class Pathological(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+        return create_symmetric_search_area(100.0, self._n)
 
     @property
     def solution(self):
@@ -733,7 +741,7 @@ class Paviani(create_fix_dim_function(10), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (2.0001, 10.0) for i in range(self._n)}
+        return create_search_area(2.0001, 10.0, self._n)
 
     @property
     def solution(self):
@@ -747,7 +755,7 @@ class Periodic(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -761,7 +769,7 @@ class Price(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-500.0, 500.0) for i in range(self._n)}
+        return create_symmetric_search_area(500.0, self._n)
 
     @property
     def solution(self):
@@ -775,7 +783,7 @@ class Quadratic(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -790,7 +798,7 @@ class Quintic(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -805,7 +813,7 @@ class Ripple(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (0.0, 1.0) for i in range(self._n)}
+        return create_search_area(0.0, 1.0, self._n)
 
     @property
     def solution(self):
@@ -821,7 +829,7 @@ class Rosenbrock(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-30.0, 30.0) for i in range(self._n)}
+        return create_symmetric_search_area(30.0, self._n)
 
     @property
     def solution(self):
@@ -835,7 +843,7 @@ class RosenbrockModified(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-2.0, 2.0) for i in range(self._n)}
+        return create_symmetric_search_area(2.0, self._n)
 
     @property
     def solution(self):
@@ -849,7 +857,7 @@ class RotatedEllipse(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-500.0, 500.0) for i in range(self._n)}
+        return create_symmetric_search_area(500.0, self._n)
 
     @property
     def solution(self):
@@ -863,7 +871,7 @@ class Rump(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-500.0, 500.0) for i in range(self._n)}
+        return create_symmetric_search_area(500.0, self._n)
 
     @property
     def solution(self):
@@ -879,7 +887,7 @@ class Salomon(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+        return create_symmetric_search_area(100.0, self._n)
 
     @property
     def solution(self):
@@ -900,7 +908,7 @@ class Sargan(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+        return create_symmetric_search_area(100.0, self._n)
 
     @property
     def solution(self):
@@ -914,7 +922,7 @@ class SchaffersFirst(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+        return create_symmetric_search_area(100.0, self._n)
 
     @property
     def solution(self):
@@ -928,7 +936,7 @@ class SchaffersSecond(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+        return create_symmetric_search_area(100.0, self._n)
 
     @property
     def solution(self):
@@ -942,7 +950,7 @@ class SchaffersThird(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-100.0, 100.0) for i in range(self._n)}
+        return create_symmetric_search_area(100.0, self._n)
 
     @property
     def solution(self):
@@ -956,7 +964,7 @@ class Trecanni(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-5.0, 5.0) for i in range(self._n)}
+        return create_symmetric_search_area(5.0, self._n)
 
     @property
     def solution(self):
@@ -973,7 +981,7 @@ class Trid(create_fix_dim_function(6), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-20.0, 20.0) for i in range(self._n)}
+        return create_symmetric_search_area(20.0, self._n)
 
     @property
     def solution(self):
@@ -987,7 +995,7 @@ class Trefethen(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-10.0, 10.0) for i in range(self._n)}
+        return create_symmetric_search_area(10.0, self._n)
 
     @property
     def solution(self):
@@ -1021,7 +1029,7 @@ class Zakharov(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {f"x_{i + 1}": (-5.0, 10.0) for i in range(self._n)}
+        return create_search_area(-5.0, 10.0, self._n)
 
     @property
     def solution(self):
