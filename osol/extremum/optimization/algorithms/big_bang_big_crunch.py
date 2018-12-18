@@ -11,9 +11,11 @@ from osol.extremum.etc.new_contracts import * # Inclusion of user defined contra
 class BigBangBigCrunch(Algorithm):
     """ Big Bang Big Crunch Algorithm
 
-        State description: #TODO
-            - `x`       =>     current best vector
-            - `f_x`     =>     function value that corresponds to the current best vector
+        State description:
+            - `points`             =>     set of current points
+            - `points_quality`     =>     quality for the `points`
+            - `best_value`         =>     best value of objective function that was observed
+            - `iter_id`            =>     current iteration id
     """
 
     @contract
@@ -23,7 +25,7 @@ class BigBangBigCrunch(Algorithm):
             :param number_of_points: number of points to be processed
             :type number_of_points: int
 
-            :param scatter_parameter: #TODO
+            :param scatter_parameter: affects area for new point generation
             :type scatter_parameter: number
         """
         self._number_of_points = number_of_points
