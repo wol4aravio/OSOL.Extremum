@@ -72,9 +72,9 @@ def test_vector_to_list_or_dict(v1_explicit_keys, eps):
     assert small_error(f(**v1_explicit_keys), 6.0, eps)
 
 
-def test_len(v1_explicit_keys, v2_explicit_keys, v3_explicit_keys):
+def test_len_ndim(v1_explicit_keys, v2_explicit_keys, v3_explicit_keys):
     assert len(v1_explicit_keys) == 3
-    assert len(v2_explicit_keys) == 2
+    assert v2_explicit_keys.ndim == 2
     assert len(v3_explicit_keys) == 1
 
 
@@ -99,8 +99,9 @@ def test_eq(v1_explicit_keys, v2_explicit_keys):
     assert v1_explicit_keys != v1_explicit_keys * 2
 
 
-def test_multiplication(v1_explicit_keys, v1_times_2_explicit_keys):
+def test_multiplication_and_division(v1_explicit_keys, v1_times_2_explicit_keys):
     assert v1_explicit_keys * 2.0 == v1_times_2_explicit_keys
+    assert v1_explicit_keys / 0.5 == v1_times_2_explicit_keys
     assert (v1_explicit_keys * 2.0) * 3 == v1_times_2_explicit_keys * 3
 
 

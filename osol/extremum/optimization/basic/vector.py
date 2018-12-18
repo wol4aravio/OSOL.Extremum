@@ -118,6 +118,16 @@ class Vector:
         """
         return len(self._values)
 
+    @property
+    @contract
+    def ndim(self):
+        """ Returns number of elements stored in a vector
+
+            :returns: number of elements
+            :rtype: int
+        """
+        return len(self)
+
     def __iter__(self):
         """ For iteration over the elements """
         return self._values.__iter__()
@@ -225,6 +235,18 @@ class Vector:
             :rtype: Vector
         """
         return Vector(self._values * coefficient, self._keys)
+
+    @contract
+    def __truediv__(self, coefficient):
+        """ Division of a vector by a coefficient
+
+            :param coefficient: divisor
+            :type coefficient: number
+
+            :returns: vector with all values divided by coefficient
+            :rtype: Vector
+        """
+        return Vector(self._values / coefficient, self._keys)
 
     @contract
     def __add__(self, other):
