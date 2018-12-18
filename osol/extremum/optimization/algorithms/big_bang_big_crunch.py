@@ -121,8 +121,6 @@ class BigBangBigCrunch(Algorithm):
 
         new_points_quality, new_best_value = BigBangBigCrunch.get_quality(new_points, best_value, f)
 
-        print(new_best_value, iter_id, self._scatter_parameter / iter_id, center)
-
         return {
             "points": new_points,
             "points_quality": new_points_quality,
@@ -132,10 +130,3 @@ class BigBangBigCrunch(Algorithm):
 
     def terminate(self, f, search_area, **kwargs):
         return BigBangBigCrunch.big_crunch(points=kwargs["points"], points_quality=kwargs["points_quality"])
-
-
-
-# from osol.extremum.tests.algorithms.verifier import verify
-#
-# bbbc = BigBangBigCrunch(number_of_points=10, scatter_parameter=2.5)
-# verify(bbbc)
