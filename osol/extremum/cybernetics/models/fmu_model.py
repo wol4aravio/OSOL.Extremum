@@ -121,7 +121,7 @@ class FMUModel:
             :param dt: time delta
             :type dt: number,>0
 
-            :param controllers: information about the controllers
+            :param controllers: information about the controllers_and_tools
             :type controllers: dict(str:dict(str:*))
 
             :returns: list of trajectories
