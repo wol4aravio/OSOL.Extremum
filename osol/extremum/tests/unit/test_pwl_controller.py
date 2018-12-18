@@ -2,8 +2,8 @@ import pytest
 
 import numpy as np
 
-from osol.extremum.cybernetics.controllers.pwl_controller import PWLController
-from osol.extremum.cybernetics.controllers.exceptions import ControlGenerationException
+from osol.extremum.cybernetics.controllers_and_tools.pwl_controller import PWLController
+from osol.extremum.cybernetics.controllers_and_tools.exceptions import ControlGenerationException
 
 
 @pytest.fixture(scope="session")
