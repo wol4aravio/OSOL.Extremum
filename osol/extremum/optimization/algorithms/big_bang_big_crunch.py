@@ -19,7 +19,7 @@ class BigBangBigCrunch(Algorithm):
     """
 
     @contract
-    def __init__(self, number_of_points, scatter_parameter):
+    def __init__(self, number_of_points, scatter_parameter, quality_mode="dummy"):
         """ Initialization of the algorithm
 
             :param number_of_points: number of points to be processed
@@ -27,13 +27,25 @@ class BigBangBigCrunch(Algorithm):
 
             :param scatter_parameter: affects area for new point generation
             :type scatter_parameter: number
+
+            :param quality_mode: how quality is calculated
+            :type quality_mode: str|Function
         """
         self._number_of_points = number_of_points
         self._scatter_parameter = scatter_parameter
+        if quality_mode == "dummy":
+            self._quality_mode = quality_mode
+            self._qf = lambda v, current_best, overall_best: v
+        elif quality_mode == "overall_normalized":
+            self._quality_mode = quality_mode
+            self._qf = lambda v, current_best, overall_best: v - overall_best + 1e-7
+        else:
+            self._quality_mode = "function"
+            self._qf = quality_mode
 
     @staticmethod
     @contract
-    def get_quality(points, best_value, f):
+    def get_quality(points, best_value, f, qf):
         """ Calculates point quality
 
             :param points: points to be evaluated
@@ -45,13 +57,16 @@ class BigBangBigCrunch(Algorithm):
             :param f: objective function
             :type f: Function
 
+            :param qf: quality function
+            :type qf: Function
+
             :returns: quality of the observed points
             :rtype: tuple(list[N](number), number)
         """
         point_values = [f(p) for p in points]
         best_point_value = min(point_values)
         new_best_value = min(best_value, best_point_value)
-        point_quality = [(v - new_best_value + 1e-7) for v in point_values]
+        point_quality = [qf(v, best_point_value, new_best_value) for v in point_values]
         return point_quality, new_best_value
 
     @staticmethod
@@ -102,7 +117,7 @@ class BigBangBigCrunch(Algorithm):
         else:
             points = [tools.generate_vector_in_box(search_area) for _ in range(self._number_of_points)]
             initial_state["points"] = points
-            initial_state["points_quality"], initial_state["best_value"] = BigBangBigCrunch.get_quality(points, np.inf, f)
+            initial_state["points_quality"], initial_state["best_value"] = BigBangBigCrunch.get_quality(points, np.inf, f, self._qf)
             initial_state["iter_id"] = 1
 
         return initial_state
@@ -121,7 +136,7 @@ class BigBangBigCrunch(Algorithm):
             number_of_points=self._number_of_points)
         new_points = [p.constrain(area=search_area) for p in new_points]
 
-        new_points_quality, new_best_value = BigBangBigCrunch.get_quality(new_points, best_value, f)
+        new_points_quality, new_best_value = BigBangBigCrunch.get_quality(new_points, best_value, f, self._qf)
 
         return {
             "points": new_points,
