@@ -19,7 +19,7 @@ class BigBangBigCrunch(Algorithm):
     """
 
     @contract
-    def __init__(self, number_of_points, scatter_parameter, quality_mode="dummy"):
+    def __init__(self, number_of_points, scatter_parameter, quality_mode):
         """ Initialization of the algorithm
 
             :param number_of_points: number of points to be processed
