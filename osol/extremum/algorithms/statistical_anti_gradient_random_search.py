@@ -55,7 +55,7 @@ class StatisticalAntiGradientRandomSearch(Algorithm):
         if anti_grad_length > 0.0:
             anti_gradient *= 1.0 / anti_grad_length
 
-        x_new = x + anti_gradient * np.random.uniform(0.0, r)
+        x_new = tools.constrain(x + anti_gradient * np.random.uniform(0.0, r), search_area)
         f_x_new = f(x_new)
 
         if f_x_new < f_x:
