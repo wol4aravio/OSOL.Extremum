@@ -38,7 +38,7 @@ def generate_vector_in_sphere(current_point, radius, area=None):
     shift = normally_distributed * (np.random.uniform(0.0, radius) / np.linalg.norm(normally_distributed))
     moved_vector = current_point + shift
     if area:
-        moved_vector = moved_vector.constrain(area=area)
+        moved_vector = constrain(moved_vector, area)
     return moved_vector
 
 
@@ -58,3 +58,34 @@ def belongs_to(v, area):
     left = [l for (l, _) in area]
     right = [r for (_, r) in area]
     return bool(np.all((left <= v) & (v <= right)))
+
+
+@contract
+def constrain(v, area):
+    """ Forces vector to be located in area
+
+        :param v: target vector
+        :type v: array
+
+        :param area: bounding area
+        :type area: list(tuple(number, number))
+
+        :returns: constrained vector
+        :rtype: array
+    """
+    left = [l for (l, _) in area]
+    right = [r for (_, r) in area]
+    return np.clip(v, left, right)
+
+
+@contract
+def length(v):
+    """ Calculates vector's length
+
+        :param v: target vector
+        :type v: array
+
+        :returns: length of the vector
+        :rtype: number
+    """
+    return np.linalg.norm(v)
