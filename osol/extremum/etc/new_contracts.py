@@ -2,8 +2,6 @@ from contracts import new_contract
 from typing import Callable
 
 
-new_contract("Vector", lambda v: type(v).__name__ == "Vector")
-
 new_contract("valid_args_tuple",
              lambda v_: all([isinstance(v, int) or isinstance(v, float) for v in v_]))
 

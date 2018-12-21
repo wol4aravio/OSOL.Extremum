@@ -1,7 +1,6 @@
 from contracts import contract
 import numpy as np
 
-from osol.extremum.optimization.basic.vector import Vector
 from osol.extremum.algorithms.terminator import DummyTerminator, MaxCallsTerminator, MaxTimeTerminator
 
 
@@ -31,8 +30,8 @@ def verify(algorithm, number_of_attempts=5, max_iterations=int(5e3), max_calls=i
         :rtype: bool
     """
     limit = 10.0
-    search_area = {v: (-limit, limit) for v in ["x", "y", "z"]}
-    optimal_vector = Vector(np.random.uniform(-limit, limit, len(search_area)), ["x", "y", "z"])
+    search_area = [(-limit, limit) for _ in range(3)]
+    optimal_vector = np.random.uniform(-limit, limit, len(search_area))
 
     success = {
         "d": False,

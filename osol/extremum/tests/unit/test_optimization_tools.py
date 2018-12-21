@@ -29,7 +29,7 @@ def area():
 
 @pytest.fixture(scope="session")
 def zero():
-    return Vector.create(x=0, y=0, z=0)
+    return np.array([0, 0, 0])
 
 
 @pytest.fixture(scope="session")

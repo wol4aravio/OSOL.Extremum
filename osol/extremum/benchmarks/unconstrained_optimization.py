@@ -3,8 +3,6 @@ from abc import ABC, abstractmethod
 import numpy as np
 from contracts import ContractsMeta, contract
 
-from osol.extremum.optimization.basic.vector import Vector
-
 
 class OptimizationBenchmark(ABC, metaclass=ContractsMeta):
     """ Abstract class that describes desired interface to benchmark functions """
@@ -15,7 +13,7 @@ class OptimizationBenchmark(ABC, metaclass=ContractsMeta):
         """ Applies function to vector
 
             :param v: target vector
-            :type v: Vector
+            :type v: array
         """
 
     def __call__(self, *args, **kwargs):
@@ -27,7 +25,7 @@ class OptimizationBenchmark(ABC, metaclass=ContractsMeta):
     def search_area(self):
         """ Returns search area for current benchmark
 
-            :rtype: dict(str:tuple(number, number))
+            :rtype: list(tuple(number, number))
         """
 
     @property
@@ -36,7 +34,7 @@ class OptimizationBenchmark(ABC, metaclass=ContractsMeta):
     def solution(self):
         """ Returns solution current benchmark
 
-            :rtype: tuple(Vector, number)
+            :rtype: tuple(array, number)
         """
 
 
@@ -53,7 +51,7 @@ def create_fix_dim_function(n):
 
 
 def create_search_area(v1, v2, n):
-    return {f"x_{i + 1}": (v1, v2) for i in range(n)}
+    return [(v1, v2) for i in range(n)]
 
 
 def create_symmetric_search_area(v, n):
@@ -61,15 +59,14 @@ def create_symmetric_search_area(v, n):
 
 
 def create_solution_vector(v, n):
-    return Vector.create(**{f"x_{i + 1}": v for i in range(n)})
+    return np.array([v for _ in range(n)])
 
 
 class Ackley(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        mean_pow = np.square(v_).mean()
-        mean_cos = np.cos(2 * np.pi * v_).mean()
+        mean_pow = np.square(v).mean()
+        mean_cos = np.cos(2 * np.pi * v).mean()
         return -20.0 * np.exp(-0.02 * np.sqrt(mean_pow)) - np.exp(mean_cos) + 20.0 + np.e
 
     @property
@@ -84,8 +81,7 @@ class Ackley(VariableDimFunction, OptimizationBenchmark):
 class Alpine(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        return np.abs(v_ * np.sin(v_) + 0.1 * v_).sum()
+        return np.abs(v * np.sin(v) + 0.1 * v).sum()
 
     @property
     def search_area(self):
@@ -121,7 +117,7 @@ class Beale(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=3.0, x_2=0.5), 0.0
+        return np.array([3.0, 0.5]), 0.0
 
 
 class Bird(create_fix_dim_function(2), OptimizationBenchmark):
@@ -135,7 +131,7 @@ class Bird(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=4.70105575198105, x_2=3.152946019601391), -106.7645488423886
+        return np.array([4.70105575198105, 3.152946019601391]), -106.7645488423886
 
 
 class Bohachevsky(create_fix_dim_function(2), OptimizationBenchmark):
@@ -163,7 +159,7 @@ class Booth(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=1.0, x_2=3.0), 0.0
+        return np.array([1.0, 3.0]), 0.0
 
 
 class BoxBettsQuadraticSum(create_fix_dim_function(3), OptimizationBenchmark):
@@ -187,7 +183,7 @@ class BoxBettsQuadraticSum(create_fix_dim_function(3), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=1.0, x_2=10.0, x_3=1.0), 0.0
+        return np.array([1.0, 10.0, 1.0]), 0.0
 
 
 class BraninRCOS(create_fix_dim_function(2), OptimizationBenchmark):
@@ -204,7 +200,7 @@ class BraninRCOS(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=-np.pi, x_2=12.275), 0.39788735772973816
+        return np.array([-np.pi, 12.275]), 0.39788735772973816
 
 
 class Brent(create_fix_dim_function(2), OptimizationBenchmark):
@@ -224,9 +220,9 @@ class Brent(create_fix_dim_function(2), OptimizationBenchmark):
 class Brown(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v1_ = v.to_numpy_array()[:-1]
-        v2_ = v.to_numpy_array()[1:]
-        return np.sum(np.power(np.square(v1_), v2_ * v2_ + 1.0) + np.power(np.square(v2_), v1_ * v1_ + 1.0))
+        v1 = v[:-1]
+        v2 = v[1:]
+        return np.sum(np.power(np.square(v1), v2 * v2 + 1.0) + np.power(np.square(v2), v1 * v1 + 1.0))
 
     @property
     def search_area(self):
@@ -251,7 +247,7 @@ class Bukin(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=-10.0, x_2=0.0), 0.0
+        return np.array([-10.0, 0.0]), 0.0
 
 
 class CamelThreeHumps(create_fix_dim_function(2), OptimizationBenchmark):
@@ -279,7 +275,7 @@ class Chichinadze(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=6.1898665869658, x_2=0.5), -42.94438552656265
+        return np.array([6.1898665869658, 0.5]), -42.94438552656265
 
 
 class Colville(create_fix_dim_function(4), OptimizationBenchmark):
@@ -299,13 +295,12 @@ class Colville(create_fix_dim_function(4), OptimizationBenchmark):
 class Corana(create_fix_dim_function(4), OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
         d = np.array([1.0, 1000.0, 10.0, 100.0])
-        z = 0.2 * (np.abs(v_ / 0.2) + 0.49999) * np.sign(v_)
-        v = np.abs(v_ - z)
+        z = 0.2 * (np.abs(v / 0.2) + 0.49999) * np.sign(v)
+        v = np.abs(v - z)
         A = 0.05
         part_1 = (np.abs(v) < A) * (0.15 * (z - 0.05 * np.sign(z)) * (z - 0.05 * np.sign(z)) * d)
-        part_2 = (np.abs(v) >= A) * (d * np.square(v_))
+        part_2 = (np.abs(v) >= A) * (d * np.square(v))
         return np.sum(part_1 + part_2)
 
     @property
@@ -320,8 +315,7 @@ class Corana(create_fix_dim_function(4), OptimizationBenchmark):
 class CosineMixture(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        return np.sum(-(0.1 * np.cos(5.0 * np.pi * v_) - v_ * v_))
+        return np.sum(-(0.1 * np.cos(5.0 * np.pi * v) - v * v))
 
     @property
     def search_area(self):
@@ -335,8 +329,7 @@ class CosineMixture(VariableDimFunction, OptimizationBenchmark):
 class Csendes(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        return (np.power(v_, 6.0) * (2.0 + np.sin(1.0 / v_))).sum()
+        return (np.power(v, 6.0) * (2.0 + np.sin(1.0 / v))).sum()
 
     @property
     def search_area(self):
@@ -378,8 +371,7 @@ class Damavandi(create_fix_dim_function(2), OptimizationBenchmark):
 class Deb(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        return (-np.power(np.sin(5.0 * np.pi * v_), 6.0) / self._n).sum()
+        return (-np.power(np.sin(5.0 * np.pi * v), 6.0) / self._n).sum()
 
     @property
     def search_area(self):
@@ -401,14 +393,14 @@ class DeckkersAarts(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=15.0), -24771.09375
+        return np.array([0.0, 15.0]), -24771.09375
 
 
 class DixonAndPrice(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v1 = v.to_numpy_array()[1:]
-        v2 = v.to_numpy_array()[:-1]
+        v1 = v[1:]
+        v2 = v[:-1]
         return (v[0] - 1.0) * (v[0] - 1.0) + (np.arange(2, self._n + 1) * np.square(2.0 * np.square(v1) - v2)).sum()
 
     @property
@@ -417,7 +409,7 @@ class DixonAndPrice(VariableDimFunction, OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(**{f"x_{i + 1}": np.power(2.0, -(np.power(2.0, i + 1) - 2.0) / np.power(2.0, i + 1)) for i in range(self._n)}), 0.0
+        return np.array([np.power(2.0, -(np.power(2.0, i + 1) - 2.0) / np.power(2.0, i + 1)) for i in range(self._n)]), 0.0
 
 
 class Dolan(create_fix_dim_function(5), OptimizationBenchmark):
@@ -431,7 +423,7 @@ class Dolan(create_fix_dim_function(5), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=98.964258312237106, x_2=100, x_3=100, x_4=99.224323672554704, x_5=-0.249987527588471), -529.8714413460193
+        return np.array([98.964258312237106, 100, 100, 99.224323672554704, -0.249987527588471]), -529.8714413460193
 
 
 class Easom(create_fix_dim_function(2), OptimizationBenchmark):
@@ -473,14 +465,13 @@ class EggHolder(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=512.0, x_2=404.2319), -959.640662709941
+        return np.array([512.0, 404.2319]), -959.640662709941
 
 
 class Exponential(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        return -np.exp((-0.5 * np.square(v_)).sum())
+        return -np.exp((-0.5 * np.square(v)).sum())
 
     @property
     def search_area(self):
@@ -502,14 +493,13 @@ class Goldstein(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=-1.0), 3.0
+        return np.array([0.0, -1.0]), 3.0
 
 
 class Griewank(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        return 1.0 + np.sum((np.square(v_) / 4000.0)) - np.prod(np.cos(v_ / np.sqrt(1 + np.arange(self._n))))
+        return 1.0 + np.sum((np.square(v) / 4000.0)) - np.prod(np.cos(v / np.sqrt(1 + np.arange(self._n))))
 
     @property
     def search_area(self):
@@ -537,7 +527,7 @@ class GulfResearch(create_fix_dim_function(3), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=50.0, x_2=25.0, x_3=1.5), 0.0
+        return np.array([50.0, 25.0, 1.5]), 0.0
 
 
 class Hansen(create_fix_dim_function(2), OptimizationBenchmark):
@@ -554,7 +544,7 @@ class Hansen(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=-7.58989583, x_2=-7.70831466), -176.54179313664181
+        return np.array([-7.58989583, -7.70831466]), -176.54179313664181
 
 
 class HelicalValley(create_fix_dim_function(3), OptimizationBenchmark):
@@ -572,7 +562,7 @@ class HelicalValley(create_fix_dim_function(3), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=1.0, x_2=0.0000000001, x_3=0.0), 0.0
+        return np.array([1.0, 0.0000000001, 0.0]), 0.0
 
 
 class Himmelblau(create_fix_dim_function(2), OptimizationBenchmark):
@@ -586,7 +576,7 @@ class Himmelblau(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=3.0, x_2=2.0), 0.0
+        return np.array([3.0, 2.0]), 0.0
 
 
 class Hosaki(create_fix_dim_function(2), OptimizationBenchmark):
@@ -603,7 +593,7 @@ class Hosaki(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=4.0, x_2=2.0), -2.3458115458488518
+        return np.array([4.0, 2.0]), -2.3458115458488518
 
 
 class JennrichSampson(create_fix_dim_function(2), OptimizationBenchmark):
@@ -618,7 +608,7 @@ class JennrichSampson(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.257825, x_2=0.257825), 124.36218236258078
+        return np.array([0.257825, 0.257825]), 124.36218236258078
 
 
 class Keane(create_fix_dim_function(2), OptimizationBenchmark):
@@ -632,7 +622,7 @@ class Keane(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=1.39325), 0.6736675
+        return np.array([0.0, 1.39325]), 0.6736675
 
 
 class Langermann(create_fix_dim_function(2), OptimizationBenchmark):
@@ -650,7 +640,7 @@ class Langermann(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=9.6810707, x_2=0.6666515), -1.08093846723926811925764468469
+        return np.array([9.6810707, 0.6666515]), -1.08093846723926811925764468469
 
 
 class Leon(create_fix_dim_function(2), OptimizationBenchmark):
@@ -695,7 +685,7 @@ class McCormick(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=-0.5471975602214493, x_2=-1.547197559268372), -1.413222955457575
+        return np.array([-0.5471975602214493, -1.547197559268372]), -1.413222955457575
 
 
 class MieleCantrell(create_fix_dim_function(4), OptimizationBenchmark):
@@ -709,14 +699,13 @@ class MieleCantrell(create_fix_dim_function(4), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=1.0, x_3=1.0, x_4=1.0), 0.0
+        return np.array([0.0, 1.0, 1.0, 1.0]), 0.0
 
 
 class MishraZeroSum(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        return 100.0 * np.sqrt(np.abs(v_.sum()))
+        return 100.0 * np.sqrt(np.abs(v.sum()))
 
     @property
     def search_area(self):
@@ -738,7 +727,7 @@ class Parsopoulos(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=np.pi/2.0, x_2=0.0), 0.0
+        return np.array([np.pi/2.0, 0.0]), 0.0
 
 
 class PenHolder(create_fix_dim_function(2), OptimizationBenchmark):
@@ -758,8 +747,8 @@ class PenHolder(create_fix_dim_function(2), OptimizationBenchmark):
 class Pathological(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v1 = v.to_numpy_array()[:-1]
-        v2 = v.to_numpy_array()[1:]
+        v1 = v[:-1]
+        v2 = v[1:]
         return np.sum(0.5 + (np.square(np.sin(np.sqrt(100.0 * v1 * v1 + v2 * v2))) - 0.5) / (1.0 + 0.001 * np.square(v1 * v1 - 2 * v1 * v2 + v2 * v2)))
 
     @property
@@ -774,9 +763,8 @@ class Pathological(VariableDimFunction, OptimizationBenchmark):
 class Paviani(create_fix_dim_function(10), OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        p1 = np.sum(np.square(np.log(v_ - 2.0)) + np.square(np.log(10.0 - v_)))
-        p2 = np.prod(v_)
+        p1 = np.sum(np.square(np.log(v - 2.0)) + np.square(np.log(10.0 - v)))
+        p2 = np.prod(v)
         return p1 - np.power(p2, 0.2)
 
     @property
@@ -827,14 +815,13 @@ class Quadratic(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.19388, x_2=0.48513), -3873.724182183056
+        return np.array([0.19388, 0.48513]), -3873.724182183056
 
 
 class Quintic(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        return np.abs(np.power(v_, 5) - 3.0 * np.power(v_, 4) + 4.0 * np.power(v_, 3) + 2.0 * np.square(v_) - 10.0 * v_ - 4.0)
+        return np.abs(np.power(v, 5) - 3.0 * np.power(v, 4) + 4.0 * np.power(v, 3) + 2.0 * np.square(v) - 10.0 * v - 4.0)
 
     @property
     def search_area(self):
@@ -848,8 +835,7 @@ class Quintic(VariableDimFunction, OptimizationBenchmark):
 class Ripple(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        return -(np.exp(-2 * np.log(2) * np.square((v_ - 0.1) / 0.8)) * (np.power(np.sin(5.0 * np.pi * v_), 6) + 0.1 * np.square(np.cos(500.0 * np.pi * v_)))).sum()
+        return -(np.exp(-2 * np.log(2) * np.square((v - 0.1) / 0.8)) * (np.power(np.sin(5.0 * np.pi * v), 6) + 0.1 * np.square(np.cos(500.0 * np.pi * v)))).sum()
 
     @property
     def search_area(self):
@@ -863,8 +849,8 @@ class Ripple(VariableDimFunction, OptimizationBenchmark):
 class Rosenbrock(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v1 = v.to_numpy_array()[1:]
-        v2 = v.to_numpy_array()[:-1]
+        v1 = v[1:]
+        v2 = v[:-1]
         return (100.0 * (v1 - v2 * v2) * (v1 - v2 * v2) + (v2 - 1.0) * (v2 - 1.0)).sum()
 
     @property
@@ -887,7 +873,7 @@ class RosenbrockModified(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=-0.9, x_2=-0.95), 34.37125655899683
+        return np.array([-0.9, -0.95]), 34.37125655899683
 
 
 class RotatedEllipse(create_fix_dim_function(2), OptimizationBenchmark):
@@ -915,14 +901,13 @@ class Rump(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=1e-17), 0.0
+        return np.array([0.0, 1e-17]), 0.0
 
 
 class Salomon(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        p = np.square(v_).sum()
+        p = np.square(v).sum()
         return 1.0 - np.cos(np.pi * np.sqrt(p)) + 0.1 * np.sqrt(p)
 
     @property
@@ -994,7 +979,7 @@ class SchaffersThird(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=0.0, x_2=1.253114962205510), 0.001566854526004
+        return np.array([0.0, 1.253114962205510]), 0.001566854526004
 
 
 class Trecanni(create_fix_dim_function(2), OptimizationBenchmark):
@@ -1014,9 +999,8 @@ class Trecanni(create_fix_dim_function(2), OptimizationBenchmark):
 class Trid(create_fix_dim_function(6), OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        p1 = np.square(v_ - 1.0).sum()
-        p2 = np.sum(v_[1:] * v_[:-1])
+        p1 = np.square(v - 1.0).sum()
+        p2 = np.sum(v[1:] * v[:-1])
         return p1 - p2
 
     @property
@@ -1025,7 +1009,7 @@ class Trid(create_fix_dim_function(6), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=6.0, x_2=10.0, x_3=12.0, x_4=12.0, x_5=10.0, x_6=6.0), -50.0
+        return np.array([6.0, 10.0, 12.0, 12.0, 10.0, 6.0]), -50.0
 
 
 class Trefethen(create_fix_dim_function(2), OptimizationBenchmark):
@@ -1039,7 +1023,7 @@ class Trefethen(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=-0.02440307923, x_2=0.2106124261), -3.3068678655394708
+        return np.array([-0.02440307923, 0.2106124261]), -3.3068678655394708
 
 
 class Ursem(create_fix_dim_function(2), OptimizationBenchmark):
@@ -1056,15 +1040,14 @@ class Ursem(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return Vector.create(x_1=1.697136443570341, x_2=0.0), -4.816814063734823
+        return np.array([1.697136443570341, 0.0]), -4.816814063734823
 
 
 class Zakharov(VariableDimFunction, OptimizationBenchmark):
 
     def call(self, v):
-        v_ = v.to_numpy_array()
-        p1 = np.square(v_).sum()
-        p2 = np.sum((np.arange(self._n) + 1) * v_)
+        p1 = np.square(v).sum()
+        p2 = np.sum((np.arange(self._n) + 1) * v)
         return p1 + np.square(0.5 * p2) + np.power(0.5 * p2, 4)
 
     @property

@@ -5,8 +5,6 @@ import numpy as np
 from osol.extremum.algorithms.algorithm import Algorithm
 import osol.extremum.algorithms.tools as tools
 
-from osol.extremum.optimization.basic.vector import Vector
-
 
 class StatisticalAntiGradientRandomSearch(Algorithm):
     """ Random search with statistical anti gradient
@@ -50,7 +48,7 @@ class StatisticalAntiGradientRandomSearch(Algorithm):
         new_points = [tools.generate_vector_in_sphere(x, r, search_area) for _ in range(N)]
         new_values = [f(p) for p in new_points]
 
-        anti_gradient = Vector.create(values={k: 0.0 for k in x.keys()})
+        anti_gradient = np.zeros(shape=len(search_area))
         for point, f_point in zip(new_points, new_values):
             anti_gradient -= (point - x) * (f_point - f_x)
         anti_grad_length = anti_gradient.length

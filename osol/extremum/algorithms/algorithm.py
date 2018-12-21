@@ -17,7 +17,7 @@ class Algorithm(ABC, metaclass=ContractsMeta):
             :type f: Terminator
 
             :param search_area: search area
-            :type search_area: dict(str:tuple(number, number))
+            :type search_area: list(tuple(number, number))
 
             :param seed_state: seed state for the algorithm
             :type seed_state: dict(str:*)|None
@@ -35,7 +35,7 @@ class Algorithm(ABC, metaclass=ContractsMeta):
             :type f: Terminator
 
             :param search_area: search area
-            :type search_area: dict(str:tuple(number, number))
+            :type search_area: list(tuple(number, number))
 
             :param kwargs: current state of the algorithm
             :type kwargs: dict(str:*)
@@ -53,13 +53,13 @@ class Algorithm(ABC, metaclass=ContractsMeta):
             :type f: Terminator
 
             :param search_area: search area
-            :type search_area: dict(str:tuple(number, number))
+            :type search_area: list(tuple(number, number))
 
             :param kwargs: current state of the algorithm
             :type kwargs: dict(str:*)
 
             :returns: solution
-            :rtype: Vector
+            :rtype: array
         """
 
     @contract
@@ -70,7 +70,7 @@ class Algorithm(ABC, metaclass=ContractsMeta):
             :type f: Terminator
 
             :param search_area: search area
-            :type search_area: dict(str:tuple(number, number))
+            :type search_area: list(tuple(number, number))
 
             :param seed_state: seed state for the algorithm
             :type seed_state: dict(str:*)|None
@@ -82,14 +82,14 @@ class Algorithm(ABC, metaclass=ContractsMeta):
             :type callbacks: None|list(Function)
 
             :returns: solution
-            :rtype: Vector
+            :rtype: array
         """
         if callbacks is not None:
             def process_callbacks(algorithm, state):
                 for c in callbacks:
                     c(algorithm, state)
         else:
-            def process_callbacks(algorithm, state):
+            def process_callbacks(_, __):
                 pass
 
         f.reset()
