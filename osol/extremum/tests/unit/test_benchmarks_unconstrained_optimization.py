@@ -15,7 +15,6 @@ def verify_benchmark(bf):
     assert x_best.belongs_to(bf.search_area)
 
 
-
 def test_Ackley(n):
     verify_benchmark(Ackley(n))
 
