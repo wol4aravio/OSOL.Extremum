@@ -1,8 +1,7 @@
 from contracts import contract
 from joblib import Parallel, delayed
 
-from osol.extremum.optimization.benchmarks.optimization_benchmark import *  # Required for `Benchmark` contract inclusion
-from osol.extremum.optimization.benchmarks.unconstrained_optimization import *
+from osol.extremum.benchmarks.unconstrained_optimization import *
 
 
 @contract
@@ -25,7 +24,7 @@ def benchmark_algorithm(algorithm, benchmarks, terminator, number_of_runs, n_job
     :type n_jobs: int
 
     :returns: algorithm application results
-    :rtype: dict(str:tuple(list(Vector), list(number),number))
+    :rtype: dict(str:tuple(list(array), list(number),number))
     """
     results = dict()
     for b_name, b_func in benchmarks.items():

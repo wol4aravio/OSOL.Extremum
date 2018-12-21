@@ -1,11 +1,8 @@
 from contracts import contract
 import numpy as np
 
-from osol.extremum.optimization.basic.vector import Vector
-from osol.extremum.optimization.basic.algorithm import Algorithm
-import osol.extremum.optimization.algorithms.tools as tools
-
-from osol.extremum.etc.new_contracts import * # Inclusion of user defined contracts
+from osol.extremum.algorithms.algorithm import Algorithm
+import osol.extremum.algorithms.tools as tools
 
 
 class BigBangBigCrunch(Algorithm):
@@ -19,7 +16,7 @@ class BigBangBigCrunch(Algorithm):
     """
 
     @contract
-    def __init__(self, number_of_points, scatter_parameter, quality_mode="dummy"):
+    def __init__(self, number_of_points, scatter_parameter, quality_mode):
         """ Initialization of the algorithm
 
             :param number_of_points: number of points to be processed
@@ -49,7 +46,7 @@ class BigBangBigCrunch(Algorithm):
         """ Calculates point quality
 
             :param points: points to be evaluated
-            :type points: list[N](Vector)
+            :type points: list[N](array)
 
             :param best_value: previously observed best value
             :type best_value: number
@@ -75,15 +72,15 @@ class BigBangBigCrunch(Algorithm):
         """ Big Crunch procedure
 
             :param points: points to be evaluated
-            :type points: list[N](Vector)
+            :type points: list[N](array)
 
             :param points_quality: quality of the observed points
             :type points_quality: list[N](number)
 
             :returns: center of mass
-            :rtype: Vector
+            :rtype: array
         """
-        center = Vector(values=np.zeros(shape=points[0].ndim), keys=points[0].keys())
+        center = np.zeros(shape=len(points[0]))
         for p, q in zip(points, points_quality):
             center += p / q
         center /= sum(1.0 / q for q in points_quality)
@@ -95,7 +92,7 @@ class BigBangBigCrunch(Algorithm):
         """ Big Crunch procedure
 
             :param center: center of mass
-            :type center: Vector
+            :type center: array
 
             :param sigma: scatter parameter
             :type sigma: number
@@ -104,10 +101,9 @@ class BigBangBigCrunch(Algorithm):
             :type number_of_points: int
 
             :returns: new points
-            :rtype: list(Vector)
+            :rtype: list(array)
         """
-        new_points = [center + Vector(values=np.random.normal(size=center.ndim) * sigma, keys=center.keys())
-                      for _ in range(number_of_points)]
+        new_points = [center + np.random.normal(size=len(center)) * sigma for _ in range(number_of_points)]
         return new_points
 
     def initialize(self, f, search_area, seed_state):
@@ -134,7 +130,7 @@ class BigBangBigCrunch(Algorithm):
             center,
             sigma=self._scatter_parameter / iter_id,
             number_of_points=self._number_of_points)
-        new_points = [p.constrain(area=search_area) for p in new_points]
+        new_points = [tools.constrain(p, search_area) for p in new_points]
 
         new_points_quality, new_best_value = BigBangBigCrunch.get_quality(new_points, best_value, f, self._qf)
 

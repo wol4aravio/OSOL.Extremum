@@ -1,15 +1,13 @@
 import pytest
-from datetime import datetime as dt
+import numpy as np
 import math
 
-from osol.extremum.optimization.basic.vector import Vector
-from osol.extremum.optimization.basic.terminator import \
-    DummyTerminator, MaxCallsTerminator, MaxTimeTerminator, TerminatorExceptions
+from osol.extremum.algorithms.terminator import *
 
 
 @pytest.fixture(scope="session")
 def v():
-    return Vector.create(x=1, y=2, z=3)
+    return np.array([1, 2, 3])
 
 
 @pytest.fixture(scope="session")
@@ -19,7 +17,7 @@ def f():
 
 @pytest.fixture(scope="session")
 def f_dummy():
-    return lambda v: v[0] + v['y'] + v[2]
+    return lambda v: v[0] + v[1] + v[2]
 
 
 @pytest.fixture(scope="session")
@@ -34,7 +32,7 @@ def dummy_terminator(f_dummy):
 
 @pytest.fixture
 def max_calls_terminator(f):
-    return MaxCallsTerminator(f, mode='dict', max_calls=10)
+    return MaxCallsTerminator(f, mode='list', max_calls=10)
 
 
 @pytest.fixture

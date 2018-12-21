@@ -1,4 +1,4 @@
-from osol.extremum.optimization.algorithms.big_bang_big_crunch import BigBangBigCrunch
+from osol.extremum.algorithms.big_bang_big_crunch import BigBangBigCrunch
 from osol.extremum.tests.algorithms.verifier import verify
 
 

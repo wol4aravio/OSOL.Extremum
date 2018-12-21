@@ -1,9 +1,8 @@
 from contracts import contract
 import numpy as np
 
-from osol.extremum.etc.new_contracts import *  # Inclusion of user defined contracts
-from osol.extremum.optimization.basic.vector import Vector
-from osol.extremum.optimization.basic.terminator import DummyTerminator, MaxCallsTerminator, MaxTimeTerminator
+from osol.extremum.algorithms.terminator import DummyTerminator, MaxCallsTerminator, MaxTimeTerminator
+from osol.extremum.algorithms.tools import length
 
 
 @contract
@@ -32,8 +31,8 @@ def verify(algorithm, number_of_attempts=5, max_iterations=int(5e3), max_calls=i
         :rtype: bool
     """
     limit = 10.0
-    search_area = {v: (-limit, limit) for v in ["x", "y", "z"]}
-    optimal_vector = Vector(np.random.uniform(-limit, limit, len(search_area)), ["x", "y", "z"])
+    search_area = [(-limit, limit) for _ in range(3)]
+    optimal_vector = np.random.uniform(-limit, limit, len(search_area))
 
     success = {
         "d": False,
@@ -48,19 +47,19 @@ def verify(algorithm, number_of_attempts=5, max_iterations=int(5e3), max_calls=i
         if not success["d"]:
             d_terminator = DummyTerminator(f, mode="dummy")
             d_result = algorithm.optimize(d_terminator, search_area, max_iterations=max_iterations)
-            d_distance = (d_result - optimal_vector).length
+            d_distance = length(d_result - optimal_vector)
             success["d"] = d_distance < eps
 
         if not success["mc"]:
             mc_terminator = MaxCallsTerminator(f, mode="dummy", max_calls=max_calls)
             mc_result = algorithm.optimize(mc_terminator, search_area)
-            mc_distance = (mc_result - optimal_vector).length
+            mc_distance = length(mc_result - optimal_vector)
             success["mc"] = mc_distance < eps
 
         if not success["mt"]:
             mt_terminator = MaxTimeTerminator(f, mode="dummy", max_time=max_time)
             mt_result = algorithm.optimize(mt_terminator, search_area)
-            mt_distance = (mt_result - optimal_vector).length
+            mt_distance = length(mt_result - optimal_vector)
             success["mt"] = mt_distance < eps
 
     return all(success.values())

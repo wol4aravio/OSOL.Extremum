@@ -1,7 +1,7 @@
 from contracts import contract
 
-from osol.extremum.optimization.basic.algorithm import Algorithm
-import osol.extremum.optimization.algorithms.tools as tools
+from osol.extremum.algorithms.algorithm import Algorithm
+import osol.extremum.algorithms.tools as tools
 
 
 class AdaptiveRandomSearch(Algorithm):
