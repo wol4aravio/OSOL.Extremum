@@ -17,7 +17,7 @@ def f():
 
 @pytest.fixture(scope="session")
 def f_dummy():
-    return lambda v: v[0] + v['y'] + v[2]
+    return lambda v: v[0] + v[1] + v[2]
 
 
 @pytest.fixture(scope="session")
@@ -32,7 +32,7 @@ def dummy_terminator(f_dummy):
 
 @pytest.fixture
 def max_calls_terminator(f):
-    return MaxCallsTerminator(f, mode='dict', max_calls=10)
+    return MaxCallsTerminator(f, mode='list', max_calls=10)
 
 
 @pytest.fixture
