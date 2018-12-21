@@ -4,4 +4,4 @@ omit =
     *__init__.py
     osol/extremum/tests/*
     osol/extremum/applications/*
-    osol/extremum/optimization/benchmarks/tools
+    osol/extremum/optimization/benchmarks/tools.py
