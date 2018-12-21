@@ -80,7 +80,7 @@ class BigBangBigCrunch(Algorithm):
             :returns: center of mass
             :rtype: array
         """
-        center = np.zeros(shape=points[0].ndim)
+        center = np.zeros(shape=len(points[0]))
         for p, q in zip(points, points_quality):
             center += p / q
         center /= sum(1.0 / q for q in points_quality)
@@ -130,7 +130,7 @@ class BigBangBigCrunch(Algorithm):
             center,
             sigma=self._scatter_parameter / iter_id,
             number_of_points=self._number_of_points)
-        new_points = [p.constrain(area=search_area) for p in new_points]
+        new_points = [tools.constrain(p, search_area) for p in new_points]
 
         new_points_quality, new_best_value = BigBangBigCrunch.get_quality(new_points, best_value, f, self._qf)
 
