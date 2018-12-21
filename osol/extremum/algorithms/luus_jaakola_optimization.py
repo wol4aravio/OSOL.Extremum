@@ -2,8 +2,8 @@ from contracts import contract
 
 import numpy as np
 
-from osol.extremum.optimization.basic.algorithm import Algorithm
-import osol.extremum.optimization.algorithms.tools as tools
+from osol.extremum.algorithms.algorithm import Algorithm
+import osol.extremum.algorithms.tools as tools
 
 
 class LuusJaakolaOptimization(Algorithm):

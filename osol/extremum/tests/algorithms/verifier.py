@@ -1,9 +1,8 @@
 from contracts import contract
 import numpy as np
 
-from osol.extremum.etc.new_contracts import *  # Inclusion of user defined contracts
 from osol.extremum.optimization.basic.vector import Vector
-from osol.extremum.optimization.basic.terminator import DummyTerminator, MaxCallsTerminator, MaxTimeTerminator
+from osol.extremum.algorithms.terminator import DummyTerminator, MaxCallsTerminator, MaxTimeTerminator
 
 
 @contract

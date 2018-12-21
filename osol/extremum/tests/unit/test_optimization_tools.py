@@ -1,6 +1,6 @@
 import pytest
 
-from osol.extremum.optimization.algorithms.tools import *
+from osol.extremum.algorithms.tools import *
 
 
 @pytest.fixture(scope="session")

@@ -3,7 +3,7 @@ from datetime import datetime as dt
 import numpy as np
 
 from osol.extremum.optimization.basic.vector import Vector
-from osol.extremum.optimization.basic.terminator import \
+from osol.extremum.algorithms.terminator import \
     DummyTerminator, MaxCallsTerminator, MaxTimeTerminator, TerminatorExceptions
 
 from osol.extremum.optimization.tasks.unconstrained_optimization import UnconstrainedOptimization

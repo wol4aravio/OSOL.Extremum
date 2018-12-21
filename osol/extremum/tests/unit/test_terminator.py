@@ -3,7 +3,7 @@ from datetime import datetime as dt
 import math
 
 from osol.extremum.optimization.basic.vector import Vector
-from osol.extremum.optimization.basic.terminator import \
+from osol.extremum.algorithms.terminator import \
     DummyTerminator, MaxCallsTerminator, MaxTimeTerminator, TerminatorExceptions
 
 

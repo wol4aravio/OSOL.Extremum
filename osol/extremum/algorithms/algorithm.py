@@ -2,8 +2,7 @@ from abc import ABC, abstractmethod
 from contracts import contract, ContractsMeta
 import sys
 
-from osol.extremum.etc.new_contracts import * # Inclusion of user defined contracts
-from osol.extremum.optimization.basic.terminator import Terminator, TerminatorExceptions
+from osol.extremum.algorithms.terminator import Terminator, TerminatorExceptions
 
 
 class Algorithm(ABC, metaclass=ContractsMeta):

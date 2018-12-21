@@ -1,4 +1,4 @@
-from osol.extremum.optimization.algorithms.luus_jaakola_optimization import LuusJaakolaOptimization
+from osol.extremum.algorithms.luus_jaakola_optimization import LuusJaakolaOptimization
 from osol.extremum.tests.algorithms.verifier import verify
 
 
