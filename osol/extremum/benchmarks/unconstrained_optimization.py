@@ -131,7 +131,7 @@ class Bird(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return np.array([4.70105575198105, 3.152946019601391]), -106.7645488423886
+        return np.array([4.70105575198105, 3.152946019601391]), -106.76453671980346
 
 
 class Bohachevsky(create_fix_dim_function(2), OptimizationBenchmark):
@@ -175,11 +175,11 @@ class BoxBettsQuadraticSum(create_fix_dim_function(3), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {
-            "x_1": (0.9, 1.2),
-            "x_2": (9.0, 11.2),
-            "x_3": (0.9, 1.2)
-        }
+        return [
+            (0.9, 1.2),
+            (9.0, 11.2),
+            (0.9, 1.2)
+        ]
 
     @property
     def solution(self):
@@ -193,10 +193,10 @@ class BraninRCOS(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {
-            "x_1": (-5.0, 10.0),
-            "x_2": (0.0, 15.0)
-        }
+        return [
+            (-5.0, 10.0),
+            (0.0, 15.0)
+        ]
 
     @property
     def solution(self):
@@ -240,10 +240,10 @@ class Bukin(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {
-            "x_1": (-15.0, -5.0),
-            "x_2": (-3.0, 3.0)
-        }
+        return [
+            (-15.0, -5.0),
+            (-3.0, 3.0)
+        ]
 
     @property
     def solution(self):
@@ -275,7 +275,7 @@ class Chichinadze(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return np.array([6.1898665869658, 0.5]), -42.94438552656265
+        return np.array([6.1898665869658, 0.5]), -42.94438701899098
 
 
 class Colville(create_fix_dim_function(4), OptimizationBenchmark):
@@ -423,7 +423,7 @@ class Dolan(create_fix_dim_function(5), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return np.array([98.964258312237106, 100, 100, 99.224323672554704, -0.249987527588471]), -529.8714413460193
+        return np.array([98.964258312237106, 100, 100, 99.224323672554704, -0.249987527588471]), -529.8714387324576
 
 
 class Easom(create_fix_dim_function(2), OptimizationBenchmark):
@@ -519,11 +519,11 @@ class GulfResearch(create_fix_dim_function(3), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {
-            "x_1": (0.1, 100.0),
-            "x_2": (0.0, 25.6),
-            "x_3": (0.0, 5.0)
-        }
+        return [
+            (0.1, 100.0),
+            (0.0, 25.6),
+            (0.0, 5.0)
+        ]
 
     @property
     def solution(self):
@@ -586,10 +586,10 @@ class Hosaki(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {
-            "x_1": (0.0, 5.0),
-            "x_2": (0.0, 6.0)
-        }
+        return [
+            (0.0, 5.0),
+            (0.0, 6.0)
+        ]
 
     @property
     def solution(self):
@@ -678,10 +678,10 @@ class McCormick(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {
-            "x_1": (-1.5, 4.0),
-            "x_2": (-3.0, 3.0)
-        }
+        return [
+            (-1.5, 4.0),
+            (-3.0, 3.0)
+        ]
 
     @property
     def solution(self):
@@ -773,7 +773,7 @@ class Paviani(create_fix_dim_function(10), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return create_solution_vector(9.351, self._n), -45.778451456928394
+        return create_solution_vector(9.351, self._n), -45.77845205382887
 
 
 class Periodic(create_fix_dim_function(2), OptimizationBenchmark):
@@ -873,7 +873,7 @@ class RosenbrockModified(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return np.array([-0.9, -0.95]), 34.37125655899683
+        return np.array([-0.9, -0.95]), 34.3712389661618
 
 
 class RotatedEllipse(create_fix_dim_function(2), OptimizationBenchmark):
@@ -1023,7 +1023,7 @@ class Trefethen(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def solution(self):
-        return np.array([-0.02440307923, 0.2106124261]), -3.3068678655394708
+        return np.array([-0.02440307923, 0.2106124261]), -3.3068686474752305
 
 
 class Ursem(create_fix_dim_function(2), OptimizationBenchmark):
@@ -1033,10 +1033,10 @@ class Ursem(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return {
-            "x_1": (-2.5, 3.0),
-            "x_2": (-2.0, 2.0)
-        }
+        return [
+            (-2.5, 3.0),
+            (-2.0, 2.0)
+        ]
 
     @property
     def solution(self):

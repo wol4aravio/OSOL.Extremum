@@ -2,6 +2,7 @@ import numpy.testing as np_t
 import pytest
 
 from osol.extremum.benchmarks.unconstrained_optimization import *
+from osol.extremum.algorithms.tools import belongs_to
 
 
 @pytest.fixture(scope="session")
@@ -12,7 +13,7 @@ def n():
 def verify_benchmark(bf):
     x_best, y_best = bf.solution
     np_t.assert_almost_equal(bf(x_best), y_best)
-    assert x_best.belongs_to(bf.search_area)
+    assert belongs_to(x_best, bf.search_area)
 
 
 def test_Ackley(n):
