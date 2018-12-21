@@ -1,7 +1,7 @@
 import numpy.testing as np_t
 import pytest
 
-from osol.extremum.optimization.benchmarks.unconstrained_optimization import *
+from osol.extremum.benchmarks.unconstrained_optimization import *
 
 
 @pytest.fixture(scope="session")

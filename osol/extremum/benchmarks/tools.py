@@ -1,9 +1,6 @@
 from contracts import contract
 from joblib import Parallel, delayed
 
-from osol.extremum.optimization.benchmarks.optimization_benchmark import *  # Required for `Benchmark` contract inclusion
-from osol.extremum.optimization.benchmarks.unconstrained_optimization import *
-
 
 @contract
 def benchmark_algorithm(algorithm, benchmarks, terminator, number_of_runs, n_jobs=1):
