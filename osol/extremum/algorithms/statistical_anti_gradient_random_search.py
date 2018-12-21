@@ -1,11 +1,13 @@
 from contracts import contract
 
-from osol.extremum.optimization.basic.algorithm import Algorithm
-import osol.extremum.optimization.algorithms.tools as tools
+import numpy as np
+
+from osol.extremum.algorithms.algorithm import Algorithm
+import osol.extremum.algorithms.tools as tools
 
 
-class RandomSearch(Algorithm):
-    """ Dummy version of random search
+class StatisticalAntiGradientRandomSearch(Algorithm):
+    """ Random search with statistical anti gradient
 
         State description:
             - `x`       =>     current best vector
@@ -13,13 +15,17 @@ class RandomSearch(Algorithm):
     """
 
     @contract
-    def __init__(self, radius):
+    def __init__(self, radius, number_of_samples):
         """ Initialization of the algorithm
 
             :param radius: radius that is used to generate new points
             :type radius: number
+
+            :param number_of_samples: number of samples to be generated
+            :type number_of_samples: int
         """
         self._radius = radius
+        self._number_of_samples = number_of_samples
 
     def initialize(self, f, search_area, seed_state):
         initial_state = {}
@@ -36,8 +42,22 @@ class RandomSearch(Algorithm):
         x = kwargs["x"]
         f_x = kwargs["f_x"]
 
-        x_new = tools.generate_vector_in_sphere(x, self._radius, area=search_area)
+        r = self._radius
+        N = self._number_of_samples
+
+        new_points = [tools.generate_vector_in_sphere(x, r, search_area) for _ in range(N)]
+        new_values = [f(p) for p in new_points]
+
+        anti_gradient = np.zeros(shape=len(search_area))
+        for point, f_point in zip(new_points, new_values):
+            anti_gradient -= (point - x) * (f_point - f_x)
+        anti_grad_length = tools.length(anti_gradient)
+        if anti_grad_length > 0.0:
+            anti_gradient *= 1.0 / anti_grad_length
+
+        x_new = tools.constrain(x + anti_gradient * np.random.uniform(0.0, r), search_area)
         f_x_new = f(x_new)
+
         if f_x_new < f_x:
             return {
                 "x": x_new,

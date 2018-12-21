@@ -1,15 +1,11 @@
 from contracts import contract
 
-import numpy as np
-
-from osol.extremum.optimization.basic.algorithm import Algorithm
-import osol.extremum.optimization.algorithms.tools as tools
-
-from osol.extremum.optimization.basic.vector import Vector
+from osol.extremum.algorithms.algorithm import Algorithm
+import osol.extremum.algorithms.tools as tools
 
 
-class StatisticalAntiGradientRandomSearch(Algorithm):
-    """ Random search with statistical anti gradient
+class RandomSearch(Algorithm):
+    """ Dummy version of random search
 
         State description:
             - `x`       =>     current best vector
@@ -17,17 +13,13 @@ class StatisticalAntiGradientRandomSearch(Algorithm):
     """
 
     @contract
-    def __init__(self, radius, number_of_samples):
+    def __init__(self, radius):
         """ Initialization of the algorithm
 
             :param radius: radius that is used to generate new points
             :type radius: number
-
-            :param number_of_samples: number of samples to be generated
-            :type number_of_samples: int
         """
         self._radius = radius
-        self._number_of_samples = number_of_samples
 
     def initialize(self, f, search_area, seed_state):
         initial_state = {}
@@ -44,22 +36,8 @@ class StatisticalAntiGradientRandomSearch(Algorithm):
         x = kwargs["x"]
         f_x = kwargs["f_x"]
 
-        r = self._radius
-        N = self._number_of_samples
-
-        new_points = [tools.generate_vector_in_sphere(x, r, search_area) for _ in range(N)]
-        new_values = [f(p) for p in new_points]
-
-        anti_gradient = Vector.create(values={k: 0.0 for k in x.keys()})
-        for point, f_point in zip(new_points, new_values):
-            anti_gradient -= (point - x) * (f_point - f_x)
-        anti_grad_length = anti_gradient.length
-        if anti_grad_length > 0.0:
-            anti_gradient *= 1.0 / anti_grad_length
-
-        x_new = x + anti_gradient * np.random.uniform(0.0, r)
+        x_new = tools.generate_vector_in_sphere(x, self._radius, area=search_area)
         f_x_new = f(x_new)
-
         if f_x_new < f_x:
             return {
                 "x": x_new,

@@ -1,4 +1,4 @@
-from osol.extremum.optimization.algorithms.random_search import RandomSearch
+from osol.extremum.algorithms.random_search import RandomSearch
 from osol.extremum.tests.algorithms.verifier import verify
 
 

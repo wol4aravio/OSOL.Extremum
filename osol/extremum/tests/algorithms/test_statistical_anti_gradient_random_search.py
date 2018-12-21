@@ -1,4 +1,4 @@
-from osol.extremum.optimization.algorithms.statistical_anti_gradient_random_search import StatisticalAntiGradientRandomSearch
+from osol.extremum.algorithms.statistical_anti_gradient_random_search import StatisticalAntiGradientRandomSearch
 from osol.extremum.tests.algorithms.verifier import verify
 
 
