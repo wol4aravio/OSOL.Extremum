@@ -51,7 +51,7 @@ class StatisticalAntiGradientRandomSearch(Algorithm):
         anti_gradient = np.zeros(shape=len(search_area))
         for point, f_point in zip(new_points, new_values):
             anti_gradient -= (point - x) * (f_point - f_x)
-        anti_grad_length = anti_gradient.length
+        anti_grad_length = tools.length(anti_gradient)
         if anti_grad_length > 0.0:
             anti_gradient *= 1.0 / anti_grad_length
 
