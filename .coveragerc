@@ -5,3 +5,4 @@ omit =
     osol/extremum/tests/*
     osol/extremum/applications/*
     osol/extremum/benchmarks/tools.py
+    osol/extremum/etc/new_contracts.py
