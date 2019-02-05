@@ -1,7 +1,0 @@
-{
-  "state_variables": ["x1", "x2"],
-  "aliases": {
-    "x1_0": "spacecraft.dx_1.y_start",
-    "x2_0": "spacecraft.dx_2.y_start"
-  }
-}

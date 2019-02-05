@@ -4,20 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pycontracts = "*"
-numpy = "*"
-fmpy = "*"
-sympy = "*"
-joblib = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
+mypy = "*"
 pipenv-to-requirements = "*"
-jupyter = "*"
-jupyter-contrib-nbextensions = "*"
-jupyter-nbextensions-configurator = "*"
 
 [requires]
 python_version = "3.6"
