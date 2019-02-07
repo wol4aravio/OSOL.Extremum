@@ -1,3 +1,4 @@
+import sys
 from abc import ABC, abstractmethod
 from typing import Callable, List, Tuple
 from datetime import datetime as dt
@@ -19,13 +20,15 @@ class Algorithm(ABC):
             max_iterations: int) -> np.ndarray:
         ...
 
+    def optimize_max_calls(
+            self, f: Callable[[BoxVector], IntervalNumber],
+            search_area: List[Tuple[float, float]], max_calls: int) -> np.ndarray:
+        return self.optimize(FunctionWithCounter(f, max_calls), search_area, max_iterations=sys.maxsize)
 
     def optimize_max_runtime(
-            self,
-            f: Callable[[BoxVector], IntervalNumber],
-            search_area: List[Tuple[float, float]],
-            max_time: int) -> np.ndarray:
-        ...
+            self, f: Callable[[BoxVector], IntervalNumber],
+            search_area: List[Tuple[float, float]], max_seconds: int) -> np.ndarray:
+        return self.optimize(FunctionWithTimer(f, max_seconds), search_area, max_iterations=sys.maxsize)
 
 
 class FunctionWithCounter:
