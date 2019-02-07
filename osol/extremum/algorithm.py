@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Callable, List, Tuple
+from datetime import datetime as dt
+from datetime import timedelta
 
 import numpy as np
 
@@ -36,6 +38,18 @@ class FunctionWithCounter:
         if self._number_of_calls >= self._max_number_of_calls:
             raise Exception(f"Exceeded maximum number of allowed calls: {self._max_number_of_calls}")
         self._number_of_calls += 1
+        return self._f(x)
+
+
+class FunctionWithTimer:
+    def __init__(self, f: Callable[[BoxVector], IntervalNumber], max_number_of_seconds: float):
+        self._f = f
+        self._start = dt.utcnow()
+        self.max_number_of_seconds = timedelta(seconds=max_number_of_seconds)
+
+    def __call__(self, x: BoxVector) -> IntervalNumber:
+        if dt.utcnow() - self._start >= self.max_number_of_seconds:
+            raise Exception(f"Exceeded allowed working time: {self.max_number_of_seconds}")
         return self._f(x)
 
 
