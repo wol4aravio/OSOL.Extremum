@@ -20,15 +20,25 @@ class Algorithm(ABC):
             max_iterations: int) -> np.ndarray:
         ...
 
+    @abstractmethod
+    def terminate(self) -> np.ndarray:
+        ...
+
     def optimize_max_calls(
             self, f: Callable[[BoxVector], IntervalNumber],
             search_area: List[Tuple[float, float]], max_calls: int) -> np.ndarray:
-        return self.optimize(FunctionWithCounter(f, max_calls), search_area, max_iterations=sys.maxsize)
+        try:
+            return self.optimize(FunctionWithCounter(f, max_calls), search_area, max_iterations=sys.maxsize)
+        except TimeoutError:
+            return self.terminate()
 
     def optimize_max_runtime(
             self, f: Callable[[BoxVector], IntervalNumber],
             search_area: List[Tuple[float, float]], max_seconds: int) -> np.ndarray:
-        return self.optimize(FunctionWithTimer(f, max_seconds), search_area, max_iterations=sys.maxsize)
+        try:
+            return self.optimize(FunctionWithTimer(f, max_seconds), search_area, max_iterations=sys.maxsize)
+        except TimeoutError:
+            return self.terminate()
 
 
 class FunctionWithCounter:
@@ -39,7 +49,7 @@ class FunctionWithCounter:
 
     def __call__(self, x: BoxVector) -> IntervalNumber:
         if self._number_of_calls >= self._max_number_of_calls:
-            raise Exception(f"Exceeded maximum number of allowed calls: {self._max_number_of_calls}")
+            raise TimeoutError(f"Exceeded maximum number of allowed calls: {self._max_number_of_calls}")
         self._number_of_calls += 1
         return self._f(x)
 
@@ -52,7 +62,7 @@ class FunctionWithTimer:
 
     def __call__(self, x: BoxVector) -> IntervalNumber:
         if dt.utcnow() - self._start >= self.max_number_of_seconds:
-            raise Exception(f"Exceeded allowed working time: {self.max_number_of_seconds}")
+            raise TimeoutError(f"Exceeded allowed working time: {self.max_number_of_seconds}")
         return self._f(x)
 
 
