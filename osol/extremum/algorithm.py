@@ -13,6 +13,10 @@ from intervallum.box import BoxVector
 class Algorithm(ABC):
 
     @abstractmethod
+    def initialize(**kwargs):
+        ...
+
+    @abstractmethod
     def optimize(
             self,
             f: Callable[[BoxVector], IntervalNumber],
