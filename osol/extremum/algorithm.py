@@ -43,7 +43,7 @@ class Algorithm(ABC):
     def optimize_max_runtime(
             self, f: Callable[[BoxVector], IntervalNumber],
             search_area: List[Tuple[float, float]],
-            max_seconds: int) -> np.ndarray:
+            max_seconds: float) -> np.ndarray:
         try:
             return self.optimize(
                 FunctionWithTimer(f, max_seconds),
