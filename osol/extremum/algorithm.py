@@ -42,12 +42,12 @@ class Algorithm(ABC):
 
     def optimize_max_runtime(
             self, f: Callable[[BoxVector], IntervalNumber],
-            search_area: List[Tuple[float, float]], 
+            search_area: List[Tuple[float, float]],
             max_seconds: int) -> np.ndarray:
         try:
             return self.optimize(
                 FunctionWithTimer(f, max_seconds),
-                search_area, 
+                search_area,
                 max_iterations=sys.maxsize)
         except TimeoutError:
             return self.terminate()
@@ -55,7 +55,7 @@ class Algorithm(ABC):
 
 class FunctionWithCounter:
     def __init__(self,
-                 f: Callable[[BoxVector], IntervalNumber], 
+                 f: Callable[[BoxVector], IntervalNumber],
                  max_number_of_calls: int):
         self._f = f
         self._number_of_calls = 0
@@ -63,14 +63,15 @@ class FunctionWithCounter:
 
     def __call__(self, x: BoxVector) -> IntervalNumber:
         if self._number_of_calls >= self._max_number_of_calls:
-            raise TimeoutError(f"Exceeded maximum number of allowed calls: {self._max_number_of_calls}")
+            raise TimeoutError("Exceeded maximum number of allowed calls: " +
+                               str(self._max_number_of_calls))
         self._number_of_calls += 1
         return self._f(x)
 
 
 class FunctionWithTimer:
-    def __init__(self, 
-                 f: Callable[[BoxVector], IntervalNumber], 
+    def __init__(self,
+                 f: Callable[[BoxVector], IntervalNumber],
                  max_number_of_seconds: float):
         self._f = f
         self._start = dt.utcnow()
@@ -78,7 +79,6 @@ class FunctionWithTimer:
 
     def __call__(self, x: BoxVector) -> IntervalNumber:
         if dt.utcnow() - self._start >= self.max_number_of_seconds:
-            raise TimeoutError(f"Exceeded allowed working time: {self.max_number_of_seconds}")
+            raise TimeoutError("Exceeded allowed working time: " +
+                               str(self.max_number_of_seconds))
         return self._f(x)
-
-
