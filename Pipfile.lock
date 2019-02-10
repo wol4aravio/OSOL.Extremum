@@ -18,11 +18,11 @@
     "default": {
         "intervallum": {
             "hashes": [
-                "sha256:10de9d2e66c66f5f8b4edf8bf80737b530e36bff8bdb08adf2f278b7c194cf5d",
-                "sha256:6623f51e43806fba6b7a028b39f72488810615d040185881fcadb9c587f3b861"
+                "sha256:003981869c93316a08752ac32e8e5a31b0f378a011e17126afaeac92d2111cd0",
+                "sha256:a81fc684639b2732557eaaca4991a6027884c3d10a7205af21deb25e1b502cda"
             ],
             "index": "pypi",
-            "version": "==0.2.0"
+            "version": "==0.2.2"
         },
         "numpy": {
             "hashes": [

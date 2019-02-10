@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-intervallum = "*"
 numpy = "*"
+intervallum = "*"
 
 [dev-packages]
 pytest = "*"
