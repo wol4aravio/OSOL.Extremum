@@ -13,7 +13,7 @@ from intervallum.box import BoxVector
 class Algorithm(ABC):
 
     @abstractmethod
-    def initialize(**kwargs):
+    def initialize(self, **kwargs):
         ...
 
     @abstractmethod
@@ -30,23 +30,33 @@ class Algorithm(ABC):
 
     def optimize_max_calls(
             self, f: Callable[[BoxVector], IntervalNumber],
-            search_area: List[Tuple[float, float]], max_calls: int) -> np.ndarray:
+            search_area: List[Tuple[float, float]],
+            max_calls: int) -> np.ndarray:
         try:
-            return self.optimize(FunctionWithCounter(f, max_calls), search_area, max_iterations=sys.maxsize)
+            return self.optimize(
+                FunctionWithCounter(f, max_calls),
+                search_area,
+                max_iterations=sys.maxsize)
         except TimeoutError:
             return self.terminate()
 
     def optimize_max_runtime(
             self, f: Callable[[BoxVector], IntervalNumber],
-            search_area: List[Tuple[float, float]], max_seconds: int) -> np.ndarray:
+            search_area: List[Tuple[float, float]], 
+            max_seconds: int) -> np.ndarray:
         try:
-            return self.optimize(FunctionWithTimer(f, max_seconds), search_area, max_iterations=sys.maxsize)
+            return self.optimize(
+                FunctionWithTimer(f, max_seconds),
+                search_area, 
+                max_iterations=sys.maxsize)
         except TimeoutError:
             return self.terminate()
 
 
 class FunctionWithCounter:
-    def __init__(self, f: Callable[[BoxVector], IntervalNumber], max_number_of_calls: int):
+    def __init__(self,
+                 f: Callable[[BoxVector], IntervalNumber], 
+                 max_number_of_calls: int):
         self._f = f
         self._number_of_calls = 0
         self._max_number_of_calls = max_number_of_calls
@@ -59,7 +69,9 @@ class FunctionWithCounter:
 
 
 class FunctionWithTimer:
-    def __init__(self, f: Callable[[BoxVector], IntervalNumber], max_number_of_seconds: float):
+    def __init__(self, 
+                 f: Callable[[BoxVector], IntervalNumber], 
+                 max_number_of_seconds: float):
         self._f = f
         self._start = dt.utcnow()
         self.max_number_of_seconds = timedelta(seconds=max_number_of_seconds)
