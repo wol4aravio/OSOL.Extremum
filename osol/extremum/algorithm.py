@@ -10,6 +10,13 @@ from intervallum.interval import IntervalNumber
 from intervallum.box import BoxVector
 
 
+def check_args(necessary_args: List[str], **kwargs):
+    for arg in necessary_args:
+        if arg not in kwargs:
+            raise Exception(f"No necessary arguments: {arg}")
+    return True
+
+
 class Algorithm(ABC):
 
     @abstractmethod
