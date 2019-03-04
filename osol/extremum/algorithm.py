@@ -38,12 +38,15 @@ class Algorithm(ABC):
     def optimize_max_calls(
             self, f: Callable[[BoxVector], IntervalNumber],
             search_area: List[Tuple[float, float]],
-            max_calls: int) -> np.ndarray:
+            max_calls: int, explicit=False) -> np.ndarray:
         try:
-            return self.optimize(
-                FunctionWithCounter(f, max_calls),
-                search_area,
-                max_iterations=sys.maxsize)
+            if not explicit:
+                return self.optimize(
+                    FunctionWithCounter(f, max_calls),
+                    search_area,
+                    max_iterations=sys.maxsize)
+            else:
+                return self.optimize(f, search_area, max_iterations=sys.maxsize)
         except TimeoutError:
             return self.terminate()
 
