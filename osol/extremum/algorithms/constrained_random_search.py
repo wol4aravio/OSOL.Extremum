@@ -5,27 +5,25 @@ import numpy as np
 from intervallum.box import BoxVector
 from intervallum.box_functions import constrain
 from intervallum.interval import IntervalNumber
-from osol.extremum.algorithm import Algorithm
+from osol.extremum.algorithm import Algorithm, check_args
 
 
 class ConstrainedRandomSearch(Algorithm):
 
     def __init__(self, max_shift: float):
         self.max_shift = max_shift
+        self.x = None
 
     def initialize(self, **kwargs):
-        necessary_args = ["x"]
-        for arg in necessary_args:
-            if arg not in kwargs:
-                raise Exception(f"No necessary arguments: {arg}")
-        self.x = kwargs["x"]
+        if check_args(["x"], **kwargs):
+            self.x = kwargs["x"]
 
     def terminate(self):
         return self.x
 
     def optimize(self, f: Callable[[BoxVector], IntervalNumber],
                  search_area: List[Tuple[float, float]],
-                 max_iterations: int) -> np.ndarray:
+                 max_iterations: int):
         iter_id = 0
         dim = len(self.x)
         self.f = f(self.x)
