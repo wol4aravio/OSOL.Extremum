@@ -75,11 +75,11 @@ def test_CRS(f: Callable[[BoxVector], IntervalNumber],
     tool = CRS(max_shift=1e-1)
 
     tool.initialize(x=x)
-    result_timer = tool.optimize_max_runtime(f, area, max_seconds=2.5)
+    result_timer = tool.optimize_max_runtime(f, area, max_seconds=5.0)
     assert_array_almost_equal(result_timer, x_best, decimal=3)
 
     tool.initialize(x=x)
-    result_timer = tool.optimize_max_calls(f, area, max_calls=2500)
+    result_timer = tool.optimize_max_calls(f, area, max_calls=7500)
     assert_array_almost_equal(result_timer, x_best, decimal=3)
 
 
@@ -106,11 +106,11 @@ def test_IES(f: Callable[[BoxVector], IntervalNumber],
     tool = IES(max_radius=[0.1] * 3)
 
     tool.initialize(bombs=bombs, f=f)
-    result_timer = tool.optimize_max_runtime(f, area, max_seconds=2.5)
+    result_timer = tool.optimize_max_runtime(f, area, max_seconds=5.0)
     assert_array_almost_equal(result_timer, x_best, decimal=3)
 
     tool.initialize(bombs=bombs, f=f)
-    result_timer = tool.optimize_max_calls(f, area, max_calls=2500)
+    result_timer = tool.optimize_max_calls(f, area, max_calls=7500)
     assert_array_almost_equal(result_timer, x_best, decimal=3)
 
 
@@ -125,7 +125,7 @@ def test_SAG_RS(f: Callable[[BoxVector], IntervalNumber],
     tool = SAG_RS(radius=1e-1, number_of_samples=10)
 
     tool.initialize(x=x, f=f)
-    result_timer = tool.optimize_max_runtime(f, area, max_seconds=2.5)
+    result_timer = tool.optimize_max_runtime(f, area, max_seconds=5.0)
     assert_array_almost_equal(result_timer, x_best, decimal=3)
 
     tool.initialize(x=x, f=f)
