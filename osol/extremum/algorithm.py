@@ -46,7 +46,9 @@ class Algorithm(ABC):
                     search_area,
                     max_iterations=sys.maxsize)
             else:
-                return self.optimize(f, search_area, max_iterations=sys.maxsize)
+                return self.optimize(
+                    f, search_area,
+                    max_iterations=sys.maxsize)
         except TimeoutError:
             return self.terminate()
 

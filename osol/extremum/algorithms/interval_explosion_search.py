@@ -51,6 +51,8 @@ class IntervalExplosionSearch(Algorithm):
                 part_2 += np.random.uniform(low=left, high=right)
                 new_bombs.append(constrain(part_2, search_area))
 
-            self.bombs = sorted([(b, f(b)) for b in new_bombs], key=itemgetter(1))[:self.bombs_number]
+            self.bombs = sorted(
+                [(b, f(b)) for b in new_bombs],
+                key=itemgetter(1))[:self.bombs_number]
 
         return self.terminate()
