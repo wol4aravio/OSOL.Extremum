@@ -13,8 +13,6 @@ class StatisticalAntiGradientRandomSearch(Algorithm):
     def __init__(self, radius, number_of_samples):
         self.radius = radius
         self.number_of_samples = number_of_samples
-        self.x = None
-        self.f_x = None
 
     def initialize(self, **kwargs):
         if check_args(["x", "f"], **kwargs):

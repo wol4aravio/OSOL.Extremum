@@ -12,7 +12,6 @@ class ConstrainedRandomSearch(Algorithm):
 
     def __init__(self, max_shift: float):
         self.max_shift = max_shift
-        self.x = None
 
     def initialize(self, **kwargs):
         if check_args(["x"], **kwargs):

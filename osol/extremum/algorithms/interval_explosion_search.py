@@ -12,9 +12,7 @@ from intervallum.interval import IntervalNumber
 class IntervalExplosionSearch(Algorithm):
 
     def __init__(self, max_radius: List[float]):
-        self.bombs_number = None
         self.max_radius = max_radius
-        self.bombs = None
 
     def initialize(self, **kwargs):
         if check_args(["bombs", "f"], **kwargs):
