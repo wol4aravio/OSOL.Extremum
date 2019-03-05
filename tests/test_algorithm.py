@@ -11,6 +11,7 @@ from osol.extremum.algorithm import FunctionWithCounter, FunctionWithTimer
 
 from osol.extremum.algorithms.constrained_random_search import ConstrainedRandomSearch as CRS
 from osol.extremum.algorithms.interval_explosion_search import IntervalExplosionSearch as IES
+from osol.extremum.algorithms.statistical_anti_gradient_random_search import StatisticalAntiGradientRandomSearch as SAG_RS
 
 
 @pytest.fixture(scope="session")
@@ -70,6 +71,7 @@ def test_CRS(f: Callable[[BoxVector], IntervalNumber],
         low=[x[0] for x in area],
         high=[x[1] for x in area],
         size=3)
+
     tool = CRS(max_shift=1e-1)
 
     tool.initialize(x=x)
@@ -109,4 +111,23 @@ def test_IES(f: Callable[[BoxVector], IntervalNumber],
 
     tool.initialize(bombs=bombs, f=f)
     result_timer = tool.optimize_max_calls(f, area, max_calls=2500)
+    assert_array_almost_equal(result_timer, x_best, decimal=3)
+
+
+def test_SAG_RS(f: Callable[[BoxVector], IntervalNumber],
+                area: List[Tuple[float, float]],
+                x_best: np.ndarray):
+    x = np.random.uniform(
+        low=[x[0] for x in area],
+        high=[x[1] for x in area],
+        size=3)
+
+    tool = SAG_RS(radius=1e-1, number_of_samples=10)
+
+    tool.initialize(x=x, f=f)
+    result_timer = tool.optimize_max_runtime(f, area, max_seconds=2.5)
+    assert_array_almost_equal(result_timer, x_best, decimal=3)
+
+    tool.initialize(x=x, f=f)
+    result_timer = tool.optimize_max_calls(f, area, max_calls=7500)
     assert_array_almost_equal(result_timer, x_best, decimal=3)
