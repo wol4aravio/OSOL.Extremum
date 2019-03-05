@@ -1,73 +1,51 @@
-from contracts import contract
+from typing import Callable, List, Tuple
 
 import numpy as np
 
-from osol.extremum.algorithms.algorithm import Algorithm
-import osol.extremum.algorithms.tools as tools
+from osol.extremum.algorithm import Algorithm, check_args
+from intervallum.box import BoxVector
+from intervallum.box_functions import constrain
+from intervallum.interval import IntervalNumber
 
 
 class StatisticalAntiGradientRandomSearch(Algorithm):
-    """ Random search with statistical anti gradient
 
-        State description:
-            - `x`       =>     current best vector
-            - `f_x`     =>     function value that corresponds to the current best vector
-    """
-
-    @contract
     def __init__(self, radius, number_of_samples):
-        """ Initialization of the algorithm
+        self.radius = radius
+        self.number_of_samples = number_of_samples
 
-            :param radius: radius that is used to generate new points
-            :type radius: number
+    def initialize(self, **kwargs):
+        if check_args(["x", "f"], **kwargs):
+            self.x = kwargs["x"]
+            self.f_x = kwargs["f"](self.x)
 
-            :param number_of_samples: number of samples to be generated
-            :type number_of_samples: int
-        """
-        self._radius = radius
-        self._number_of_samples = number_of_samples
+    def terminate(self):
+        return self.x
 
-    def initialize(self, f, search_area, seed_state):
-        initial_state = {}
-        if seed_state is not None:
-            raise NotImplementedError
-        else:
-            x = tools.generate_vector_in_box(search_area)
-            initial_state["x"] = x
-            initial_state["f_x"] = f(x)
+    def optimize(self, f: Callable[[BoxVector], IntervalNumber],
+                 search_area: List[Tuple[float, float]],
+                 max_iterations: int):
+        iter_id = 0
+        while iter_id < max_iterations:
+            new_points = [
+                np.random.uniform(self.x - self.radius, self.x + self.radius)
+                for _ in range(self.number_of_samples)]
+            new_values = [f(p) for p in new_points]
 
-        return initial_state
+            anti_gradient = np.zeros(shape=len(search_area))
+            for point, f_point in zip(new_points, new_values):
+                anti_gradient -= (point - self.x) * (f_point - self.f_x)
+            anti_grad_length = np.linalg.norm(anti_gradient)
+            if anti_grad_length > 0.0:
+                anti_gradient *= 1.0 / anti_grad_length
 
-    def main_cycle(self, f, search_area, **kwargs):
-        x = kwargs["x"]
-        f_x = kwargs["f_x"]
+            x_new = constrain(
+                self.x + anti_gradient * np.random.uniform(0.0, self.radius),
+                search_area)
+            f_x_new = f(x_new)
 
-        r = self._radius
-        N = self._number_of_samples
+            if f_x_new < self.f_x:
+                self.x = x_new
+                self.f_x = f_x_new
 
-        new_points = [tools.generate_vector_in_sphere(x, r, search_area) for _ in range(N)]
-        new_values = [f(p) for p in new_points]
-
-        anti_gradient = np.zeros(shape=len(search_area))
-        for point, f_point in zip(new_points, new_values):
-            anti_gradient -= (point - x) * (f_point - f_x)
-        anti_grad_length = tools.length(anti_gradient)
-        if anti_grad_length > 0.0:
-            anti_gradient *= 1.0 / anti_grad_length
-
-        x_new = tools.constrain(x + anti_gradient * np.random.uniform(0.0, r), search_area)
-        f_x_new = f(x_new)
-
-        if f_x_new < f_x:
-            return {
-                "x": x_new,
-                "f_x": f_x_new
-            }
-        else:
-            return {
-                "x": x,
-                "f_x": f_x
-            }
-
-    def terminate(self, f, search_area, **kwargs):
-        return kwargs["x"]
+        return self.terminate()

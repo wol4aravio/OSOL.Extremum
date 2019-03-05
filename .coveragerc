@@ -2,6 +2,4 @@
 omit =
     setup.py
     *__init__.py
-    osol/extremum/tests/*
-    osol/extremum/applications/*
-    osol/extremum/benchmarks/tools.py
+    tests/*

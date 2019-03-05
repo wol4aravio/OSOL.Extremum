@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/wol4aravio/OSOL.Extremum.svg?branch=master)](https://travis-ci.org/wol4aravio/OSOL.Extremum.svg?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6d29733e0b2d4faea9b99306ecff0f91)](https://www.codacy.com/app/wol4aravio/OSOL.Extremum?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wol4aravio/OSOL.Extremum&amp;utm_campaign=Badge_Grade)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/6d29733e0b2d4faea9b99306ecff0f91)](https://www.codacy.com/app/wol4aravio/OSOL.Extremum?utm_source=github.com&utm_medium=referral&utm_content=wol4aravio/OSOL.Extremum&utm_campaign=Badge_Coverage)
 [![PyPI version](https://badge.fury.io/py/osol.extremum.svg)](https://badge.fury.io/py/osol.extremum)
+[![Maintainability](https://api.codeclimate.com/v1/badges/970d8f7c1633018aece2/maintainability)](https://codeclimate.com/github/wol4aravio/OSOL.Extremum/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/970d8f7c1633018aece2/test_coverage)](https://codeclimate.com/github/wol4aravio/OSOL.Extremum/test_coverage)
 
 <p align="center">
 <b> Open-Source Optimization Library - Extremum </b>
