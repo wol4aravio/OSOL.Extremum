@@ -5,16 +5,15 @@ name = "pypi"
 
 [packages]
 numpy = "*"
-intervallum = "*"
+pycontracts = "*"
+loguru = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
-mypy = "*"
 pipenv-to-requirements = "*"
-flake8 = "*"
-rope = "*"
+hypothesis = "*"
 
 [requires]
 python_version = "3.6"
