@@ -37,7 +37,7 @@ def _get_current_best(points, wrapped_function):
     return x_best
 
 
-def spiral_optimization(f, area, m=25, r=0.95, theta=(np.pi / 4), max_iterations=None, max_evaluations=None, max_time=None):
+def spiral_optimization(f, area, max_iterations=None, max_evaluations=None, max_time=None, m=25, r=0.95, theta=(np.pi / 4)):
     min_ = area[:, 0].reshape(-1, 1)
     max_ = area[:, 1].reshape(-1, 1)
 
