@@ -496,3 +496,70 @@ class Dolan(Benchmark):
             - x[1]
             - 1.0
         )
+
+
+class Easom(Benchmark):
+    """Easom benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-10, 10)),
+            solution_x=np.full(shape=(2), fill_value=np.pi),
+            solution_y=-1,
+        )
+
+    def __call__(self, x):
+        return (
+            -np.cos(x[0])
+            * np.cos(x[1])
+            * np.exp(-np.square(x[0] - np.pi) - np.square(x[1] - np.pi))
+        )
+
+
+class EggCrate(Benchmark):
+    """EggCrate benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-5, 5)),
+            solution_x=np.full(shape=(2), fill_value=0),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return (
+            x[0] * x[0]
+            + x[1] * x[1]
+            + 25.0
+            * (np.sin(x[0]) * np.sin(x[0]) + np.sin(x[1]) * np.sin(x[1]))
+        )
+
+
+class EggHolder(Benchmark):
+    """EggHolder benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-512, 512)),
+            solution_x=np.array([512.0, 404.2319]),
+            solution_y=-959.640662709941,
+        )
+
+    def __call__(self, x):
+        return -(x[1] + 47.0) * np.sin(
+            np.sqrt(np.abs(x[1] + x[0] / 2.0 + 47.0))
+        ) - x[0] * np.sin(np.sqrt(np.abs(x[0] - (x[1] + 47.0))))
+
+
+class Exponential(Benchmark):
+    """Exponential benchmark."""
+
+    def __init__(self, n):
+        super().__init__(
+            search_area=np.full(shape=(n, 2), fill_value=(-1, 1)),
+            solution_x=np.full(shape=(n), fill_value=0),
+            solution_y=-1,
+        )
+
+    def __call__(self, x):
+        return -np.exp((-0.5 * np.square(x)).sum())

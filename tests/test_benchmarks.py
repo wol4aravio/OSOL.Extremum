@@ -27,6 +27,10 @@ from osol.benchmarks import (
     DeckkersAarts,
     DixonAndPrice,
     Dolan,
+    Easom,
+    EggCrate,
+    EggHolder,
+    Exponential,
 )
 
 DIM = 5
@@ -219,6 +223,38 @@ def test_dixon_and_price():
 def test_dolan():
     """Test Dolan function."""
     f = Dolan()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+    assert (f.search_area[:, 0] <= f.solution_x).all()
+    assert (f.solution_x <= f.search_area[:, 1]).all()
+
+
+def test_easom():
+    """Test Easom function."""
+    f = Easom()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+    assert (f.search_area[:, 0] <= f.solution_x).all()
+    assert (f.solution_x <= f.search_area[:, 1]).all()
+
+
+def test_eggCrate():
+    """Test EggCrate function."""
+    f = EggCrate()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+    assert (f.search_area[:, 0] <= f.solution_x).all()
+    assert (f.solution_x <= f.search_area[:, 1]).all()
+
+
+def test_eggHolder():
+    """Test EggHolder function."""
+    f = EggHolder()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+    assert (f.search_area[:, 0] <= f.solution_x).all()
+    assert (f.solution_x <= f.search_area[:, 1]).all()
+
+
+def test_exponential():
+    """Test Exponential function."""
+    f = Exponential(DIM)
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
     assert (f.search_area[:, 0] <= f.solution_x).all()
     assert (f.solution_x <= f.search_area[:, 1]).all()
