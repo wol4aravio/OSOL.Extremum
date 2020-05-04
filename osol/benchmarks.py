@@ -292,3 +292,25 @@ class Chichinadze(Benchmark):
             + 8.0 * np.sin(5.0 * np.pi * x[0] / 2.0)
             - np.sqrt(0.2) * np.exp(-0.5 * (x[1] - 0.5) * (x[1] - 0.5))
         )
+
+
+class Colville(Benchmark):
+    """Colville benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(4, 2), fill_value=(-10.0, 10.0)),
+            solution_x=np.full(shape=(4), fill_value=1),
+            solution_y=-0,
+        )
+
+    def __call__(self, v):
+        return (
+            100.0 * (v[0] - v[1] * v[1]) * (v[0] - v[1] * v[1])
+            + (1.0 - v[0]) * (1.0 - v[0])
+            + 90.0 * (v[3] - v[2] * v[2]) * (v[3] - v[2] * v[2])
+            + (1.0 - v[2]) * (1.0 - v[2])
+            + 10.1
+            * ((v[1] - 1.0) * (v[1] - 1.0) + (v[3] - 1.0) * (v[3] - 1.0))
+            + 19.8 * (v[1] - 1.0) * (v[3] - 1.0)
+        )

@@ -17,6 +17,7 @@ from osol.benchmarks import (
     Bukin,
     CamelThreeHumps,
     Chichinadze,
+    Colville,
 )
 
 DIM = 5
@@ -103,4 +104,10 @@ def test_camel_three_humps():
 def test_chichinadze():
     """Test Chichinadze function."""
     f = Chichinadze()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+
+
+def test_colville():
+    """Test Colville function."""
+    f = Colville()
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
