@@ -271,3 +271,24 @@ class CamelThreeHumps(Benchmark):
             + x[0] * x[1]
             + x[1] * x[1]
         )
+
+
+class Chichinadze(Benchmark):
+    """Chichinadze benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-30.0, 30.0)),
+            solution_x=np.array([6.1898665869658, 0.5]),
+            solution_y=-42.94438701899098,
+        )
+
+    def __call__(self, x):
+        return (
+            x[0] * x[0]
+            - 12.0 * x[0]
+            + 11.0
+            + 10.0 * np.cos(np.pi * x[0] / 2.0)
+            + 8.0 * np.sin(5.0 * np.pi * x[0] / 2.0)
+            - np.sqrt(0.2) * np.exp(-0.5 * (x[1] - 0.5) * (x[1] - 0.5))
+        )
