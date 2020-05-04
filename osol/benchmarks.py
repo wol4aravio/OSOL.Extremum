@@ -237,3 +237,17 @@ class Brown(Benchmark):
             np.power(np.square(part_1), part_2 * part_2 + 1.0)
             + np.power(np.square(part_2), part_1 * part_1 + 1.0)
         )
+
+
+class Bukin(Benchmark):
+    """Bukin benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.array([(-15.0, -5.0), (-3.0, 3.0)]),
+            solution_x=np.array([-10.0, 0.0]),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return 100 * x[1] ** 2 + 0.01 * np.abs(x[0] + 10)

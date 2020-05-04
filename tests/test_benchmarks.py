@@ -14,6 +14,7 @@ from osol.benchmarks import (
     BraninRCOS,
     Brent,
     Brown,
+    Bukin,
 )
 
 DIM = 5
@@ -82,4 +83,10 @@ def test_brent():
 def test_brown():
     """Test Brown function."""
     f = Brown(DIM)
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+
+
+def test_bukin():
+    """Test Bukin function."""
+    f = Bukin()
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
