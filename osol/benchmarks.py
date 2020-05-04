@@ -350,3 +350,17 @@ class CosineMixture(Benchmark):
 
     def __call__(self, x):
         return np.sum(-(0.1 * np.cos(5.0 * np.pi * x) - x * x))
+
+
+class Csendes(Benchmark):
+    """Csendes benchmark."""
+
+    def __init__(self, n):
+        super().__init__(
+            search_area=np.full(shape=(n, 2), fill_value=(-1, 1)),
+            solution_x=np.full(shape=(n), fill_value=1e-17),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return (np.power(x, 6.0) * (2.0 + np.sin(1.0 / x))).sum()

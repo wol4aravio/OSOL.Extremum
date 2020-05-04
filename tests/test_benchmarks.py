@@ -20,6 +20,7 @@ from osol.benchmarks import (
     Colville,
     Corana,
     CosineMixture,
+    Csendes,
 )
 
 DIM = 5
@@ -124,4 +125,10 @@ def test_corana():
 def test_cosine_mixture():
     """Test CosineMixture function."""
     f = CosineMixture(DIM)
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+
+
+def test_csendes():
+    """Test Csendes function."""
+    f = Csendes(DIM)
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
