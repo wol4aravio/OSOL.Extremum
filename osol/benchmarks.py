@@ -380,3 +380,30 @@ class Cube(Benchmark):
         return 100.0 * (x[1] - x[0] * x[0] * x[0]) * (
             x[1] - x[0] * x[0] * x[0]
         ) + (1.0 - x[0]) * (1.0 - x[0])
+
+
+class Damavandi(Benchmark):
+    """Damavandi benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(0.0, 14.0)),
+            solution_x=np.full(shape=(2), fill_value=(2.0 + 1e-9)),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return (
+            1.0
+            - np.power(
+                np.abs(
+                    ((np.sin(np.pi * (x[0] - 2))) * np.sin(np.pi * (x[0] - 2)))
+                    / (np.pi * np.pi * (x[0] - 2.0) * (x[1] - 2.0))
+                ),
+                5,
+            )
+        ) * (
+            2.0
+            + (x[0] - 7.0) * (x[0] - 7.0)
+            + 2.0 * (x[1] - 7.0) * (x[1] - 7.0)
+        )

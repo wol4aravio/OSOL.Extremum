@@ -22,6 +22,7 @@ from osol.benchmarks import (
     CosineMixture,
     Csendes,
     Cube,
+    Damavandi,
 )
 
 DIM = 5
@@ -174,6 +175,14 @@ def test_csendes():
 def test_cube():
     """Test Cube function."""
     f = Cube()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+    assert (f.search_area[:, 0] <= f.solution_x).all()
+    assert (f.solution_x <= f.search_area[:, 1]).all()
+
+
+def test_damavandi():
+    """Test Damavandi function."""
+    f = Damavandi()
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
     assert (f.search_area[:, 0] <= f.solution_x).all()
     assert (f.solution_x <= f.search_area[:, 1]).all()
