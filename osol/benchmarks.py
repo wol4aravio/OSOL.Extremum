@@ -70,3 +70,23 @@ class BartelsConn(Benchmark):
             + np.abs(np.sin(x[0]))
             + np.abs(np.cos(x[1]))
         )
+
+
+class Beale(Benchmark):
+    """Beale benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-4.5, 4.5)),
+            solution_x=np.array([3.0, 0.5]),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return (
+            (1.5 - x[0] + x[0] * x[1]) * (1.5 - x[0] + x[0] * x[1])
+            + (2.25 - x[0] + x[0] * x[1] * x[1])
+            * (2.25 - x[0] + x[0] * x[1] * x[1])
+            + (2.625 - x[0] + x[0] * x[1] * x[1] * x[1])
+            * (2.625 - x[0] + x[0] * x[1] * x[1] * x[1])
+        )
