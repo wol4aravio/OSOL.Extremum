@@ -467,3 +467,32 @@ class DixonAndPrice(Benchmark):
             np.arange(2, len(x) + 1)
             * np.square(2.0 * np.square(part_1) - part_2)
         ).sum()
+
+
+class Dolan(Benchmark):
+    """Dolan benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(5, 2), fill_value=(-100, 100)),
+            solution_x=np.array(
+                [
+                    98.964258312237106,
+                    100,
+                    100,
+                    99.224323672554704,
+                    -0.249987527588471,
+                ]
+            ),
+            solution_y=-529.8714387324576,
+        )
+
+    def __call__(self, x):
+        return (
+            (x[0] + 1.7 * x[1]) * np.sin(x[0])
+            - 1.5 * x[2]
+            - 0.1 * x[3] * np.cos(x[4] + x[3] - x[0])
+            + 0.2 * x[4] * x[4]
+            - x[1]
+            - 1.0
+        )
