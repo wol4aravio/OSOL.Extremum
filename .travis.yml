@@ -6,25 +6,24 @@ env:
 
 language: python
 python:
-  - "3.6"
+  - "3.7"
 install:
-  - pip install pipenv
+  - pip install poetry
   - pip install twine
   - pip install codecov
-  - pipenv install
-  - pipenv install --dev
+  - poetry install
+  - poetry install --dev
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
   - set -e
-  - mypy --ignore-missing-imports .
-  - pipenv run pytest -v -n 2 -s --cov=./
+  - poetry run pytest -v -n 2 -s --cov=./
   - coverage xml
 after_success:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-  - pipenv run pipenv_to_requirements
+  - poetry run pip freeze > requirements.txt
   - python setup.py sdist bdist_wheel
   - if [ $TRAVIS_PULL_REQUEST = "false" ] && [ "$TRAVIS_BRANCH" = "dev" ]; then twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD --repository-url https://test.pypi.org/legacy/ dist/*; fi
   - if [ $TRAVIS_PULL_REQUEST = "false" ] && [ "$TRAVIS_BRANCH" = "master" ]; then twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*; fi
