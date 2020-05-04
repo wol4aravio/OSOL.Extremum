@@ -218,3 +218,22 @@ class Brent(Benchmark):
             + (x[1] + 10.0) * (x[1] + 10.0)
             + np.exp(-x[0] * x[0] - x[1] * x[1])
         )
+
+
+class Brown(Benchmark):
+    """Brown benchmark."""
+
+    def __init__(self, n):
+        super().__init__(
+            search_area=np.full(shape=(n, 2), fill_value=(-1.0, 4.0)),
+            solution_x=np.full(shape=(n), fill_value=0),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        part_1 = x[:-1]
+        part_2 = x[1:]
+        return np.sum(
+            np.power(np.square(part_1), part_2 * part_2 + 1.0)
+            + np.power(np.square(part_2), part_1 * part_1 + 1.0)
+        )

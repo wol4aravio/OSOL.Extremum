@@ -13,6 +13,7 @@ from osol.benchmarks import (
     BoxBettsQuadraticSum,
     BraninRCOS,
     Brent,
+    Brown,
 )
 
 DIM = 5
@@ -75,4 +76,10 @@ def test_branin_rcos():
 def test_brent():
     """Test Brent function."""
     f = Brent()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+
+
+def test_brown():
+    """Test Brown function."""
+    f = Brown(DIM)
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
