@@ -90,3 +90,24 @@ class Beale(Benchmark):
             + (2.625 - x[0] + x[0] * x[1] * x[1] * x[1])
             * (2.625 - x[0] + x[0] * x[1] * x[1] * x[1])
         )
+
+
+class Bird(Benchmark):
+    """Bird benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(
+                shape=(2, 2), fill_value=(-2.0 * np.pi, 2.0 * np.pi)
+            ),
+            solution_x=np.array([4.70105575198105, 3.152946019601391]),
+            solution_y=-106.76453671980346,
+        )
+
+    def __call__(self, x):
+        return (
+            np.sin(x[0]) * np.exp((1.0 - np.cos(x[1])) * (1.0 - np.cos(x[1])))
+            + np.cos(x[1])
+            * np.exp((1.0 - np.sin(x[0])) * (1.0 - np.sin(x[0])))
+            + (x[0] - x[1]) * (x[0] - x[1])
+        )

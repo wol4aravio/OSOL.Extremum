@@ -2,7 +2,7 @@
 
 
 import numpy.testing as npt
-from osol.benchmarks import Ackley, Alpine, BartelsConn, Beale
+from osol.benchmarks import Ackley, Alpine, BartelsConn, Beale, Bird
 
 DIM = 5
 
@@ -28,4 +28,10 @@ def test_bartels_conn():
 def test_beale():
     """Test Beale function."""
     f = Beale()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+
+
+def test_bird():
+    """Test Bird function."""
+    f = Bird()
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
