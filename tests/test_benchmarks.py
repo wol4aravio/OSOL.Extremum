@@ -10,6 +10,7 @@ from osol.benchmarks import (
     Bird,
     Bohachevsky,
     Booth,
+    BoxBettsQuadraticSum,
 )
 
 DIM = 5
@@ -54,4 +55,10 @@ def test_bohachevsky():
 def test_booth():
     """Test Booth function."""
     f = Booth()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+
+
+def test_box_betts_quadratic_sum():
+    """Test BoxBettsQuadraticSum function."""
+    f = BoxBettsQuadraticSum()
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)

@@ -147,3 +147,27 @@ class Booth(Benchmark):
         return (x[0] + 2.0 * x[1] - 7.0) * (x[0] + 2.0 * x[1] - 7.0) + (
             2.0 * x[0] + x[1] - 5.0
         ) * (2.0 * x[0] + x[1] - 5.0)
+
+
+class BoxBettsQuadraticSum(Benchmark):
+    """BoxBettsQuadraticSum benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.array([(0.9, 1.2), (9.0, 11.2), (0.9, 1.2)]),
+            solution_x=np.array([1.0, 10.0, 1.0]),
+            solution_y=0,
+        )
+
+    @staticmethod
+    def _g(i, x):
+        return (
+            np.exp(-0.1 * (i + 1) * x[0])
+            - np.exp(-0.1 * (i + 1) * x[1])
+            - (np.exp(-0.1 * (i + 1)) - np.exp(-(i + 1)) * x[2])
+        )
+
+    def __call__(self, x):
+        D = 10
+        temp = np.array([BoxBettsQuadraticSum._g(i, x) for i in range(D)])
+        return np.square(temp).sum()
