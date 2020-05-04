@@ -111,3 +111,23 @@ class Bird(Benchmark):
             * np.exp((1.0 - np.sin(x[0])) * (1.0 - np.sin(x[0])))
             + (x[0] - x[1]) * (x[0] - x[1])
         )
+
+
+class Bohachevsky(Benchmark):
+    """Bohachevsky benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-100, 100)),
+            solution_x=np.full(shape=(2), fill_value=0),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return (
+            x[0] * x[0]
+            + 2 * x[1] * x[1]
+            - 0.3 * np.cos(3.0 * np.pi * x[0])
+            - 0.4 * np.cos(4 * np.pi * x[1])
+            + 0.7
+        )
