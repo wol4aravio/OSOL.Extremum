@@ -131,3 +131,19 @@ class Bohachevsky(Benchmark):
             - 0.4 * np.cos(4 * np.pi * x[1])
             + 0.7
         )
+
+
+class Booth(Benchmark):
+    """Booth benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-10, 10)),
+            solution_x=np.array([1.0, 3.0]),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return (x[0] + 2.0 * x[1] - 7.0) * (x[0] + 2.0 * x[1] - 7.0) + (
+            2.0 * x[0] + x[1] - 5.0
+        ) * (2.0 * x[0] + x[1] - 5.0)

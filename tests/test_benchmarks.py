@@ -9,6 +9,7 @@ from osol.benchmarks import (
     Beale,
     Bird,
     Bohachevsky,
+    Booth,
 )
 
 DIM = 5
@@ -47,4 +48,10 @@ def test_bird():
 def test_bohachevsky():
     """Test Bohachevsky function."""
     f = Bohachevsky()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+
+
+def test_booth():
+    """Test Booth function."""
+    f = Booth()
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
