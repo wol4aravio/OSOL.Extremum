@@ -25,6 +25,7 @@ from osol.benchmarks import (
     Damavandi,
     Deb,
     DeckkersAarts,
+    DixonAndPrice,
 )
 
 DIM = 5
@@ -201,6 +202,14 @@ def test_deb():
 def test_deckkers_aarts():
     """Test DeckkersAarts function."""
     f = DeckkersAarts()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+    assert (f.search_area[:, 0] <= f.solution_x).all()
+    assert (f.solution_x <= f.search_area[:, 1]).all()
+
+
+def test_dixon_and_price():
+    """Test DixonAndPrice function."""
+    f = DixonAndPrice(DIM)
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
     assert (f.search_area[:, 0] <= f.solution_x).all()
     assert (f.solution_x <= f.search_area[:, 1]).all()

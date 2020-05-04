@@ -440,3 +440,30 @@ class DeckkersAarts(Benchmark):
             - (x[0] * x[0] + x[1] * x[1]) * (x[0] * x[0] + x[1] * x[1])
             + 0.00001 * np.power(x[0] * x[0] + x[1] * x[1], 4)
         )
+
+
+class DixonAndPrice(Benchmark):
+    """DixonAndPrice benchmark."""
+
+    def __init__(self, n):
+        super().__init__(
+            search_area=np.full(shape=(n, 2), fill_value=(-10, 10)),
+            solution_x=np.array(
+                [
+                    np.power(
+                        2.0,
+                        -(np.power(2.0, i + 1) - 2.0) / np.power(2.0, i + 1),
+                    )
+                    for i in range(n)
+                ]
+            ),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        part_1 = x[1:]
+        part_2 = x[:-1]
+        return (x[0] - 1.0) * (x[0] - 1.0) + (
+            np.arange(2, len(x) + 1)
+            * np.square(2.0 * np.square(part_1) - part_2)
+        ).sum()
