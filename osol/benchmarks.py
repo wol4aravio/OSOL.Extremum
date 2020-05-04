@@ -200,3 +200,21 @@ class BraninRCOS(Benchmark):
             + 10.0 * (1.0 - 1.0 / (8.0 * np.pi)) * np.cos(x[0])
             + 10.0
         )
+
+
+class Brent(Benchmark):
+    """Brent benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-10.0, 10.0)),
+            solution_x=np.full(shape=(2), fill_value=-10),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return (
+            (x[0] + 10.0) * (x[0] + 10.0)
+            + (x[1] + 10.0) * (x[1] + 10.0)
+            + np.exp(-x[0] * x[0] - x[1] * x[1])
+        )
