@@ -38,3 +38,17 @@ class Ackley(Benchmark):
             + 20.0
             + np.e
         )
+
+
+class Alpine(Benchmark):
+    """Alpine benchmark."""
+
+    def __init__(self, n):
+        super().__init__(
+            search_area=np.full(shape=(n, 2), fill_value=(-10, 10)),
+            solution_x=np.full(shape=(n), fill_value=0),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return np.abs(x * np.sin(x) + 0.1 * x).sum()
