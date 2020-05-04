@@ -19,6 +19,7 @@ from osol.benchmarks import (
     Chichinadze,
     Colville,
     Corana,
+    CosineMixture,
 )
 
 DIM = 5
@@ -117,4 +118,10 @@ def test_colville():
 def test_corana():
     """Test Corana function."""
     f = Corana()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+
+
+def test_cosine_mixture():
+    """Test CosineMixture function."""
+    f = CosineMixture(DIM)
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
