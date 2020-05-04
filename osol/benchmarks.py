@@ -301,7 +301,7 @@ class Colville(Benchmark):
         super().__init__(
             search_area=np.full(shape=(4, 2), fill_value=(-10.0, 10.0)),
             solution_x=np.full(shape=(4), fill_value=1),
-            solution_y=-0,
+            solution_y=0,
         )
 
     def __call__(self, x):
@@ -314,3 +314,25 @@ class Colville(Benchmark):
             * ((x[1] - 1.0) * (x[1] - 1.0) + (x[3] - 1.0) * (x[3] - 1.0))
             + 19.8 * (x[1] - 1.0) * (x[3] - 1.0)
         )
+
+
+class Corana(Benchmark):
+    """Corana benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(4, 2), fill_value=(-500.0, 500.0)),
+            solution_x=np.full(shape=(4), fill_value=0),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        d = np.array([1.0, 1000.0, 10.0, 100.0])
+        z = 0.2 * (np.abs(x / 0.2) + 0.49999) * np.sign(x)
+        x = np.abs(x - z)
+        A = 0.05
+        part_1 = (np.abs(x) < A) * (
+            0.15 * (z - 0.05 * np.sign(z)) * (z - 0.05 * np.sign(z)) * d
+        )
+        part_2 = (np.abs(x) >= A) * (d * np.square(x))
+        return np.sum(part_1 + part_2)
