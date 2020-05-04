@@ -171,3 +171,32 @@ class BoxBettsQuadraticSum(Benchmark):
         D = 10
         temp = np.array([BoxBettsQuadraticSum._g(i, x) for i in range(D)])
         return np.square(temp).sum()
+
+
+class BraninRCOS(Benchmark):
+    """BraninRCOS benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.array([(-5.0, 10.0), (0.0, 15.0)]),
+            solution_x=np.array([-np.pi, 12.275]),
+            solution_y=0.39788735772973816,
+        )
+
+    def __call__(self, x):
+        return (
+            (
+                x[1]
+                - 5.1 * x[0] * x[0] / (4 * np.pi * np.pi)
+                + 5 * x[0] / np.pi
+                - 6
+            )
+            * (
+                x[1]
+                - 5.1 * x[0] * x[0] / (4 * np.pi * np.pi)
+                + 5 * x[0] / np.pi
+                - 6
+            )
+            + 10.0 * (1.0 - 1.0 / (8.0 * np.pi)) * np.cos(x[0])
+            + 10.0
+        )
