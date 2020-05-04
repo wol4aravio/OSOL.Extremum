@@ -251,3 +251,23 @@ class Bukin(Benchmark):
 
     def __call__(self, x):
         return 100 * x[1] ** 2 + 0.01 * np.abs(x[0] + 10)
+
+
+class CamelThreeHumps(Benchmark):
+    """CamelThreeHumps benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-5.0, 5.0)),
+            solution_x=np.full(shape=(2), fill_value=0),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return (
+            2.0 * x[0] * x[0]
+            - 1.05 * x[0] * x[0] * x[0] * x[0]
+            + x[0] * x[0] * x[0] * x[0] * x[0] * x[0] / 6.0
+            + x[0] * x[1]
+            + x[1] * x[1]
+        )

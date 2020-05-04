@@ -15,6 +15,7 @@ from osol.benchmarks import (
     Brent,
     Brown,
     Bukin,
+    CamelThreeHumps,
 )
 
 DIM = 5
@@ -89,4 +90,10 @@ def test_brown():
 def test_bukin():
     """Test Bukin function."""
     f = Bukin()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+
+
+def test_camel_three_humps():
+    """Test CamelThreeHumps function."""
+    f = CamelThreeHumps()
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
