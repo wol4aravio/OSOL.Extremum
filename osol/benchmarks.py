@@ -421,3 +421,22 @@ class Deb(Benchmark):
 
     def __call__(self, x):
         return (-np.power(np.sin(5.0 * np.pi * x), 6.0) / len(x)).sum()
+
+
+class DeckkersAarts(Benchmark):
+    """DeckkersAarts benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-20, 20)),
+            solution_x=np.array([0.0, 15.0]),
+            solution_y=-24771.09375,
+        )
+
+    def __call__(self, x):
+        return (
+            100000.0 * x[0] * x[0]
+            + x[1] * x[1]
+            - (x[0] * x[0] + x[1] * x[1]) * (x[0] * x[0] + x[1] * x[1])
+            + 0.00001 * np.power(x[0] * x[0] + x[1] * x[1], 4)
+        )
