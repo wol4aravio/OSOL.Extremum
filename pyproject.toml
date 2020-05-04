@@ -1,13 +1,12 @@
 [tool.poetry]
-name = "osol.extremum"
+name = "osol"
 version = "0.1.0"
-description = ""
+description = "OSOL Extremum"
 authors = ["wol4aravio <panovskiy.v@yandex.ru>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-numpy = "^1.18.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"
@@ -17,7 +16,6 @@ pre-commit = "^2.3.0"
 black = "^19.10b0"
 pylint = "^2.5.0"
 rope = "^0.16.0"
-importlib-metadata = "^1.6.0"
 
 [tool.black]
 line-length = 79
