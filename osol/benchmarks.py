@@ -364,3 +364,19 @@ class Csendes(Benchmark):
 
     def __call__(self, x):
         return (np.power(x, 6.0) * (2.0 + np.sin(1.0 / x))).sum()
+
+
+class Cube(Benchmark):
+    """Cube benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-10.0, 10.0)),
+            solution_x=np.full(shape=(2), fill_value=1),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return 100.0 * (x[1] - x[0] * x[0] * x[0]) * (
+            x[1] - x[0] * x[0] * x[0]
+        ) + (1.0 - x[0]) * (1.0 - x[0])

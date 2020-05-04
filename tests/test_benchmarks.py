@@ -21,6 +21,7 @@ from osol.benchmarks import (
     Corana,
     CosineMixture,
     Csendes,
+    Cube,
 )
 
 DIM = 5
@@ -131,4 +132,10 @@ def test_cosine_mixture():
 def test_csendes():
     """Test Csendes function."""
     f = Csendes(DIM)
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+
+
+def test_cube():
+    """Test Cube function."""
+    f = Cube()
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
