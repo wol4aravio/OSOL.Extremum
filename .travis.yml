@@ -22,6 +22,7 @@ script:
   - coverage xml
 after_success:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-  - poetry build
+  - poetry run pip freeze > requirements.txt
+  - python setup.py sdist bdist_wheel
 #   - if [ $TRAVIS_PULL_REQUEST = "false" ] && [ "$TRAVIS_BRANCH" = "dev" ]; then twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD --repository-url https://test.pypi.org/legacy/ dist/*; fi
 #   - if [ $TRAVIS_PULL_REQUEST = "false" ] && [ "$TRAVIS_BRANCH" = "master" ]; then twine upload -u $PYPI_USERNAME -p $PYPI_PASSWORD dist/*; fi
