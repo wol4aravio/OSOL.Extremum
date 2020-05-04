@@ -27,3 +27,7 @@ coverage.xml
 
 .build
 docs/source
+
+# Build
+dist
+*.egg-info
