@@ -52,3 +52,21 @@ class Alpine(Benchmark):
 
     def __call__(self, x):
         return np.abs(x * np.sin(x) + 0.1 * x).sum()
+
+
+class BartelsConn(Benchmark):
+    """BartelsConn benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-500, 500)),
+            solution_x=np.full(shape=(2), fill_value=0),
+            solution_y=1,
+        )
+
+    def __call__(self, x):
+        return (
+            np.abs(x[0] * x[0] + x[1] * x[1] + x[0] * x[1])
+            + np.abs(np.sin(x[0]))
+            + np.abs(np.cos(x[1]))
+        )
