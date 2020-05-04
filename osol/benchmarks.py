@@ -407,3 +407,17 @@ class Damavandi(Benchmark):
             + (x[0] - 7.0) * (x[0] - 7.0)
             + 2.0 * (x[1] - 7.0) * (x[1] - 7.0)
         )
+
+
+class Deb(Benchmark):
+    """Deb benchmark."""
+
+    def __init__(self, n):
+        super().__init__(
+            search_area=np.full(shape=(n, 2), fill_value=(-1, 1)),
+            solution_x=np.full(shape=(n), fill_value=-0.9),
+            solution_y=-1,
+        )
+
+    def __call__(self, x):
+        return (-np.power(np.sin(5.0 * np.pi * x), 6.0) / len(x)).sum()
