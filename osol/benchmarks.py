@@ -695,3 +695,28 @@ class Himmelblau(Benchmark):
         return np.square(x[0] * x[0] + x[1] - 11.0) + np.square(
             x[0] + x[1] * x[1] - 7.0
         )
+
+
+class Hosaki(Benchmark):
+    """Hosaki benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.array([(0.0, 5.0), (0.0, 6.0)]),
+            solution_x=np.array([4.0, 2.0]),
+            solution_y=-2.3458115458488518,
+        )
+
+    def __call__(self, x):
+        return (
+            (
+                1.0
+                - 8.0 * x[0]
+                + 7 * x[0] * x[0]
+                - 7.0 * x[0] * x[0] * x[0] / 3.0
+                + 0.25 * x[0] * x[0] * x[0] * x[0]
+            )
+            * x[1]
+            * x[1]
+            * np.exp(-x[1])
+        )
