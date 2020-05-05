@@ -32,6 +32,7 @@ from osol.benchmarks import (
     EggHolder,
     Exponential,
     Goldstein,
+    Griewank,
 )
 
 DIM = 5
@@ -264,6 +265,14 @@ def test_exponential():
 def test_goldstein():
     """Test Goldstein function."""
     f = Goldstein()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+    assert (f.search_area[:, 0] <= f.solution_x).all()
+    assert (f.solution_x <= f.search_area[:, 1]).all()
+
+
+def test_griewank():
+    """Test Griewank function."""
+    f = Griewank(DIM)
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
     assert (f.search_area[:, 0] <= f.solution_x).all()
     assert (f.solution_x <= f.search_area[:, 1]).all()

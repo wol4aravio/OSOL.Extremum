@@ -601,3 +601,21 @@ class Goldstein(Benchmark):
                 + 27.0 * x[1] * x[1]
             )
         )
+
+
+class Griewank(Benchmark):
+    """Griewank benchmark."""
+
+    def __init__(self, n):
+        super().__init__(
+            search_area=np.full(shape=(n, 2), fill_value=(-100, 100)),
+            solution_x=np.full(shape=(n), fill_value=0),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return (
+            1.0
+            + np.sum((np.square(x) / 4000.0))
+            - np.prod(np.cos(x / np.sqrt(1 + np.arange(len(x)))))
+        )
