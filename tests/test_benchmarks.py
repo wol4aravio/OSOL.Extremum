@@ -34,6 +34,7 @@ from osol.benchmarks import (
     Goldstein,
     Griewank,
     GulfResearch,
+    Hansen,
 )
 
 DIM = 5
@@ -282,6 +283,14 @@ def test_griewank():
 def test_gulf_research():
     """Test GulfResearch function."""
     f = GulfResearch()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+    assert (f.search_area[:, 0] <= f.solution_x).all()
+    assert (f.solution_x <= f.search_area[:, 1]).all()
+
+
+def test_hansen():
+    """Test Hansen function."""
+    f = Hansen()
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
     assert (f.search_area[:, 0] <= f.solution_x).all()
     assert (f.solution_x <= f.search_area[:, 1]).all()

@@ -637,3 +637,20 @@ class GulfResearch(Benchmark):
         return np.square(
             np.exp(-np.power(u - x[1], x[2]) / x[0]) - 0.01 * i
         ).sum()
+
+
+class Hansen(Benchmark):
+    """Hansen benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-10, 10)),
+            solution_x=np.array([-7.58989583, -7.70831466]),
+            solution_y=-176.54179313664181,
+        )
+
+    def __call__(self, x):
+        i = np.arange(5)
+        part_1 = (i + 1) * np.cos(i * x[0] + i + 1.0)
+        part_2 = (i + 1) * np.cos((i + 2) * x[1] + i + 1.0)
+        return part_1.sum() * part_2.sum()
