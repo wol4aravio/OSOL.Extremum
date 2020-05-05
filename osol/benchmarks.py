@@ -654,3 +654,28 @@ class Hansen(Benchmark):
         part_1 = (i + 1) * np.cos(i * x[0] + i + 1.0)
         part_2 = (i + 1) * np.cos((i + 2) * x[1] + i + 1.0)
         return part_1.sum() * part_2.sum()
+
+
+class HelicalValley(Benchmark):
+    """HelicalValley benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(3, 2), fill_value=(-100, 100)),
+            solution_x=np.array([1.0, 0.0, 0.0]),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        if x[0] >= 0.0:
+            theta = np.arctan(x[1] / x[0]) / (2.0 * np.pi)
+        else:
+            theta = (np.pi + np.arctan(x[1] / x[0])) / (2.0 * np.pi)
+        return (
+            100.0
+            * (
+                np.square(x[2] - 10.0 * theta)
+                + np.square(np.sqrt(x[0] * x[0] + x[1] * x[1]) - 1.0)
+            )
+            + x[2] * x[2]
+        )

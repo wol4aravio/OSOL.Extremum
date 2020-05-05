@@ -35,6 +35,7 @@ from osol.benchmarks import (
     Griewank,
     GulfResearch,
     Hansen,
+    HelicalValley,
 )
 
 DIM = 5
@@ -291,6 +292,14 @@ def test_gulf_research():
 def test_hansen():
     """Test Hansen function."""
     f = Hansen()
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+    assert (f.search_area[:, 0] <= f.solution_x).all()
+    assert (f.solution_x <= f.search_area[:, 1]).all()
+
+
+def test_helical_valley():
+    """Test HelicalValley function."""
+    f = HelicalValley()
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
     assert (f.search_area[:, 0] <= f.solution_x).all()
     assert (f.solution_x <= f.search_area[:, 1]).all()
