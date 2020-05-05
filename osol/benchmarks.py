@@ -619,3 +619,21 @@ class Griewank(Benchmark):
             + np.sum((np.square(x) / 4000.0))
             - np.prod(np.cos(x / np.sqrt(1 + np.arange(len(x)))))
         )
+
+
+class GulfResearch(Benchmark):
+    """GulfResearch benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.array([(0.1, 100.0), (0.0, 25.6), (0.0, 5.0)]),
+            solution_x=np.array([50.0, 25.0, 1.5]),
+            solution_y=0.0,
+        )
+
+    def __call__(self, x):
+        i = np.arange(1, 100)
+        u = 25.0 + np.power(-50.0 * np.log(0.01 * i), 1.0 / 1.5)
+        return np.square(
+            np.exp(-np.power(u - x[1], x[2]) / x[0]) - 0.01 * i
+        ).sum()
