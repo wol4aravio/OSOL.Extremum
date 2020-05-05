@@ -563,3 +563,41 @@ class Exponential(Benchmark):
 
     def __call__(self, x):
         return -np.exp((-0.5 * np.square(x)).sum())
+
+
+class Goldstein(Benchmark):
+    """Goldstein benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-2, 2)),
+            solution_x=np.array([0.0, -1.0]),
+            solution_y=3.0,
+        )
+
+    def __call__(self, x):
+        return (
+            1.0
+            + (x[0] + x[1] + 1.0)
+            * (x[0] + x[1] + 1.0)
+            * (
+                19.0
+                - 14.0 * x[0]
+                + 3.0 * x[0] * x[0]
+                - 14.0 * x[1]
+                + 6.0 * x[0] * x[1]
+                + 3.0 * x[1] * x[1]
+            )
+        ) * (
+            30.0
+            + (2.0 * x[0] - 3 * x[1])
+            * (2.0 * x[0] - 3 * x[1])
+            * (
+                18.0
+                - 32.0 * x[0]
+                + 12.0 * x[0] * x[0]
+                + 48.0 * x[1]
+                - 36 * x[0] * x[1]
+                + 27.0 * x[1] * x[1]
+            )
+        )

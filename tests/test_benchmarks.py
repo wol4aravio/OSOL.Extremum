@@ -31,6 +31,7 @@ from osol.benchmarks import (
     EggCrate,
     EggHolder,
     Exponential,
+    Goldstein,
 )
 
 DIM = 5
@@ -255,6 +256,14 @@ def test_eggHolder():
 def test_exponential():
     """Test Exponential function."""
     f = Exponential(DIM)
+    npt.assert_almost_equal(f(f.solution_x), f.solution_y)
+    assert (f.search_area[:, 0] <= f.solution_x).all()
+    assert (f.solution_x <= f.search_area[:, 1]).all()
+
+
+def test_goldstein():
+    """Test Goldstein function."""
+    f = Goldstein()
     npt.assert_almost_equal(f(f.solution_x), f.solution_y)
     assert (f.search_area[:, 0] <= f.solution_x).all()
     assert (f.solution_x <= f.search_area[:, 1]).all()
