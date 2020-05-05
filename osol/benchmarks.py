@@ -679,3 +679,19 @@ class HelicalValley(Benchmark):
             )
             + x[2] * x[2]
         )
+
+
+class Himmelblau(Benchmark):
+    """Himmelblau benchmark."""
+
+    def __init__(self):
+        super().__init__(
+            search_area=np.full(shape=(2, 2), fill_value=(-5, 5)),
+            solution_x=np.array([3.0, 2.0]),
+            solution_y=0,
+        )
+
+    def __call__(self, x):
+        return np.square(x[0] * x[0] + x[1] - 11.0) + np.square(
+            x[0] + x[1] * x[1] - 7.0
+        )
