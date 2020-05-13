@@ -8,11 +8,6 @@ from osol.algorithms.termination import TerminationException
 class Algorithm(ABC):
     """Basic class for all optimization algorithms."""
 
-    def __init__(self, **parameters):
-        """General procedure of algorithm initialization"""
-        for name, value in parameters.items():
-            setattr(self, name, value)
-
     @abstractmethod
     def initialize(self, f, search_area):
         """Initialization step."""
