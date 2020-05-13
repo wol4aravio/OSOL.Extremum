@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/wol4aravio/OSOL.Extremum.svg?branch=master)](https://travis-ci.org/wol4aravio/OSOL.Extremum.svg?branch=master)
-[![PyPI version](https://badge.fury.io/py/osol.extremum.svg)](https://badge.fury.io/py/osol.extremum)
+[![PyPI version](https://badge.fury.io/py/osol.svg)](https://badge.fury.io/py/osol)
 [![Maintainability](https://api.codeclimate.com/v1/badges/970d8f7c1633018aece2/maintainability)](https://codeclimate.com/github/wol4aravio/OSOL.Extremum/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/970d8f7c1633018aece2/test_coverage)](https://codeclimate.com/github/wol4aravio/OSOL.Extremum/test_coverage)
 
