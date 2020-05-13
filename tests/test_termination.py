@@ -2,7 +2,10 @@
 
 
 import pytest
-from osol.termination import TerminationException, TerminationViaMaxCalls
+from osol.algorithms.termination import (
+    TerminationException,
+    TerminationViaMaxCalls,
+)
 
 
 def test_termination_via_max_calls():
