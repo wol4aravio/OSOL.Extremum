@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "osol"
+version = "0.3.0"
+description = "OSOL Extremum"
+authors = ["wol4aravio <panovskiy.v@yandex.ru>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+numpy = "^1.18.4"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.4.1"
+pytest-cov = "^2.8.1"
+pytest-xdist = "^1.32.0"
+pre-commit = "^2.3.0"
+black = "^19.10b0"
+pylint = "^2.5.0"
+rope = "^0.16.0"
+
+[tool.black]
+line-length = 79
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
