@@ -12,8 +12,8 @@ NUM_ITER = [int(n) for n in (1e3, 1e5, 1e7)]
 
 TEST_FUNCTIONS = (
     generate_smoke_L2(n_dim=1),
+    generate_smoke_L2(n_dim=2),
     generate_smoke_L2(n_dim=3),
-    generate_smoke_L2(n_dim=5),
 )
 
 
