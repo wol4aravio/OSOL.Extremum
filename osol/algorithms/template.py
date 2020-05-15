@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from osol.algorithms.termination import TerminationException
 
 
-class Algorithm(ABC):
+class AlgorithmZeroOrder(ABC):
     """Basic class for all optimization algorithms."""
 
     @abstractmethod
