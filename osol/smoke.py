@@ -15,6 +15,9 @@ def generate_smoke_L2(n_dim, bounds=(-10, 10)):
     def f(x):
         return np.sum((x - x_solution) ** 2)
 
+    def f_grad(x):
+        return np.array([2 * (x[i] - x_solution[i]) for i in range(n_dim)])
+
     f.solution = x_solution
     f.search_area = np.full(shape=(n_dim, 2), fill_value=bounds)
-    return f
+    return f, f_grad
