@@ -28,7 +28,8 @@ class GradientDescent(AlgorithmFirstOrder):
 
     def iterate(self, f, f_grad, search_area):
         grad = f_grad(self.x)
-        x_new = self.x - random.uniform(0.0, self.eps) * grad / la.norm(grad)
+        grad_norm = grad / la.norm(grad)
+        x_new = self.x - random.uniform(0.0, self.eps) * grad_norm
         x_new = bound_vector(x_new, search_area)
         y_new = f(x_new)
         if y_new < self.y:
