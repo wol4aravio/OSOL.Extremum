@@ -4,11 +4,11 @@ import random
 
 import numpy as np
 import numpy.linalg as la
-from osol.algorithms.template import Algorithm
+from osol.algorithms.template import AlgorithmZeroOrder
 from osol.algorithms.tools import bound_vector
 
 
-class RandomSearch(Algorithm):
+class RandomSearch(AlgorithmZeroOrder):
     """RS implementation."""
 
     def __init__(self, eps):
