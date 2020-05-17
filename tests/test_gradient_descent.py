@@ -23,9 +23,20 @@ TEST_FUNCTIONS_L2 = (
 )
 
 
+def test_algorithm_trace():
+    """Test trace."""
+    gd = GradientDescent(eps=EPS)
+    f, f_grad = TEST_FUNCTIONS_L2[0]
+    num_iter = NUM_ITER[0]
+    gd.optimize(f, f_grad, f.search_area, num_iter, save_trace=True)
+    assert len(gd.trace) == num_iter + 2
+    assert "x" in gd.trace[0]
+    assert "y" in gd.trace[0]
+
+
 @pytest.mark.parametrize("func", TEST_FUNCTIONS_LINEAR)
 def test_algorithm_linear(func):
-    """Smoke test."""
+    """Smoke test: linear."""
     gd = GradientDescent(eps=EPS)
     success = False
     for num_iter in NUM_ITER:
@@ -40,7 +51,7 @@ def test_algorithm_linear(func):
 
 @pytest.mark.parametrize("func", TEST_FUNCTIONS_L2)
 def test_algorithm_L2(func):
-    """Smoke test."""
+    """Smoke test: L2."""
     gd = GradientDescent(eps=EPS)
     success = False
     for num_iter in NUM_ITER:
