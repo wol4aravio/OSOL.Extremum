@@ -33,9 +33,18 @@ TEST_FUNCTIONS_L2 = (
 )
 
 
+def test_algorithm_trace():
+    """Test trace."""
+    rs = RandomSearch(eps=EPS)
+    f = TEST_FUNCTIONS_L2[0]
+    num_iter = NUM_ITER[0]
+    rs.optimize(f, f.search_area, num_iter, save_trace=True)
+    assert len(rs.trace) == num_iter + 2
+
+
 @pytest.mark.parametrize("f", TEST_FUNCTIONS_LINEAR)
 def test_algorithm_linear(f):
-    """Smoke test."""
+    """Smoke test: linear."""
     rs = RandomSearch(eps=EPS)
     success = False
     for num_iter in NUM_ITER:
@@ -48,7 +57,7 @@ def test_algorithm_linear(f):
 
 @pytest.mark.parametrize("f", TEST_FUNCTIONS_L1)
 def test_algorithm_L1(f):
-    """Smoke test."""
+    """Smoke test: L1."""
     rs = RandomSearch(eps=EPS)
     success = False
     for num_iter in NUM_ITER:
@@ -61,7 +70,7 @@ def test_algorithm_L1(f):
 
 @pytest.mark.parametrize("f", TEST_FUNCTIONS_L2)
 def test_algorithm_L2(f):
-    """Smoke test."""
+    """Smoke test: L2."""
     rs = RandomSearch(eps=EPS)
     success = False
     for num_iter in NUM_ITER:
