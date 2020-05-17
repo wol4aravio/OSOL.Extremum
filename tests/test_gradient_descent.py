@@ -25,7 +25,7 @@ TEST_FUNCTIONS_L2 = (
 
 @pytest.mark.parametrize("func", TEST_FUNCTIONS_LINEAR)
 def test_algorithm_linear(func):
-    """Smoke test."""
+    """Smoke test: linear."""
     gd = GradientDescent(eps=EPS)
     success = False
     for num_iter in NUM_ITER:
@@ -40,7 +40,7 @@ def test_algorithm_linear(func):
 
 @pytest.mark.parametrize("func", TEST_FUNCTIONS_L2)
 def test_algorithm_L2(func):
-    """Smoke test."""
+    """Smoke test: L2."""
     gd = GradientDescent(eps=EPS)
     success = False
     for num_iter in NUM_ITER:
