@@ -40,6 +40,8 @@ def test_algorithm_trace():
     num_iter = NUM_ITER[0]
     rs.optimize(f, f.search_area, num_iter, save_trace=True)
     assert len(rs.trace) == num_iter + 2
+    assert "x" in rs.trace[0]
+    assert "y" in rs.trace[0]
 
 
 @pytest.mark.parametrize("f", TEST_FUNCTIONS_LINEAR)
