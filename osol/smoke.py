@@ -6,12 +6,12 @@ import numpy as np
 def generate_smoke_linear(n_dim, bounds=(-10, 10)):
     """
     Generate smoke function:
-    f(x) = sum(x - x_sol)
+    f(x) = sum(x)
     """
     x_solution = np.full(shape=(n_dim), fill_value=bounds[0])
 
     def f(x):
-        return np.sum(x - x_solution)
+        return np.sum(x)
 
     def f_grad(_):
         return np.full(shape=(n_dim), fill_value=1)

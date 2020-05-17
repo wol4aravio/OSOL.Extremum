@@ -33,7 +33,7 @@ TEST_FUNCTIONS_L2 = (
 )
 
 
-@pytest.mark.parametrize("f", generate_smoke_linear)
+@pytest.mark.parametrize("f", TEST_FUNCTIONS_LINEAR)
 def test_algorithm_linear(f):
     """Smoke test."""
     rs = RandomSearch(eps=EPS)
