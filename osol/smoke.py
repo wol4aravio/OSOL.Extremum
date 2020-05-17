@@ -3,6 +3,24 @@
 import numpy as np
 
 
+def generate_smoke_linear(n_dim, bounds=(-10, 10)):
+    """
+    Generate smoke function:
+    f(x) = sum(x - x_sol)
+    """
+    x_solution = np.full(shape=(n_dim), fill_value=bounds[0])
+
+    def f(x):
+        return np.sum(x - x_solution)
+
+    def f_grad(_):
+        return np.full(shape=(n_dim), fill_value=1)
+
+    f.solution = x_solution
+    f.search_area = np.full(shape=(n_dim, 2), fill_value=bounds)
+    return f, f_grad
+
+
 def generate_smoke_L1(n_dim, bounds=(-10, 10)):
     """
     Generate smoke function:
