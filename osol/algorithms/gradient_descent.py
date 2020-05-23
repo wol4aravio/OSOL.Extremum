@@ -2,10 +2,9 @@
 
 import random
 
-import numpy as np
 import numpy.linalg as la
 from osol.algorithms.template import AlgorithmFirstOrder
-from osol.algorithms.tools import bound_vector
+from osol.algorithms.tools import bound_vector, generate_point_in_area
 
 
 class GradientDescent(AlgorithmFirstOrder):
@@ -16,14 +15,8 @@ class GradientDescent(AlgorithmFirstOrder):
         self.eps = eps
         self.x = None
 
-        self._n_dim = None
-
     def initialize(self, f, f_grad, search_area):
-        self._n_dim = search_area.shape[0]
-
-        self.x = np.zeros(search_area.shape[0])
-        for i in range(self._n_dim):
-            self.x[i] = random.uniform(search_area[i, 0], search_area[i, 1])
+        self.x = generate_point_in_area(search_area)
         self.y = f(self.x)
 
     def iterate(self, f, f_grad, search_area):
