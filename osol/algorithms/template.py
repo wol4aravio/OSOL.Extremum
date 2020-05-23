@@ -5,20 +5,8 @@ from abc import ABC, abstractmethod
 from osol.algorithms.termination import TerminationException
 
 
-class AlgorithmZeroOrder(ABC):
-    """Basic class for all optimization algorithms."""
-
-    @abstractmethod
-    def initialize(self, f, search_area):
-        """Initialization step."""
-
-    @abstractmethod
-    def iterate(self, f, search_area):
-        """Iterative step."""
-
-    @abstractmethod
-    def terminate(self, f, search_area):
-        """Termination step"""
+class AlgorithmInterface(ABC):
+    """General functions that can be applied to any algorithm."""
 
     def _get_trace_attributes(self):
         """Save all non-private attributes."""
@@ -39,6 +27,22 @@ class AlgorithmZeroOrder(ABC):
                     name=attribute, value=getattr(self, attribute),
                 )
             )
+
+
+class AlgorithmZeroOrder(AlgorithmInterface):
+    """Basic class for all optimization algorithms."""
+
+    @abstractmethod
+    def initialize(self, f, search_area):
+        """Initialization step."""
+
+    @abstractmethod
+    def iterate(self, f, search_area):
+        """Iterative step."""
+
+    @abstractmethod
+    def terminate(self, f, search_area):
+        """Termination step"""
 
     def optimize(
         self,
@@ -75,7 +79,7 @@ class AlgorithmZeroOrder(ABC):
         return solution
 
 
-class AlgorithmFirstOrder(ABC):
+class AlgorithmFirstOrder(AlgorithmInterface):
     """Basic class for all optimization algorithms."""
 
     @abstractmethod
@@ -89,26 +93,6 @@ class AlgorithmFirstOrder(ABC):
     @abstractmethod
     def terminate(self, f, g, search_area):
         """Termination step"""
-
-    def _get_trace_attributes(self):
-        """Save all non-private attributes."""
-        names = [a for a in dir(self) if not a.startswith("_")]
-        names = [
-            a
-            for a in names
-            if a
-            not in ("trace", "initialize", "iterate", "terminate", "optimize")
-        ]
-        values = {n: getattr(self, n) for n in names}
-        self.trace.append(values)
-
-    def _log_attrs(self, verbose_attrs):
-        for attribute in verbose_attrs:
-            print(
-                "{name}: {value}".format(
-                    name=attribute, value=getattr(self, attribute),
-                )
-            )
 
     def optimize(
         self,
