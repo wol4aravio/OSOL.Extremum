@@ -68,15 +68,10 @@ class AlgorithmZeroOrder(AlgorithmInterface):
         self._log_attrs(verbose_attrs)
         return solution
 
-    def optimize(
-        self,
-        f,
-        search_area,
-        number_of_iterations,
-        save_trace=False,
-        verbose_attrs=None,
-    ):
+    def optimize(self, f, search_area, number_of_iterations, **kwargs):
         """Optimization procedure."""
+        save_trace = kwargs.get("save_trace", False)
+        verbose_attrs = kwargs.get("verbose_attrs", None)
         self.initialize(f, search_area, save_trace, verbose_attrs)
         for _ in range(number_of_iterations):
             try:
@@ -121,16 +116,10 @@ class AlgorithmFirstOrder(AlgorithmInterface):
         self._log_attrs(verbose_attrs)
         return solution
 
-    def optimize(
-        self,
-        f,
-        g,
-        search_area,
-        num_of_iterations,
-        save_trace=False,
-        verbose_attrs=None,
-    ):
+    def optimize(self, f, g, search_area, num_of_iterations, **kwargs):
         """Optimization procedure."""
+        save_trace = kwargs.get("save_trace", False)
+        verbose_attrs = kwargs.get("verbose_attrs", None)
         self.initialize(f, g, search_area, save_trace, verbose_attrs)
         for _ in range(num_of_iterations):
             try:
