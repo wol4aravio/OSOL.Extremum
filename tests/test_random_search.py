@@ -38,7 +38,9 @@ def test_algorithm_trace():
     rs = RandomSearch(eps=EPS)
     f = TEST_FUNCTIONS_L2[0]
     num_iter = NUM_ITER[0]
-    rs.optimize(f, f.search_area, num_iter, save_trace=True)
+    rs.optimize(
+        f, f.search_area, num_iter, save_trace=True, verbose_attrs=["x", "y"]
+    )
     assert len(rs.trace) == num_iter + 2
     assert "x" in rs.trace[0]
     assert "y" in rs.trace[0]
