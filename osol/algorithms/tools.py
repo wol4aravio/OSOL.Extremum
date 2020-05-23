@@ -14,6 +14,6 @@ def bound_vector(x, bounds):
 def generate_point_in_area(area):
     """Generate point within area."""
     x = np.zeros(area.shape[0])
-    for i in len(x):
+    for i in range(len(x)):
         x[i] = random.uniform(area[i, 0], area[i, 1])
     return x
