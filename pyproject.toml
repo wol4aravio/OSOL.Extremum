@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "osol"
-version = "0.3.1"
+version = "0.6.0"
 description = "OSOL Extremum"
 authors = ["wol4aravio <panovskiy.v@yandex.ru>"]
 license = "MIT"
@@ -8,6 +8,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.7"
 numpy = "^1.18.4"
+requests = "^2.23.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"
