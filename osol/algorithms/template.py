@@ -32,7 +32,22 @@ class AlgorithmZeroOrder(ABC):
         values = {n: getattr(self, n) for n in names}
         self.trace.append(values)
 
-    def optimize(self, f, search_area, number_of_iterations, save_trace=False):
+    def _log_attrs(self, verbose_attrs):
+        for attribute in verbose_attrs:
+            print(
+                "{name}: {value}".format(
+                    name=attribute, value=getattr(self, attribute),
+                )
+            )
+
+    def optimize(
+        self,
+        f,
+        search_area,
+        number_of_iterations,
+        save_trace=False,
+        verbose_attrs=None,
+    ):
         """Optimization procedure."""
         self.trace = None
         self.initialize(f, search_area)
@@ -41,16 +56,22 @@ class AlgorithmZeroOrder(ABC):
             self._get_trace_attributes()
         else:
             self.trace = None
+        if verbose_attrs:
+            self._log_attrs(verbose_attrs)
         for _ in range(number_of_iterations):
             try:
                 self.iterate(f, search_area)
                 if save_trace:
                     self._get_trace_attributes()
+                if verbose_attrs:
+                    self._log_attrs(verbose_attrs)
             except TerminationException:
                 break
         solution = self.terminate(f, search_area)
         if save_trace:
             self._get_trace_attributes()
+        if verbose_attrs:
+            self._log_attrs(verbose_attrs)
         return solution
 
 
@@ -81,7 +102,23 @@ class AlgorithmFirstOrder(ABC):
         values = {n: getattr(self, n) for n in names}
         self.trace.append(values)
 
-    def optimize(self, f, g, search_area, num_of_iterations, save_trace=False):
+    def _log_attrs(self, verbose_attrs):
+        for attribute in verbose_attrs:
+            print(
+                "{name}: {value}".format(
+                    name=attribute, value=getattr(self, attribute),
+                )
+            )
+
+    def optimize(
+        self,
+        f,
+        g,
+        search_area,
+        num_of_iterations,
+        save_trace=False,
+        verbose_attrs=None,
+    ):
         """Optimization procedure."""
         self.trace = None
         self.initialize(f, g, search_area)
@@ -90,14 +127,20 @@ class AlgorithmFirstOrder(ABC):
             self._get_trace_attributes()
         else:
             self.trace = None
+        if verbose_attrs:
+            self._log_attrs(verbose_attrs)
         for _ in range(num_of_iterations):
             try:
                 self.iterate(f, g, search_area)
                 if save_trace:
                     self._get_trace_attributes()
+                if verbose_attrs:
+                    self._log_attrs(verbose_attrs)
             except TerminationException:
                 break
         solution = self.terminate(f, g, search_area)
         if save_trace:
             self._get_trace_attributes()
+        if verbose_attrs:
+            self._log_attrs(verbose_attrs)
         return solution

@@ -28,7 +28,14 @@ def test_algorithm_trace():
     gd = GradientDescent(eps=EPS)
     f, f_grad = TEST_FUNCTIONS_L2[0]
     num_iter = NUM_ITER[0]
-    gd.optimize(f, f_grad, f.search_area, num_iter, save_trace=True)
+    gd.optimize(
+        f,
+        f_grad,
+        f.search_area,
+        num_iter,
+        save_trace=True,
+        verbose_attrs=["x", "y"],
+    )
     assert len(gd.trace) == num_iter + 2
     assert "x" in gd.trace[0]
     assert "y" in gd.trace[0]
