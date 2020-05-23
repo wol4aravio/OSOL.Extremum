@@ -13,7 +13,7 @@ class AlgorithmInterface(ABC):
         if not save_trace:
             return
         if not hasattr(self, "trace"):
-            self.trace = list()
+            setattr(self, "trace", list())
         names = [a for a in dir(self) if not a.startswith("_")]
         names = [
             a
@@ -22,7 +22,7 @@ class AlgorithmInterface(ABC):
             not in ("trace", "initialize", "iterate", "terminate", "optimize")
         ]
         values = {n: getattr(self, n) for n in names}
-        self.trace.append(values)
+        setattr(self, "trace", getattr(self, "trace") + [values])
 
     def _log_attrs(self, verbose_attrs):
         if verbose_attrs:
@@ -77,7 +77,6 @@ class AlgorithmZeroOrder(AlgorithmInterface):
         verbose_attrs=None,
     ):
         """Optimization procedure."""
-        self.trace = None
         self.initialize(f, search_area, save_trace, verbose_attrs)
         for _ in range(number_of_iterations):
             try:
@@ -132,7 +131,6 @@ class AlgorithmFirstOrder(AlgorithmInterface):
         verbose_attrs=None,
     ):
         """Optimization procedure."""
-        self.trace = None
         self.initialize(f, g, search_area, save_trace, verbose_attrs)
         for _ in range(num_of_iterations):
             try:
