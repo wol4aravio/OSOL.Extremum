@@ -15,11 +15,11 @@ class GradientDescent(AlgorithmFirstOrder):
         self.eps = eps
         self.x = None
 
-    def initialize(self, f, f_grad, search_area):
+    def _initialize(self, f, f_grad, search_area):
         self.x = generate_point_in_area(search_area)
         self.y = f(self.x)
 
-    def iterate(self, f, f_grad, search_area):
+    def _iterate(self, f, f_grad, search_area):
         grad = f_grad(self.x)
         grad_norm = grad / la.norm(grad)
         x_new = self.x - random.uniform(0.0, self.eps) * grad_norm
@@ -29,5 +29,5 @@ class GradientDescent(AlgorithmFirstOrder):
             self.x = x_new
             self.y = y_new
 
-    def terminate(self, f, f_grad, search_area):
+    def _terminate(self, f, f_grad, search_area):
         return self.x

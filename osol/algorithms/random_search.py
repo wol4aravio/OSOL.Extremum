@@ -22,17 +22,17 @@ class RandomSearch(AlgorithmZeroOrder):
         x_1 = bound_vector(x_1, search_area)
         return x_1
 
-    def initialize(self, f, search_area):
+    def _initialize(self, f, search_area):
         self._n_dim = search_area.shape[0]
         self.x = generate_point_in_area(search_area)
         self.y = f(self.x)
 
-    def iterate(self, f, search_area):
+    def _iterate(self, f, search_area):
         x_new = self._generate_point(self.x, search_area)
         y_new = f(x_new)
         if y_new < self.y:
             self.x = x_new
             self.y = y_new
 
-    def terminate(self, f, search_area):
+    def _terminate(self, f, search_area):
         return self.x
