@@ -3,14 +3,19 @@
 
 import numpy.linalg as la
 import pytest
-from osol.algorithms.random_search import RandomSearch
+from osol.algorithms.flower_pollination_algorithm import (
+    FlowerPollinationAlgorithm,
+)
 from osol.smoke import (
     generate_smoke_L1,
     generate_smoke_L2,
     generate_smoke_linear,
 )
 
-EPS = 1e-3
+POP_SIZE = 25
+SWITCH_PROB = 0.9
+GAMMA = 0.25
+LAMBDA_VALUE = 1.25
 
 TOL = 1e-2
 NUM_ITER = [int(n) for n in (1e3, 1e5, 1e7)]
@@ -36,22 +41,36 @@ TEST_FUNCTIONS_L2 = (
 
 def test_algorithm_trace():
     """Test trace."""
-    rs = RandomSearch(eps=EPS)
+    rs = FlowerPollinationAlgorithm(
+        pop_size=POP_SIZE,
+        switch_prob=SWITCH_PROB,
+        gamma=GAMMA,
+        lambda_value=LAMBDA_VALUE,
+    )
     f = TEST_FUNCTIONS_L2[0]
     num_iter = NUM_ITER[0]
     rs.optimize(
-        f, f.search_area, num_iter, save_trace=True, verbose_attrs=["x", "y"]
+        f,
+        f.search_area,
+        num_iter,
+        save_trace=True,
+        verbose_attrs=["best_x", "best_y"],
     )
     trace = getattr(rs, "trace")
     assert len(trace) == num_iter + 2
-    assert "x" in trace[0]
-    assert "y" in trace[0]
+    assert "best_x" in trace[0]
+    assert "best_y" in trace[0]
 
 
 @pytest.mark.parametrize("f", TEST_FUNCTIONS_LINEAR)
 def test_algorithm_linear(f):
     """Smoke test: linear."""
-    rs = RandomSearch(eps=EPS)
+    rs = FlowerPollinationAlgorithm(
+        pop_size=POP_SIZE,
+        switch_prob=SWITCH_PROB,
+        gamma=GAMMA,
+        lambda_value=LAMBDA_VALUE,
+    )
     success = False
     for num_iter in NUM_ITER:
         sol = rs.optimize(f, f.search_area, num_iter)
@@ -64,7 +83,12 @@ def test_algorithm_linear(f):
 @pytest.mark.parametrize("f", TEST_FUNCTIONS_L1)
 def test_algorithm_L1(f):
     """Smoke test: L1."""
-    rs = RandomSearch(eps=EPS)
+    rs = FlowerPollinationAlgorithm(
+        pop_size=POP_SIZE,
+        switch_prob=SWITCH_PROB,
+        gamma=GAMMA,
+        lambda_value=LAMBDA_VALUE,
+    )
     success = False
     for num_iter in NUM_ITER:
         sol = rs.optimize(f, f.search_area, num_iter)
@@ -77,7 +101,12 @@ def test_algorithm_L1(f):
 @pytest.mark.parametrize("f", TEST_FUNCTIONS_L2)
 def test_algorithm_L2(f):
     """Smoke test: L2."""
-    rs = RandomSearch(eps=EPS)
+    rs = FlowerPollinationAlgorithm(
+        pop_size=POP_SIZE,
+        switch_prob=SWITCH_PROB,
+        gamma=GAMMA,
+        lambda_value=LAMBDA_VALUE,
+    )
     success = False
     for num_iter in NUM_ITER:
         sol = rs.optimize(f, f.search_area, num_iter)
