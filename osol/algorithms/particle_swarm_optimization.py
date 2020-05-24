@@ -10,10 +10,11 @@ from osol.algorithms.tools import bound_vector, generate_point_in_area
 class ParticleSwarmOptimization(AlgorithmZeroOrder):
     """PSO implementation."""
 
-    def __init__(self, pop_size, velocity_ratio, c1, c2):
+    def __init__(self, pop_size, velocity_ratio, c0, c1, c2):
         """Class constructor."""
         self.pop_size = pop_size
         self.velocity_ratio = velocity_ratio
+        self.c0 = c0
         self.c1 = c1
         self.c2 = c2
 
@@ -28,7 +29,7 @@ class ParticleSwarmOptimization(AlgorithmZeroOrder):
 
         area_width = search_area[:, 1] - search_area[:, 0]
         velocity_area = np.array([-area_width, area_width]).T
-        velocity_area *= 0.5 * self.velocity_ratio
+        velocity_area = self.velocity_ratio * velocity_area
 
         for _ in range(self.pop_size):
             x = generate_point_in_area(search_area)
@@ -51,27 +52,32 @@ class ParticleSwarmOptimization(AlgorithmZeroOrder):
         delta_best = x_best - x
         coefficient_1 = self.c1 * random.uniform(0.0, 1.0)
         coefficient_2 = self.c2 * random.uniform(0.0, 1.0)
-        v_new = v + coefficient_1 * delta_pop_best + coefficient_2 * delta_best
+        v_new = (
+            self.c0 * v
+            + coefficient_1 * delta_pop_best
+            + coefficient_2 * delta_best
+        )
         return v_new
 
     def _iterate(self, f, search_area):
-        for pop_id in range(self.pop_size):
-            self.velocities[pop_id] = self._update_velocity(
-                x=self.pop[pop_id],
-                v=self.velocities[pop_id],
-                x_pop_best=self.pop_best[pop_id],
+        for i in range(self.pop_size):
+            self.velocities[i] = self._update_velocity(
+                x=self.pop[i],
+                v=self.velocities[i],
+                x_pop_best=self.pop_best[i],
                 x_best=self.global_best,
             )
-            self.pop[pop_id] += self.velocities[pop_id]
-            self.pop[pop_id] = bound_vector(self.pop[pop_id], search_area)
-            self.pop_values[pop_id] = f(self.pop[pop_id])
+            self.pop[i] = bound_vector(
+                self.pop[i] + self.velocities[i], search_area,
+            )
+            self.pop_values[i] = f(self.pop[i])
 
-            if self.pop_values[pop_id] < self.pop_best_values[pop_id]:
-                self.pop_best_values[pop_id] = self.pop_values[pop_id]
-                self.pop_best[pop_id] = self.pop[pop_id]
-                if self.pop_values[pop_id] < self.global_best_value:
-                    self.global_best_value = self.pop_values[pop_id]
-                    self.global_best = self.pop[pop_id]
+            if self.pop_values[i] < self.pop_best_values[i]:
+                self.pop_best_values[i] = self.pop_values[i]
+                self.pop_best[i] = self.pop[i]
+                if self.pop_values[i] < self.global_best_value:
+                    self.global_best_value = self.pop_values[i]
+                    self.global_best = self.pop[i]
 
     def _terminate(self, f, search_area):
         return self.global_best

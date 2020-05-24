@@ -36,9 +36,10 @@ def test_algorithm_trace():
         save_trace=True,
         verbose_attrs=["x", "y"],
     )
-    assert len(gd.trace) == num_iter + 2
-    assert "x" in gd.trace[0]
-    assert "y" in gd.trace[0]
+    trace = getattr(gd, "trace")
+    assert len(trace) == num_iter + 2
+    assert "x" in trace[0]
+    assert "y" in trace[0]
 
 
 @pytest.mark.parametrize("func", TEST_FUNCTIONS_LINEAR)
