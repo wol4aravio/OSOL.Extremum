@@ -9,6 +9,7 @@ license = "MIT"
 python = "^3.7"
 numpy = "^1.18.4"
 requests = "^2.23.0"
+streamlit = "^0.60.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"
