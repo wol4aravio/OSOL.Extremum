@@ -18,7 +18,7 @@ C0 = 0.9
 C1 = 0.9
 C2 = 0.9
 
-TOL = 1e-2
+TOL = 1e-1
 NUM_ITER = [int(n) for n in (1e3, 1e4, 1e5)]
 
 TEST_FUNCTIONS_LINEAR = (
