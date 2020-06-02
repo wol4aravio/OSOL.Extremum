@@ -13,7 +13,7 @@ from osol.smoke import (
 EPS = 1e-3
 
 TOL = 1e-2
-NUM_ITER = [int(n) for n in (1e3, 1e5, 1e7)]
+NUM_ITER = [int(n) for n in (1e3, 1e4, 1e5)]
 
 TEST_FUNCTIONS_LINEAR = (
     generate_smoke_linear(n_dim=1)[0],
