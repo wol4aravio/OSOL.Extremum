@@ -55,7 +55,7 @@ if optimize:
         result = rs.optimize(
             target_function, SEARCH_AREA, num_iter, save_trace=True
         )
-        trace = getattr(result, "trace")
+        trace = getattr(rs, "trace")
 
         frame = go.Figure(data=contours)
         frame.add_trace(
