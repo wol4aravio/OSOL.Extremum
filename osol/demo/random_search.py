@@ -37,8 +37,6 @@ num_iter = st.number_input(
     step=100,
 )
 
-rs = RandomSearch(eps)
-
 target_function_name = st.selectbox(
     label="Target function", options=[f.name for f in DEMO_FUNCTIONS]
 )
@@ -52,6 +50,7 @@ optimize = st.button("Optimize")
 
 if optimize:
     with st.spinner("Performing optimization"):
+        rs = RandomSearch(eps)
         result = rs.optimize(
             target_function, SEARCH_AREA, num_iter, save_trace=True
         )
