@@ -3,6 +3,8 @@
 from abc import ABC, abstractmethod
 
 from osol.algorithms.termination import TerminationException
+from tqdm import tqdm
+from tqdm.notebook import tqdm as tqdm_notebook
 
 
 class AlgorithmInterface(ABC):
@@ -73,7 +75,15 @@ class AlgorithmZeroOrder(AlgorithmInterface):
         save_trace = kwargs.get("save_trace", False)
         verbose_attrs = kwargs.get("verbose_attrs", None)
         self.initialize(f, search_area, save_trace, verbose_attrs)
-        for _ in range(number_of_iterations):
+        iteration_range = range(number_of_iterations)
+        if "progress_bar" in kwargs:
+            if kwargs["progress_bar"] == "jupyter":
+                iteration_range = tqdm_notebook(iteration_range)
+            elif kwargs["progress_bar"] == "console":
+                iteration_range = tqdm(iteration_range)
+            else:
+                print("{} is not supported".format(kwargs["progress_bar"]))
+        for _ in iteration_range:
             try:
                 self.iterate(f, search_area, save_trace, verbose_attrs)
             except TerminationException:
