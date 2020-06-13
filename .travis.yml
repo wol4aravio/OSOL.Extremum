@@ -18,7 +18,7 @@ before_script:
   - ./cc-test-reporter before-build
 script:
   - set -e
-  - poetry run pytest -v -n 2 -s --cov=./
+  - poetry run pytest -v -s --cov=./
   - coverage xml
 after_success:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
