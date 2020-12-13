@@ -1,6 +1,7 @@
 """Parser for *.opt files."""
 
 import json
+
 from sympy.parsing.latex import parse_latex
 
 
