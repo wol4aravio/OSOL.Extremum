@@ -1,5 +1,5 @@
 [run]
 omit =
-    setup.py
+    osol/extremum/app/*
     *__init__.py
     tests/*
