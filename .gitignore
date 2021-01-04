@@ -1,35 +1,4 @@
-# Mac Specific
-
-.DS_Store
-
-*~
-
-# PyCharm Specific
-
-.idea
-.pytest_cache
-__pycache__
-.mypy_cache
-.pytest_cache
-htmlcov
-
-# VS Code Specific
-
 .vscode
-
-# Notebooks
-.ipynb_checkpoints
-_notebooks
-
-# Temp
 .coverage
-coverage.xml
 
-# Sphinx
-
-.build
-docs/source
-
-# Build
-dist
-*.egg-info
+__pycache__

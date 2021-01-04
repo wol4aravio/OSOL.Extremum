@@ -1,0 +1,7 @@
+.vscode
+.coverage
+.coveragerc
+.isort.cfg
+.pre-commit-config.yaml
+
+__pycache__

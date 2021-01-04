@@ -2,7 +2,8 @@
 
 
 import pytest
-from osol.algorithms.termination import (
+
+from osol.extremum.algorithms.termination import (
     TerminationException,
     TerminationViaMaxCalls,
 )
