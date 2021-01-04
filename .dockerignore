@@ -3,5 +3,6 @@
 .coveragerc
 .isort.cfg
 .pre-commit-config.yaml
+*.egg-info
 
 __pycache__
