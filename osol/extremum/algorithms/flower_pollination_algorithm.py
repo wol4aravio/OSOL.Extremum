@@ -4,7 +4,7 @@ import numpy as np
 from scipy.special import gamma as gamma_function
 
 from osol.extremum.algorithms.algorithm import Algorithm
-from osol.extremum.algorithms.tools import bound_vector, generate_point_in_area
+from osol.extremum.tools.vectors import bound_vector, generate_point_in_area
 
 
 class FPA(Algorithm):

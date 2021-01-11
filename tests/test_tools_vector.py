@@ -4,7 +4,7 @@
 import numpy as np
 import numpy.testing as npt
 
-from osol.extremum.algorithms.tools import bound_vector
+from osol.extremum.tools.vectors import bound_vector
 
 
 def test_bound_vector_1():
