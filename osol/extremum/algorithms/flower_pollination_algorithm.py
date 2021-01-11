@@ -1,7 +1,5 @@
 """Flower Pollination Algorithm."""
 
-from typing import overload
-
 import numpy as np
 from scipy.special import gamma as gamma_function
 
@@ -26,7 +24,6 @@ class FPA(Algorithm):
         self.gamma = gamma
         self.lambda_ = lambda_
 
-    @overload
     def initialize(self, f, search_area):
         """Initialization step."""
         self.flowers_locations = [
@@ -53,15 +50,14 @@ class FPA(Algorithm):
         return np.array([FPA._levy_flight(lambda_) for _ in range(dims)])
 
     def _global_pollination(self, flower):
-        return flower + self.gamma * FPA._levy_flight_multidim(
-            self.lambda_, len(self.flower)
-        ) * (self.flowers_locations[self.id_best_flower] - flower)
+        levy = FPA._levy_flight_multidim(self.lambda_, len(flower))
+        delta = self.flowers_locations[self.id_best_flower] - flower
+        return flower + self.gamma * levy * delta
 
     def _local_pollination(self, flower):
         [id_1, id_2] = np.random.choice(range(self.N), size=2, replace=False)
-        return flower + np.random.uniform() * (
-            self.flowers_locations[id_1] - self.flowers_locations[id_2]
-        )
+        delta = self.flowers_locations[id_1] - self.flowers_locations[id_2]
+        return flower + np.random.uniform() * delta
 
     def iterate(self, f, search_area):
         """Iterative step."""
@@ -81,4 +77,23 @@ class FPA(Algorithm):
 
     def terminate(self, _, __):
         """Termination step"""
-        return self.flowers_locations(self.id_best_flower)
+        return self.flowers_locations[self.id_best_flower]
+
+    def serialize(self):
+        """Serialize current state."""
+        state = {
+            "flowers_locations": [
+                flower.tolist() for flower in self.flowers_locations
+            ],
+            "flowers_values": self.flowers_values,
+            "id_best_flower": self.id_best_flower,
+        }
+        return state
+
+    def deserialize(self, state):
+        """Deserialize state from JSON deserialized dict."""
+        self.flowers_locations = [
+            np.array(flower) for flower in state["flowers_locations"]
+        ]
+        self.flowers_values = state["flowers_values"]
+        self.id_best_flower = state["id_best_flower"]
