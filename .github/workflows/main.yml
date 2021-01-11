@@ -23,4 +23,3 @@ jobs:
         poetry run pytest --cov=osol --cov-report=xml
     - name: Upload coverage to Codecov
       run: curl -s https://codecov.io/bash | bash -s -- -c -F aFlag -f coverage.xml
-
