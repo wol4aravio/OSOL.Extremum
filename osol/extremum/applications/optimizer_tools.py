@@ -12,13 +12,16 @@ def generate_text_input(placeholder, label, value=None):
 
 def generate_target_function_input(placeholder, value=None):
     """Generates target function input window."""
-    return generate_text_input(
-        placeholder, "Target Function (LaTeX compatible)", value
-    )
+    label = "Target Function (LaTeX compatible)"
+    return generate_text_input(placeholder, label, value)
 
 
 def generate_variables_input(placeholder, value=None):
     """Generates variables input window."""
-    return generate_text_input(
-        placeholder, "Variables (comma separeted list)", value
-    )
+    label = "Variables (comma separeted list)"
+    return generate_text_input(placeholder, label, value)
+
+
+def parse_variable_input(variables):
+    """Parse text input with comma delimited variables."""
+    return variables.replace(" ", "").split(",")
