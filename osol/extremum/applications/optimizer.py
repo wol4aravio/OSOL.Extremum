@@ -24,7 +24,7 @@ with problem:
     target_function = generate_target_function_input(placeholder_function)
     placeholder_variables = st.empty()
     variables = generate_variables_input(placeholder_variables)
-    uploaded_file = st.file_uploader("Upload function via file")
+    uploaded_file = st.file_uploader("Upload function via file", types=["json"])
     if uploaded_file is not None:
         problem = json.load((uploaded_file))
         target_function = generate_target_function_input(
