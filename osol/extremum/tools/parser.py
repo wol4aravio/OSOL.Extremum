@@ -8,13 +8,23 @@ from sympy.parsing.latex import parse_latex
 class OptTask:
     """Parsed *.opt task instance."""
 
-    def __init__(self, filename):
-        """Initialization."""
+    @staticmethod
+    def from_file(filename):
+        """Create OptTask from file."""
         with open(filename, "r") as opt_file:
             parsed = json.load(opt_file)
-        self._f = parse_latex(parsed["function"])
-        self._vars = parsed["vars"]
-        self._n_vars = len(parsed["vars"])
+        return OptTask(parsed)
+
+    def __init__(self, function_description):
+        """Initialization."""
+        self._f = parse_latex(function_description["function"])
+        self._vars = function_description["vars"]
+        self._n_vars = len(function_description["vars"])
+        print(self._vars)
+        self._check()
+
+    def _check(self):
+        self(*[0] * self._n_vars)
 
     def __call__(self, *args, **kwargs):
         min_length = min(len(self._vars), len(args))
