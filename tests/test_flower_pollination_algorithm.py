@@ -11,7 +11,7 @@ from osol.extremum.tools.parser import OptTask
 def test_fpa_smoke_1():
     """Test FPA for smoke_1 function."""
     fpa = FPA(N=10, p=0.2, gamma=0.1, lambda_=1.0)
-    f = OptTask("osol/extremum/functions/smoke_1.opt")
+    f = OptTask.from_file("osol/extremum/functions/smoke_1.json")
     sol = np.array([0, 0])
     s = np.array([[-10, 10], [-10, 10]])
     N = 100
