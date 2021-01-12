@@ -10,6 +10,7 @@ python = "^3.8"
 sympy = "^1.7"
 antlr4-python3-runtime = "4.7.2"
 streamlit = "^0.72.0"
+scipy = "^1.6.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"
