@@ -41,11 +41,11 @@ def test_parser_smoke_1_5():
 
 def test_parser_smoke_1_6():
     """Test #6 parser for smoke_1 function."""
-    f = OptTask("osol/extremum/functions/smoke_1.opt")
+    f = OptTask.from_file("osol/extremum/functions/smoke_1.json")
     assert_almost_equal(f([1, 2]), 5.0)
 
 
 def test_parser_smoke_1_7():
     """Test #7 parser for smoke_1 function."""
-    f = OptTask("osol/extremum/functions/smoke_1.opt")
+    f = OptTask.from_file("osol/extremum/functions/smoke_1.json")
     assert_almost_equal(f(np.array([1, 2])), 5.0)

@@ -25,7 +25,7 @@ class OptTask:
         self._check()
 
     def _check(self):
-        self(*[0] * self._n_vars)
+        self([0] * self._n_vars)
 
     def __call__(self, *args, **kwargs):
         if len(args) == 1 and isinstance(args[0], (list, np.ndarray)):
