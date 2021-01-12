@@ -21,7 +21,6 @@ class OptTask:
         self._f = parse_latex(function_description["function"])
         self._vars = function_description["vars"]
         self._n_vars = len(function_description["vars"])
-        print(self._vars)
         self._check()
 
     def _check(self):
