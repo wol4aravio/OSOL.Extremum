@@ -26,8 +26,8 @@ class Algorithm(ABC):
         """Serialize current state."""
 
     @abstractmethod
-    def deserialize(self, state_file):
-        """Deserialize state from file."""
+    def deserialize(self, state):
+        """Deserialize state from JSON deserialized dict."""
 
     def optimize(self, f, search_area, number_of_iterations, **kwargs):
         """Optimization procedure."""
