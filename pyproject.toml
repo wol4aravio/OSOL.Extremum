@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "osol"
-version = "0.12.0"
+version = "0.13.0"
 description = "OSOL Extremum"
 authors = ["wol4aravio <panovskiy.v@yandex.ru>"]
 license = "MIT"
