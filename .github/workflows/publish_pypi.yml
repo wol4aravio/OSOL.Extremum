@@ -1,4 +1,4 @@
-name: CI
+name: Publish PyPi
 
 on:
   push:
@@ -20,4 +20,4 @@ jobs:
       run: |
         pip install poetry
         poetry install
-        poetry publish --build --username $PYPIUSER --password $PYPIPASSWORD
+        poetry publish --build --username ${{ secrets.PYPIUSER }} --password ${{ secrets.PYPIPASSWORD }}
