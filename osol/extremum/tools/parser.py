@@ -16,13 +16,17 @@ class OptTask:
             parsed = json.load(opt_file)
         return OptTask(parsed)
 
-    def __init__(self, function_description, callbacks=None):
+    def __init__(self, function_description):
         """Initialization."""
         self._f = parse_latex(function_description["function"])
         self._vars = function_description["vars"]
         self._n_vars = len(function_description["vars"])
-        self._callbacks = callbacks
+        self._callbacks = list()
         self._check()
+
+    def add_callback(self, callback):
+        """Add callback to OptTask."""
+        self._callbacks.append(callback)
 
     def _check(self):
         self([0] * self._n_vars)
@@ -38,7 +42,6 @@ class OptTask:
         if len(arg_values) != self._n_vars:
             raise ValueError("Not enough variables")
         value = self._f.evalf(subs=arg_values)
-        if self._callbacks:
-            for callback in self._callbacks:
-                callback()
+        for callback in self._callbacks:
+            callback()
         return value
