@@ -54,5 +54,11 @@ with problem:
 number_of_iter = st.number_input("Number of iterations", min_value=1)
 button_optimize = st.button("Optimize")
 if button_optimize:
-    result = algorithm.optimize(function, search_area, number_of_iter)
+    progress_bar = st.progress(0.0)
+    result = algorithm.optimize(
+        function,
+        search_area,
+        number_of_iter,
+        callbacks=[lambda f: progress_bar.progress(f.get_completeness())],
+    )
     st.text(str(result.tolist()))

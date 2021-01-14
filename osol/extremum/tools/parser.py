@@ -7,7 +7,7 @@ from sympy.parsing.latex import parse_latex
 
 
 class OptTask:
-    """Parsed *.opt task instance."""
+    """Parsed task instance."""
 
     @staticmethod
     def from_file(filename):
@@ -21,12 +21,7 @@ class OptTask:
         self._f = parse_latex(function_description["function"])
         self._vars = function_description["vars"]
         self._n_vars = len(function_description["vars"])
-        self._callbacks = list()
         self._check()
-
-    def add_callback(self, callback):
-        """Add callback to OptTask."""
-        self._callbacks.append(callback)
 
     def _check(self):
         self([0] * self._n_vars)
@@ -42,6 +37,4 @@ class OptTask:
         if len(arg_values) != self._n_vars:
             raise ValueError("Not enough variables")
         value = self._f.evalf(subs=arg_values)
-        for callback in self._callbacks:
-            callback()
         return value
