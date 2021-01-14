@@ -34,17 +34,16 @@ class Algorithm(ABC):
 
     def optimize(self, f, search_area, number_of_iterations, **kwargs):
         """Optimization procedure."""
-        f_ = TerminationViaAlgorithmIterations(f, number_of_iterations)
-        if "callbacks" in kwargs:
-            for callback in kwargs["callbacks"]:
-                f_.add_callback(callback)
+        f.add_termination_criterion(
+            TerminationViaAlgorithmIterations(number_of_iterations)
+        )
         if not kwargs.get("skip_init", False):
-            self.initialize(f_, search_area)
+            self.initialize(f, search_area)
         for iteration_id in range(number_of_iterations):
-            f_.set_current_iteration(iteration_id + 1)
+            f.termination_criteria[-1].set_current_iteration(iteration_id + 1)
             try:
-                self.iterate(f_, search_area)
+                self.iterate(f, search_area)
             except TerminationException:
                 break
-        solution = self.terminate(f_, search_area)
+        solution = self.terminate(f, search_area)
         return solution

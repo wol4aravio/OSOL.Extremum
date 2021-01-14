@@ -7,16 +7,16 @@ from osol.extremum.algorithms.termination import (
     TerminationException,
     TerminationViaMaxCalls,
 )
+from osol.extremum.tools.parser import OptTask
 
 
 def test_termination_via_max_calls():
     """Test TerminationViaMaxCalls."""
 
-    def f(x):
-        return x + 1
+    f = OptTask({"function": "x + 1", "vars": ["x"]})
 
-    f_term = TerminationViaMaxCalls(f, 5)
+    f.add_termination_criterion(TerminationViaMaxCalls(5))
     for i in range(5):
-        assert f(i) == f_term(i)
+        assert f(i) == i + 1
     with pytest.raises(TerminationException):
-        assert f(i) == f_term(i)
+        assert f(i) == 6

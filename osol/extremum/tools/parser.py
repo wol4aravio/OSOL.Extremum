@@ -21,7 +21,17 @@ class OptTask:
         self._f = parse_latex(function_description["function"])
         self._vars = function_description["vars"]
         self._n_vars = len(function_description["vars"])
+        self.termination_criteria = list()
+        self._callbacks = list()
         self._check()
+
+    def add_termination_criterion(self, criterion):
+        """Add termination criterion."""
+        self.termination_criteria.append(criterion)
+
+    def add_callback(self, callback):
+        """Add callback."""
+        self._callbacks.append(callback)
 
     def _check(self):
         self([0] * self._n_vars)
@@ -37,4 +47,8 @@ class OptTask:
         if len(arg_values) != self._n_vars:
             raise ValueError("Not enough variables")
         value = self._f.evalf(subs=arg_values)
+        for criterion in self.termination_criteria:
+            criterion()
+        for callback in self._callbacks:
+            callback(self)
         return value
