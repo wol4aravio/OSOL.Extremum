@@ -1,6 +1,7 @@
 """Flower Pollination Algorithm."""
 
 import numpy as np
+import pandas as pd
 from scipy.special import gamma as gamma_function
 
 from osol.extremum.algorithms.algorithm import Algorithm
@@ -97,3 +98,14 @@ class FPA(Algorithm):
         ]
         self.flowers_values = state["flowers_values"]
         self.id_best_flower = state["id_best_flower"]
+
+    @staticmethod
+    def convert_states_to_animation_df(states):
+        """Creates DF for automatic animation."""
+        rows = list()
+        for iteration_id, state in enumerate(states):
+            for flower in state["flowers_locations"]:
+                rows.append({"iteration_id": iteration_id})
+                for var_id, var in enumerate(flower):
+                    rows[-1]["x_{}".format(var_id + 1)] = var
+        return pd.DataFrame(rows)

@@ -1,14 +1,20 @@
 """Optimizer application."""
 
+import hashlib
 import json
+import os
 
 import numpy as np
+import plotly.graph_objects as go
+import plotly.io as pio
 import streamlit as st
 
+from osol.extremum.algorithms.flower_pollination_algorithm import FPA
 from osol.extremum.algorithms.termination import (
     TerminationViaMaxCalls,
     TerminationViaMaxTime,
 )
+from osol.extremum.applications.draw import draw_opt_task_2d, make_animation_2d
 from osol.extremum.applications.optimizer_tools import (
     generate_search_area_input,
     generate_settings_fpa,
@@ -24,16 +30,16 @@ st.set_page_config(layout="wide")
 
 st.header("OSOL.Extremum: Optimizer")
 
-algorithm, problem = st.beta_columns(2)
+col_algorithm, col_problem, col_function = st.beta_columns(3)
 
-with algorithm:
+with col_algorithm:
     algorithm_name = st.selectbox(
         "Algorithm", options=["FPA: Flower Pollination Algorithm"]
     )
     if algorithm_name.startswith("FPA:"):
         algorithm = generate_settings_fpa()
 
-with problem:
+with col_problem:
     placeholder_function = st.empty()
     target_function = generate_target_function_input(placeholder_function)
     placeholder_variables = st.empty()
@@ -48,14 +54,32 @@ with problem:
         variables = generate_variables_input(
             placeholder_variables, ", ".join(problem["vars"])
         )
-    if target_function != "" and variables != "":
-        variables_list = [v for v in parse_variable_input(variables) if v != ""]
-        variables_list_str = ", ".join(variables_list)
-        st.latex("f({v}) = {f}".format(v=variables_list_str, f=target_function))
-        function = OptTask(
-            {"function": target_function, "vars": variables_list}
+
+if target_function != "" and variables != "" and search_area != "":
+    total_function_string = target_function + variables + search_area
+    function_id = hashlib.md5(total_function_string.encode()).hexdigest()
+    function_filename = ".optimizer/{}.json".format(function_id)
+    os.makedirs(os.path.dirname(function_filename), exist_ok=True)
+    variables_list = [v for v in parse_variable_input(variables) if v != ""]
+    variables_list_str = ", ".join(variables_list)
+    search_area = np.array(json.loads("[{}]".format(search_area)))
+    function = OptTask({"function": target_function, "vars": variables_list})
+    with col_function:
+        placeholder_function_latex = st.empty()
+        placeholder_function_plot = st.empty()
+        if not os.path.exists(function_filename):
+            contour = go.Figure(draw_opt_task_2d(function, search_area))
+            with open(function_filename, "w") as file:
+                file.write(contour.to_json(pretty=True))
+        else:
+            with open(function_filename, "r") as file:
+                contour = pio.from_json("\n".join(file.readlines()))
+        placeholder_function_latex.latex(
+            "f({v}) = {f}".format(v=variables_list_str, f=target_function)
         )
-        search_area = np.array(json.loads("[{}]".format(search_area)))
+        placeholder_function_plot.plotly_chart(
+            contour, use_container_width=True
+        )
 
 term_max_iter, term_max_calls, term_max_time = st.beta_columns(3)
 
@@ -94,7 +118,29 @@ if button_optimize:
         lambda f: get_total_progress(progress_bar, f.termination_criteria)
     )
     progress_bar = st.progress(progress_value)
-    result = algorithm.optimize(function, search_area, number_of_iter)
+    result, states = algorithm.optimize(
+        function, search_area, number_of_iter, serialize_states=True
+    )
+    if algorithm_name.startswith("FPA:"):
+        df_animation = FPA.convert_states_to_animation_df(states)
+        frames = make_animation_2d(contour.data[0], search_area, df_animation)
+    run_id = hashlib.md5(str(np.random.uniform()).encode()).hexdigest()
+    frames_location = ".optimizer/{}".format(run_id)
+    os.makedirs(frames_location, exist_ok=True)
+    for frame_id, frame in enumerate(frames):
+        with open(
+            frames_location + "/{:07d}.json".format(frame_id + 1), "w"
+        ) as file:
+            file.write(frame.to_json(pretty=True))
 
 if result is not None:
-    st.text(str(result.tolist()))
+    st.markdown(
+        """
+Solution: `"""
+        + str(result.tolist())
+        + """`
+
+[Demo Link](http://0.0.0.0:8502?run_id="""
+        + run_id
+        + ")"
+    )
