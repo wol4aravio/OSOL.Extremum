@@ -537,6 +537,14 @@ python-versions = "*"
 pygments = ">=2.4.1,<3"
 
 [[package]]
+name = "kaleido"
+version = "0.1.0"
+description = "Static image export for web-based visualization libraries with zero dependencies"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "kiwisolver"
 version = "1.3.1"
 description = "A fast implementation of the Cassowary constraint solver"
@@ -808,6 +816,18 @@ description = "Python Imaging Library (Fork)"
 category = "main"
 optional = false
 python-versions = ">=3.6"
+
+[[package]]
+name = "plotly"
+version = "4.14.3"
+description = "An open-source, interactive data visualization library for Python"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+retrying = ">=1.3.3"
+six = "*"
 
 [[package]]
 name = "pluggy"
@@ -1120,6 +1140,17 @@ security = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)"]
 socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
 
 [[package]]
+name = "retrying"
+version = "1.3.3"
+description = "Retrying"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+six = ">=1.7.0"
+
+[[package]]
 name = "rope"
 version = "0.16.0"
 description = "a python refactoring library..."
@@ -1383,7 +1414,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "83866b8afd9fc458daf8627991716485c30131dca3ed8410153f7762405e07bd"
+content-hash = "57c38b52a2fbedd799367ca45c28fd9f32bcdf9385cc5802bf9f4021076d7dd1"
 
 [metadata.files]
 altair = [
@@ -1653,6 +1684,13 @@ jupyter-core = [
 jupyterlab-pygments = [
     {file = "jupyterlab_pygments-0.1.2-py2.py3-none-any.whl", hash = "sha256:abfb880fd1561987efaefcb2d2ac75145d2a5d0139b1876d5be806e32f630008"},
     {file = "jupyterlab_pygments-0.1.2.tar.gz", hash = "sha256:cfcda0873626150932f438eccf0f8bf22bfa92345b814890ab360d666b254146"},
+]
+kaleido = [
+    {file = "kaleido-0.1.0-py2.py3-none-macosx_10_10_x86_64.whl", hash = "sha256:6a73cd4a69609490f7e13e43e77724d254aef28b062babad120b32e6f32968c2"},
+    {file = "kaleido-0.1.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:8d0403b1eb21080e09d6d728c1ea7170fd4763c415fe89dfea6edf35ec36f8e7"},
+    {file = "kaleido-0.1.0-py2.py3-none-manylinux2014_aarch64.whl", hash = "sha256:f3de8e08764115f529351208d689ff80523aa1e9fc0018d342af857f94e3b44e"},
+    {file = "kaleido-0.1.0-py2.py3-none-win32.whl", hash = "sha256:c583ed02b2c50a17e11ee3faec76f7d5f9898f8915f8877b583c5f83d0094e91"},
+    {file = "kaleido-0.1.0-py2.py3-none-win_amd64.whl", hash = "sha256:949e3fc01c56cdca0226e866277cfb5e1b4bf66b5d4045ca43a3211f61bc8446"},
 ]
 kiwisolver = [
     {file = "kiwisolver-1.3.1-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:fd34fbbfbc40628200730bc1febe30631347103fc8d3d4fa012c21ab9c11eca9"},
@@ -1927,6 +1965,10 @@ pillow = [
     {file = "Pillow-8.0.1-pp37-pypy37_pp73-win32.whl", hash = "sha256:8de332053707c80963b589b22f8e0229f1be1f3ca862a932c1bcd48dafb18dd8"},
     {file = "Pillow-8.0.1.tar.gz", hash = "sha256:11c5c6e9b02c9dac08af04f093eb5a2f84857df70a7d4a6a6ad461aca803fb9e"},
 ]
+plotly = [
+    {file = "plotly-4.14.3-py2.py3-none-any.whl", hash = "sha256:d68fc15fcb49f88db27ab3e0c87110943e65fee02a47f33a8590f541b3042461"},
+    {file = "plotly-4.14.3.tar.gz", hash = "sha256:7d8aaeed392e82fb8e0e48899f2d3d957b12327f9d38cdd5802bc574a8a39d91"},
+]
 pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
@@ -2191,6 +2233,9 @@ regex = [
 requests = [
     {file = "requests-2.25.0-py2.py3-none-any.whl", hash = "sha256:e786fa28d8c9154e6a4de5d46a1d921b8749f8b74e28bde23768e5e16eece998"},
     {file = "requests-2.25.0.tar.gz", hash = "sha256:7f1a0b932f4a60a1a65caa4263921bb7d9ee911957e0ae4a23a6dd08185ad5f8"},
+]
+retrying = [
+    {file = "retrying-1.3.3.tar.gz", hash = "sha256:08c039560a6da2fe4f2c426d0766e284d3b736e355f8dd24b37367b0bb41973b"},
 ]
 rope = [
     {file = "rope-0.16.0-py2-none-any.whl", hash = "sha256:ae1fa2fd56f64f4cc9be46493ce54bed0dd12dee03980c61a4393d89d84029ad"},
