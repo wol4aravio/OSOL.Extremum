@@ -9,7 +9,7 @@ services:
     ports:
       - 8501:8501
     volumes:
-      - .optimizer:/.optimizer
+      - .optimizer:/osol_app/.optimizer
     command: ["--server.address", "0.0.0.0", "--server.port", "8501", "osol/extremum/applications/optimizer.py"]
   animation_app:
     build:
@@ -19,5 +19,5 @@ services:
     ports:
       - 8502:8502
     volumes:
-      - .optimizer:/.optimizer
+      - .optimizer:/osol_app/.optimizer
     command: ["--server.address", "0.0.0.0", "--server.port", "8502", "osol/extremum/applications/animation.py"]
