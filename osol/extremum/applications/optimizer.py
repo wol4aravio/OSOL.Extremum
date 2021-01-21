@@ -77,9 +77,10 @@ if target_function != "" and variables != "" and search_area != "":
         placeholder_function_latex.latex(
             "f({v}) = {f}".format(v=variables_list_str, f=target_function)
         )
-        placeholder_function_plot.plotly_chart(
-            contour, use_container_width=True
-        )
+        if len(variables_list) == 2:
+            placeholder_function_plot.plotly_chart(
+                contour, use_container_width=True
+            )
 
 term_max_iter, term_max_calls, term_max_time = st.beta_columns(3)
 
@@ -124,23 +125,17 @@ if button_optimize:
     if algorithm_name.startswith("FPA:"):
         df_animation = FPA.convert_states_to_animation_df(states)
         frames = make_animation_2d(contour.data[0], search_area, df_animation)
-    run_id = hashlib.md5(str(np.random.uniform()).encode()).hexdigest()
-    frames_location = ".optimizer/{}".format(run_id)
-    os.makedirs(frames_location, exist_ok=True)
-    for frame_id, frame in enumerate(frames):
-        with open(
-            frames_location + "/{:07d}.json".format(frame_id + 1), "w"
-        ) as file:
-            file.write(frame.to_json(pretty=True))
+    if len(variables_list) == 2:
+        run_id = hashlib.md5(str(np.random.uniform()).encode()).hexdigest()
+        frames_location = ".optimizer/{}".format(run_id)
+        os.makedirs(frames_location, exist_ok=True)
+        for frame_id, frame in enumerate(frames):
+            with open(
+                frames_location + "/{:07d}.json".format(frame_id + 1), "w"
+            ) as file:
+                file.write(frame.to_json(pretty=True))
 
 if result is not None:
-    st.markdown(
-        """
-Solution: `"""
-        + str(result.tolist())
-        + """`
-
-[Demo Link](http://0.0.0.0:8502?run_id="""
-        + run_id
-        + ")"
-    )
+    st.markdown("Solution: `" + str(result.tolist()) + "`")
+    if len(variables_list) == 2:
+        st.markdown("[Demo Link](http://0.0.0.0:8502?run_id=" + run_id + ")")
