@@ -12,4 +12,5 @@ COPY osol osol
 RUN poetry install --no-dev
 
 EXPOSE 8501
-CMD [ "poetry", "run", "streamlit", "run", "--server.address", "0.0.0.0", "--server.port", "8501", "osol/extremum/applications/optimizer.py" ]
+EXPOSE 8502
+ENTRYPOINT [ "poetry", "run", "streamlit", "run"]

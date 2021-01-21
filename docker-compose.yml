@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  optimizer_app:
+    build:
+      context: .
+    container_name: optimizer_app
+    restart: always
+    ports:
+      - 8501:8501
+    volumes:
+      - .optimizer:/.optimizer
+    command: ["--server.address", "0.0.0.0", "--server.port", "8501", "osol/extremum/applications/optimizer.py"]
+  animation_app:
+    build:
+      context: .
+    container_name: animation_app
+    restart: always
+    ports:
+      - 8502:8502
+    volumes:
+      - .optimizer:/.optimizer
+    command: ["--server.address", "0.0.0.0", "--server.port", "8502", "osol/extremum/applications/animation.py"]
