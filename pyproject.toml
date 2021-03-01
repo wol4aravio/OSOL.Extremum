@@ -1,43 +1,16 @@
 [tool.poetry]
 name = "osol"
-version = "0.12.1"
-description = "OSOL Extremum"
+version = "0.0.1"
+description = ""
 authors = ["wol4aravio <panovskiy.v@yandex.ru>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-sympy = "^1.7"
-antlr4-python3-runtime = "4.7.2"
-streamlit = "^0.72.0"
-scipy = "^1.6.0"
+numpy = "^1.20.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.4.1"
-pytest-cov = "^2.8.1"
-pytest-xdist = "^1.32.0"
-pre-commit = "^2.3.0"
-black = "^19.10b0"
-pylint = "^2.5.0"
-rope = "^0.16.0"
-
-[tool.black]
-line-length = 80
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
