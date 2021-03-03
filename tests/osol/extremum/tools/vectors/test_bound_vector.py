@@ -5,7 +5,7 @@ import numpy as np
 import numpy.testing as npt
 import pytest
 
-from osol.extremum.tools.vectors import bound_vector, generate_point_in_area
+from osol.extremum.tools.vectors import bound_vector, generate_vector_in_area
 
 
 def test_bound_vector_1():
@@ -34,6 +34,6 @@ def test_bound_vector_N(_):
     """Run procedural generated tests."""
     search_area = np.array([[-10, 10], [-10, 10], [-10, 10]])
     bounds = np.array([[-5, 5], [-5, 5], [-5, 5]])
-    vector = generate_point_in_area(search_area)
+    vector = generate_vector_in_area(search_area)
     vector = bound_vector(vector, bounds)
     assert ((bounds[:, 0] <= vector) & (vector <= bounds[:, 1])).all()
