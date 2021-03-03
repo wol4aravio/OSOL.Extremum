@@ -1,13 +1,9 @@
-"""Custom encoders & decoders."""
-
 import json
 
 import numpy
 
 
 class EncodeFromNumpy(json.JSONEncoder):
-    """Encoder."""
-
     def default(self, o):
         if isinstance(o, numpy.ndarray):
             return {"_kind_": "ndarray", "_value_": o.tolist()}
@@ -22,8 +18,6 @@ class EncodeFromNumpy(json.JSONEncoder):
 
 
 class DecodeToNumpy(json.JSONDecoder):
-    """Decoder."""
-
     def __init__(self, *args, **kwargs):
         json.JSONDecoder.__init__(
             self, object_hook=DecodeToNumpy.decoder_hook, *args, **kwargs
@@ -31,7 +25,6 @@ class DecodeToNumpy(json.JSONDecoder):
 
     @staticmethod
     def decoder_hook(obj):
-        """Custom hook."""
         if "_kind_" not in obj:
             return obj
         kind = obj["_kind_"]

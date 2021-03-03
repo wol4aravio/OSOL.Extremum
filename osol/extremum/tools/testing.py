@@ -1,10 +1,7 @@
-"""Tools for testing."""
-
 import numpy as np
 
 
 def smoke_check(algorithm):
-    """Smoke test."""
     left, right = -10, 10
     search_area = np.array([[left, right], [left, right]])
     x_opt = np.random.uniform(left, right, 2)
