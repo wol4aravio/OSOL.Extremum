@@ -1,8 +1,5 @@
 """Set of tools for optimization algorithms."""
 
-
-import random
-
 import numpy as np
 
 
@@ -13,7 +10,5 @@ def bound_vector(x, bounds):
 
 def generate_point_in_area(area):
     """Generate point within area."""
-    x = np.zeros(area.shape[0])
-    for i, _ in enumerate(x):
-        x[i] = random.uniform(area[i, 0], area[i, 1])
-    return x
+    left, right = area[:, 0], area[:, 1]
+    return left + np.random.rand(area.shape[0]) * (right - left)
