@@ -5,6 +5,8 @@ description = ""
 authors = ["wol4aravio <panovskiy.v@yandex.ru>"]
 license = "MIT"
 
+exclude = ["tests"]
+
 [tool.poetry.dependencies]
 python = "^3.8"
 numpy = "^1.20.1"
