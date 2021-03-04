@@ -37,13 +37,13 @@ class LuusJaakola(OptimizationAlgorithm):
                 self.x = x_new
                 self.f_x = f_x_new
 
-        self._r *= self._reduction_coefficient
+        self._r *= self.reduction_coefficient
         self._iter_id += 1
 
-        if self._iter_id == self._iteration_per_run:
+        if self._iter_id == self.iteration_per_run:
             self._iter_id = 0
             self._run_id += 1
-            self._r = (self._recover_coefficient ** self._run_id) * self._init_radius
+            self._r = (self.recover_coefficient ** self._run_id) * self.init_radius
 
     def terminate(self, _, __):
         return self.x
