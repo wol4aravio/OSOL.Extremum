@@ -146,7 +146,10 @@ disable=print-statement,
         duplicate-code,
         too-many-arguments,
         invalid-name,
-        too-many-instance-attributes
+        too-many-instance-attributes,
+        missing-module-docstring,
+        missing-class-docstring,
+        missing-function-docstring
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -424,7 +427,7 @@ function-naming-style=snake_case
 # naming-style.
 #function-rgx=
 
-# Good variable names which should always be accepted, separated by a comma.
+#   d variable names which should always be accepted, separated by a comma.
 good-names=i,
            j,
            k,

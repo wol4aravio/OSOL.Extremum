@@ -1,36 +1,33 @@
-"""Abstract algorithm definition with all desired functional."""
-
-
+import json
 from abc import ABC, abstractmethod
 
-from osol.extremum.algorithms.termination import TerminationException
+from osol.extremum.tools.coding import DecodeToNumpy, EncodeFromNumpy
 
 
-class Algorithm(ABC):
-    """Optimization algorithm."""
+class TerminationException(Exception):
+    pass
 
+
+class OptimizationAlgorithm(ABC):
     @abstractmethod
     def initialize(self, f, search_area):
-        """Initialization step."""
+        raise NotImplementedError()
 
     @abstractmethod
     def iterate(self, f, search_area):
-        """Iterative step."""
+        raise NotImplementedError()
 
     @abstractmethod
     def terminate(self, f, search_area):
-        """Termination step"""
+        raise NotImplementedError()
 
-    @abstractmethod
     def serialize(self):
-        """Serialize current state."""
+        return json.dumps(self.__dict__, indent=4, cls=EncodeFromNumpy)
 
-    @abstractmethod
     def deserialize(self, state):
-        """Deserialize state from JSON deserialized dict."""
+        self.__dict__ = json.loads(state, cls=DecodeToNumpy)
 
     def optimize(self, f, search_area, number_of_iterations, **kwargs):
-        """Optimization procedure."""
         if not kwargs.get("skip_init", False):
             self.initialize(f, search_area)
         for _ in range(number_of_iterations):
