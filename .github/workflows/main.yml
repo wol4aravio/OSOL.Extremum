@@ -1,4 +1,4 @@
-name: Get Coverage Badge
+name: CI & CD
 
 on:
   push:
