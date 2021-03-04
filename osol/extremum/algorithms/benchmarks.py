@@ -36,7 +36,7 @@ def create_fix_dim_function(n):
 
 
 def create_search_area(v1, v2, n):
-    return [(v1, v2) for i in range(n)]
+    return np.array([(v1, v2) for i in range(n)])
 
 
 def create_symmetric_search_area(v, n):
@@ -179,7 +179,7 @@ class BoxBettsQuadraticSum(create_fix_dim_function(3), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return [(0.9, 1.2), (9.0, 11.2), (0.9, 1.2)]
+        return np.array([(0.9, 1.2), (9.0, 11.2), (0.9, 1.2)])
 
     @property
     def solution(self):
@@ -197,7 +197,7 @@ class BraninRCOS(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return [(-5.0, 10.0), (0.0, 15.0)]
+        return np.array([(-5.0, 10.0), (0.0, 15.0)])
 
     @property
     def solution(self):
@@ -245,7 +245,7 @@ class Bukin(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return [(-15.0, -5.0), (-3.0, 3.0)]
+        return np.array([(-15.0, -5.0), (-3.0, 3.0)])
 
     @property
     def solution(self):
@@ -600,7 +600,7 @@ class GulfResearch(create_fix_dim_function(3), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return [(0.1, 100.0), (0.0, 25.6), (0.0, 5.0)]
+        return np.array([(0.1, 100.0), (0.0, 25.6), (0.0, 5.0)])
 
     @property
     def solution(self):
@@ -679,7 +679,7 @@ class Hosaki(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return [(0.0, 5.0), (0.0, 6.0)]
+        return np.array([(0.0, 5.0), (0.0, 6.0)])
 
     @property
     def solution(self):
@@ -776,7 +776,7 @@ class McCormick(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return [(-1.5, 4.0), (-3.0, 3.0)]
+        return np.array([(-1.5, 4.0), (-3.0, 3.0)])
 
     @property
     def solution(self):
@@ -1178,7 +1178,7 @@ class Ursem(create_fix_dim_function(2), OptimizationBenchmark):
 
     @property
     def search_area(self):
-        return [(-2.5, 3.0), (-2.0, 2.0)]
+        return np.array([(-2.5, 3.0), (-2.0, 2.0)])
 
     @property
     def solution(self):
