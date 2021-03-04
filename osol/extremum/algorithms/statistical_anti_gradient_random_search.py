@@ -19,7 +19,7 @@ class StatisticalAntiGradientRandomSearch(OptimizationAlgorithm):
 
     def iterate(self, f, search_area):
         antigrad_x = [
-            generate_vector_in_sphere(self.x, self.radius, search_area)
+            generate_vector_in_sphere(self.x, self.radius)
             for _ in range(self.number_of_samples)
         ]
         antigrad_f_x = [f(x) for x in antigrad_x]
