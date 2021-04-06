@@ -13,7 +13,7 @@ class FeldbaumTestFunctions:
             self._a = np.random.uniform(low=0.0, high=5.0, size=(N, dim))
             self._b = np.random.uniform(low=-10.0, high=10.0, size=(N, 1))
             self._c = np.random.uniform(low=-10.0, high=10.0, size=(N, dim))
-            self._p = np.random.uniform(low=0.0, high=2.5, size=(N, dim))
+            self._p = np.random.uniform(low=0.0, high=5.0, size=(N, dim))
         else:
             self._a = a
             self._b = b
