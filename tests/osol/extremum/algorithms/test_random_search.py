@@ -5,7 +5,7 @@ from osol.extremum.tools.testing import smoke_check
 
 
 @pytest.mark.parametrize("_", range(10))
-def test_random_search(_):
+def test_random_search_smoke(_):
     algorithm = RandomSearch(1e-1)
     assert smoke_check(algorithm, number_of_iterations=2500)
     try:
