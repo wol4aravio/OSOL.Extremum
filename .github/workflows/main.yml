@@ -20,7 +20,7 @@ jobs:
       run: |
         pip install poetry
         poetry install
-        poetry run pytest --reruns 5 --cov=osol --cov-report=xml
+        poetry run pytest --reruns 10 --cov=osol --cov-report=xml
     - name: Upload coverage to Codecov
       run: curl -s https://codecov.io/bash | bash -s -- -c -F aFlag -f coverage.xml
     - name: Publish to PyPi
