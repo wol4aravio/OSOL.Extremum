@@ -27,9 +27,8 @@ class BigBangBigCrunch(OptimizationAlgorithm):
         center_of_mass = self._get_center_of_mass()
 
         self.points = [center_of_mass + self._generate_delta(x) for x in self.points]
-        self.points = [bound_vector(x, search_area) for x in self.points] + [
-            center_of_mass
-        ]
+        self.points = [bound_vector(x, search_area) for x in self.points]
+        self.points.append(center_of_mass)
         self._calculate_values(f)
 
         self.iteration_number += 1
