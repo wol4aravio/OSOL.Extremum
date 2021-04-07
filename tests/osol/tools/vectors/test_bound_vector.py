@@ -2,7 +2,7 @@ import numpy as np
 import numpy.testing as npt
 import pytest
 
-from osol.extremum.tools.vectors import bound_vector, generate_vector_in_area
+from osol.tools.vectors import bound_vector, generate_vector_in_area
 
 
 def test_bound_vector_1():

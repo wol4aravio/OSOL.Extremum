@@ -4,7 +4,7 @@ import numpy as np
 import numpy.testing as npt
 import pytest
 
-from osol.extremum.tools.testing import FeldbaumTestFunctions
+from osol.tools.testing import FeldbaumTestFunctions
 
 
 @pytest.mark.parametrize("_", range(10))

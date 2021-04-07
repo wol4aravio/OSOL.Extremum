@@ -1,11 +1,13 @@
 # pylint: disable=redefined-outer-name
 # pylint: disable=undefined-variable
+# pylint: disable=wildcard-import
+# pylint: disable=unused-wildcard-import
 
 import numpy as np
 import numpy.testing as np_t
 import pytest
 
-from osol.extremum.algorithms.benchmarks import *  # pylint: disable=wildcard-import
+from osol.algorithms.benchmarks import *
 
 
 @pytest.fixture(scope="session")

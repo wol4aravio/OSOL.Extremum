@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from osol.extremum.tools.vectors import generate_vector_in_sphere
+from osol.tools.vectors import generate_vector_in_sphere
 
 
 @pytest.mark.parametrize("_", range(100))

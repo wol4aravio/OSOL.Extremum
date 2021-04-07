@@ -1,7 +1,7 @@
 import json
 from abc import ABC, abstractmethod
 
-from osol.extremum.tools.coding import DecodeToNumpy, EncodeFromNumpy
+from osol.tools.coding import DecodeToNumpy, EncodeFromNumpy
 
 
 class TerminationException(Exception):

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from osol.extremum.tools.vectors import generate_vector_in_area
+from osol.tools.vectors import generate_vector_in_area
 
 
 @pytest.mark.parametrize("_", range(100))

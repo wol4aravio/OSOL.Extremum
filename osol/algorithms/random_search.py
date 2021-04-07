@@ -1,5 +1,5 @@
-from osol.extremum.algorithm import OptimizationAlgorithm
-from osol.extremum.tools.vectors import (
+from osol.algorithms.abstract import OptimizationAlgorithm
+from osol.tools.vectors import (
     bound_vector,
     generate_vector_in_area,
     generate_vector_in_sphere,

@@ -3,7 +3,7 @@ import json
 import numpy as np
 import pytest
 
-from osol.extremum.tools.coding import DecodeToNumpy, EncodeFromNumpy
+from osol.tools.coding import DecodeToNumpy, EncodeFromNumpy
 
 
 @pytest.mark.parametrize("_", range(100))
