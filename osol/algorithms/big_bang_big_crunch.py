@@ -13,7 +13,7 @@ class BigBangBigCrunch(OptimizationAlgorithm):
         self.values = [f(x) for x in self.points]
 
     def _get_center_of_mass(self):
-        return self.points[np.where(self.values == np.min(self.values))[0][0]]
+        return self.points[np.argmin(self.values)]
 
     def _generate_delta(self, x):
         return self.radius * np.random.normal(size=x.size) / self.iteration_number
